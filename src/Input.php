@@ -65,8 +65,6 @@ final class Input extends Widget
      * Generates an input tag for the given form attribute.
      *
      * @return string the generated input tag.
-     *
-     * @psalm-suppress MixedArgument
      */
     protected function run(): string
     {
