@@ -1,29 +1,35 @@
 {
-    "name": "yii-extension/template",
+    "name": "yii-extension/simple-form",
     "type": "library",
-    "description": "_____",
+    "description": "Simple Forms for Yii Packages",
     "keywords": [
-        "_____"
+        "yii3",
+        "simple",
+        "forms"
     ],
     "license": "BSD-3-Clause",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.4|^8.0"
+        "php": "^7.4|^8.0",
+        "yii-extension/simple-widget": "^1.0.0",
+        "yiisoft/html": "^1.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "roave/infection-static-analysis-plugin": "^1.7",
-        "vimeo/psalm": "^4.3"
+        "vimeo/psalm": "^4.4",
+        "yii-extension/simple-model": "^1.0.0",
+        "yiisoft/var-dumper": "^1.1.0"
     },
     "autoload": {
         "psr-4": {
-            "Template\\": "src"
+            "Yii\\Extension\\Simple\\Forms\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Template\\Tests\\": "tests"
+            "Yii\\Extension\\Simple\\Forms\\Tests\\": "tests"
         }
     },
     "extra": {
