@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use UnexpectedValueException;
+use Yii\Extension\Simple\Model\ModelInterface;
 use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\NoEncodeStringableInterface;
 
@@ -13,13 +14,10 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
 {
     protected string $attribute = '';
     protected array $attributes = [];
-    protected ?FormModelInterface $formModel = null;
-    private static int $counter = 0;
+    protected ?ModelInterface $modelInterface = null;
     private bool $autoGenerate = true;
-    private string $autoIdPrefix = 'w';
     private string $charset = 'UTF-8';
     private string $id = '';
-    protected bool $loadDefaultTheme = true;
 
     /**
      * The HTML attributes for the navbar. The following special options are recognized.
@@ -32,23 +30,6 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     {
         $new = clone $this;
         $new->attributes = $value;
-        return $new;
-    }
-
-    /**
-     * The prefix to the automatically generated widget IDs.
-     *
-     * @param string $value
-     *
-     * @return static
-     *
-     * {@see getId()}
-     */
-    public function autoIdPrefix(string $value): self
-    {
-        $new = clone $this;
-        $new->autoIdPrefix = $value;
-
         return $new;
     }
 
@@ -67,9 +48,9 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
-     * Set form model, attribute name and attributes for the widget.
+     * Set form interface, attribute name and attributes for the widget.
      *
-     * @param FormModelInterface $formModel Form model.
+     * @param ModelInterface $modelInterface Form.
      * @param string $attribute Form model property this widget is rendered for.
      * @param array $attributes The HTML attributes for the widget container tag.
      *
@@ -77,21 +58,53 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * See {@see Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
-    public function config(FormModelInterface $formModel, string $attribute, array $attributes = []): self
+    public function config(ModelInterface $modelInterface, string $attribute, array $attributes = []): self
     {
         $new = clone $this;
-        $new->formModel = $formModel;
+        $new->modelInterface = $modelInterface;
         $new->attribute = $attribute;
         $new->attributes = $attributes;
         return $new;
     }
 
-    public function getCharset(): string
+    /**
+     * Set the Id of the widget.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function id(string $value): self
+    {
+        $new = clone $this;
+        $new->id = $value;
+
+        return $new;
+    }
+
+    /**
+     * Returns the real attribute name from the given attribute expression.
+     * If `$attribute` has neither prefix nor suffix, it will be returned back without change.
+     *
+     * @param string $attribute the attribute name or expression
+     *
+     * @throws InvalidArgumentException if the attribute name contains non-word characters.
+     *
+     * @return string the attribute name without prefix and suffix.
+     *
+     * {@see parseAttribute()}
+     */
+    protected function getAttributeName(string $attribute): string
+    {
+        return (string) $this->parseAttribute($attribute)['name'];
+    }
+
+    protected function getCharset(): string
     {
         return $this->charset;
     }
 
-    public function getId(string $formName, string $attribute): string
+    protected function getId(string $formName, string $attribute): string
     {
         $new = clone $this;
 
@@ -123,7 +136,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @return string the generated input name.
      */
-    public function getInputName(string $formName, string $attribute): string
+    protected function getInputName(string $formName, string $attribute): string
     {
         $data = $this->parseAttribute($attribute);
 
@@ -136,60 +149,6 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         }
 
         throw new InvalidArgumentException('The formName cannot be empty.');
-    }
-
-    /**
-     * Set the Id of the widget.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function id(string $value): self
-    {
-        $new = clone $this;
-        $new->id = $value;
-
-        return $new;
-    }
-
-    /**
-     * Disable load default css classes.
-     *
-     * @return static
-     */
-    public function withoutLoadDefaultTheme(): self
-    {
-        $new = clone $this;
-        $new->loadDefaultTheme = false;
-        return $new;
-    }
-
-    /**
-     * Counter used to generate {@see id} for widgets.
-     *
-     * @param int $value
-     */
-    public static function counter(int $value): void
-    {
-        self::$counter = $value;
-    }
-
-    /**
-     * Returns the real attribute name from the given attribute expression.
-     * If `$attribute` has neither prefix nor suffix, it will be returned back without change.
-     *
-     * @param string $attribute the attribute name or expression
-     *
-     * @throws InvalidArgumentException if the attribute name contains non-word characters.
-     *
-     * @return string the attribute name without prefix and suffix.
-     *
-     * {@see parseAttribute()}
-     */
-    public function getAttributeName(string $attribute): string
-    {
-        return (string) $this->parseAttribute($attribute)['name'];
     }
 
     /**

@@ -70,9 +70,9 @@ final class Input extends Widget
     {
         $new = clone $this;
 
-        if (empty($new->formModel) || empty($new->attribute)) {
+        if (empty($new->modelInterface) || empty($new->attribute)) {
             throw new InvalidArgumentException(
-                'The widget must be configured with FormModelInterface::class and Attribute.',
+                'The widget must be configured with FormInterface::class and Attribute.',
             );
         }
 
@@ -80,17 +80,17 @@ final class Input extends Widget
             $new->setPlaceholder();
         }
 
-        $id = $new->getId($new->formModel->getFormName(), $new->attribute);
+        $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
 
         if ($id !== '') {
-            $new->attributes['id'] = $new->getId($new->formModel->getFormName(), $new->attribute);
+            $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute);
         }
 
         return
             Html::input(
                 $new->type,
-                $new->getInputName($new->formModel->getFormName(), $new->attribute),
-                $new->formModel->getAttributeValue($new->getAttributeName($new->attribute)),
+                $new->getInputName($new->modelInterface->getFormName(), $new->attribute),
+                $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute)),
             )->attributes($new->attributes)->render();
     }
 
@@ -214,7 +214,7 @@ final class Input extends Widget
      *
      * @return static
      */
-    public function tabIndex(int $value = 0): self
+    public function tabIndex(int $value): self
     {
         $new = clone $this;
         $new->attributes['tabindex'] = $value;
@@ -248,8 +248,8 @@ final class Input extends Widget
         ) {
             $attributeName = $this->getAttributeName($this->attribute);
 
-            if ($this->formModel !== null) {
-                $this->attributes['placeholder'] = $this->formModel->getAttributeLabel($attributeName);
+            if ($this->modelInterface !== null) {
+                $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);
             }
         }
     }

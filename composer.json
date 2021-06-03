@@ -20,7 +20,8 @@
         "roave/infection-static-analysis-plugin": "^1.7",
         "vimeo/psalm": "^4.4",
         "yii-extension/simple-model": "^1.0.0",
-        "yiisoft/var-dumper": "^1.1.0"
+        "yiisoft/var-dumper": "^1.1.0",
+        "yiisoft/validator": "^3.0@dev"
     },
     "autoload": {
         "psr-4": {

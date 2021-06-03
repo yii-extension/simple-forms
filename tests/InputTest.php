@@ -116,7 +116,7 @@ final class InputTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'The widget must be configured with FormModelInterface::class and Attribute.',
+            'The widget must be configured with FormInterface::class and Attribute.',
         );
 
         $html = Input::widget()->render();
