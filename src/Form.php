@@ -46,7 +46,7 @@ final class Form extends Widget
             $hiddenInputs[] = Html::hiddenInput('_csrf', $new->csrf);
         }
 
-        if (!strcasecmp($new->method, 'get') && ($pos = strpos($new->action, '?')) !== false) {
+        if ($new->method === Method::GET && ($pos = strpos($new->action, '?')) !== false) {
             /**
              * Query parameters in the action are ignored for GET method we use hidden fields to add them back.
              */
