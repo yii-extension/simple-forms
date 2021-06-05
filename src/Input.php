@@ -9,6 +9,9 @@ use Yiisoft\Html\Html;
 
 use function in_array;
 
+/**
+ * A widget for rendering a input form.
+ */
 final class Input extends Widget
 {
     public const TYPE_BUTTON = 'button';

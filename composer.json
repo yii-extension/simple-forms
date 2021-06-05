@@ -13,6 +13,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "yii-extension/simple-widget": "^1.0.0",
+        "yiisoft/http": "^1.0.0",
         "yiisoft/html": "^1.0.0"
     },
     "require-dev": {
