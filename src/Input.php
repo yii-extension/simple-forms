@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yiisoft\Html\Html;
+use Yiisoft\Validator\Rule\Required;
 
 use function in_array;
 
@@ -79,14 +80,20 @@ final class Input extends Widget
             );
         }
 
-        if ($new->noPlaceholder === false) {
-            $new->setPlaceholder();
-        }
-
         $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
 
         if ($id !== '') {
             $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute);
+        }
+
+        if ($new->noPlaceholder === false) {
+            $new->setPlaceholder();
+        }
+
+        foreach ($new->modelInterface->getRules()[$new->attribute] as $rule) {
+            if ($rule instanceof Required) {
+                $new = $new->required();
+            }
         }
 
         return

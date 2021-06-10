@@ -15,7 +15,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name">
+        <input type="text" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name', ['class' => 'customClass'])->render();
         $this->assertEquals($expected, $html);
@@ -26,7 +26,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" autofocus placeholder="Name">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" autofocus placeholder="Name" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->autofocus()->render();
         $this->assertEquals($expected, $html);
@@ -37,7 +37,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" disabled placeholder="Name">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" disabled placeholder="Name" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->disabled()->render();
         $this->assertEquals($expected, $html);
@@ -48,7 +48,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" form="form-id" placeholder="Name">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" form="form-id" placeholder="Name" required>
         HTML;
         $html = Input::widget() ->config($formModel, 'name')->form('form-id')->render();
         $this->assertEquals($expected, $html);
@@ -59,7 +59,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->noPlaceholder()->render();
         $this->assertEquals($expected, $html);
@@ -84,7 +84,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Custom placeholder.">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Custom placeholder." required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->placeHolder('Custom placeholder.')->render();
         $this->assertEquals($expected, $html);
@@ -106,7 +106,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Name">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Name" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->render();
         $this->assertEquals($expected, $html);
@@ -127,7 +127,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" tabindex="1" placeholder="Name">
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" tabindex="1" placeholder="Name" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->tabIndex(1)->render();
         $this->assertEquals($expected, $html);
@@ -138,7 +138,7 @@ final class InputTest extends TestCase
         $formModel = new PersonalForm();
 
         $expected = <<<'HTML'
-        <input type="week" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Name">
+        <input type="week" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Name" required>
         HTML;
         $html = Input::widget()->config($formModel, 'name')->type(INPUT::TYPE_WEEK)->render();
         $this->assertEquals($expected, $html);
