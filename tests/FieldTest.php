@@ -29,7 +29,7 @@ final class FieldTest extends TestCase
         <div id="personalform-name-hint" class="form-text">Write your first name.</div>
         </div>
         HTML;
-        $this->assertEquals($expected, $html);
+        $this->assertEqualsWithoutLE($expected, $html);
     }
 
     public function testRenderTailwind(): void
@@ -53,6 +53,6 @@ final class FieldTest extends TestCase
         </div>
         </div>
         HTML;
-        $this->assertEquals($expected, $html);
+        $this->assertEqualsWithoutLE($expected, $html);
     }
 }
