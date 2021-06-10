@@ -8,6 +8,9 @@ use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Form\FormModelInterface;
 use Yiisoft\Html\Html;
 
+/**
+ * @psalm-suppress MissingConstructor
+ */
 final class Label extends Widget
 {
     private string $charset = 'UTF-8';
@@ -22,10 +25,11 @@ final class Label extends Widget
     {
         $new = clone $this;
 
+        /** @var string */
         $for = ArrayHelper::remove(
             $new->attributes,
             'for',
-            $new->getId($new->modelInterface->getFormName(), $new->attribute, $new->charset)
+            $new->getId($new->modelInterface->getFormName(), $new->attribute)
         );
 
         $label = $new->label === ''

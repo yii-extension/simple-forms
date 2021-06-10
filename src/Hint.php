@@ -19,7 +19,8 @@ final class Hint extends Widget
     {
         $new = clone $this;
 
-        $hint = $new->modelInterface->getAttributeHint($new->attribute) ?? $new->hint;
+        $hint = $new->modelInterface->getAttributeHint($new->attribute) !== ''
+            ? $new->modelInterface->getAttributeHint($new->attribute) : $new->hint;
 
         $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute) . '-hint';
 

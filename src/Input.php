@@ -90,7 +90,11 @@ final class Input extends Widget
             $new->setPlaceholder();
         }
 
-        foreach ($new->modelInterface->getRules()[$new->attribute] as $rule) {
+        /** @var array */
+        $rules = $new->modelInterface->getRules();
+
+        /** @var object $rule */
+        foreach ($rules[$new->attribute] as $rule) {
             if ($rule instanceof Required) {
                 $new = $new->required();
             }
@@ -258,9 +262,7 @@ final class Input extends Widget
         ) {
             $attributeName = $this->getAttributeName($this->attribute);
 
-            if ($this->modelInterface !== null) {
-                $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);
-            }
+            $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);
         }
     }
 }

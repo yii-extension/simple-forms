@@ -14,7 +14,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
 {
     protected string $attribute = '';
     protected array $attributes = [];
-    protected ?ModelInterface $modelInterface = null;
+    protected ModelInterface $modelInterface;
     private bool $autoGenerate = true;
     private string $charset = 'UTF-8';
     private string $id = '';
