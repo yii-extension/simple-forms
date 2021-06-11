@@ -7,13 +7,27 @@ use Yii\Extension\Simple\Forms\Field;
 if ($params['yii-extension/simple-forms']['bootstrap5']['enabled'] === true) {
     return [
         Field::class => Field::widget()
+            ->ariaDescribedBy($params['yii-extension/simple-forms']['bootstrap5']['field-template']['ariaDescribedBy'])
             ->containerCssClass(
                 $params['yii-extension/simple-forms']['bootstrap5']['field-template']['containerCssClass']
             )
-            ->inputCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['inputCssClass'])
             ->hintCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['hintCssClass'])
+            ->inputCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['inputCssClass'])
             ->labelCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['labelCssClass'])
             ->template($params['yii-extension/simple-forms']['bootstrap5']['field-template']['template']),
+    ];
+}
+
+if ($params['yii-extension/simple-forms']['bulma']['enabled'] === true) {
+    return [
+        Field::class => Field::widget()
+            ->containerCssClass(
+                $params['yii-extension/simple-forms']['bulma']['field-template']['containerCssClass']
+            )
+            ->hintCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['hintCssClass'])
+            ->inputCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['inputCssClass'])
+            ->labelCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['labelCssClass'])
+            ->template($params['yii-extension/simple-forms']['bulma']['field-template']['template']),
     ];
 }
 

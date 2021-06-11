@@ -7,11 +7,22 @@ return [
         'bootstrap5' => [
             'enabled' => true,
             'field-template' => [
+                'ariaDescribedBy' => true,
                 'containerCssClass' => 'mb-3',
                 'hintCssClass' => 'form-text',
                 'inputCssClass' => 'form-control',
                 'labelCssClass' => 'form-label',
                 'template' => '{label}{input}{hint}',
+            ],
+        ],
+        'bulma' => [
+            'enabled' => false,
+            'field-template' => [
+                'containerCssClass' => 'field',
+                'hintCssClass' => 'help',
+                'inputCssClass' => 'input',
+                'labelCssClass' => 'label',
+                'template' => "{label}<div class=\"control\">\n{input}</div>\n{hint}",
             ],
         ],
         'tailwind' => [

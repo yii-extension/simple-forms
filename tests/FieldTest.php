@@ -14,6 +14,7 @@ final class FieldTest extends TestCase
         $model = new PersonalForm();
 
         $html = Field::widget()
+            ->ariaDescribedBy(true)
             ->config($model, 'name')
             ->containerCssClass('mb-3')
             ->hintCssClass('form-text')
@@ -27,6 +28,31 @@ final class FieldTest extends TestCase
         <label class="form-label" for="personalform-name">Name</label>
         <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint" class="form-text">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testRenderBulma(): void
+    {
+        $model = new PersonalForm();
+
+        $html = Field::widget()
+            ->config($model, 'name')
+            ->containerCssClass('field')
+            ->hintCssClass('help')
+            ->inputCssClass('input')
+            ->labelCssClass('label')
+            ->template("{label}<div class=\"control\">\n{input}</div>\n{hint}")
+            ->render();
+
+        $expected = <<<HTML
+        <div class="field">
+        <label class="label" for="personalform-name">Name</label>
+        <div class="control">
+        <input type="text" id="personalform-name" class="input" name="PersonalForm[name]" value="" placeholder="Name" required>
+        </div>
+        <div id="personalform-name-hint" class="help">Write your first name.</div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);

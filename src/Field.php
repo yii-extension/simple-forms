@@ -17,6 +17,7 @@ use function strtr;
  */
 final class Field extends Widget
 {
+    private bool $ariaDescribedBy = false;
     private string $containerCssClass = '';
     private string $defaultFrameworkCss = '';
     private string $hintCssClass = '';
@@ -57,6 +58,13 @@ final class Field extends Widget
         $html = strtr($new->template, $new->parts);
 
         return $new->renderBegin() . "\n" . $html . $new->renderEnd();
+    }
+
+    public function ariaDescribedBy(): self
+    {
+        $new = clone $this;
+        $new->ariaDescribedBy = true;
+        return $new;
     }
 
     public function containerCssClass(string $value): self
@@ -181,7 +189,7 @@ final class Field extends Widget
 
         Html::addCssClass($attributes, ['inputCssClass' => $new->inputCssClass]);
 
-        if ($new->noHint === false) {
+        if ($new->ariaDescribedBy === true) {
             $attributes['aria-describedby'] = $new->getId(
                 $new->modelInterface->getFormName(),
                 $new->attribute,
