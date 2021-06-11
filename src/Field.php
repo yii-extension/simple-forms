@@ -19,7 +19,6 @@ final class Field extends Widget
 {
     private bool $ariaDescribedBy = false;
     private string $containerCssClass = '';
-    private string $defaultFrameworkCss = '';
     private string $hintCssClass = '';
     private string $inputCssClass = '';
     private string $labelCssClass = '';
@@ -71,13 +70,6 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->containerCssClass = $value;
-        return $new;
-    }
-
-    public function defaultFrameworkCss(string $value): self
-    {
-        $new = clone $this;
-        $new->defaultFrameworkCss = $value;
         return $new;
     }
 
