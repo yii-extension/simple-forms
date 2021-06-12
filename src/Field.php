@@ -190,7 +190,7 @@ final class Field extends Widget
         $new->containerCssClass = 'grid grid-cols-1 gap-6';
         $new->inputCssClass = 'mt-1 block w-full';
         $new->labelCssClass = 'text-gray-700';
-        $new->nohint = true;
+        $new->noHint = true;
         $new->template = "<div class=\"block\">\n{label}{input}</div>\n";
         return $new;
     }
