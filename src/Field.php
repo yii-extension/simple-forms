@@ -66,6 +66,29 @@ final class Field extends Widget
         return $new;
     }
 
+    public function bootstrap(): self
+    {
+        $new = clone $this;
+        $new->ariaDescribedBy = true;
+        $new->containerCssClass = 'mb-3';
+        $new->hintCssClass = 'form-text';
+        $new->inputCssClass = 'form-control';
+        $new->labelCssClass = 'form-label';
+        $new->template = '{label}{input}{hint}';
+        return $new;
+    }
+
+    public function bulma(): self
+    {
+        $new = clone $this;
+        $new->containerCssClass = 'field';
+        $new->hintCssClass = 'help';
+        $new->inputCssClass = 'input';
+        $new->labelCssClass = 'label';
+        $new->template = "{label}<div class=\"control\">\n{input}</div>\n{hint}";
+        return $new;
+    }
+
     public function containerCssClass(string $value): self
     {
         $new = clone $this;
@@ -158,6 +181,17 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->noLabel = true;
+        return $new;
+    }
+
+    public function tailwind(): self
+    {
+        $new = clone $this;
+        $new->containerCssClass = 'grid grid-cols-1 gap-6';
+        $new->inputCssClass = 'mt-1 block w-full';
+        $new->labelCssClass = 'text-gray-700';
+        $new->nohint = true;
+        $new->template = "<div class=\"block\">\n{label}{input}</div>\n";
         return $new;
     }
 

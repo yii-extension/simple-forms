@@ -13,15 +13,7 @@ final class FieldTest extends TestCase
     {
         $model = new PersonalForm();
 
-        $html = Field::widget()
-            ->ariaDescribedBy(true)
-            ->config($model, 'name')
-            ->containerCssClass('mb-3')
-            ->hintCssClass('form-text')
-            ->inputCssClass('form-control')
-            ->labelCssClass('form-label')
-            ->template('{label}{input}{hint}')
-            ->render();
+        $html = Field::widget()->config($model, 'name')->bootstrap()->render();
 
         $expected = <<<HTML
         <div class="mb-3">
@@ -37,14 +29,7 @@ final class FieldTest extends TestCase
     {
         $model = new PersonalForm();
 
-        $html = Field::widget()
-            ->config($model, 'name')
-            ->containerCssClass('field')
-            ->hintCssClass('help')
-            ->inputCssClass('input')
-            ->labelCssClass('label')
-            ->template("{label}<div class=\"control\">\n{input}</div>\n{hint}")
-            ->render();
+        $html = Field::widget()->config($model, 'name')->bulma()->render();
 
         $expected = <<<HTML
         <div class="field">
@@ -62,14 +47,7 @@ final class FieldTest extends TestCase
     {
         $model = new PersonalForm();
 
-        $html = Field::widget()
-            ->config($model, 'name')
-            ->containerCssClass('grid grid-cols-1 gap-6')
-            ->inputCssClass('mt-1 block w-full')
-            ->noHint()
-            ->labelCssClass('text-gray-700')
-            ->template("<div class=\"block\">\n{label}{input}</div>\n")
-            ->render();
+        $html = Field::widget()->config($model, 'name')->tailwind()->render();
 
         $expected = <<<HTML
         <div class="grid grid-cols-1 gap-6">
