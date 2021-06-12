@@ -6,7 +6,6 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yiisoft\Html\Html;
-use Yiisoft\Validator\Rule\Required;
 
 use function in_array;
 
@@ -90,15 +89,7 @@ final class Input extends Widget
             $new->setPlaceholder();
         }
 
-        /** @var array */
-        $rules = $new->modelInterface->getRules();
-
-        /** @var object $rule */
-        foreach ($rules[$new->attribute] as $rule) {
-            if ($rule instanceof Required) {
-                $new = $new->required();
-            }
-        }
+        $new = $new->addHtmlValidation();
 
         return
             Html::input(
@@ -195,18 +186,6 @@ final class Input extends Widget
     {
         $new = clone $this;
         $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
-    /**
-     * If it is required to fill in a value in order to submit the form.
-     *
-     * @return static
-     */
-    public function required(): self
-    {
-        $new = clone $this;
-        $new->attributes['required'] = true;
         return $new;
     }
 

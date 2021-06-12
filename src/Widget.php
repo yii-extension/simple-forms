@@ -9,6 +9,7 @@ use UnexpectedValueException;
 use Yii\Extension\Simple\Model\ModelInterface;
 use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\NoEncodeStringableInterface;
+use Yiisoft\Validator\Rule\Required;
 
 abstract class Widget extends AbstractWidget implements NoEncodeStringableInterface
 {
@@ -79,6 +80,37 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         $new = clone $this;
         $new->id = $value;
 
+        return $new;
+    }
+
+    /**
+     * If it is required to fill in a value in order to submit the form.
+     *
+     * @return static
+     */
+    public function required(): self
+    {
+        $new = clone $this;
+        $new->attributes['required'] = true;
+        return $new;
+    }
+
+    /**
+     * @return static
+     */
+    protected function addHtmlValidation(): self
+    {
+        $new = clone $this;
+
+        /** @var array */
+        $rules = $new->modelInterface->getRules();
+
+        /** @var object $rule */
+        foreach ($rules[$new->attribute] as $rule) {
+            if ($rule instanceof Required) {
+                $new = $new->required();
+            }
+        }
         return $new;
     }
 
