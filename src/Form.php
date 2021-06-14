@@ -24,6 +24,7 @@ final class Form extends Widget
     private string $action = '';
     private string $csrf = '';
     private string $method = Method::POST;
+    private bool $noValidateHtml = false;
 
     /**
      * Generates a form start tag.
@@ -106,6 +107,13 @@ final class Form extends Widget
     {
         $new = clone $this;
         $new->method = strtoupper($value);
+        return $new;
+    }
+
+    public function noValidateHtml(): self
+    {
+        $new = clone $this;
+        $new->attributes['novalidate'] = true;
         return $new;
     }
 }

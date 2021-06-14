@@ -19,6 +19,8 @@ final class Field extends Widget
 {
     private bool $ariaDescribedBy = false;
     private string $containerCssClass = '';
+    private string $errorCssClass = '';
+    private string $errorMessage = '';
     private string $hintCssClass = '';
     private string $inputCssClass = '';
     private string $labelCssClass = '';
@@ -46,12 +48,16 @@ final class Field extends Widget
             $new = $new->label();
         }
 
+        if (!isset($new->parts['{input}'])) {
+            $new = $new->textInput();
+        }
+
         if (!isset($new->parts['{hint}'])) {
             $new = $new->hint();
         }
 
-        if (!isset($new->parts['{input}'])) {
-            $new = $new->textInput();
+        if (!isset($this->parts['{error}'])) {
+            $new = $new->error();
         }
 
         $html = strtr($new->template, $new->parts);
@@ -66,33 +72,52 @@ final class Field extends Widget
         return $new;
     }
 
-    public function bootstrap(): self
-    {
-        $new = clone $this;
-        $new->ariaDescribedBy = true;
-        $new->containerCssClass = 'mb-3';
-        $new->hintCssClass = 'form-text';
-        $new->inputCssClass = 'form-control';
-        $new->labelCssClass = 'form-label';
-        $new->template = '{label}{input}{hint}';
-        return $new;
-    }
-
-    public function bulma(): self
-    {
-        $new = clone $this;
-        $new->containerCssClass = 'field';
-        $new->hintCssClass = 'help';
-        $new->inputCssClass = 'input';
-        $new->labelCssClass = 'label';
-        $new->template = "{label}<div class=\"control\">\n{input}</div>\n{hint}";
-        return $new;
-    }
-
     public function containerCssClass(string $value): self
     {
         $new = clone $this;
         $new->containerCssClass = $value;
+        return $new;
+    }
+
+    /**
+     * Generates a tag that contains the first validation error of {@see attribute}.
+     *
+     * Note that even if there is no validation error, this method will still return an empty error tag.
+     *
+     * @param array $attributes the tag options in terms of name-value pairs.
+     * The options will be rendered as the attributes of the resulting tag. The values will be HTML-encoded using
+     * {@see Html::encode()}. If this parameter is `false`, no error tag will be rendered.
+     *
+     * The following options are specially handled:
+     *
+     * If you set a custom `id` for the error element, you may need to adjust the {@see $selectors} accordingly.
+     *
+     * @return static the field object itself.
+     */
+    public function error(array $attributes = []): self
+    {
+        $new = clone $this;
+
+        Html::addCssClass($attributes, ['errorCssClass' => $new->errorCssClass]);
+
+        $new->parts['{error}'] = Error::widget()
+            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->message($new->errorMessage) . "\n";
+
+        return $new;
+    }
+
+    public function errorCssClass(string $value): self
+    {
+        $new = clone $this;
+        $new->errorCssClass = $value;
+        return $new;
+    }
+
+    public function errorMessage(string $value): self
+    {
+        $new = clone $this;
+        $new->errorMessage = $value;
         return $new;
     }
 
@@ -181,17 +206,6 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->noLabel = true;
-        return $new;
-    }
-
-    public function tailwind(): self
-    {
-        $new = clone $this;
-        $new->containerCssClass = 'grid grid-cols-1 gap-6';
-        $new->inputCssClass = 'mt-1 block w-full';
-        $new->labelCssClass = 'text-gray-700';
-        $new->noHint = true;
-        $new->template = "<div class=\"block\">\n{label}{input}</div>\n";
         return $new;
     }
 
