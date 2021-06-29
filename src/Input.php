@@ -90,13 +90,18 @@ final class Input extends Widget
         }
 
         $new = $new->addHtmlValidation();
+        $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
+        $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
 
-        return
-            Html::input(
-                $new->type,
-                $new->getInputName($new->modelInterface->getFormName(), $new->attribute),
-                $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute)),
-            )->attributes($new->attributes)->render();
+        if (empty($new->modelInterface->getError($new->attribute)) && !empty($value)) {
+            Html::addCssClass($new->attributes, 'is-valid');
+        }
+
+        if ($new->modelInterface->getError($new->attribute)) {
+            Html::addCssClass($new->attributes, 'is-invalid');
+        }
+
+        return Html::input($new->type, $name, $value)->attributes($new->attributes)->render();
     }
 
     /**

@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Factory\Exception\InvalidConfigException;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Div;
 
 use function array_merge;
 use function strtr;
@@ -49,7 +50,7 @@ final class Field extends Widget
         }
 
         if (!isset($new->parts['{input}'])) {
-            $new = $new->textInput();
+            $new = $new->input();
         }
 
         if (!isset($new->parts['{hint}'])) {
@@ -60,9 +61,11 @@ final class Field extends Widget
             $new = $new->error();
         }
 
-        $html = strtr($new->template, $new->parts);
-
-        return $new->renderBegin() . "\n" . $html . $new->renderEnd();
+        return Div::tag()
+            ->class($new->containerCssClass)
+            ->content("\n" . strtr($new->template, $new->parts))
+            ->encode(false)
+            ->render();
     }
 
     public function ariaDescribedBy(): self
@@ -152,6 +155,42 @@ final class Field extends Widget
         return $new;
     }
 
+    /**
+     * Renders a text input.
+     *
+     * This method will generate the `name` and `value` tag attributes automatically for the model attribute unless they
+     * are explicitly specified in `$attributes`.
+     *
+     * @param array $attributes the tag attributes in terms of name-value pairs. These will be rendered as the
+     * attributes of the resulting tag. The values will be HTML-encoded using {@see Html::encode()}.
+     *
+     * The following special attributes are recognized:
+     *
+     * Note that if you set a custom `id` for the input element, you may need to adjust the value of {@see selectors}
+     * accordingly.
+     * @param string $type the input type HTML for default its text.
+     */
+    public function input(array $attributes = [], string $type = Input::TYPE_TEXT): self
+    {
+        $new = clone $this;
+
+        Html::addCssClass($attributes, ['inputCssClass' => $new->inputCssClass]);
+
+        if ($new->ariaDescribedBy === true) {
+            $attributes['aria-describedby'] = $new->getId(
+                $new->modelInterface->getFormName(),
+                $new->attribute,
+            ) . '-hint';
+        }
+
+        $new->parts['{input}'] = Input::widget()
+            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->type($type) . "\n";
+
+        return $new;
+    }
+
+
     public function inputCssClass(string $value): self
     {
         $new = clone $this;
@@ -209,62 +248,10 @@ final class Field extends Widget
         return $new;
     }
 
-    /**
-     * Renders a text input.
-     *
-     * This method will generate the `name` and `value` tag attributes automatically for the model attribute unless they
-     * are explicitly specified in `$attributes`.
-     *
-     * @param array $attributes the tag attributes in terms of name-value pairs. These will be rendered as the
-     * attributes of the resulting tag. The values will be HTML-encoded using {@see Html::encode()}.
-     *
-     * The following special attributes are recognized:
-     *
-     * Note that if you set a custom `id` for the input element, you may need to adjust the value of {@see selectors}
-     * accordingly.
-     */
-    public function textInput(array $attributes = []): self
-    {
-        $new = clone $this;
-
-        Html::addCssClass($attributes, ['inputCssClass' => $new->inputCssClass]);
-
-        if ($new->ariaDescribedBy === true) {
-            $attributes['aria-describedby'] = $new->getId(
-                $new->modelInterface->getFormName(),
-                $new->attribute,
-            ) . '-hint';
-        }
-
-        $new->parts['{input}'] = Input::widget()->config($new->modelInterface, $new->attribute, $attributes) . "\n";
-
-        return $new;
-    }
-
     public function template(string $value): self
     {
         $new = clone $this;
         $new->template = $value;
         return $new;
-    }
-
-    /**
-     * Renders the opening tag of the field container.
-     */
-    private function renderBegin(): string
-    {
-        $new = clone $this;
-
-        Html::addCssClass($new->attributes, ['containerCssClass' => $new->containerCssClass]);
-
-        return Html::openTag('div', $new->attributes);
-    }
-
-    /**
-     * Renders the closing tag of the field container.
-     */
-    private function renderEnd(): string
-    {
-        return Html::closeTag('div');
     }
 }

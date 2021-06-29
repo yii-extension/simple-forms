@@ -111,6 +111,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
                 $new = $new->required();
             }
         }
+
         return $new;
     }
 
