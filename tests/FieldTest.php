@@ -39,7 +39,7 @@ final class FieldTest extends TestCase
         $html = $this->fieldBoostrapValidationConfig();
 
         $expected = <<<HTML
-        <div class="mb-3" required>
+        <div class="mb-3">
         <label class="form-label" for="personalform-name">Name</label>
         <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint" class="form-text">Write your first name.</div>
