@@ -16,7 +16,7 @@
 ## Installation
 
 ```shell
-composer require <vendor/your-packages>
+composer require yii-extension/simple-forms
 ```
 
 ### Unit testing
