@@ -8,12 +8,12 @@ return [
             'enabled' => true,
             'field-template' => [
                 'ariaDescribedBy' => true,
-                'containerCssClass' => 'mt-3',
+                'containerCssClass' => 'form-floating',
                 'errorCssClass' => 'invalid-feedback',
                 'hintCssClass' => 'form-text',
                 'inputCssClass' => 'form-control',
-                'labelCssClass' => 'form-label text-start',
-                'template' => "{label}{input}{hint}{error}",
+                'labelCssClass' => 'floatingInput',
+                'template' => "{input}{label}{hint}{error}",
             ],
         ],
         'bulma' => [

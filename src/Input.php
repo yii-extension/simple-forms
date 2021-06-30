@@ -105,41 +105,6 @@ final class Input extends Widget
     }
 
     /**
-     * Focus on the control (put cursor into it) when the page loads.
-     * Only one form element could be in focus at the same time.
-     *
-     * It cannot be applied if the type attribute has a hidden value (that is, you cannot automatically set the cursor
-     * to a hidden control).
-     *
-     * @return static
-     */
-    public function autofocus(): self
-    {
-        $new = clone $this;
-        $new->attributes['autofocus'] = true;
-        return $new;
-    }
-
-    /**
-     * Set whether the element is disabled or not.
-     *
-     * If this attribute is set to `true`, the element is disabled. Disabled elements are usually drawn with grayed-out
-     * text.
-     *
-     * If the element is disabled, it does not respond to user actions, it cannot be focused, and the command event
-     * will not fire. In the case of form elements, it will not be submitted. Do not set the attribute to true, as
-     * this will suggest you can set it to false to enable the element again, which is not the case.
-     *
-     * @return static
-     */
-    public function disabled(): self
-    {
-        $new = clone $this;
-        $new->attributes['disabled'] = true;
-        return $new;
-    }
-
-    /**
      * Specifies the form element the tag input element belongs to. The value of this attribute must be the id attribute
      * of a {@see Form} element in the same document.
      *

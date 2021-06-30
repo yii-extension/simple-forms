@@ -35,6 +35,24 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
+     * Focus on the control (put cursor into it) when the page loads.
+     * Only one form element could be in focus at the same time.
+     *
+     * It cannot be applied if the type attribute is "hidden" (that is, you cannot automatically set the cursor
+     * to a hidden control).
+     *
+     * @param bool $value
+     *
+     * @return self
+     */
+    public function autofocus(bool $value = true): self
+    {
+        $new = clone $this;
+        $new->attributes['autofocus'] = $value;
+        return $new;
+    }
+
+    /**
      * Set the character set used to generate the widget id. See {@see HtmlForm::getInputId()}.
      *
      * @param string $value
@@ -69,6 +87,25 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
+     * Set whether the element is disabled or not.
+     *
+     * If this attribute is set to `true`, the element is disabled. Disabled elements are usually drawn with grayed-out
+     * text.
+     *
+     * If the element is disabled, it does not respond to user actions, it cannot be focused, and the command event
+     * will not fire. In the case of form elements, it will not be submitted. Do not set the attribute to true, as
+     * this will suggest you can set it to false to enable the element again, which is not the case.
+     *
+     * @return static
+     */
+    public function disabled(): self
+    {
+        $new = clone $this;
+        $new->attributes['disabled'] = true;
+        return $new;
+    }
+
+    /**
      * Set the Id of the widget.
      *
      * @param string $value
@@ -78,8 +115,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     public function id(string $value): self
     {
         $new = clone $this;
-        $new->id = $value;
-
+        $new->attributes['id'] = $value;
         return $new;
     }
 
@@ -105,8 +141,11 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         /** @var array */
         $rules = $new->modelInterface->getRules();
 
+        /** @var array */
+        $rulesAttributes = $rules[$new->attribute] ?? [];
+
         /** @var object $rule */
-        foreach ($rules[$new->attribute] as $rule) {
+        foreach ($rulesAttributes as $rule) {
             if ($rule instanceof Required) {
                 $new = $new->required();
             }
@@ -142,7 +181,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         $new = clone $this;
 
         /** @var string */
-        $id = $new->attributes['id'] ?? $new->id;
+        $id = $new->attributes['id'] ?? '';
 
         if ($id === '') {
             $id = $new->getInputId($formName, $attribute, $new->charset);

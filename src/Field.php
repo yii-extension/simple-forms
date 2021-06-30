@@ -83,6 +83,40 @@ final class Field extends Widget
     }
 
     /**
+     * Renders a drop-down list.
+     *
+     * The selection of the drop-down list is taken from the value of the model attribute.
+     *
+     * @param array $items the option data items. The array keys are option values, and the array values are the
+     * corresponding option labels. The array can also be nested (i.e. some array values are arrays too).
+     * For each sub-array, an option group will be generated whose label is the key associated with the sub-array.
+     * If you have a list of data models, you may convert them into the format described above using
+     * {@see \Yiisoft\Arrays\ArrayHelper::map()}.
+     *
+     * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in the
+     * labels will also be HTML-encoded.
+     * @param array $attributes the tag options in terms of name-value pairs.
+     *
+     * For the list of available options please refer to the `$attributes` parameter of
+     * {@see \Yiisoft\Html\Tag\Select()}.
+     *
+     * If you set a custom `id` for the input element, you may need to adjust the {@see $selectors} accordingly.
+     *
+     * @return self the field object itself.
+     */
+    public function dropDownList(array $items, array $attributes = []): self
+    {
+        $new = clone $this;
+
+        $this->parts['{input}'] = DropDownList::widget()
+            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->items($items)
+            ->run();
+
+        return $this;
+    }
+
+    /**
      * Generates a tag that contains the first validation error of {@see attribute}.
      *
      * Note that even if there is no validation error, this method will still return an empty error tag.
