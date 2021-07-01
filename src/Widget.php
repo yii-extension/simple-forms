@@ -19,6 +19,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     private bool $autoGenerate = true;
     private string $charset = 'UTF-8';
     private string $id = '';
+    private bool $noPlaceholder = false;
 
     /**
      * The HTML attributes for the navbar. The following special options are recognized.
@@ -106,6 +107,26 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
+     * Specifies the form element the tag input element belongs to. The value of this attribute must be the id attribute
+     * of a {@see Form} element in the same document.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function formId(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['form'] = $value;
+        return $new;
+    }
+
+    public function getNoPlaceHolder(): bool
+    {
+        return $this->noPlaceholder;
+    }
+
+    /**
      * Set the Id of the widget.
      *
      * @param string $value
@@ -120,6 +141,34 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
+     * Allows you to disable placeholder.
+     *
+     * @param bool $value
+     *
+     * @return self
+     */
+    public function noPlaceholder(bool $value = true): self
+    {
+        $new = clone $this;
+        $new->noPlaceholder = $value;
+        return $new;
+    }
+
+    /**
+     * It allows defining placeholder.
+     *
+     * @param string $value
+     *
+     * @return self
+     */
+    public function placeholder(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
+        return $new;
+    }
+
+    /**
      * If it is required to fill in a value in order to submit the form.
      *
      * @return static
@@ -128,6 +177,31 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     {
         $new = clone $this;
         $new->attributes['required'] = true;
+        return $new;
+    }
+
+    /**
+     * The tabindex global attribute indicates that its element can be focused, and where it participates in sequential
+     * keyboard navigation (usually with the Tab key, hence the name).
+     *
+     * It accepts an integer as a value, with different results depending on the integer's value:
+     *
+     * - A negative value (usually tabindex="-1") means that the element is not reachable via sequential keyboard
+     * navigation, but could be focused with Javascript or visually. It's mostly useful to create accessible widgets
+     * with JavaScript.
+     * - tabindex="0" means that the element should be focusable in sequential keyboard navigation, but its order is
+     * defined by the document's source order.
+     * - A positive value means the element should be focusable in sequential keyboard navigation, with its order
+     * defined by the value of the number. That is, tabindex="4" is focused before tabindex="5", but after tabindex="3".
+     *
+     * @param int $value
+     *
+     * @return self
+     */
+    public function tabIndex(int $value = 0): self
+    {
+        $new = clone $this;
+        $new->attributes['tabindex'] = $value;
         return $new;
     }
 

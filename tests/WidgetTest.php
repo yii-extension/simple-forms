@@ -40,6 +40,12 @@ final class WidgetTest extends TestCase
         $this->assertEqualsWithoutLE('<personalform-name disabled>', $html);
     }
 
+    public function testFormId(): void
+    {
+        $html = StubWidget::widget()->formId('test-formId')->render();
+        $this->assertEqualsWithoutLE('<personalform-name form="test-formId">', $html);
+    }
+
     public function testGetInputNameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -61,6 +67,12 @@ final class WidgetTest extends TestCase
         $this->assertSame('<test-2>', $id);
     }
 
+    public function testNoPlaceholder(): void
+    {
+        $html = StubWidget::widget()->noPlaceHolder();
+        $this->assertTrue($html->getNoPlaceHolder());
+    }
+
     public function testParseAttribute(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -68,9 +80,21 @@ final class WidgetTest extends TestCase
         $this->invokeMethod(StubWidget::widget(), 'parseAttribute', ['']);
     }
 
+    public function testPlaceholder(): void
+    {
+        $html = StubWidget::widget()->placeHolder('testCustomPlaceHolder')->render();
+        $this->assertEqualsWithoutLE('<personalform-name placeholder="testCustomPlaceHolder">', $html);
+    }
+
     public function testRequired(): void
     {
         $html = StubWidget::widget()->required()->render();
         $this->assertEqualsWithoutLE('<personalform-name required>', $html);
+    }
+
+    public function testTabIndex(): void
+    {
+        $html = StubWidget::widget()->tabIndex()->render();
+        $this->assertEqualsWithoutLE('<personalform-name tabindex="0">', $html);
     }
 }

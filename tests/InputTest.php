@@ -47,28 +47,6 @@ final class InputTest extends TestCase
         $this->assertEquals($expected, $html);
     }
 
-    public function testForm(): void
-    {
-        $formModel = new PersonalForm();
-
-        $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" form="form-id" placeholder="Name" required>
-        HTML;
-        $html = Input::widget() ->config($formModel, 'name')->form('form-id')->render();
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testNoPlaceholder(): void
-    {
-        $formModel = new PersonalForm();
-
-        $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" required>
-        HTML;
-        $html = Input::widget()->config($formModel, 'name')->noPlaceholder()->render();
-        $this->assertEquals($expected, $html);
-    }
-
     public function testOninvalid(): void
     {
         $formModel = new PersonalForm();
@@ -80,28 +58,6 @@ final class InputTest extends TestCase
             ->onInvalid('No puede estar en blanco')
             ->required()
             ->render();
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testPlaceHolderCustom(): void
-    {
-        $formModel = new PersonalForm();
-
-        $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Custom placeholder." required>
-        HTML;
-        $html = Input::widget()->config($formModel, 'name')->placeHolder('Custom placeholder.')->render();
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testRequired(): void
-    {
-        $formModel = new PersonalForm();
-
-        $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" required placeholder="Name">
-        HTML;
-        $html = Input::widget()->config($formModel, 'name')->required()->render();
         $this->assertEquals($expected, $html);
     }
 
@@ -124,17 +80,6 @@ final class InputTest extends TestCase
         );
 
         $html = Input::widget()->render();
-    }
-
-    public function testTabIndex(): void
-    {
-        $formModel = new PersonalForm();
-
-        $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" tabindex="1" placeholder="Name" required>
-        HTML;
-        $html = Input::widget()->config($formModel, 'name')->tabIndex(1)->render();
-        $this->assertEquals($expected, $html);
     }
 
     public function testType(): void

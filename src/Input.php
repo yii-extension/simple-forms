@@ -68,7 +68,6 @@ final class Input extends Widget
         self::TYPE_WEEK,
     ];
     private string $invalidCssClass = '';
-    private bool $noPlaceholder = false;
     private string $type = 'text';
     private string $validCssClass = '';
 
@@ -93,7 +92,7 @@ final class Input extends Widget
             $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute);
         }
 
-        if ($new->noPlaceholder === false) {
+        if ($new->getNoPlaceholder() === false) {
             $new->setPlaceholder();
         }
 
@@ -112,37 +111,10 @@ final class Input extends Widget
         return InputHtml::tag()->attributes($new->attributes)->name($name)->type($new->type)->value($value)->render();
     }
 
-    /**
-     * Specifies the form element the tag input element belongs to. The value of this attribute must be the id attribute
-     * of a {@see Form} element in the same document.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function form(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['form'] = $value;
-        return $new;
-    }
-
     public function invalidCssClass(string $value): self
     {
         $new = clone $this;
         $new->invalidCssClass = $value;
-        return $new;
-    }
-
-    /**
-     * Allows you to disable placeholder.
-     *
-     * @return static
-     */
-    public function noPlaceholder(): self
-    {
-        $new = clone $this;
-        $new->noPlaceholder = true;
         return $new;
     }
 
@@ -157,45 +129,6 @@ final class Input extends Widget
     {
         $new = clone $this;
         $new->attributes['oninvalid'] = "this.setCustomValidity('$message')";
-        return $new;
-    }
-
-    /**
-     * It allows defining placeholder.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function placeholder(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
-    /**
-     * The tabindex global attribute indicates that its element can be focused, and where it participates in sequential
-     * keyboard navigation (usually with the Tab key, hence the name).
-     *
-     * It accepts an integer as a value, with different results depending on the integer's value:
-     *
-     * - A negative value (usually tabindex="-1") means that the element is not reachable via sequential keyboard
-     * navigation, but could be focused with Javascript or visually. It's mostly useful to create accessible widgets
-     * with JavaScript.
-     * - tabindex="0" means that the element should be focusable in sequential keyboard navigation, but its order is
-     * defined by the document's source order.
-     * - A positive value means the element should be focusable in sequential keyboard navigation, with its order
-     * defined by the value of the number. That is, tabindex="4" is focused before tabindex="5", but after tabindex="3".
-     *
-     * @param int $value
-     *
-     * @return static
-     */
-    public function tabIndex(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['tabindex'] = $value;
         return $new;
     }
 
