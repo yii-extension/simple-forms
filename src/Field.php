@@ -365,10 +365,7 @@ final class Field extends Widget
      *
      * If you set a custom `id` for the textarea element, you may need to adjust the {@see $selectors} accordingly.
      *
-     * @throws InvalidArgumentException
-     * @throws InvalidConfigException
-     *
-     * @return self the field object itself.
+     * @return static the field object itself.
      */
     public function textArea(array $attributes = []): self
     {

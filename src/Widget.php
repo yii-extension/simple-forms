@@ -245,14 +245,14 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         return (string) $this->parseAttribute($attribute)['name'];
     }
 
-    protected function getId(string $formName, string $attribute): string
+    protected function getId(string $formName = '', string $attribute = ''): string
     {
         $new = clone $this;
 
         /** @var string */
         $id = $new->attributes['id'] ?? $new->id;
 
-        if ($id === '') {
+        if ($id === '' && $formName !== '') {
             $id = $new->getInputId($formName, $attribute, $new->charset);
         }
 

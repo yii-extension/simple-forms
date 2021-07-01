@@ -37,6 +37,10 @@ final class Form extends Widget
 
         $hiddenInputs = [];
 
+        if ($id = $new->getId() !== '') {
+            $new->attributes['id'] = $id;
+        }
+
         if ($new->csrf !== '' && $new->method === Method::POST) {
             $hiddenInputs[] = Html::hiddenInput('_csrf', $new->csrf);
         }

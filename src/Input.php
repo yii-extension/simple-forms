@@ -89,7 +89,7 @@ final class Input extends Widget
         $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
 
         if ($id !== '') {
-            $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute);
+            $new->attributes['id'] = $id;
         }
 
         if ($new->getNoPlaceholder() === false) {
