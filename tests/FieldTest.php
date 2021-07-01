@@ -163,6 +163,27 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testFieldsTextArea(): void
+    {
+        $model = new PersonalForm();
+        $model->setAttribute('name', 'samdark');
+
+        $html = Field::widget()
+            ->config($model, 'name')
+            ->containerCssClass('mb-3')
+            ->labelCssClass('form-label')
+            ->template('{label}{input}{hint}')
+            ->textArea()
+            ->render();
+        $expected = <<<'HTML'
+        <div class="mb-3">
+        <label class="form-label" for="personalform-name">Name</label>
+        <textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea><div id="personalform-name-hint" class="">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testValidation(): void
     {
         $model = new PersonalForm();

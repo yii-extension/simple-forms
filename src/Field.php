@@ -94,9 +94,10 @@ final class Field extends Widget
      * If you have a list of data models, you may convert them into the format described above using
      * {@see \Yiisoft\Arrays\ArrayHelper::map()}.
      *
-     * @param array $attributes the tag options in terms of name-value pairs.
+     * @param array $attributes the tag attributes in terms of name-value pairs.
      *
-     * For the list of available options please refer to the `$attributes` parameter {@see \Yiisoft\Html\Tag\Select()}.
+     * For the list of available attributes please refer to the `$attributes` parameter
+     * {@see \Yiisoft\Html\Tag\Select()}.
      *
      * If you set a custom `id` for the input element, you may need to adjust the {@see $selectors} accordingly.
      *
@@ -158,11 +159,11 @@ final class Field extends Widget
      *
      * Note that even if there is no validation error, this method will still return an empty error tag.
      *
-     * @param array $attributes the tag options in terms of name-value pairs.
-     * The options will be rendered as the attributes of the resulting tag. The values will be HTML-encoded using
+     * @param array $attributes the tag attributes in terms of name-value pairs.
+     * The attributes will be rendered as the attributes of the resulting tag. The values will be HTML-encoded using
      * {@see Html::encode()}. If this parameter is `false`, no error tag will be rendered.
      *
-     * The following options are specially handled:
+     * The following attributes are specially handled:
      *
      * If you set a custom `id` for the error element, you may need to adjust the {@see $selectors} accordingly.
      *
@@ -351,6 +352,32 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->template = $value;
+        return $new;
+    }
+
+        /**
+     * Renders a text area.
+     *
+     * The model attribute value will be used as the content in the textarea.
+     *
+     * @param array $attributes the tag attributes in terms of name-value pairs. These will be rendered as the
+     * attributes of the resulting tag. The values will be HTML-encoded using {@see \Yiisoft\Html\Html::encode()}.
+     *
+     * If you set a custom `id` for the textarea element, you may need to adjust the {@see $selectors} accordingly.
+     *
+     * @throws InvalidArgumentException
+     * @throws InvalidConfigException
+     *
+     * @return self the field object itself.
+     */
+    public function textArea(array $attributes = []): self
+    {
+        $new = clone $this;
+
+        $new->parts['{input}'] = TextArea::widget()
+            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->render();
+
         return $new;
     }
 
