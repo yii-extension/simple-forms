@@ -6,7 +6,7 @@ namespace Yii\Extension\Simple\Forms\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\hint;
+use Yii\Extension\Simple\Forms\Hint;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 
 final class HintTest extends TestCase
