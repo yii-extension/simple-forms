@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use JsonException;
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;
 use Yiisoft\Http\Method;
 
 use function explode;
 use function implode;
-use function strcasecmp;
 use function strpos;
 use function substr;
 use function urldecode;
@@ -24,12 +21,9 @@ final class Form extends Widget
     private string $action = '';
     private string $csrf = '';
     private string $method = Method::POST;
-    private bool $noValidateHtml = false;
 
     /**
      * Generates a form start tag.
-     *
-     * @throws JsonException
      *
      * @return string the generated form start tag.
      *

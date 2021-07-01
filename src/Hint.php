@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yiisoft\Html\Html;
+use InvalidArgumentException;
+use Yiisoft\Html\Tag\CustomTag;
 
 final class Hint extends Widget
 {
     private string $hint = '';
+    private string $tag = 'div';
 
     /**
      * Generates a hint tag for the given form attribute.
@@ -24,7 +26,11 @@ final class Hint extends Widget
 
         $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute) . '-hint';
 
-        return $hint !== '' ? Html::tag('div', $hint, $new->attributes)->render() : '';
+        if (empty($new->tag)) {
+            throw new InvalidArgumentException('The tag cannot be empty.');
+        }
+
+        return $hint !== '' ? CustomTag::name($new->tag)->attributes($new->attributes)->content($hint)->render() : '';
     }
 
     /**
@@ -36,7 +42,7 @@ final class Hint extends Widget
      *
      * @param string $value
      *
-     * @return self
+     * @return static
      */
     public function hint(string $value): self
     {
@@ -50,14 +56,14 @@ final class Hint extends Widget
      *
      * Null to render hint without container {@see Html::tag()}.
      *
-     * @param string|null $value
+     * @param string $value
      *
-     * @return self
+     * @return static
      */
-    public function tag(string $value = null): self
+    public function tag(string $value): self
     {
         $new = clone $this;
-        $new->attributes['tag'] = $value;
+        $new->tag = $value;
         return $new;
     }
 }

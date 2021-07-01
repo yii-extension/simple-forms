@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Input as InputHtml;
 
 use function in_array;
 
@@ -14,6 +15,12 @@ use function in_array;
  */
 final class Input extends Widget
 {
+    public const EXCLUDE_PLACEHOLDER = [
+        self::TYPE_COLOR,
+        self::TYPE_DATE,
+        self::TYPE_FILE,
+        self::TYPE_HIDDEN,
+    ];
     public const TYPE_BUTTON = 'button';
     public const TYPE_CHECKBOX = 'checkbox';
     public const TYPE_COLOR = 'color';
@@ -60,9 +67,10 @@ final class Input extends Widget
         self::TYPE_URL,
         self::TYPE_WEEK,
     ];
-    private string $id = '';
+    private string $invalidCssClass = '';
     private bool $noPlaceholder = false;
     private string $type = 'text';
+    private string $validCssClass = '';
 
     /**
      * Generates an input tag for the given form attribute.
@@ -94,14 +102,14 @@ final class Input extends Widget
         $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
 
         if (empty($new->modelInterface->getError($new->attribute)) && !empty($value)) {
-            Html::addCssClass($new->attributes, 'is-valid');
+            Html::addCssClass($new->attributes, $new->validCssClass);
         }
 
         if ($new->modelInterface->getError($new->attribute)) {
-            Html::addCssClass($new->attributes, 'is-invalid');
+            Html::addCssClass($new->attributes, $new->invalidCssClass);
         }
 
-        return Html::input($new->type, $name, $value)->attributes($new->attributes)->render();
+        return InputHtml::tag()->attributes($new->attributes)->name($name)->type($new->type)->value($value)->render();
     }
 
     /**
@@ -116,6 +124,13 @@ final class Input extends Widget
     {
         $new = clone $this;
         $new->attributes['form'] = $value;
+        return $new;
+    }
+
+    public function invalidCssClass(string $value): self
+    {
+        $new = clone $this;
+        $new->invalidCssClass = $value;
         return $new;
     }
 
@@ -203,12 +218,16 @@ final class Input extends Widget
         return $new;
     }
 
+    public function validCssClass(string $value): self
+    {
+        $new = clone $this;
+        $new->validCssClass = $value;
+        return $new;
+    }
+
     private function setPlaceholder(): void
     {
-        if (
-            !isset($this->attributes['placeholder']) &&
-            !(in_array($this->type, ['date', 'file', 'hidden', 'color'], true))
-        ) {
+        if (!isset($this->attributes['placeholder']) && !(in_array($this->type, self::EXCLUDE_PLACEHOLDER, true))) {
             $attributeName = $this->getAttributeName($this->attribute);
 
             $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);

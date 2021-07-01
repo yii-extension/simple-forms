@@ -4,18 +4,101 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Field;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yiisoft\Validator\Formatter;
 use Yiisoft\Validator\Validator;
 
 final class FieldTest extends TestCase
 {
+    use TestTrait;
+
     private PersonalForm $personalForm;
 
     protected function setUp(): void
     {
         $this->personalForm = new PersonalForm();
+    }
+
+    protected function tearDowm(): void
+    {
+        unset($this->personalForm);
+    }
+
+    public function testDropdownList(): void
+    {
+        $cities = [
+            '1' => [
+                '2' => 'Moscu',
+                '3' => 'San Petersburgo',
+                '4' => 'Novosibirsk',
+                '5' => 'Ekaterinburgo',
+            ],
+            '2' => [
+                '6' => 'Santiago',
+                '7' => 'Concepcion',
+                '8' => 'Chillan',
+            ],
+        ];
+
+        $groups = [
+            '1' => ['class' => 'text-danger', 'label' => 'Russia'],
+            '2' => ['class' => 'text-primary', 'label' => 'Chile'],
+        ];
+
+        $prompt = [
+            'text' => 'Select City Birth',
+            'attributes' => [
+                'value' => '0',
+                'selected' => 'selected',
+            ],
+        ];
+
+        $html = Field::widget()
+            ->config($this->personalForm, 'cityBirth')
+            ->containerCssClass('mb-3')
+            ->dropDownList($cities, ['class' => 'form-control'], $groups, $prompt)
+            ->labelCssClass('form-label')
+            ->template('{label}{input}{hint}')
+            ->render();
+        $expected = <<<'HTML'
+        <div class="mb-3">
+        <label class="form-label" for="personalform-citybirth">City Birth</label>
+        <select id="personalform-citybirth" class="form-control " name="PersonalForm[cityBirth]">
+        <option value="0" selected>Select City Birth</option>
+        <optgroup class="text-danger" label="Russia">
+        <option value="2">Moscu</option>
+        <option value="3">San Petersburgo</option>
+        <option value="4">Novosibirsk</option>
+        <option value="5">Ekaterinburgo</option>
+        </optgroup>
+        <optgroup class="text-primary" label="Chile">
+        <option value="6">Santiago</option>
+        <option value="7">Concepcion</option>
+        <option value="8">Chillan</option>
+        </optgroup>
+        </select>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testNoLabel(): void
+    {
+        $html = Field::widget()
+            ->config($this->personalForm, 'name')
+            ->noLabel()
+            ->template('{label}{input}{hint}')
+            ->render();
+        $expected = <<<'HTML'
+        <div class="">
+        <input type="text" id="personalform-name" class="" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <div id="personalform-name-hint" class="">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
     }
 
     public function testRenderBootstrap5(): void
@@ -80,10 +163,62 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testValidation(): void
+    {
+        $model = new PersonalForm();
+
+        $html = Field::widget()->config($this->personalForm, 'name')->template('{label}{input}{hint}')->render();
+        $expected = <<<'HTML'
+        <div class="">
+        <label class="" for="personalform-name">Name</label>
+        <input type="text" id="personalform-name" class="" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <div id="personalform-name-hint" class="">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+
+        /** Add class is-invalid */
+        $validator = $this->getValidator();
+        $model->setAttribute('name', '');
+        $validator->validate($model);
+
+        $html = Field::widget()
+            ->config($model, 'name')
+            ->invalidCssClass('is-invalid')
+            ->template('{label}{input}{hint}')
+            ->render();
+        $expected = <<<'HTML'
+        <div class="">
+        <label class="" for="personalform-name">Name</label>
+        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <div id="personalform-name-hint" class="">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+
+        /** Add class is-valid */
+        $validator = $this->getValidator();
+        $model->setAttribute('name', 'samdark');
+        $validator->validate($model);
+
+        $html = Field::widget()->config($model, 'name')
+            ->validCssClass('is-valid')
+            ->template('{label}{input}{hint}')
+            ->render();
+        $expected = <<<'HTML'
+        <div class="">
+        <label class="" for="personalform-name">Name</label>
+        <input type="text" id="personalform-name" class="is-valid" name="PersonalForm[name]" value="samdark" placeholder="Name" required>
+        <div id="personalform-name-hint" class="">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     private function fieldBoostrapDefaultConfig(): string
     {
         return Field::widget()
-            ->config(new PersonalForm(), 'name')
+            ->config($this->personalForm, 'name')
             ->ariaDescribedBy(true)
             ->containerCssClass('mb-3')
             ->hintCssClass('form-text')

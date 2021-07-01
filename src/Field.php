@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use InvalidArgumentException;
-use Yiisoft\Arrays\ArrayHelper;
-use Yiisoft\Factory\Exception\InvalidConfigException;
+use ReflectionException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
 
-use function array_merge;
 use function strtr;
 
 /**
@@ -25,10 +22,12 @@ final class Field extends Widget
     private string $hintCssClass = '';
     private string $inputCssClass = '';
     private string $labelCssClass = '';
-    private string $template = '';
-    private array $parts = [];
-    private bool $noLabel = false;
+    private string $invalidCssClass = '';
+    private string $validCssClass = '';
     private bool $noHint = false;
+    private bool $noLabel = false;
+    private array $parts = [];
+    private string $template = '';
 
     /**
      * Renders the whole field.
@@ -38,6 +37,8 @@ final class Field extends Widget
      *
      * If (not set), the default methods will be called to generate the label and input tag, and use them as the
      * content.
+     *
+     * @throws ReflectionException
      *
      * @return string the rendering result.
      */
@@ -93,27 +94,63 @@ final class Field extends Widget
      * If you have a list of data models, you may convert them into the format described above using
      * {@see \Yiisoft\Arrays\ArrayHelper::map()}.
      *
-     * Note, the values and labels will be automatically HTML-encoded by this method, and the blank spaces in the
-     * labels will also be HTML-encoded.
      * @param array $attributes the tag options in terms of name-value pairs.
      *
-     * For the list of available options please refer to the `$attributes` parameter of
-     * {@see \Yiisoft\Html\Tag\Select()}.
+     * For the list of available options please refer to the `$attributes` parameter {@see \Yiisoft\Html\Tag\Select()}.
      *
      * If you set a custom `id` for the input element, you may need to adjust the {@see $selectors} accordingly.
      *
-     * @return self the field object itself.
+     * @param array $groups The attributes for the optgroup tags.
+     *
+     * The structure of this is similar to that of 'options', except that the array keys represent the optgroup labels
+     * specified in {@see DropdownList::items()};
+     *
+     * ```php
+     * [
+     *     'groups' => [
+     *         '1' => ['label' => 'Chile'],
+     *         '2' => ['label' => 'Russia']
+     *     ],
+     * ];
+     *
+     * @param array $prompt Text to be displayed as the first option, you can use an array to override the value and to
+     * set other tag attributes:
+     *
+     * ```php
+     * [
+     *     'prompt' => [
+     *         'text' => 'Select City Birth',
+     *         'options' => [
+     *             'value' => '0',
+     *             'selected' => 'selected'
+     *         ],
+     *     ],
+     * ]
+     * ```
+     *
+     * @throws ReflectionException
+     *
+     * @return static the field object itself.
      */
-    public function dropDownList(array $items, array $attributes = []): self
-    {
+    public function dropDownList(
+        array $items,
+        array $attributes = [],
+        array $groups = [],
+        array $prompt = [],
+        string $unselectValue = null
+    ): self {
         $new = clone $this;
 
-        $this->parts['{input}'] = DropDownList::widget()
+        Html::addCssClass($attributes, $new->inputCssClass);
+
+        $new->parts['{input}'] = DropDownList::widget()
             ->config($new->modelInterface, $new->attribute, $attributes)
             ->items($items)
-            ->run();
+            ->groups($groups)
+            ->prompt($prompt)
+            ->unselectValue($unselectValue);
 
-        return $this;
+        return $new;
     }
 
     /**
@@ -129,13 +166,15 @@ final class Field extends Widget
      *
      * If you set a custom `id` for the error element, you may need to adjust the {@see $selectors} accordingly.
      *
+     * @throws ReflectionException
+     *
      * @return static the field object itself.
      */
     public function error(array $attributes = []): self
     {
         $new = clone $this;
 
-        Html::addCssClass($attributes, ['errorCssClass' => $new->errorCssClass]);
+        Html::addCssClass($attributes, $new->errorCssClass);
 
         $new->parts['{error}'] = Error::widget()
             ->config($new->modelInterface, $new->attribute, $attributes)
@@ -165,6 +204,10 @@ final class Field extends Widget
      * If ``, the hint will be generated via {@see \Yii\Extension\Simple\Model\ModelInterface::getAttributeHint()}.
      * @param array $attributes the tag attributes in terms of name-value pairs. These will be rendered as the
      * attributes of the hint tag. The values will be HTML-encoded using {@see Html::encode()}.
+     *
+     * @throws ReflectionException
+     *
+     * @return static
      */
     public function hint(string $content = '', array $attributes = []): self
     {
@@ -172,11 +215,17 @@ final class Field extends Widget
         $new->parts['{hint}'] = '';
 
         if ($new->noHint === false) {
-            Html::addCssClass($attributes, ['hintCssClass' => $new->hintCssClass]);
+            Html::addCssClass($attributes, $new->hintCssClass);
+
+            /** @var string */
+            $tag = $new->attributes['tag'] ?? 'div';
+
+            unset($new->attributes['tag']);
 
             $new->parts['{hint}'] = Hint::widget()
                 ->config($new->modelInterface, $new->attribute, $attributes)
-                ->hint($content) . "\n";
+                ->hint($content)
+                ->tag($tag) . PHP_EOL;
         }
 
         return $new;
@@ -203,12 +252,16 @@ final class Field extends Widget
      * Note that if you set a custom `id` for the input element, you may need to adjust the value of {@see selectors}
      * accordingly.
      * @param string $type the input type HTML for default its text.
+     *
+     * @throws ReflectionException
+     *
+     * @return static
      */
     public function input(array $attributes = [], string $type = Input::TYPE_TEXT): self
     {
         $new = clone $this;
 
-        Html::addCssClass($attributes, ['inputCssClass' => $new->inputCssClass]);
+        Html::addCssClass($attributes, $new->inputCssClass);
 
         if ($new->ariaDescribedBy === true) {
             $attributes['aria-describedby'] = $new->getId(
@@ -219,16 +272,24 @@ final class Field extends Widget
 
         $new->parts['{input}'] = Input::widget()
             ->config($new->modelInterface, $new->attribute, $attributes)
-            ->type($type) . "\n";
+            ->invalidCssClass($new->invalidCssClass)
+            ->type($type)
+            ->validCssClass($new->validCssClass) . PHP_EOL;
 
         return $new;
     }
-
 
     public function inputCssClass(string $value): self
     {
         $new = clone $this;
         $new->inputCssClass = $value;
+        return $new;
+    }
+
+    public function invalidCssClass(string $value): self
+    {
+        $new = clone $this;
+        $new->invalidCssClass = $value;
         return $new;
     }
 
@@ -243,6 +304,10 @@ final class Field extends Widget
      * {@see \Yii\Extension\Simple\Model\ModelInterface::getAttributeLabel()}.
      *
      * Note that this will NOT be {@see Html::encode()|encoded}.
+     *
+     * @throws ReflectionException
+     *
+     * @return static
      */
     public function label(string $label = '', array $attributes = []): self
     {
@@ -250,7 +315,7 @@ final class Field extends Widget
         $new->parts['{label}'] = '';
 
         if ($new->noLabel === false) {
-            Html::addCssClass($attributes, ['labelCssClass' => $new->labelCssClass]);
+            Html::addCssClass($attributes, $new->labelCssClass);
 
             $new->parts['{label}'] = Label::widget()
                 ->config($new->modelInterface, $new->attribute, $attributes)
@@ -286,6 +351,13 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->template = $value;
+        return $new;
+    }
+
+    public function validCssClass(string $value): self
+    {
+        $new = clone $this;
+        $new->validCssClass = $value;
         return $new;
     }
 }

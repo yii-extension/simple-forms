@@ -14,8 +14,10 @@ if ($params['yii-extension/simple-forms']['bootstrap5']['enabled'] === true) {
             ->errorCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['errorCssClass'])
             ->hintCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['hintCssClass'])
             ->inputCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['inputCssClass'])
+            ->invalidCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['invalidCssClass'])
             ->labelCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['labelCssClass'])
-            ->template($params['yii-extension/simple-forms']['bootstrap5']['field-template']['template']),
+            ->template($params['yii-extension/simple-forms']['bootstrap5']['field-template']['template'])
+            ->validCssClass($params['yii-extension/simple-forms']['bootstrap5']['field-template']['validCssClass']),
     ];
 }
 

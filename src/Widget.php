@@ -115,7 +115,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     public function id(string $value): self
     {
         $new = clone $this;
-        $new->attributes['id'] = $value;
+        $new->id = $value;
         return $new;
     }
 
@@ -171,17 +171,12 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         return (string) $this->parseAttribute($attribute)['name'];
     }
 
-    protected function getCharset(): string
-    {
-        return $this->charset;
-    }
-
     protected function getId(string $formName, string $attribute): string
     {
         $new = clone $this;
 
         /** @var string */
-        $id = $new->attributes['id'] ?? '';
+        $id = $new->attributes['id'] ?? $new->id;
 
         if ($id === '') {
             $id = $new->getInputId($formName, $attribute, $new->charset);
@@ -211,10 +206,6 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     protected function getInputName(string $formName, string $attribute): string
     {
         $data = $this->parseAttribute($attribute);
-
-        if ($formName === '' && $data['prefix'] === '') {
-            return $attribute;
-        }
 
         if ($formName !== '') {
             return $formName . (string) $data['prefix'] . '[' . (string) $data['name'] . ']' . (string) $data['suffix'];

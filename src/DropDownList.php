@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select;
@@ -24,7 +23,7 @@ final class DropDownList extends Widget
      *
      * @return string the generated drop-down list tag.
      */
-    public function run(): string
+    protected function run(): string
     {
         $new = clone $this;
 
@@ -213,11 +212,11 @@ final class DropDownList extends Widget
      * You may set this option to be null to prevent default value submission. If this option is not set, an empty
      * string will be submitted.
      *
-     * @param string $value
+     * @param string|null $value
      *
      * @return static
      */
-    public function unselectValue(string $value): self
+    public function unselectValue(?string $value): self
     {
         $new = clone $this;
         $new->unselectValue = $value;
@@ -237,11 +236,6 @@ final class DropDownList extends Widget
             if (is_array($content)) {
                 /** @var array */
                 $groupAttrs = $new->groups[$value] ?? [];
-
-                if (!isset($groupAttrs['label'])) {
-                    $groupAttrs['label'] = $value;
-                }
-
                 $options = [];
 
                 /** @var string $c */
@@ -254,7 +248,7 @@ final class DropDownList extends Widget
                 $items[] = Optgroup::tag()->attributes($groupAttrs)->options(...$options);
             } else {
                 /** @var array */
-                $attributes = $new->itemsAttributes[$value] ?? [];
+                $attributes = isset($new->itemsAttributes[$value]) ? $new->itemsAttributes[$value] : [];
                 $items[] = Option::tag()->attributes($attributes)->content($content)->value($value);
             }
         }

@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Form;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class FormTest extends TestCase
 {
-    public function testAttributes(): void
-    {
-        $html = Form::widget()->attributes(['_csrf' => 'csrfToken'])->begin();
-        $this->assertEquals('<form action="" method="POST" _csrf="csrfToken">', $html);
-    }
+    use TestTrait;
 
     public function testBegin(): void
     {
@@ -73,6 +71,12 @@ final class FormTest extends TestCase
         $this->assertSame($expected, $html);
     }
 
+    public function testEnd(): void
+    {
+        Form::widget()->begin();
+        $this->assertEquals('</form>', Form::end());
+    }
+
     public function testMethod(): void
     {
         $html = Form::widget()->method('get')->begin();
@@ -82,9 +86,8 @@ final class FormTest extends TestCase
         $this->assertSame('<form action="" method="POST">', $html);
     }
 
-    public function testEnd(): void
+    public function testNoValidateHtml(): void
     {
-        Form::widget()->begin();
-        $this->assertEquals('</form>', Form::end());
+        $this->assertSame('<form action="" method="POST" novalidate>', Form::widget()->noValidateHtml()->begin());
     }
 }

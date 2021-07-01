@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use Yiisoft\Arrays\ArrayHelper;
-use Yiisoft\Form\FormModelInterface;
-use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Label as LabelHtml;
 
 /**
  * @psalm-suppress MissingConstructor
  */
 final class Label extends Widget
 {
-    private string $charset = 'UTF-8';
     private string $label = '';
 
     /**
@@ -35,7 +33,7 @@ final class Label extends Widget
         $label = $new->label === ''
             ? $new->modelInterface->getAttributeLabel($new->getAttributeName($new->attribute)) : $new->label;
 
-        return Html::label($label, $for)->attributes($new->attributes)->render();
+        return LabelHtml::tag()->attributes($new->attributes)->content($label)->forId($for)->render();
     }
 
     /**
@@ -48,7 +46,7 @@ final class Label extends Widget
      *
      * @return self
      */
-    public function for(string $value): self
+    public function forId(string $value): self
     {
         $new = clone $this;
         $new->attributes['for'] = $value;
@@ -63,8 +61,8 @@ final class Label extends Widget
      * @return self
      *
      * Note that this will NOT be encoded.
-     * - If this is not set, {@see \Yiisoft\Form\FormModel::getAttributeLabel() will be called to get the label for
-     * display (after encoding).
+     * - If this is not set, {@see \Yii\Extension\Simple\Forms\BaseModel::getAttributeLabel() will be called to get the
+     * label for display (after encoding).
      */
     public function label(string $value): self
     {

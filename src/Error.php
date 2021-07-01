@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yiisoft\Arrays\ArrayHelper;
-use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Div;
 
 final class Error extends Widget
 {
@@ -16,7 +15,7 @@ final class Error extends Widget
      *
      * @return string the generated label tag
      */
-    public function run(): string
+    protected function run(): string
     {
         $new = clone $this;
 
@@ -26,7 +25,7 @@ final class Error extends Widget
             $error = $new->modelInterface->getFirstError($new->getAttributeName($new->attribute));
         }
 
-        return Html::tag('div', $error, $new->attributes)->render();
+        return Div::tag()->attributes($new->attributes)->content($error)->render();
     }
 
     public function message(string $value): self

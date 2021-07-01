@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\DropDownList;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class DropDownListTest extends TestCase
 {
+    use TestTrait;
+
     private PersonalForm $data;
     private array $cities = [];
 
@@ -26,23 +30,11 @@ final class DropDownListTest extends TestCase
         ];
     }
 
-    public function testAttributes(): void
+    protected function tearDown(): void
     {
-        $this->model->setAttribute('cityBirth', 3);
+        parent::tearDown();
 
-        $html = DropDownList::widget()
-            ->config($this->model, 'cityBirth', ['class' => 'customClass'])
-            ->items($this->cities)
-            ->render();
-        $expected = <<<'HTML'
-        <select id="personalform-citybirth" class="customClass" name="PersonalForm[cityBirth]">
-        <option value="1">Moscu</option>
-        <option value="2">San Petersburgo</option>
-        <option value="3" selected>Novosibirsk</option>
-        <option value="4">Ekaterinburgo</option>
-        </select>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
+        unset($this->cities, $this->model);
     }
 
     public function testListGroups(): void
@@ -177,24 +169,6 @@ final class DropDownListTest extends TestCase
         $expected = <<<'HTML'
         <select id="personalform-citybirth" name="PersonalForm[cityBirth]">
         <option value="0" selected>Select City Birth</option>
-        <option value="1">Moscu</option>
-        <option value="2">San Petersburgo</option>
-        <option value="3">Novosibirsk</option>
-        <option value="4">Ekaterinburgo</option>
-        </select>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testRequired(): void
-    {
-        $html = DropDownList::widget()
-            ->config($this->model, 'cityBirth')
-            ->items($this->cities)
-            ->required()
-            ->render();
-        $expected = <<<'HTML'
-        <select id="personalform-citybirth" name="PersonalForm[cityBirth]" required>
         <option value="1">Moscu</option>
         <option value="2">San Petersburgo</option>
         <option value="3">Novosibirsk</option>

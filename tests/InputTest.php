@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms\Tests;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Input;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class InputTest extends TestCase
 {
+    use TestTrait;
+
     public function testAttributes(): void
     {
         $formModel = new PersonalForm();

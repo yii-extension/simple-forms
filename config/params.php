@@ -13,7 +13,9 @@ return [
                 'hintCssClass' => 'form-text',
                 'inputCssClass' => 'form-control',
                 'labelCssClass' => 'floatingInput',
+                'invalidCssClass' => 'is-invalid',
                 'template' => "{input}{label}{hint}{error}",
+                'validCssClass' => 'is-valid',
             ],
         ],
         'bulma' => [
