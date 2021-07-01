@@ -37,7 +37,7 @@ final class Form extends Widget
 
         $hiddenInputs = [];
 
-        if ($id = $new->getId() !== '') {
+        if (($id = $new->getId()) !== '') {
             $new->attributes['id'] = $id;
         }
 
