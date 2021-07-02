@@ -161,6 +161,8 @@ final class DropDownListTest extends TestCase
             ],
         ];
 
+        $this->model->setAttribute('cityBirth', 0);
+
         $html = DropDownList::widget()
             ->config($this->model, 'cityBirth')
             ->items($this->cities)

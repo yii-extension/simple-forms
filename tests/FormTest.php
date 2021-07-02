@@ -15,30 +15,31 @@ final class FormTest extends TestCase
 
     public function testBegin(): void
     {
-        $html = Form::widget()->action('/test')->begin();
-        $this->assertEquals('<form action="/test" method="POST">', $html);
-
-        $html = Form::widget()->action('/example')->method('GET')->begin();
-        $this->assertEquals('<form action="/example" method="GET">', $html);
-
+        $this->assertSame(
+            '<form action="/test" method="POST">',
+            Form::widget()->action('/test')->begin(),
+        );
+        $this->assertSame(
+            '<form action="/example" method="GET">',
+            Form::widget()->action('/example')->method('GET')->begin(),
+        );
         $hiddens = [
             '<input type="hidden" name="id" value="1">',
             '<input type="hidden" name="title" value="&lt;">',
         ];
-        $this->assertEquals(
+        $this->assertSame(
             '<form action="/example" method="GET">' . "\n" . implode("\n", $hiddens),
             Form::widget()->action('/example?id=1&title=%3C')->method('GET')->begin()
         );
-
-        $expected = '<form action="/foo" method="GET">%A<input type="hidden" name="p" value="">';
-        $html = Form::widget()->action('/foo?p')->method('GET')->begin();
-        $this->assertStringMatchesFormat($expected, $html);
+        $this->assertStringMatchesFormat(
+            '<form action="/foo" method="GET">%A<input type="hidden" name="p" value="">',
+            Form::widget()->action('/foo?p')->method('GET')->begin(),
+        );
     }
 
     public function testBeginEmpty(): void
     {
-        $html = Form::widget()->begin();
-        $this->assertEquals('<form action="" method="POST">', $html);
+        $this->assertSame('<form action="" method="POST">', Form::widget()->begin());
     }
 
     /**
@@ -67,23 +68,31 @@ final class FormTest extends TestCase
      */
     public function testBeginViaPost(string $expected, string $method, string $csrf): void
     {
-        $html = Form::widget()->action('/foo')->method($method)->csrf($csrf)->begin();
-        $this->assertSame($expected, $html);
+        $this->assertSame(
+            $expected,
+            Form::widget()->action('/foo')->method($method)->csrf($csrf)->begin(),
+        );
+    }
+
+    public function testId(): void
+    {
+        $this->assertSame('<form id="form-id" action="" method="POST">', Form::widget()->id('form-id')->begin());
+        $this->assertSame(
+            '<form id="form-id" action="" method="POST">',
+            Form::widget()->attributes(['id' => 'form-id'])->begin(),
+        );
     }
 
     public function testEnd(): void
     {
         Form::widget()->begin();
-        $this->assertEquals('</form>', Form::end());
+        $this->assertSame('</form>', Form::end());
     }
 
     public function testMethod(): void
     {
-        $html = Form::widget()->method('get')->begin();
-        $this->assertSame('<form action="" method="GET">', $html);
-
-        $html = Form::widget()->method('post')->begin();
-        $this->assertSame('<form action="" method="POST">', $html);
+        $this->assertSame('<form action="" method="GET">', Form::widget()->method('get')->begin());
+        $this->assertSame('<form action="" method="POST">', Form::widget()->method('post')->begin());
     }
 
     public function testNoValidateHtml(): void

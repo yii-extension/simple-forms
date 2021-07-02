@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use InvalidArgumentException;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select;
@@ -44,6 +45,10 @@ final class DropDownList extends Widget
             $promptAttributes = $new->prompt['attributes'] ?? [];
 
             $promptOption = Option::tag()->attributes($promptAttributes)->content($promptText);
+        }
+
+        if (!is_scalar($value)) {
+            throw new InvalidArgumentException('The value must be a scalar.');
         }
 
         return Select::tag()

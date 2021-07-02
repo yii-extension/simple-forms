@@ -11,9 +11,10 @@ use Yiisoft\Validator\Rule\Required;
 final class PersonalForm extends BaseModel
 {
     private string $id = '';
-    private int $cityBirth = 0;
+    private array $citys = [];
+    private ?int $cityBirth = null;
     private string $name = '';
-    private bool $terms = false;
+    private int $terms = 0;
 
     public function getAttributeLabels(): array
     {

@@ -16,34 +16,36 @@ final class WidgetTest extends TestCase
 
     public function testAttributes(): void
     {
-        $html = StubWidget::widget()->attributes(['disabled' => true])->render();
-        $this->assertSame('<personalform-name disabled>', $html);
+        $this->assertSame(
+            '<personalform-name disabled>',
+            StubWidget::widget()->attributes(['disabled' => true])->render(),
+        );
     }
 
     public function testAutofocus(): void
     {
-        $html = StubWidget::widget()->autofocus()->render();
-        $this->assertSame('<personalform-name autofocus>', $html);
+        $this->assertSame('<personalform-name autofocus>', StubWidget::widget()->autofocus()->render());
     }
 
     public function testCharset(): void
     {
-        $model = new PersonalForm();
-
-        $html = StubWidget::widget()->config($model, 'имя')->charset('UTF-8')->render();
-        $this->assertEqualsWithoutLE('<personalform-name name="PersonalForm[имя]">', $html);
+        $this->assertSame(
+            '<personalform-name name="PersonalForm[имя]">',
+            StubWidget::widget()->config(new PersonalForm(), 'имя')->charset('UTF-8')->render()
+        );
     }
 
     public function testDisabled(): void
     {
-        $html = StubWidget::widget()->disabled()->render();
-        $this->assertEqualsWithoutLE('<personalform-name disabled>', $html);
+        $this->assertSame('<personalform-name disabled>', StubWidget::widget()->disabled()->render());
     }
 
     public function testFormId(): void
     {
-        $html = StubWidget::widget()->formId('test-formId')->render();
-        $this->assertEqualsWithoutLE('<personalform-name form="test-formId">', $html);
+        $this->assertSame(
+            '<personalform-name form="test-formId">',
+            StubWidget::widget()->formId('test-formId')->render(),
+        );
     }
 
     public function testGetInputNameException(): void
@@ -55,22 +57,17 @@ final class WidgetTest extends TestCase
 
     public function testGetId(): void
     {
-        $model = new PersonalForm();
-
-        $id = StubWidget::widget()->render();
-        $this->assertSame('<personalform-name>', $id);
+        $this->assertSame('<personalform-name>', StubWidget::widget()->render());
     }
 
     public function testId(): void
     {
-        $id = StubWidget::widget()->id('test-2')->render();
-        $this->assertSame('<test-2>', $id);
+        $this->assertSame('<test-2>', StubWidget::widget()->id('test-2')->render());
     }
 
     public function testNoPlaceholder(): void
     {
-        $html = StubWidget::widget()->noPlaceHolder();
-        $this->assertTrue($html->getNoPlaceHolder());
+        $this->assertSame('<personalform-name>', StubWidget::widget()->noPlaceHolder()->render());
     }
 
     public function testParseAttribute(): void
@@ -82,19 +79,19 @@ final class WidgetTest extends TestCase
 
     public function testPlaceholder(): void
     {
-        $html = StubWidget::widget()->placeHolder('testCustomPlaceHolder')->render();
-        $this->assertEqualsWithoutLE('<personalform-name placeholder="testCustomPlaceHolder">', $html);
+        $this->assertSame(
+            '<personalform-name placeholder="testCustomPlaceHolder">',
+            StubWidget::widget()->placeHolder('testCustomPlaceHolder')->render(),
+        );
     }
 
     public function testRequired(): void
     {
-        $html = StubWidget::widget()->required()->render();
-        $this->assertEqualsWithoutLE('<personalform-name required>', $html);
+        $this->assertSame('<personalform-name required>', StubWidget::widget()->required()->render());
     }
 
     public function testTabIndex(): void
     {
-        $html = StubWidget::widget()->tabIndex()->render();
-        $this->assertEqualsWithoutLE('<personalform-name tabindex="0">', $html);
+        $this->assertSame('<personalform-name tabindex="0">', StubWidget::widget()->tabIndex()->render());
     }
 }

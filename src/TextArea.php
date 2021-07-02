@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yiisoft\Html\Tag\Textarea as TextAreaHtml;
+use InvalidArgumentException;
+use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 
 final class TextArea extends Widget
 {
@@ -28,10 +29,13 @@ final class TextArea extends Widget
         }
 
         $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
+        $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
 
-        $value = (string) $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('The value must be a string.');
+        }
 
-        return TextAreaHtml::tag()->attributes($new->attributes)->name($name)->value($value)->render();
+        return TextAreaTag::tag()->attributes($new->attributes)->name($name)->value($value)->render();
     }
 
     /**

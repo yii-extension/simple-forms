@@ -19,12 +19,12 @@ final class FieldTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->personalForm = new PersonalForm();
+        $this->model = new PersonalForm();
     }
 
     protected function tearDowm(): void
     {
-        unset($this->personalForm);
+        unset($this->model);
     }
 
     public function testDropdownList(): void
@@ -56,8 +56,10 @@ final class FieldTest extends TestCase
             ],
         ];
 
+        $this->model->setAttribute('cityBirth', 0);
+
         $html = Field::widget()
-            ->config($this->personalForm, 'cityBirth')
+            ->config($this->model, 'cityBirth')
             ->containerCssClass('mb-3')
             ->dropDownList($cities, ['class' => 'form-control'], $groups, $prompt)
             ->labelCssClass('form-label')
@@ -88,7 +90,7 @@ final class FieldTest extends TestCase
     public function testNoLabel(): void
     {
         $html = Field::widget()
-            ->config($this->personalForm, 'name')
+            ->config($this->model, 'name')
             ->noLabel()
             ->template('{label}{input}{hint}')
             ->render();
@@ -117,10 +119,6 @@ final class FieldTest extends TestCase
 
     public function testRenderBootstrap5WithValidation(): void
     {
-        $model = new PersonalForm();
-
-        $html = $this->fieldBoostrapValidationConfig();
-
         $expected = <<<HTML
         <div class="mb-3">
         <label class="form-label" for="personalform-name">Name</label>
@@ -129,13 +127,11 @@ final class FieldTest extends TestCase
         <div class="invalid-feedback">Fill in this field.</div>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
+        $this->assertEqualsWithoutLE($expected, $this->fieldBoostrapValidationConfig());
     }
 
     public function testRenderBulma(): void
     {
-        $html = $this->fieldBulmaDefaultConfig();
-
         $expected = <<<HTML
         <div class="field">
         <label class="label" for="personalform-name">Name</label>
@@ -145,13 +141,11 @@ final class FieldTest extends TestCase
         <div id="personalform-name-hint" class="help">Write your first name.</div>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
+        $this->assertEqualsWithoutLE($expected, $this->fieldBulmaDefaultConfig());
     }
 
     public function testRenderTailwind(): void
     {
-        $html = $this->fieldTailwindDefaultConfig();
-
         $expected = <<<HTML
         <div class="grid grid-cols-1 gap-6">
         <div class="block">
@@ -160,16 +154,15 @@ final class FieldTest extends TestCase
         </div>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
+        $this->assertEqualsWithoutLE($expected, $this->fieldTailwindDefaultConfig());
     }
 
     public function testFieldsTextArea(): void
     {
-        $model = new PersonalForm();
-        $model->setAttribute('name', 'samdark');
+        $this->model->setAttribute('name', 'samdark');
 
         $html = Field::widget()
-            ->config($model, 'name')
+            ->config($this->model, 'name')
             ->containerCssClass('mb-3')
             ->labelCssClass('form-label')
             ->template('{label}{input}{hint}')
@@ -186,9 +179,7 @@ final class FieldTest extends TestCase
 
     public function testValidation(): void
     {
-        $model = new PersonalForm();
-
-        $html = Field::widget()->config($this->personalForm, 'name')->template('{label}{input}{hint}')->render();
+        $html = Field::widget()->config($this->model, 'name')->template('{label}{input}{hint}')->render();
         $expected = <<<'HTML'
         <div class="">
         <label class="" for="personalform-name">Name</label>
@@ -200,11 +191,11 @@ final class FieldTest extends TestCase
 
         /** Add class is-invalid */
         $validator = $this->getValidator();
-        $model->setAttribute('name', '');
-        $validator->validate($model);
+        $this->model->setAttribute('name', '');
+        $validator->validate($this->model);
 
         $html = Field::widget()
-            ->config($model, 'name')
+            ->config($this->model, 'name')
             ->invalidCssClass('is-invalid')
             ->template('{label}{input}{hint}')
             ->render();
@@ -219,10 +210,10 @@ final class FieldTest extends TestCase
 
         /** Add class is-valid */
         $validator = $this->getValidator();
-        $model->setAttribute('name', 'samdark');
-        $validator->validate($model);
+        $this->model->setAttribute('name', 'samdark');
+        $validator->validate($this->model);
 
-        $html = Field::widget()->config($model, 'name')
+        $html = Field::widget()->config($this->model, 'name')
             ->validCssClass('is-valid')
             ->template('{label}{input}{hint}')
             ->render();
@@ -239,7 +230,7 @@ final class FieldTest extends TestCase
     private function fieldBoostrapDefaultConfig(): string
     {
         return Field::widget()
-            ->config($this->personalForm, 'name')
+            ->config($this->model, 'name')
             ->ariaDescribedBy(true)
             ->containerCssClass('mb-3')
             ->hintCssClass('form-text')
@@ -252,7 +243,7 @@ final class FieldTest extends TestCase
     private function fieldBoostrapValidationConfig(): string
     {
         return Field::widget()
-            ->config($this->personalForm, 'name')
+            ->config($this->model, 'name')
             ->ariaDescribedBy(true)
             ->containerCssClass('mb-3')
             ->errorCssClass('invalid-feedback')
@@ -268,7 +259,7 @@ final class FieldTest extends TestCase
     private function fieldBulmaDefaultConfig(): string
     {
         return Field::widget()
-            ->config($this->personalForm, 'name')
+            ->config($this->model, 'name')
             ->containerCssClass('field')
             ->hintCssClass('help')
             ->inputCssClass('input')
@@ -280,7 +271,7 @@ final class FieldTest extends TestCase
     private function fieldTailwindDefaultConfig(): string
     {
         return Field::widget()
-            ->config($this->personalForm, 'name')
+            ->config($this->model, 'name')
             ->containerCssClass('grid grid-cols-1 gap-6')
             ->inputCssClass('mt-1 block w-full')
             ->labelCssClass('text-gray-700')

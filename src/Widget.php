@@ -121,11 +121,6 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         return $new;
     }
 
-    public function getNoPlaceHolder(): bool
-    {
-        return $this->noPlaceholder;
-    }
-
     /**
      * Set the Id of the widget.
      *
@@ -143,14 +138,12 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     /**
      * Allows you to disable placeholder.
      *
-     * @param bool $value
-     *
      * @return self
      */
-    public function noPlaceholder(bool $value = true): self
+    public function noPlaceholder(): self
     {
         $new = clone $this;
-        $new->noPlaceholder = $value;
+        $new->noPlaceholder = true;
         return $new;
     }
 
@@ -309,6 +302,11 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     {
         $name = mb_strtolower($this->getInputName($formName, $attribute), $charset);
         return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name);
+    }
+
+    protected function getNoPlaceHolder(): bool
+    {
+        return $this->noPlaceholder;
     }
 
     /**

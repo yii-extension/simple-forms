@@ -6,7 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yiisoft\Html\Html;
-use Yiisoft\Html\Tag\Input as InputHtml;
+use Yiisoft\Html\Tag\Input as InputTag;
 
 use function in_array;
 
@@ -16,6 +16,7 @@ use function in_array;
 final class Input extends Widget
 {
     public const EXCLUDE_PLACEHOLDER = [
+        self::TYPE_CHECKBOX,
         self::TYPE_COLOR,
         self::TYPE_DATE,
         self::TYPE_FILE,
@@ -101,14 +102,18 @@ final class Input extends Widget
         $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
 
         if (empty($new->modelInterface->getError($new->attribute)) && !empty($value)) {
-            Html::addCssClass($new->attributes, $new->validCssClass);
+            $new->validCssClass === '' ?: Html::addCssClass($new->attributes, $new->validCssClass);
         }
 
         if ($new->modelInterface->getError($new->attribute)) {
-            Html::addCssClass($new->attributes, $new->invalidCssClass);
+            $new->invalidCssClass === '' ?: Html::addCssClass($new->attributes, $new->invalidCssClass);
         }
 
-        return InputHtml::tag()->attributes($new->attributes)->name($name)->type($new->type)->value($value)->render();
+        if (!is_scalar($value)) {
+            throw new InvalidArgumentException('The value must be a scalar.');
+        }
+
+        return InputTag::tag()->attributes($new->attributes)->name($name)->type($new->type)->value($value)->render();
     }
 
     public function invalidCssClass(string $value): self

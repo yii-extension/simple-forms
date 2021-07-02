@@ -12,9 +12,9 @@ final class LabelTest extends TestCase
 {
     public function testForId(): void
     {
-        $model = new PersonalForm();
-
-        $html = Label::widget()->config($model, 'name')->forId('for-id')->render();
-        $this->assertEquals('<label for="for-id">Name</label>', $html);
+        $this->assertSame(
+            '<label for="for-id">Name</label>',
+            Label::widget()->config(new PersonalForm(), 'name')->forId('for-id')->render(),
+        );
     }
 }

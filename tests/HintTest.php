@@ -13,18 +13,14 @@ final class HintTest extends TestCase
 {
     public function testTag(): void
     {
-        $model = new PersonalForm();
-
-        $html = Hint::widget()->config($model, 'name')->tag('span')->render();
-        $this->assertEquals('<span id="personalform-name-hint">Write your first name.</span>', $html);
+        $html = Hint::widget()->config(new PersonalForm(), 'name')->tag('span')->render();
+        $this->assertSame('<span id="personalform-name-hint">Write your first name.</span>', $html);
     }
 
     public function testTagException(): void
     {
-        $model = new PersonalForm();
-
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The tag cannot be empty.');
-        Hint::widget()->config($model, 'name')->tag('')->render();
+        Hint::widget()->config(new PersonalForm(), 'name')->tag('')->render();
     }
 }

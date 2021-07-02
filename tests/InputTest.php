@@ -16,60 +16,53 @@ final class InputTest extends TestCase
 
     public function testAttributes(): void
     {
-        $formModel = new PersonalForm();
-
         $expected = <<<'HTML'
         <input type="text" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name" required>
         HTML;
-        $html = Input::widget()->config($formModel, 'name', ['class' => 'customClass'])->render();
-        $this->assertEquals($expected, $html);
+        $html = Input::widget()->config(new PersonalForm(), 'name', ['class' => 'customClass'])->render();
+        $this->assertSame($expected, $html);
     }
 
     public function testAutofocus(): void
     {
-        $formModel = new PersonalForm();
-
         $expected = <<<'HTML'
         <input type="text" id="personalform-name" name="PersonalForm[name]" value="" autofocus placeholder="Name" required>
         HTML;
-        $html = Input::widget()->config($formModel, 'name')->autofocus()->render();
-        $this->assertEquals($expected, $html);
+        $html = Input::widget()->config(new PersonalForm(), 'name')->autofocus()->render();
+        $this->assertSame($expected, $html);
     }
 
     public function testDisabled(): void
     {
-        $formModel = new PersonalForm();
-
         $expected = <<<'HTML'
         <input type="text" id="personalform-name" name="PersonalForm[name]" value="" disabled placeholder="Name" required>
         HTML;
-        $html = Input::widget()->config($formModel, 'name')->disabled()->render();
-        $this->assertEquals($expected, $html);
+        $html = Input::widget()->config(new PersonalForm(), 'name')->disabled()->render();
+        $this->assertSame($expected, $html);
     }
 
     public function testOninvalid(): void
     {
-        $formModel = new PersonalForm();
-
         $expected = <<<'HTML'
         <input type="text" id="personalform-name" name="PersonalForm[name]" value="" oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" required placeholder="Name">
         HTML;
-        $html = Input::widget()->config($formModel, 'name')
+        $html = Input::widget()->config(new PersonalForm(), 'name')
             ->onInvalid('No puede estar en blanco')
             ->required()
             ->render();
-        $this->assertEquals($expected, $html);
+        $this->assertSame($expected, $html);
     }
 
     public function testRender(): void
     {
-        $formModel = new PersonalForm();
+        $model = new PersonalForm();
+        $model->setAttribute('name', 'samdark');
 
         $expected = <<<'HTML'
-        <input type="text" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <input type="text" id="personalform-name" name="PersonalForm[name]" value="samdark" placeholder="Name" required>
         HTML;
-        $html = Input::widget()->config($formModel, 'name')->render();
-        $this->assertEquals($expected, $html);
+        $html = Input::widget()->config($model, 'name')->render();
+        $this->assertSame($expected, $html);
     }
 
     public function testRenderException(): void
@@ -78,19 +71,16 @@ final class InputTest extends TestCase
         $this->expectExceptionMessage(
             'The widget must be configured with FormInterface::class and Attribute.',
         );
-
-        $html = Input::widget()->render();
+        Input::widget()->render();
     }
 
     public function testType(): void
     {
-        $formModel = new PersonalForm();
-
         $expected = <<<'HTML'
         <input type="week" id="personalform-name" name="PersonalForm[name]" value="" placeholder="Name" required>
         HTML;
-        $html = Input::widget()->config($formModel, 'name')->type(INPUT::TYPE_WEEK)->render();
-        $this->assertEquals($expected, $html);
+        $html = Input::widget()->config(new PersonalForm(), 'name')->type(INPUT::TYPE_WEEK)->render();
+        $this->assertSame($expected, $html);
     }
 
     public function testTypeException(): void
@@ -101,7 +91,6 @@ final class InputTest extends TestCase
             '"file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", ' .
             '"submit", "tel", "text", "time", "url", "week".'
         );
-
         Input::widget()->type('noExist')->render();
     }
 }
