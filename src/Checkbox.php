@@ -7,7 +7,7 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yiisoft\Html\Tag\Input as InputTag;
 
-final class CheckBox extends Widget
+final class Checkbox extends Widget
 {
     private bool $unClosedByLabel = true;
     private bool $uncheckValue = true;

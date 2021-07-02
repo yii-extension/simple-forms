@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Yiisoft\Form\Tests\Widget;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\CheckBoxList;
+use Yii\Extension\Simple\Forms\CheckboxList;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
-final class CheckBoxListTest extends TestCase
+final class CheckboxListTest extends TestCase
 {
     use TestTrait;
 

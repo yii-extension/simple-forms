@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\CheckBox;
+use Yii\Extension\Simple\Forms\Checkbox;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
-final class CheckBoxTest extends TestCase
+final class CheckboxTest extends TestCase
 {
     public function testLabelWithLabelAttributes(): void
     {
