@@ -110,7 +110,7 @@ final class Input extends Widget
         }
 
         if (!is_scalar($value)) {
-            throw new InvalidArgumentException('The value must be a scalar.');
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
         }
 
         return InputTag::tag()->attributes($new->attributes)->name($name)->type($new->type)->value($value)->render();

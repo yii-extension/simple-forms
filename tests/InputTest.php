@@ -93,4 +93,11 @@ final class InputTest extends TestCase
         );
         Input::widget()->type('noExist')->render();
     }
+
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a bool|float|int|string|Stringable|null.');
+        $html = Input::widget()->config(new PersonalForm(), 'citys')->render();
+    }
 }

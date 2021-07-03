@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Form\Tests\Widget;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
@@ -69,5 +70,12 @@ final class TextAreaTest extends TestCase
         <textarea id="personalform-name" name="PersonalForm[name]" title="Enter the city, municipality, avenue, house or apartment number." placeholder="Name"></textarea>
         HTML;
         $this->assertSame($expected, $html);
+    }
+
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a string|null.');
+        $html = TextArea::widget()->config(new PersonalForm(), 'cityBirth')->render();
     }
 }

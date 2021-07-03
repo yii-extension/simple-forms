@@ -32,7 +32,7 @@ final class TextArea extends Widget
         $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
 
         if (!is_string($value)) {
-            throw new InvalidArgumentException('The value must be a string.');
+            throw new InvalidArgumentException('The value must be a string|null.');
         }
 
         return TextAreaTag::tag()->attributes($new->attributes)->name($name)->value($value)->render();

@@ -47,8 +47,8 @@ final class DropDownList extends Widget
             $promptOption = Option::tag()->attributes($promptAttributes)->content($promptText);
         }
 
-        if (!is_scalar($value)) {
-            throw new InvalidArgumentException('The value must be a scalar.');
+        if (is_iterable($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
         }
 
         return Select::tag()

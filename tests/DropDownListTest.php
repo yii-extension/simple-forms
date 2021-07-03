@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\DropDownList;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
@@ -238,5 +239,12 @@ final class DropDownListTest extends TestCase
         </select>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a bool|float|int|string|Stringable|null.');
+        $html = DropDownList::widget()->config(new PersonalForm(), 'citys')->render();
     }
 }

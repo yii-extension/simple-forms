@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Checkbox;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
@@ -56,12 +57,8 @@ final class CheckboxTest extends TestCase
 
     public function testValueException(): void
     {
-        $model = new PersonalForm();
-        $model->setAttribute('citys', [1, 2]);
-        $html = CheckBox::widget()->config(new PersonalForm(), 'terms')->uncheckValue()->render();
-        $expected = <<<'HTML'
-        <label><input type="checkbox" id="personalform-terms" name="PersonalForm[terms]" value="0"> Terms</label>
-        HTML;
-        $this->assertSame($expected, $html);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a bool|float|int|string|Stringable|null.');
+        $html = CheckBox::widget()->config(new PersonalForm(), 'citys')->render();
     }
 }

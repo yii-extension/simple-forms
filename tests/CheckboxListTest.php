@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Yiisoft\Form\Tests\Widget;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\CheckboxList;
-use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 
 final class CheckboxListTest extends TestCase
 {

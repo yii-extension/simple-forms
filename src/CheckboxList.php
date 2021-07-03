@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use Closure;
+use InvalidArgumentException;
 use Stringable;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxList as ChecboxListWidget;
@@ -36,10 +37,10 @@ final class CheckboxList extends Widget
             ? $new->containerAttributes['id'] : $new->getId($new->modelInterface->getFormName(), $new->attribute);
         $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
 
+        $checkboxList = ChecboxListWidget::create($name);
+
         /** @var null|scalar|Stringable|iterable<int, \Stringable|scalar> $values */
         $values = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
-
-        $checkboxList = ChecboxListWidget::create($name);
 
         /** @var string */
         $separator = isset($new->attributes['separator']) ? $new->attributes['separator'] : '';
