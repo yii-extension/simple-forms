@@ -152,6 +152,44 @@ final class DropDownListTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testOptionsDataEncode(): void
+    {
+        $this->model->setAttribute('cityBirth', 3);
+        $cities = [
+            '1' => '<b>Moscu</b>',
+            '2' => 'San Petersburgo',
+            '3' => 'Novosibirsk',
+            '4' => 'Ekaterinburgo',
+        ];
+
+        $html = DropDownList::widget()->config($this->model, 'cityBirth')->optionsData($cities, true)->render();
+        $expected = <<<'HTML'
+        <select id="personalform-citybirth" name="PersonalForm[cityBirth]">
+        <option value="1">&lt;b&gt;Moscu&lt;/b&gt;</option>
+        <option value="2">San Petersburgo</option>
+        <option value="3" selected>Novosibirsk</option>
+        <option value="4">Ekaterinburgo</option>
+        </select>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testOptionsDataNoEncode(): void
+    {
+        $this->model->setAttribute('cityBirth', 3);
+
+        $html = DropDownList::widget()->config($this->model, 'cityBirth')->optionsData($this->cities, false)->render();
+        $expected = <<<'HTML'
+        <select id="personalform-citybirth" name="PersonalForm[cityBirth]">
+        <option value="1">Moscu</option>
+        <option value="2">San Petersburgo</option>
+        <option value="3" selected>Novosibirsk</option>
+        <option value="4">Ekaterinburgo</option>
+        </select>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testPrompt(): void
     {
         $prompt = [

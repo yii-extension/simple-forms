@@ -11,9 +11,12 @@ use Yiisoft\Html\Tag\Select;
 
 final class DropDownList extends Widget
 {
+    private bool $encode = false;
     private array $items = [];
     private array $itemsAttributes = [];
     private array $groups = [];
+    /** @var string[] */
+    private array $optionsData = [];
     private array $prompt = [];
     private ?string $unselectValue = null;
 
@@ -28,10 +31,16 @@ final class DropDownList extends Widget
     {
         $new = clone $this;
 
+        $select = Select::tag();
+
         $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
         $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
         $promptOption = null;
         $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute)) ?? '';
+
+        if (is_iterable($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        }
 
         if (isset($new->attributes['multiple']) && !isset($new->attributes['size'])) {
             $new = $new->size();
@@ -47,14 +56,15 @@ final class DropDownList extends Widget
             $promptOption = Option::tag()->attributes($promptAttributes)->content($promptText);
         }
 
-        if (is_iterable($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        if ($new->items !== []) {
+            $select = $select->items(...$new->renderItems($new->items));
+        } elseif ($new->optionsData !== []) {
+            $select = $select->optionsData($new->optionsData, $new->encode);
         }
 
-        return Select::tag()
+        return $select
             ->attributes($new->attributes)
             ->id($id)
-            ->items(...$new->renderItems($new->items))
             ->name($name)
             ->promptOption($promptOption)
             ->unselectValue($new->unselectValue)
@@ -160,11 +170,27 @@ final class DropDownList extends Widget
      * @param bool $value
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-select-multiple
      */
     public function multiple(bool $value = true): self
     {
         $new = clone $this;
         $new->attributes['multiple'] = $value;
+        return $new;
+    }
+
+    /**
+     * @param string[] $data
+     * @param bool $encode Whether option content should be HTML-encoded.
+     *
+     * @return static
+     */
+    public function optionsData(array $data, bool $encode): self
+    {
+        $new = clone $this;
+        $new->optionsData = $data;
+        $new->encode = $encode;
         return $new;
     }
 
@@ -203,6 +229,8 @@ final class DropDownList extends Widget
      * @param int $value
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-select-size
      */
     public function size(int $value = 4): self
     {

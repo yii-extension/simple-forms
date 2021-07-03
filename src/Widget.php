@@ -243,7 +243,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      */
     protected function getAttributeName(string $attribute): string
     {
-        return (string) $this->parseAttribute($attribute)['name'];
+        return $this->parseAttribute($attribute)['name'];
     }
 
     protected function getId(string $formName = '', string $attribute = ''): string
@@ -283,7 +283,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         $data = $this->parseAttribute($attribute);
 
         if ($formName !== '') {
-            return $formName . (string) $data['prefix'] . '[' . (string) $data['name'] . ']' . (string) $data['suffix'];
+            return $formName . $data['prefix'] . '[' . $data['name'] . ']' . $data['suffix'];
         }
 
         throw new InvalidArgumentException('The formName cannot be empty.');
@@ -333,7 +333,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @param string $attribute the attribute name or expression.
      *
-     * @return array
+     * @return string[]
      *
      * @throws InvalidArgumentException if the attribute name contains non-word characters.
      */

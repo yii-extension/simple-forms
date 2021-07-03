@@ -85,7 +85,7 @@ final class CheckboxListTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
-    public function testCheckBoxListNoUnselect(): void
+    public function testNoUnselect(): void
     {
         $html = CheckboxList::widget()
             ->config(new PersonalForm(), 'cityBirth')
@@ -161,6 +161,25 @@ final class CheckboxListTest extends TestCase
         <div id="personalform-citybirth">
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="1"> San Petesburgo</label>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testValueIterable(): void
+    {
+        $model = new PersonalForm();
+        $model->setAttribute('citys', [0, 1]);
+
+        $html = CheckboxList::widget()
+            ->config($model, 'citys')
+            ->items(['Moscu', 'San Petesburgo'])
+            ->render();
+        $expected = <<<'HTML'
+        <input type="hidden" name="PersonalForm[citys]" value="">
+        <div id="personalform-citys">
+        <label><input type="checkbox" name="PersonalForm[citys][]" value="0" checked> Moscu</label>
+        <label><input type="checkbox" name="PersonalForm[citys][]" value="1" checked> San Petesburgo</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);

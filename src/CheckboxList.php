@@ -51,7 +51,7 @@ final class CheckboxList extends Widget
         unset($new->attributes['itemsAttributes'], $new->attributes['separator']);
 
         if (!$new->noUnselect) {
-            $uncheckValue ??= $new->unselect;
+            $uncheckValue = $new->unselect;
         }
 
         if ($separator !== '') {
