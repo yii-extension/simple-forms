@@ -351,14 +351,14 @@ final class Field extends Widget
      * Renders a password input.
      *
      * This method will generate the `name` and `value` tag attributes automatically for the model attribute unless
-     * they are explicitly specified in `$options`.
+     * they are explicitly specified in `$attributes`.
      *
-     * @param array $options the tag options in terms of name-value pairs. These will be rendered as the attributes of
-     * the resulting tag. The values will be HTML-encoded using {@see \Yiisoft\Html\Html::encode()}.
+     * @param array $attributes the tag attributes in terms of name-value pairs. These will be rendered as the
+     * attributes of the resulting tag. The values will be HTML-encoded using {@see \Yiisoft\Html\Html::encode()}.
      *
      * If you set a custom `id` for the input element, you may need to adjust the {@see $selectors} accordingly.
      *
-     * @return static.
+     * @return static
      */
     public function passwordInput(array $attributes = []): self
     {
