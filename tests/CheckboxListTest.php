@@ -49,6 +49,23 @@ final class CheckboxListTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testContainerTag(): void
+    {
+        $html = CheckboxList::widget()
+            ->config(new PersonalForm(), 'terms')
+            ->containerTag('articles')
+            ->items(['Moscu', 'San Petesburgo'])
+            ->render();
+        $expected = <<<'HTML'
+        <input type="hidden" name="PersonalForm[terms]" value="">
+        <articles id="personalform-terms">
+        <label><input type="checkbox" name="PersonalForm[terms][]" value="0" checked> Moscu</label>
+        <label><input type="checkbox" name="PersonalForm[terms][]" value="1"> San Petesburgo</label>
+        </articles>
+        HTML;
+        $this->assertSame($expected, $html);
+    }
+
     public function testItemFormater(): void
     {
         $html = CheckboxList::widget()
@@ -89,7 +106,7 @@ final class CheckboxListTest extends TestCase
         $html = CheckboxList::widget()
             ->config(new PersonalForm(), 'cityBirth')
             ->items(['Moscu'])
-            ->readOnly()
+            ->readonly()
             ->render();
         $expected = <<<'HTML'
         <input type="hidden" name="PersonalForm[cityBirth]" value="">

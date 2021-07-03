@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Yiisoft\Html\Tag\Input as InputTag;
+use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
 
 final class Checkbox extends Widget
 {
@@ -23,7 +23,7 @@ final class Checkbox extends Widget
     {
         $new = clone $this;
 
-        $checkbox = InputTag::checkbox();
+        $checkbox = CheckboxTag::tag();
 
         $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
         $label = '';

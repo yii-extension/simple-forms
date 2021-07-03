@@ -40,11 +40,11 @@ final class WidgetTest extends TestCase
         $this->assertSame('<personalform-name disabled>', StubWidget::widget()->disabled()->render());
     }
 
-    public function testFormId(): void
+    public function testForm(): void
     {
         $this->assertSame(
-            '<personalform-name form="test-formId">',
-            StubWidget::widget()->formId('test-formId')->render(),
+            '<personalform-name form="test-form-id">',
+            StubWidget::widget()->form('test-form-id')->render(),
         );
     }
 

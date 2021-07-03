@@ -44,7 +44,9 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @param bool $value
      *
-     * @return self
+     * @return static
+     *
+     * @link https://www.w3.org/Submission/web-forms2/#the-autofocus
      */
     public function autofocus(bool $value = true): self
     {
@@ -98,6 +100,8 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      * this will suggest you can set it to false to enable the element again, which is not the case.
      *
      * @return static
+     *
+     * @link https://www.w3.org/Submission/web-forms2/#disabled
      */
     public function disabled(): self
     {
@@ -113,8 +117,10 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      * @param string $value
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-formelements-form
      */
-    public function formId(string $value): self
+    public function form(string $value): self
     {
         $new = clone $this;
         $new->attributes['form'] = $value;
@@ -138,7 +144,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     /**
      * Allows you to disable placeholder.
      *
-     * @return self
+     * @return static
      */
     public function noPlaceholder(): self
     {
@@ -152,7 +158,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @param string $value
      *
-     * @return self
+     * @return static
      */
     public function placeholder(string $value): self
     {
@@ -165,6 +171,8 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      * If it is required to fill in a value in order to submit the form.
      *
      * @return static
+     *
+     * @link https://www.w3.org/Submission/web-forms2/#required
      */
     public function required(): self
     {
@@ -189,7 +197,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @param int $value
      *
-     * @return self
+     * @return static
      */
     public function tabIndex(int $value = 0): self
     {

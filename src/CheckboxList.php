@@ -65,11 +65,12 @@ final class CheckboxList extends Widget
         }
 
         return $checkboxList
-            ->checkboxAttributes(array_merge($new->attributes, $new->itemsAttributes))
+            ->checkboxAttributes($new->attributes)
             ->containerAttributes($new->containerAttributes)
             ->containerTag($new->containerTag)
             ->itemFormatter($new->itemFormatter)
             ->items($new->items)
+            ->replaceCheckboxAttributes($new->itemsAttributes)
             ->uncheckValue($uncheckValue)
             ->render();
     }
@@ -85,6 +86,13 @@ final class CheckboxList extends Widget
     {
         $new = clone $this;
         $new->containerAttributes = $value;
+        return $new;
+    }
+
+    public function containerTag(?string $name): self
+    {
+        $new = clone $this;
+        $new->containerTag = $name;
         return $new;
     }
 
@@ -161,7 +169,7 @@ final class CheckboxList extends Widget
     public function readonly(): self
     {
         $new = clone $this;
-        $new->attributes['readonly'] = true;
+        $new->itemsAttributes['readonly'] = true;
         return $new;
     }
 
