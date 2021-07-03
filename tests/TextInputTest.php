@@ -8,12 +8,9 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\TextInput;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class TextInputTest extends TestCase
 {
-    use TestTrait;
-
     public function testAutocomplete(): void
     {
         /** on value */
@@ -43,20 +40,19 @@ final class TextInputTest extends TestCase
         );
     }
 
-    public function testAutofocus(): void
+    public function testDirname(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" autofocus placeholder="Name" required>',
-            TextInput::widget()->config(new PersonalForm(), 'name')->autofocus()->render(),
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" dirname="test.dir" placeholder="Name" required>',
+            TextInput::widget()->config(new PersonalForm(), 'name')->dirname('test.dir')->render(),
         );
     }
 
-    public function testDisabled(): void
+    public function testDirnameException(): void
     {
-        $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" disabled placeholder="Name" required>',
-            TextInput::widget()->config(new PersonalForm(), 'name')->disabled()->render(),
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value cannot be empty.');
+        TextInput::widget()->config(new PersonalForm(), 'name')->dirname('')->render();
     }
 
     public function testMaxLength(): void
@@ -70,9 +66,17 @@ final class TextInputTest extends TestCase
     public function testOninvalid(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" required placeholder="Name">',
-            TextInput::widget()->config(new PersonalForm(), 'name')->onInvalid('No puede estar en blanco')->required()->render(),
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" placeholder="Name" required>',
+            TextInput::widget()->config(new PersonalForm(), 'name')->onInvalid('No puede estar en blanco')->render(),
 
+        );
+    }
+
+    public function testPattern(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" pattern="[A-Za-z]{10}" placeholder="Name" required>',
+            TextInput::widget()->config(new PersonalForm(), 'name')->pattern('[A-Za-z]{10}')->render(),
         );
     }
 

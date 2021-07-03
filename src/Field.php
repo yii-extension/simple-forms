@@ -347,6 +347,40 @@ final class Field extends Widget
         return $new;
     }
 
+    /**
+     * Renders a password input.
+     *
+     * This method will generate the `name` and `value` tag attributes automatically for the model attribute unless
+     * they are explicitly specified in `$options`.
+     *
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as the attributes of
+     * the resulting tag. The values will be HTML-encoded using {@see \Yiisoft\Html\Html::encode()}.
+     *
+     * If you set a custom `id` for the input element, you may need to adjust the {@see $selectors} accordingly.
+     *
+     * @return static.
+     */
+    public function passwordInput(array $attributes = []): self
+    {
+        $new = clone $this;
+
+        Html::addCssClass($attributes, $new->inputCssClass);
+
+        if ($new->ariaDescribedBy === true) {
+            $attributes['aria-describedby'] = $new->getId(
+                $new->modelInterface->getFormName(),
+                $new->attribute,
+            ) . '-hint';
+        }
+
+        $new->parts['{input}'] = PasswordInput::widget()
+            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->invalidCssClass($new->invalidCssClass)
+            ->validCssClass($new->validCssClass) . PHP_EOL;
+
+        return $new;
+    }
+
     public function template(string $value): self
     {
         $new = clone $this;

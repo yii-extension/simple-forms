@@ -87,6 +87,31 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testInputWithValidation(): void
+    {
+        /** Add class is-invalid */
+        $validator = $this->getValidator();
+        $this->model->setAttribute('name', '');
+        $validator->validate($this->model);
+
+        $html = Field::widget()
+            ->ariaDescribedBy()
+            ->config($this->model, 'name')
+            ->inValidCssClass('is-invalid')
+            ->template('{label}{input}{hint}{error}')
+            ->validCssClass('is-valid')
+            ->render();
+        $expected = <<<'HTML'
+        <div class="">
+        <label class="" for="personalform-name">Name</label>
+        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <div id="personalform-name-hint" class="">Write your first name.</div>
+        <div class="">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testNoLabel(): void
     {
         $html = Field::widget()
@@ -157,7 +182,7 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $this->fieldTailwindDefaultConfig());
     }
 
-    public function testFieldsTextArea(): void
+    public function testTextArea(): void
     {
         $this->model->setAttribute('name', 'samdark');
 
@@ -177,51 +202,27 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
-    public function testValidation(): void
+    public function testPasswordInputWithValidation(): void
     {
-        $html = Field::widget()->config($this->model, 'name')->template('{label}{input}{hint}')->render();
-        $expected = <<<'HTML'
-        <div class="">
-        <label class="" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="" name="PersonalForm[name]" value="" placeholder="Name" required>
-        <div id="personalform-name-hint" class="">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-
         /** Add class is-invalid */
         $validator = $this->getValidator();
         $this->model->setAttribute('name', '');
         $validator->validate($this->model);
 
         $html = Field::widget()
+            ->ariaDescribedBy()
             ->config($this->model, 'name')
-            ->invalidCssClass('is-invalid')
-            ->template('{label}{input}{hint}')
-            ->render();
-        $expected = <<<'HTML'
-        <div class="">
-        <label class="" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" placeholder="Name" required>
-        <div id="personalform-name-hint" class="">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-
-        /** Add class is-valid */
-        $validator = $this->getValidator();
-        $this->model->setAttribute('name', 'samdark');
-        $validator->validate($this->model);
-
-        $html = Field::widget()->config($this->model, 'name')
+            ->inValidCssClass('is-invalid')
+            ->passwordInput()
+            ->template('{label}{input}{hint}{error}')
             ->validCssClass('is-valid')
-            ->template('{label}{input}{hint}')
             ->render();
         $expected = <<<'HTML'
         <div class="">
         <label class="" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-valid" name="PersonalForm[name]" value="samdark" placeholder="Name" required>
+        <input type="password" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint" class="">Write your first name.</div>
+        <div class="">Value cannot be blank.</div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);
