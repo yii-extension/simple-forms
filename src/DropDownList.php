@@ -9,6 +9,13 @@ use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select;
 
+/**
+ * Generates a drop-down list for the given form attribute.
+ *
+ * The selection of the drop-down list is taken from the value of the form attribute.
+ *
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/select.html
+ */
 final class DropDownList extends Widget
 {
     private bool $encode = false;
@@ -21,9 +28,6 @@ final class DropDownList extends Widget
     private ?string $unselectValue = null;
 
     /**
-     * Generates a drop-down list for the given form attribute.
-     *
-     * The selection of the drop-down list is taken from the value of the form attribute.
      *
      * @return string the generated drop-down list tag.
      */
@@ -34,6 +38,7 @@ final class DropDownList extends Widget
         $select = Select::tag();
 
         $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
+
         $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
         $promptOption = null;
         $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute)) ?? '';

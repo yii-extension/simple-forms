@@ -14,7 +14,9 @@ use function substr;
 use function urldecode;
 
 /**
- * A widget for rendering a form.
+ *  Generates a form start tag.
+ *
+ *  @link https://www.w3.org/TR/html52/sec-forms.html
  */
 final class Form extends Widget
 {
@@ -23,8 +25,6 @@ final class Form extends Widget
     private string $method = Method::POST;
 
     /**
-     * Generates a form start tag.
-     *
      * @return string the generated form start tag.
      *
      * {@see end())}

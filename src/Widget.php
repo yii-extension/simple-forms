@@ -182,6 +182,23 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
+     * Spellcheck is a global attribute which is used to indicate whether or not to enable spell checking for an
+     * element.
+     *
+     * @param bool $value
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/global-attributes.html#common.attrs.spellcheck
+     */
+    public function spellcheck(bool $value = true): self
+    {
+        $new = clone $this;
+        $new->attributes['spellcheck'] = $value;
+        return $new;
+    }
+
+    /**
      * The tabindex global attribute indicates that its element can be focused, and where it participates in sequential
      * keyboard navigation (usually with the Tab key, hence the name).
      *
@@ -203,6 +220,22 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     {
         $new = clone $this;
         $new->attributes['tabindex'] = $value;
+        return $new;
+    }
+
+    /**
+     * The title global attribute contains text representing advisory information related to the element it belongs to.
+     *
+     * @param string $value
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/global-attributes.html#common.attrs.title
+     */
+    public function title(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['title'] = $value;
         return $new;
     }
 
@@ -315,6 +348,15 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     protected function getNoPlaceHolder(): bool
     {
         return $this->noPlaceholder;
+    }
+
+    protected function validateIntegerPositive(int $value): int
+    {
+        if ($value < 0) {
+            throw new InvalidArgumentException('The value must be a positive integer.');
+        }
+
+        return $value;
     }
 
     /**

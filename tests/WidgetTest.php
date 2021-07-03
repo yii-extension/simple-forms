@@ -90,8 +90,28 @@ final class WidgetTest extends TestCase
         $this->assertSame('<personalform-name required>', StubWidget::widget()->required()->render());
     }
 
+    public function testSpellCheck(): void
+    {
+        $this->assertSame('<personalform-name spellcheck>', StubWidget::widget()->spellcheck()->render());
+    }
+
     public function testTabIndex(): void
     {
         $this->assertSame('<personalform-name tabindex="0">', StubWidget::widget()->tabIndex()->render());
+    }
+
+    public function testTitle(): void
+    {
+        $this->assertSame(
+            '<personalform-name title="Enter the city, municipality, avenue, house or apartment number.">',
+            StubWidget::widget()->title('Enter the city, municipality, avenue, house or apartment number.')->render()
+        );
+    }
+
+    public function testValidateIntegerPositive(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a positive integer.');
+        $this->invokeMethod(StubWidget::widget(), 'validateIntegerPositive', [-1]);
     }
 }

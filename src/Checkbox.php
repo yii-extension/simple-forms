@@ -7,16 +7,19 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
 
+/**
+ * Generates a checkbox tag together with a label for the given form attribute.
+ *
+ * This method will generate the "checked" tag attribute according to the form attribute value.
+ *
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox
+ */
 final class Checkbox extends Widget
 {
     private bool $unClosedByLabel = true;
     private bool $uncheckValue = true;
 
     /**
-     * Generates a checkbox tag together with a label for the given form attribute.
-     *
-     * This method will generate the "checked" tag attribute according to the form attribute value.
-     *
      * @return string the generated checkbox tag.
      */
     protected function run(): string

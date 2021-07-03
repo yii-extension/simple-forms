@@ -258,7 +258,7 @@ final class Field extends Widget
      *
      * @return static
      */
-    public function input(array $attributes = [], string $type = Input::TYPE_TEXT): self
+    public function input(array $attributes = []): self
     {
         $new = clone $this;
 
@@ -271,10 +271,9 @@ final class Field extends Widget
             ) . '-hint';
         }
 
-        $new->parts['{input}'] = Input::widget()
+        $new->parts['{input}'] = TextInput::widget()
             ->config($new->modelInterface, $new->attribute, $attributes)
             ->invalidCssClass($new->invalidCssClass)
-            ->type($type)
             ->validCssClass($new->validCssClass) . PHP_EOL;
 
         return $new;

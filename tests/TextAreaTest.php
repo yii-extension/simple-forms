@@ -12,22 +12,20 @@ use Yii\Extension\Simple\Forms\TextArea;
 
 final class TextAreaTest extends TestCase
 {
-    public function testMaxLength(): void
+    public function testCols(): void
     {
-        $html = TextArea::widget()->config(new PersonalForm(), 'name')->maxlength(50)->render();
-        $expected = <<<'HTML'
-        <textarea id="personalform-name" name="PersonalForm[name]" maxlength="50" placeholder="Name"></textarea>
-        HTML;
-        $this->assertSame($expected, $html);
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" cols="10" placeholder="Name"></textarea>',
+            TextArea::widget()->config(new PersonalForm(), 'name')->cols(10)->render(),
+        );
     }
 
-    public function testMinLength(): void
+    public function testMaxLength(): void
     {
-        $html = TextArea::widget()->config(new PersonalForm(), 'name')->minlength(10)->render();
-        $expected = <<<'HTML'
-        <textarea id="personalform-name" name="PersonalForm[name]" minlength="10" placeholder="Name"></textarea>
-        HTML;
-        $this->assertSame($expected, $html);
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" maxlength="50" placeholder="Name"></textarea>',
+            TextArea::widget()->config(new PersonalForm(), 'name')->maxlength(50)->render(),
+        );
     }
 
     public function testRender(): void
@@ -35,41 +33,26 @@ final class TextAreaTest extends TestCase
         $model = new PersonalForm();
         $model->setAttribute('name', 'samdark');
 
-        $html = TextArea::widget()->config($model, 'name')->render();
-        $expected = <<<'HTML'
-        <textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea>
-        HTML;
-        $this->assertSame($expected, $html);
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea>',
+            TextArea::widget()->config($model, 'name')->render(),
+        );
     }
 
-    public function testReadOnly(): void
+    public function testReadonly(): void
     {
-        $html = TextArea::widget()->config(new PersonalForm(), 'name')->readOnly()->render();
-        $expected = <<<'HTML'
-        <textarea id="personalform-name" name="PersonalForm[name]" readonly placeholder="Name"></textarea>
-        HTML;
-        $this->assertSame($expected, $html);
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" readonly placeholder="Name"></textarea>',
+            TextArea::widget()->config(new PersonalForm(), 'name')->readonly()->render(),
+        );
     }
 
-    public function testSpellCheck(): void
+    public function testRows(): void
     {
-        $html = TextArea::widget()->config(new PersonalForm(), 'name')->spellcheck()->render();
-        $expected = <<<'HTML'
-        <textarea id="personalform-name" name="PersonalForm[name]" spellcheck placeholder="Name"></textarea>
-        HTML;
-        $this->assertSame($expected, $html);
-    }
-
-    public function testTitle(): void
-    {
-        $html = TextArea::widget()
-            ->config(new PersonalForm(), 'name')
-            ->title('Enter the city, municipality, avenue, house or apartment number.')
-            ->render();
-        $expected = <<<'HTML'
-        <textarea id="personalform-name" name="PersonalForm[name]" title="Enter the city, municipality, avenue, house or apartment number." placeholder="Name"></textarea>
-        HTML;
-        $this->assertSame($expected, $html);
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" rows="6" placeholder="Name"></textarea>',
+            TextArea::widget()->config(new PersonalForm(), 'name')->rows(6)->render(),
+        );
     }
 
     public function testValueException(): void
@@ -77,5 +60,26 @@ final class TextAreaTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value must be a string|null.');
         $html = TextArea::widget()->config(new PersonalForm(), 'cityBirth')->render();
+    }
+
+    public function testWrap(): void
+    {
+        /** hard value */
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" wrap="hard" placeholder="Name"></textarea>',
+            TextArea::widget()->config(new PersonalForm(), 'name')->wrap()->render(),
+        );
+        /** soft value */
+        $this->assertSame(
+            '<textarea id="personalform-name" name="PersonalForm[name]" wrap="soft" placeholder="Name"></textarea>',
+            TextArea::widget()->config(new PersonalForm(), 'name')->wrap('soft')->render(),
+        );
+    }
+
+    public function testWrapException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
+        TextArea::widget()->config(new PersonalForm(), 'name')->wrap('exception');
     }
 }

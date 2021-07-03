@@ -7,11 +7,14 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 
+/**
+ * Generates a textarea tag for the given form attribute.
+ *
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html
+ */
 final class TextArea extends Widget
 {
     /**
-     * Generates a textarea tag for the given form attribute.
-     *
      * @return string the generated textarea tag.
      */
     protected function run(): string
@@ -39,19 +42,18 @@ final class TextArea extends Widget
     }
 
     /**
-     * The minimum number of characters (as UTF-16 code units) the user can enter into the text input.
+     * The expected maximum number of characters per line of text for the UA to show.
      *
-     * This must be an non-negative integer value smaller than or equal to the value specified by maxlength.
-     * If no minlength is specified, or an invalid value is specified, the text input has no minimum length.
+     * @param int $value Positive integer.
      *
-     * @param int $value
+     * @return static
      *
-     * @return self
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.cols
      */
-    public function minlength(int $value): self
+    public function cols(int $value): self
     {
         $new = clone $this;
-        $new->attributes['minlength'] = $value;
+        $new->attributes['cols'] = $new->validateIntegerPositive($value);
         return $new;
     }
 
@@ -61,14 +63,16 @@ final class TextArea extends Widget
      *
      * If no maxlength is specified, or an invalid value is specified, the tag input has no maximum length.
      *
-     * @param int $value
+     * @param int $value Positive integer.
      *
-     * @return self
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.maxlength
      */
     public function maxlength(int $value): self
     {
         $new = clone $this;
-        $new->attributes['maxlength'] = $value;
+        $new->attributes['maxlength'] = $new->validateIntegerPositive($value);
         return $new;
     }
 
@@ -79,9 +83,11 @@ final class TextArea extends Widget
      *
      * @param bool $value
      *
-     * @return self
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.readonly
      */
-    public function readOnly(bool $value = true): self
+    public function readonly(bool $value = true): self
     {
         $new = clone $this;
         $new->attributes['readonly'] = $value;
@@ -89,39 +95,53 @@ final class TextArea extends Widget
     }
 
     /**
-     * Spellcheck is a global attribute which is used to indicate whether or not to enable spell checking for an
-     * element.
+     * The number of lines of text for the UA to show.
      *
-     * @param bool $value
+     * @param int $value
      *
-     * @return self
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.rows
      */
-    public function spellcheck(bool $value = true): self
+    public function rows(int $value): self
     {
         $new = clone $this;
-        $new->attributes['spellcheck'] = $value;
+        $new->attributes['rows'] = $value;
         return $new;
     }
 
     /**
-     * The title global attribute contains text representing advisory information related to the element it belongs to.
+     * @param string $value Contains the hard and soft values.
+     * `hard` Instructs the UA to insert line breaks into the submitted value of the textarea such that each line has no
+     *  more characters than the value specified by the cols attribute.
+     * `soft` Instructs the UA to add no line breaks to the submitted value of the textarea.
      *
-     * @param string $value
+     * @return static
      *
-     * @return self
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.wrap.hard
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.wrap.soft
      */
-    public function title(string $value): self
+    public function wrap(string $value = 'hard'): self
     {
+        if (!in_array($value, ['hard', 'soft'])) {
+            throw new InvalidArgumentException('Invalid wrap value. Valid values are: hard, soft.');
+        }
+
         $new = clone $this;
-        $new->attributes['title'] = $value;
+        $new->attributes['wrap'] = $value;
         return $new;
     }
 
+    /**
+     * A short hint (one word or a short phrase) intended to aid the user when entering data into the control
+     * represented by its element.
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.placeholder
+     */
     private function setPlaceholder(): void
     {
         if (!isset($this->attributes['placeholder'])) {
             $attributeName = $this->getAttributeName($this->attribute);
-
             $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);
         }
     }

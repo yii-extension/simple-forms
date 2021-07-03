@@ -7,14 +7,15 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yiisoft\Html\Tag\CustomTag;
 
+/**
+ * Generates a hint tag for the given form attribute.
+ */
 final class Hint extends Widget
 {
     private string $hint = '';
     private string $tag = 'div';
 
     /**
-     * Generates a hint tag for the given form attribute.
-     *
      * @return string the generated hint tag.
      */
     protected function run(): string

@@ -14,7 +14,7 @@ final class LabelTest extends TestCase
     {
         $this->assertSame(
             '<label for="for-id">Name</label>',
-            Label::widget()->config(new PersonalForm(), 'name')->forId('for-id')->render(),
+            Label::widget()->config(new PersonalForm(), 'name')->for('for-id')->render(),
         );
     }
 }

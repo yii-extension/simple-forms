@@ -8,15 +8,15 @@ use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Label as LabelTag;
 
 /**
- * @psalm-suppress MissingConstructor
+ * Generates a label tag for the given form attribute.
+ *
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
  */
 final class Label extends Widget
 {
     private string $label = '';
 
     /**
-     * Generates a label tag for the given form attribute.
-     *
      * @return string the generated label tag.
      */
     protected function run(): string
@@ -44,9 +44,11 @@ final class Label extends Widget
      *
      * @param string $value
      *
-     * @return self
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html#label.attrs.for
      */
-    public function forId(string $value): self
+    public function for(string $value): self
     {
         $new = clone $this;
         $new->attributes['for'] = $value;
@@ -58,7 +60,7 @@ final class Label extends Widget
      *
      * @param string $value
      *
-     * @return self
+     * @return static
      *
      * Note that this will NOT be encoded.
      * - If this is not set, {@see \Yii\Extension\Simple\Forms\BaseModel::getAttributeLabel() will be called to get the
