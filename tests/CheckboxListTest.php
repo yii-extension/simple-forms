@@ -63,7 +63,7 @@ final class CheckboxListTest extends TestCase
         <label><input type="checkbox" name="PersonalForm[terms][]" value="1"> San Petesburgo</label>
         </articles>
         HTML;
-        $this->assertSame($expected, $html);
+        $this->assertEqualsWithoutLE($expected, $html);
     }
 
     public function testItemFormater(): void
