@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Input as InputTag;
 
 /**
@@ -22,19 +21,17 @@ final class PasswordInput extends Input
     {
         $new = clone $this;
 
-        $new->validateConfig();
-
-        $value = $new->getValue();
-
         if ($new->getNoPlaceholder() === false) {
             $new->setPlaceholder();
         }
 
-        $new = $new->addValidateCssClass($new);
+        $value = $new->getValue();
 
         if (!is_scalar($value)) {
             throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
         }
+
+        $new = $new->addValidateCssClass($new);
 
         return InputTag::password()
             ->attributes($new->attributes)

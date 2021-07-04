@@ -37,17 +37,11 @@ final class DropDownList extends Widget
 
         $select = Select::tag();
 
-        $promptOption = null;
-
-        $value = $new->getValue() ?? '';
-
-        if (is_iterable($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
-        }
-
         if (isset($new->attributes['multiple']) && !isset($new->attributes['size'])) {
             $new = $new->size();
         }
+
+        $promptOption = null;
 
         if ($new->prompt !== []) {
             /** @var string */
@@ -63,6 +57,12 @@ final class DropDownList extends Widget
             $select = $select->items(...$new->renderItems($new->items));
         } elseif ($new->optionsData !== []) {
             $select = $select->optionsData($new->optionsData, $new->encode);
+        }
+
+        $value = $new->getValue() ?? '';
+
+        if (is_iterable($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
         }
 
         return $select

@@ -23,7 +23,7 @@ final class Label extends Widget
         $new = clone $this;
 
         /** @var string */
-        $for = isset($new->attributes['for']) ? $new->attributes['for'] : $new->getId();
+        $for = $new->attributes['for'] ?? $new->getId();
 
         $label = $new->label === '' ? $new->getLabel() : $new->label;
 

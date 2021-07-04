@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Stringable;
 use Yiisoft\Html\Html;
-
-use function in_array;
 
 /**
  * Generates an text input tag for the given form attribute.
@@ -85,7 +82,7 @@ abstract class Input extends Widget
      * Specifies a regular expression against which a UA is meant to check the value of the control represented by its
      * element.
      *
-     * @param $value A regular expression that must match the JavaScript Pattern production as specified in
+     * @param string $value A regular expression that must match the JavaScript Pattern production as specified in
      * [@see https://www.w3.org/TR/2012/WD-html-markup-20120329/references.html#refsECMA262].
      *
      * @return static

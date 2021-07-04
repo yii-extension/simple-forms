@@ -31,12 +31,12 @@ final class Hint extends Widget
 
         return
             $hint !== ''
-            ? CustomTag::name($new->tag)
-                ->attributes($new->attributes)
-                ->content($hint)
-                ->id($new->getId() . '-hint')
-                ->render()
-            : '';
+                ? CustomTag::name($new->tag)
+                    ->attributes($new->attributes)
+                    ->content($hint)
+                    ->id($new->getId() . '-hint')
+                    ->render()
+                : '';
     }
 
     /**

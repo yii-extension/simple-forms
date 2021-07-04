@@ -29,7 +29,6 @@ final class Checkbox extends Widget
         $checkbox = CheckboxTag::tag();
 
         $label = '';
-        $value = $new->getValue();
 
         if ($new->unClosedByLabel) {
             $label = $new->getLabel();
@@ -37,10 +36,10 @@ final class Checkbox extends Widget
 
         if ($label !== '') {
             /** @var string */
-            $label = isset($new->attributes['label']) ? $new->attributes['label'] : $label;
+            $label = $new->attributes['label'] ?? $label;
 
             /** @var array */
-            $labelAttributes = isset($new->attributes['labelAttributes']) ? $new->attributes['labelAttributes'] : [];
+            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
             $checkbox = $checkbox->label($label, $labelAttributes);
 
             unset($new->attributes['label'], $new->attributes['labelAttributes']);
@@ -49,6 +48,8 @@ final class Checkbox extends Widget
         if ($new->uncheckValue) {
             $checkbox = $checkbox->uncheckValue('0');
         }
+
+        $value = $new->getValue();
 
         if (is_iterable($value)) {
             throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');

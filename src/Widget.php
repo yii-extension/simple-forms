@@ -17,10 +17,16 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     protected string $attribute = '';
     protected array $attributes = [];
     protected ModelInterface $modelInterface;
-    private bool $autoGenerate = true;
     private string $charset = 'UTF-8';
     private string $id = '';
     private bool $noPlaceholder = false;
+
+    protected function beforeRun(): bool
+    {
+        $this->validateConfig();
+
+        return true; // or false to not run the widget
+    }
 
     /**
      * The HTML attributes for the navbar. The following special options are recognized.
@@ -334,7 +340,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
-     * @return null|scalar|Stringable|iterable
+     * @return scalar|iterable|Stringable|null
      */
     protected function getValue()
     {
@@ -403,7 +409,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      */
     private function parseAttribute(): array
     {
-        if (!preg_match('/(^|.*\])([\w\.\+]+)(\[.*|$)/u', $this->attribute, $matches)) {
+        if (!preg_match('/(^|.*)([\w]+)(\[.*|$)/u', $this->attribute, $matches)) {
             throw new InvalidArgumentException('Attribute name must contain word characters only.');
         }
 

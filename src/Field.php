@@ -46,6 +46,8 @@ final class Field extends Widget
     {
         $new = clone $this;
 
+        $div = Div::tag();
+
         if (!isset($new->parts['{label}'])) {
             $new = $new->label();
         }
@@ -61,8 +63,6 @@ final class Field extends Widget
         if (!isset($this->parts['{error}'])) {
             $new = $new->error();
         }
-
-        $div = Div::tag();
 
         if ($new->containerCssClass !== '') {
             $div = $div->class($new->containerCssClass);
@@ -130,6 +130,8 @@ final class Field extends Widget
      *     ],
      * ]
      * ```
+     *
+     * @param string|null $unselectValue
      *
      * @throws ReflectionException
      *
@@ -263,7 +265,6 @@ final class Field extends Widget
      *
      * Note that if you set a custom `id` for the input element, you may need to adjust the value of {@see selectors}
      * accordingly.
-     * @param string $type the input type HTML for default its text.
      *
      * @throws ReflectionException
      *
@@ -370,6 +371,8 @@ final class Field extends Widget
      *
      * If you set a custom `id` for the input element, you may need to adjust the {@see $selectors} accordingly.
      *
+     * @throws ReflectionException
+     *
      * @return static
      */
     public function passwordInput(array $attributes = []): self
@@ -398,7 +401,7 @@ final class Field extends Widget
         return $new;
     }
 
-        /**
+    /**
      * Renders a text area.
      *
      * The model attribute value will be used as the content in the textarea.
@@ -407,6 +410,8 @@ final class Field extends Widget
      * attributes of the resulting tag. The values will be HTML-encoded using {@see \Yiisoft\Html\Html::encode()}.
      *
      * If you set a custom `id` for the textarea element, you may need to adjust the {@see $selectors} accordingly.
+     *
+     * @throws ReflectionException
      *
      * @return static the field object itself.
      */

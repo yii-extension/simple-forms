@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Input as InputTag;
 
 /**
@@ -21,8 +20,6 @@ final class TextInput extends Input
     protected function run(): string
     {
         $new = clone $this;
-
-        $new->validateConfig();
 
         $value = $new->getValue();
 
