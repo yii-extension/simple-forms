@@ -37,13 +37,12 @@ final class CheckboxList extends Widget
         $new = clone $this;
 
         $new->containerAttributes['id'] = isset($new->containerAttributes['id'])
-            ? $new->containerAttributes['id'] : $new->getId($new->modelInterface->getFormName(), $new->attribute);
-        $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
+            ? $new->containerAttributes['id'] : $new->getId();
 
-        $checkboxList = ChecboxListWidget::create($name);
+        $checkboxList = ChecboxListWidget::create($new->getInputName());
 
-        /** @var null|scalar|Stringable|iterable<int, \Stringable|scalar> $values */
-        $values = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
+        /** @var null|scalar|Stringable|iterable<int, Stringable|scalar> */
+        $values = $new->getValue();
 
         /** @var string */
         $separator = isset($new->attributes['separator']) ? $new->attributes['separator'] : '';

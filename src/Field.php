@@ -62,11 +62,13 @@ final class Field extends Widget
             $new = $new->error();
         }
 
-        return Div::tag()
-            ->class($new->containerCssClass)
-            ->content("\n" . strtr($new->template, $new->parts))
-            ->encode(false)
-            ->render();
+        $div = Div::tag();
+
+        if ($new->containerCssClass !== '') {
+            $div = $div->class($new->containerCssClass);
+        }
+
+        return $div->content("\n" . strtr($new->template, $new->parts))->encode(false)->render();
     }
 
     public function ariaDescribedBy(): self
@@ -142,10 +144,13 @@ final class Field extends Widget
     ): self {
         $new = clone $this;
 
-        Html::addCssClass($attributes, $new->inputCssClass);
+        if ($new->inputCssClass !== '') {
+            Html::addCssClass($attributes, $new->inputCssClass);
+        }
 
         $new->parts['{input}'] = DropDownList::widget()
-            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->attributes($attributes)
+            ->config($new->modelInterface, $new->attribute)
             ->items($items)
             ->groups($groups)
             ->prompt($prompt)
@@ -175,10 +180,13 @@ final class Field extends Widget
     {
         $new = clone $this;
 
-        Html::addCssClass($attributes, $new->errorCssClass);
+        if ($new->errorCssClass !== '') {
+            Html::addCssClass($attributes, $new->errorCssClass);
+        }
 
         $new->parts['{error}'] = Error::widget()
-            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->attributes($attributes)
+            ->config($new->modelInterface, $new->attribute)
             ->message($new->errorMessage) . "\n";
 
         return $new;
@@ -216,7 +224,9 @@ final class Field extends Widget
         $new->parts['{hint}'] = '';
 
         if ($new->noHint === false) {
-            Html::addCssClass($attributes, $new->hintCssClass);
+            if ($new->hintCssClass !== '') {
+                Html::addCssClass($attributes, $new->hintCssClass);
+            }
 
             /** @var string */
             $tag = $new->attributes['tag'] ?? 'div';
@@ -224,7 +234,8 @@ final class Field extends Widget
             unset($new->attributes['tag']);
 
             $new->parts['{hint}'] = Hint::widget()
-                ->config($new->modelInterface, $new->attribute, $attributes)
+                ->attributes($attributes)
+                ->config($new->modelInterface, $new->attribute)
                 ->hint($content)
                 ->tag($tag) . PHP_EOL;
         }
@@ -265,14 +276,12 @@ final class Field extends Widget
         Html::addCssClass($attributes, $new->inputCssClass);
 
         if ($new->ariaDescribedBy === true) {
-            $attributes['aria-describedby'] = $new->getId(
-                $new->modelInterface->getFormName(),
-                $new->attribute,
-            ) . '-hint';
+            $attributes['aria-describedby'] = $new->getId() . '-hint';
         }
 
         $new->parts['{input}'] = TextInput::widget()
-            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->attributes($attributes)
+            ->config($new->modelInterface, $new->attribute)
             ->invalidCssClass($new->invalidCssClass)
             ->validCssClass($new->validCssClass) . PHP_EOL;
 
@@ -315,11 +324,14 @@ final class Field extends Widget
         $new->parts['{label}'] = '';
 
         if ($new->noLabel === false) {
-            Html::addCssClass($attributes, $new->labelCssClass);
+            if ($new->labelCssClass !== '') {
+                Html::addCssClass($attributes, $new->labelCssClass);
+            }
 
             $new->parts['{label}'] = Label::widget()
-                ->config($new->modelInterface, $new->attribute, $attributes)
-                ->label($label) . "\n";
+                ->attributes($attributes)
+                ->config($new->modelInterface, $new->attribute)
+                ->label($label) . PHP_EOL;
         }
 
         return $new;
@@ -367,14 +379,12 @@ final class Field extends Widget
         Html::addCssClass($attributes, $new->inputCssClass);
 
         if ($new->ariaDescribedBy === true) {
-            $attributes['aria-describedby'] = $new->getId(
-                $new->modelInterface->getFormName(),
-                $new->attribute,
-            ) . '-hint';
+            $attributes['aria-describedby'] = $new->getId() . '-hint';
         }
 
         $new->parts['{input}'] = PasswordInput::widget()
-            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->attributes($attributes)
+            ->config($new->modelInterface, $new->attribute)
             ->invalidCssClass($new->invalidCssClass)
             ->validCssClass($new->validCssClass) . PHP_EOL;
 
@@ -405,7 +415,8 @@ final class Field extends Widget
         $new = clone $this;
 
         $new->parts['{input}'] = TextArea::widget()
-            ->config($new->modelInterface, $new->attribute, $attributes)
+            ->attributes($attributes)
+            ->config($new->modelInterface, $new->attribute)
             ->render();
 
         return $new;

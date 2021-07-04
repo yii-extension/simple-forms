@@ -36,7 +36,10 @@ final class PasswordInputTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name" required>',
-            PasswordInput::widget()->config(new PersonalForm(), 'name', ['class' => 'customClass'])->render(),
+            PasswordInput::widget()
+                ->attributes(['class' => 'customClass'])
+                ->config(new PersonalForm(), 'name')
+                ->render(),
         );
     }
 

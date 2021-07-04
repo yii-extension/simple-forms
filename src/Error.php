@@ -22,7 +22,7 @@ final class Error extends Widget
         if ($new->message !== '') {
             $error = $new->message;
         } else {
-            $error = $new->modelInterface->getFirstError($new->getAttributeName($new->attribute));
+            $error = $new->getFirstError();
         }
 
         return Div::tag()->attributes($new->attributes)->content($error)->render();

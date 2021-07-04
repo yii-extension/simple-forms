@@ -25,20 +25,18 @@ final class TextArea extends Widget
             $new->setPlaceholder();
         }
 
-        $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
-
-        if ($id !== '') {
-            $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute);
-        }
-
-        $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
-        $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
+        $value = $new->getValue();
 
         if (!is_string($value)) {
             throw new InvalidArgumentException('The value must be a string|null.');
         }
 
-        return TextAreaTag::tag()->attributes($new->attributes)->name($name)->value($value)->render();
+        return TextAreaTag::tag()
+            ->attributes($new->attributes)
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->value($value)
+            ->render();
     }
 
     /**
@@ -130,19 +128,5 @@ final class TextArea extends Widget
         $new = clone $this;
         $new->attributes['wrap'] = $value;
         return $new;
-    }
-
-    /**
-     * A short hint (one word or a short phrase) intended to aid the user when entering data into the control
-     * represented by its element.
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.placeholder
-     */
-    private function setPlaceholder(): void
-    {
-        if (!isset($this->attributes['placeholder'])) {
-            $attributeName = $this->getAttributeName($this->attribute);
-            $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);
-        }
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Stringable;
+use Yiisoft\Html\Html;
 
 use function in_array;
 
@@ -138,11 +140,18 @@ abstract class Input extends Widget
         return $new;
     }
 
-    protected function setPlaceholder(): void
+    protected function addValidateCssClass(self $new): self
     {
-        if (!isset($this->attributes['placeholder'])) {
-            $attributeName = $this->getAttributeName($this->attribute);
-            $this->attributes['placeholder'] = $this->modelInterface->getAttributeLabel($attributeName);
+        $new = $new->addHtmlValidation();
+
+        if (empty($new->modelInterface->getError($new->attribute)) && !empty($new->getValue())) {
+            $new->validCssClass === '' ?: Html::addCssClass($new->attributes, $new->validCssClass);
         }
+
+        if ($new->modelInterface->getError($new->attribute)) {
+            $new->invalidCssClass === '' ?: Html::addCssClass($new->attributes, $new->invalidCssClass);
+        }
+
+        return $new;
     }
 }

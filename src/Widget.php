@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Stringable;
 use UnexpectedValueException;
 use Yii\Extension\Simple\Model\ModelInterface;
 use Yii\Extension\Simple\Widget\AbstractWidget;
@@ -74,18 +75,16 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * @param ModelInterface $modelInterface Form.
      * @param string $attribute Form model property this widget is rendered for.
-     * @param array $attributes The HTML attributes for the widget container tag.
      *
      * @return static
      *
      * See {@see Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
-    public function config(ModelInterface $modelInterface, string $attribute, array $attributes = []): self
+    public function config(ModelInterface $modelInterface, string $attribute): self
     {
         $new = clone $this;
         $new->modelInterface = $modelInterface;
         $new->attribute = $attribute;
-        $new->attributes = $attributes;
         return $new;
     }
 
@@ -262,35 +261,37 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
         return $new;
     }
 
-    /**
-     * Returns the real attribute name from the given attribute expression.
-     * If `$attribute` has neither prefix nor suffix, it will be returned back without change.
-     *
-     * @param string $attribute the attribute name or expression
-     *
-     * @throws InvalidArgumentException if the attribute name contains non-word characters.
-     *
-     * @return string the attribute name without prefix and suffix.
-     *
-     * {@see parseAttribute()}
-     */
-    protected function getAttributeName(string $attribute): string
+    protected function getFirstError(): string
     {
-        return $this->parseAttribute($attribute)['name'];
+        return $this->modelInterface->getFirstError($this->getAttributeName());
     }
 
-    protected function getId(string $formName = '', string $attribute = ''): string
+    protected function getId(): string
     {
         $new = clone $this;
 
         /** @var string */
         $id = $new->attributes['id'] ?? $new->id;
 
-        if ($id === '' && $formName !== '') {
-            $id = $new->getInputId($formName, $attribute, $new->charset);
-        }
+        return $id === '' ? $new->getInputId() : $id;
+    }
 
-        return $id;
+    /**
+     * Generates an appropriate input ID for the specified attribute name or expression.
+     *
+     * This method converts the result {@see getInputName()} into a valid input ID.
+     *
+     * For example, if {@see getInputName()} returns `Post[content]`, this method will return `post-content`.
+     *
+     * @throws InvalidArgumentException if the attribute name contains non-word characters.
+     * @throws UnexpectedValueException if charset is unknown
+     *
+     * @return string the generated input ID.
+     */
+    private function getInputId(): string
+    {
+        $name = mb_strtolower($this->getInputName(), $this->charset);
+        return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name);
     }
 
     /**
@@ -303,51 +304,57 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      *
      * See {@see getAttributeName()} for explanation of attribute expression.
      *
-     * @param string $formName the formname.
-     * @param string $attribute the attribute name or expression.
-     *
      * @throws InvalidArgumentException if the attribute name contains non-word characters or empty form name for
      * tabular inputs.
      *
      * @return string the generated input name.
      */
-    protected function getInputName(string $formName, string $attribute): string
+    protected function getInputName(): string
     {
-        $data = $this->parseAttribute($attribute);
+        $new = clone $this;
 
-        if ($formName !== '') {
-            return $formName . $data['prefix'] . '[' . $data['name'] . ']' . $data['suffix'];
-        }
+        $data = $new->parseAttribute();
 
-        throw new InvalidArgumentException('The formName cannot be empty.');
+        return $new->getFormName() . $data['prefix'] . '[' . $data['name'] . ']' . $data['suffix'];
     }
 
-    /**
-     * Generates an appropriate input ID for the specified attribute name or expression.
-     *
-     * This method converts the result {@see getInputName()} into a valid input ID.
-     *
-     * For example, if {@see getInputName()} returns `Post[content]`, this method will return `post-content`.
-     *
-     * @param string $form the formname
-     * @param string $attribute the attribute name or expression. See {@see getAttributeName()} for explanation of
-     * attribute expression.
-     * @param string $charset default `UTF-8`.
-     *
-     * @throws InvalidArgumentException if the attribute name contains non-word characters.
-     * @throws UnexpectedValueException if charset is unknown
-     *
-     * @return string the generated input ID.
-     */
-    private function getInputId(string $formName, string $attribute, string $charset = 'UTF-8'): string
+    private function getFormName(): string
     {
-        $name = mb_strtolower($this->getInputName($formName, $attribute), $charset);
-        return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name);
+        return $this->modelInterface->getFormName();
+    }
+
+    protected function getLabel(): string
+    {
+        return $this->modelInterface->getAttributeLabel($this->getAttributeName());
     }
 
     protected function getNoPlaceHolder(): bool
     {
         return $this->noPlaceholder;
+    }
+
+    /**
+     * @return null|scalar|Stringable|iterable
+     */
+    protected function getValue()
+    {
+        return $this->modelInterface->getAttributeValue($this->getAttributeName());
+    }
+
+    protected function setPlaceholder(): void
+    {
+        if (!isset($this->attributes['placeholder'])) {
+            $this->attributes['placeholder'] = $this->getLabel();
+        }
+    }
+
+    protected function validateConfig(): void
+    {
+        if (empty($this->modelInterface) || empty($this->attribute)) {
+            throw new InvalidArgumentException(
+                'The widget must be configured with FormInterface::class and Attribute.',
+            );
+        }
     }
 
     protected function validateIntegerPositive(int $value): int
@@ -360,8 +367,25 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
-     * This method parses an attribute expression and returns an associative array containing
-     * real attribute name, prefix and suffix.
+     * Returns the real attribute name from the given attribute expression.
+     *
+     * If `$attribute` has neither prefix nor suffix, it will be returned back without change.
+     *
+     * @throws InvalidArgumentException if the attribute name contains non-word characters.
+     *
+     * @return string the attribute name without prefix and suffix.
+     *
+     * {@see parseAttribute()}
+     */
+    private function getAttributeName(): string
+    {
+        return $this->parseAttribute()['name'];
+    }
+
+    /**
+     * This method parses an attribute expression and returns an associative array containing real attribute name,
+     * prefix and suffix.
+     *
      * For example: `['name' => 'content', 'prefix' => '', 'suffix' => '[0]']`
      *
      * An attribute expression is an attribute name prefixed and/or suffixed with array indexes. It is mainly used in
@@ -373,15 +397,13 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
      * - `[0]dates[0]` represents the first array element of the "dates" attribute for the first model in tabular
      *    input.
      *
-     * @param string $attribute the attribute name or expression.
-     *
      * @return string[]
      *
      * @throws InvalidArgumentException if the attribute name contains non-word characters.
      */
-    private function parseAttribute(string $attribute): array
+    private function parseAttribute(): array
     {
-        if (!preg_match('/(^|.*\])([\w\.\+]+)(\[.*|$)/u', $attribute, $matches)) {
+        if (!preg_match('/(^|.*\])([\w\.\+]+)(\[.*|$)/u', $this->attribute, $matches)) {
             throw new InvalidArgumentException('Attribute name must contain word characters only.');
         }
 

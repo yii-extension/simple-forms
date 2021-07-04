@@ -25,13 +25,18 @@ final class Hint extends Widget
         $hint = $new->modelInterface->getAttributeHint($new->attribute) !== ''
             ? $new->modelInterface->getAttributeHint($new->attribute) : $new->hint;
 
-        $new->attributes['id'] = $new->getId($new->modelInterface->getFormName(), $new->attribute) . '-hint';
-
         if (empty($new->tag)) {
             throw new InvalidArgumentException('The tag cannot be empty.');
         }
 
-        return $hint !== '' ? CustomTag::name($new->tag)->attributes($new->attributes)->content($hint)->render() : '';
+        return
+            $hint !== ''
+            ? CustomTag::name($new->tag)
+                ->attributes($new->attributes)
+                ->content($hint)
+                ->id($new->getId() . '-hint')
+                ->render()
+            : '';
     }
 
     /**

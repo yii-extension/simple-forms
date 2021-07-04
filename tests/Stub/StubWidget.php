@@ -13,10 +13,15 @@ final class StubWidget extends Widget
     {
         $new = clone $this;
 
-        if (isset($new->modelInterface)) {
-            $new->attributes['name'] = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
-        }
+        $new->validateConfig();
 
-        return '<' . $new->getId('PersonalForm', 'name') . Html::renderTagAttributes($new->attributes) . '>';
+        return '<' . $new->getId() . Html::renderTagAttributes($new->attributes) . '>';
+    }
+
+    public function name(): self
+    {
+        $new = clone $this;
+        $new->attributes['name'] = $new->getInputName();
+        return $new;
     }
 }

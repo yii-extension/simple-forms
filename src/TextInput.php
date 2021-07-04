@@ -22,39 +22,26 @@ final class TextInput extends Input
     {
         $new = clone $this;
 
-        if (empty($new->modelInterface) || empty($new->attribute)) {
-            throw new InvalidArgumentException(
-                'The widget must be configured with FormInterface::class and Attribute.',
-            );
-        }
+        $new->validateConfig();
 
-        $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
-
-        if ($id !== '') {
-            $new->attributes['id'] = $id;
-        }
+        $value = $new->getValue();
 
         if ($new->getNoPlaceholder() === false) {
             $new->setPlaceholder();
         }
 
-        $new = $new->addHtmlValidation();
-        $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
-        $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
-
-        if (empty($new->modelInterface->getError($new->attribute)) && !empty($value)) {
-            $new->validCssClass === '' ?: Html::addCssClass($new->attributes, $new->validCssClass);
-        }
-
-        if ($new->modelInterface->getError($new->attribute)) {
-            $new->invalidCssClass === '' ?: Html::addCssClass($new->attributes, $new->invalidCssClass);
-        }
+        $new = $new->addValidateCssClass($new);
 
         if (!is_scalar($value)) {
             throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
         }
 
-        return InputTag::text()->attributes($new->attributes)->name($name)->value($value)->render();
+        return InputTag::text()
+            ->attributes($new->attributes)
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->value($value)
+            ->render();
     }
 
     /**

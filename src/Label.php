@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Label as LabelTag;
 
 /**
@@ -24,14 +23,9 @@ final class Label extends Widget
         $new = clone $this;
 
         /** @var string */
-        $for = ArrayHelper::remove(
-            $new->attributes,
-            'for',
-            $new->getId($new->modelInterface->getFormName(), $new->attribute)
-        );
+        $for = isset($new->attributes['for']) ? $new->attributes['for'] : $new->getId();
 
-        $label = $new->label === ''
-            ? $new->modelInterface->getAttributeLabel($new->getAttributeName($new->attribute)) : $new->label;
+        $label = $new->label === '' ? $new->getLabel() : $new->label;
 
         return LabelTag::tag()->attributes($new->attributes)->content($label)->forId($for)->render();
     }

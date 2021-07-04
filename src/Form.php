@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use Yiisoft\Html\Html;
 use Yiisoft\Http\Method;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 
 use function explode;
 use function implode;
@@ -18,10 +19,12 @@ use function urldecode;
  *
  *  @link https://www.w3.org/TR/html52/sec-forms.html
  */
-final class Form extends Widget
+final class Form extends AbstractWidget
 {
     private string $action = '';
+    private array $attributes = [];
     private string $csrf = '';
+    private ?string $id = null;
     private string $method = Method::POST;
 
     /**
@@ -37,9 +40,8 @@ final class Form extends Widget
 
         $hiddenInputs = [];
 
-        if (($id = $new->getId()) !== '') {
-            $new->attributes['id'] = $id;
-        }
+        /** @var string */
+        $new->attributes['id'] = isset($new->attributes['id']) ? $new->attributes['id'] : $new->id;
 
         if ($new->csrf !== '' && $new->method === Method::POST) {
             $hiddenInputs[] = Html::hiddenInput('_csrf', $new->csrf);
@@ -87,6 +89,20 @@ final class Form extends Widget
         return Html::closeTag('form');
     }
 
+    /**
+     * The HTML attributes for the navbar. The following special options are recognized.
+     *
+     * @param array $value
+     *
+     * @return static
+     */
+    public function attributes(array $value): self
+    {
+        $new = clone $this;
+        $new->attributes = $value;
+        return $new;
+    }
+
     public function action(string $value): self
     {
         $new = clone $this;
@@ -98,6 +114,13 @@ final class Form extends Widget
     {
         $new = clone $this;
         $new->csrf = $value;
+        return $new;
+    }
+
+    public function id(string $value): self
+    {
+        $new = clone $this;
+        $new->id = $value;
         return $new;
     }
 

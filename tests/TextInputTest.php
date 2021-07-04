@@ -36,7 +36,7 @@ final class TextInputTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name" required>',
-            TextInput::widget()->config(new PersonalForm(), 'name', ['class' => 'customClass'])->render(),
+            TextInput::widget()->attributes(['class' => 'customClass'])->config(new PersonalForm(), 'name')->render(),
         );
     }
 

@@ -61,14 +61,15 @@ final class FieldTest extends TestCase
         $html = Field::widget()
             ->config($this->model, 'cityBirth')
             ->containerCssClass('mb-3')
-            ->dropDownList($cities, ['class' => 'form-control'], $groups, $prompt)
+            ->inputCssClass('form-control')
+            ->dropDownList($cities, [], $groups, $prompt)
             ->labelCssClass('form-label')
             ->template('{label}{input}{hint}')
             ->render();
         $expected = <<<'HTML'
         <div class="mb-3">
         <label class="form-label" for="personalform-citybirth">City Birth</label>
-        <select id="personalform-citybirth" class="form-control " name="PersonalForm[cityBirth]">
+        <select id="personalform-citybirth" class="form-control" name="PersonalForm[cityBirth]">
         <option value="0" selected>Select City Birth</option>
         <optgroup class="text-danger" label="Russia">
         <option value="2">Moscu</option>
@@ -97,16 +98,17 @@ final class FieldTest extends TestCase
         $html = Field::widget()
             ->ariaDescribedBy()
             ->config($this->model, 'name')
-            ->inValidCssClass('is-invalid')
+            ->errorCssClass('invalid-feedback')
+            ->invalidCssClass('is-invalid')
             ->template('{label}{input}{hint}{error}')
             ->validCssClass('is-valid')
             ->render();
         $expected = <<<'HTML'
-        <div class="">
-        <label class="" for="personalform-name">Name</label>
+        <div>
+        <label for="personalform-name">Name</label>
         <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint" class="">Write your first name.</div>
-        <div class="">Value cannot be blank.</div>
+        <div id="personalform-name-hint">Write your first name.</div>
+        <div class="invalid-feedback">Value cannot be blank.</div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);
@@ -120,9 +122,9 @@ final class FieldTest extends TestCase
             ->template('{label}{input}{hint}')
             ->render();
         $expected = <<<'HTML'
-        <div class="">
+        <div>
         <input type="text" id="personalform-name" class="" name="PersonalForm[name]" value="" placeholder="Name" required>
-        <div id="personalform-name-hint" class="">Write your first name.</div>
+        <div id="personalform-name-hint">Write your first name.</div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);
@@ -182,26 +184,6 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $this->fieldTailwindDefaultConfig());
     }
 
-    public function testTextArea(): void
-    {
-        $this->model->setAttribute('name', 'samdark');
-
-        $html = Field::widget()
-            ->config($this->model, 'name')
-            ->containerCssClass('mb-3')
-            ->labelCssClass('form-label')
-            ->template('{label}{input}{hint}')
-            ->textArea()
-            ->render();
-        $expected = <<<'HTML'
-        <div class="mb-3">
-        <label class="form-label" for="personalform-name">Name</label>
-        <textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea><div id="personalform-name-hint" class="">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
     public function testPasswordInputWithValidation(): void
     {
         /** Add class is-invalid */
@@ -218,11 +200,31 @@ final class FieldTest extends TestCase
             ->validCssClass('is-valid')
             ->render();
         $expected = <<<'HTML'
-        <div class="">
-        <label class="" for="personalform-name">Name</label>
+        <div>
+        <label for="personalform-name">Name</label>
         <input type="password" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint" class="">Write your first name.</div>
-        <div class="">Value cannot be blank.</div>
+        <div id="personalform-name-hint">Write your first name.</div>
+        <div>Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testTextArea(): void
+    {
+        $this->model->setAttribute('name', 'samdark');
+
+        $html = Field::widget()
+            ->config($this->model, 'name')
+            ->containerCssClass('mb-3')
+            ->labelCssClass('form-label')
+            ->template('{label}{input}{hint}')
+            ->textArea()
+            ->render();
+        $expected = <<<'HTML'
+        <div class="mb-3">
+        <label class="form-label" for="personalform-name">Name</label>
+        <textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea><div id="personalform-name-hint">Write your first name.</div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);

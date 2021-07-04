@@ -37,11 +37,9 @@ final class DropDownList extends Widget
 
         $select = Select::tag();
 
-        $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
-
-        $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
         $promptOption = null;
-        $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute)) ?? '';
+
+        $value = $new->getValue() ?? '';
 
         if (is_iterable($value)) {
             throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
@@ -69,8 +67,8 @@ final class DropDownList extends Widget
 
         return $select
             ->attributes($new->attributes)
-            ->id($id)
-            ->name($name)
+            ->id($new->getId())
+            ->name($new->getInputName())
             ->promptOption($promptOption)
             ->unselectValue($new->unselectValue)
             ->value($value)

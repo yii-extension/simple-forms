@@ -28,14 +28,11 @@ final class Checkbox extends Widget
 
         $checkbox = CheckboxTag::tag();
 
-        $id = $new->getId($new->modelInterface->getFormName(), $new->attribute);
         $label = '';
-        $name = $new->getInputName($new->modelInterface->getFormName(), $new->attribute);
-        $value = $new->modelInterface->getAttributeValue($new->getAttributeName($new->attribute));
-        $valueChecked = (bool) $value;
+        $value = $new->getValue();
 
         if ($new->unClosedByLabel) {
-            $label = $new->modelInterface->getAttributeLabel($new->getAttributeName($new->attribute));
+            $label = $new->getLabel();
         }
 
         if ($label !== '') {
@@ -59,9 +56,9 @@ final class Checkbox extends Widget
 
         return $checkbox
             ->attributes($new->attributes)
-            ->checked($valueChecked)
-            ->id($id)
-            ->name($name)
+            ->checked((bool) $new->getValue())
+            ->id($new->getId())
+            ->name($new->getInputName())
             ->value($value)
             ->render();
     }
