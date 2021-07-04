@@ -13,8 +13,6 @@ use Yiisoft\Html\Widget\CheckboxList\CheckboxList as ChecboxListWidget;
  * Generates a list of checkboxes.
  *
  * A checkbox list allows multiple selection, like {@see ListBox}.
- *
- * @link
  */
 final class CheckboxList extends Widget
 {

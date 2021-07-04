@@ -90,6 +90,30 @@ final class Form extends AbstractWidget
     }
 
     /**
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-action
+     *
+     * @return static
+     */
+    public function action(string $value): self
+    {
+        $new = clone $this;
+        $new->action = $value;
+        return $new;
+    }
+
+    /**
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-accept-charset
+     *
+     * @return static
+     */
+    public function acceptCharset(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['accept-charset'] = $value;
+        return $new;
+    }
+
+    /**
      * The HTML attributes for the navbar. The following special options are recognized.
      *
      * @param array $value
@@ -103,10 +127,24 @@ final class Form extends AbstractWidget
         return $new;
     }
 
-    public function action(string $value): self
+    /**
+     * Specifies whether the element represents an input control for which a UA is meant to store the value entered by
+     * the user (so that the UA can prefill the form later).
+     *
+     * @param string $value The value must be `on`,` off`.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-autocompleteelements-autocomplete
+     */
+    public function autocomplete(string $value = 'on'): self
     {
+        if ($value !== 'on' && $value !== 'off') {
+            throw new InvalidArgumentException('The value must be `on`,` off`.');
+        }
+
         $new = clone $this;
-        $new->action = $value;
+        $new->attributes['autocomplete'] = $value;
         return $new;
     }
 
@@ -117,6 +155,18 @@ final class Form extends AbstractWidget
         return $new;
     }
 
+    /**
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-enctype
+     *
+     * @return static
+     */
+    public function enctype(string $value): self
+    {
+        $new = clone $this;
+        $new->id = $value;
+        return $new;
+    }
+
     public function id(string $value): self
     {
         $new = clone $this;
@@ -124,6 +174,11 @@ final class Form extends AbstractWidget
         return $new;
     }
 
+    /**
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-method
+     *
+     * @return static
+     */
     public function method(string $value): self
     {
         $new = clone $this;
@@ -131,10 +186,27 @@ final class Form extends AbstractWidget
         return $new;
     }
 
+    /**
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-novalidate
+     *
+     * @return static
+     */
     public function noValidateHtml(): self
     {
         $new = clone $this;
         $new->attributes['novalidate'] = true;
+        return $new;
+    }
+
+    /**
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-target
+     *
+     * @return static
+     */
+    public function target(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['target'] = $value;
         return $new;
     }
 }

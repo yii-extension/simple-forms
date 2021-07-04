@@ -93,6 +93,8 @@ final class DropDownList extends Widget
      * @param array $value
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/optgroup.html#optgroup
      */
     public function groups(array $value = []): self
     {
