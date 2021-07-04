@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use InvalidArgumentException;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Http\Method;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 use function explode;
 use function implode;
@@ -65,7 +66,10 @@ final class Form extends AbstractWidget
             $new->action = substr($new->action, 0, $pos);
         }
 
-        $new->attributes['action'] = $new->action;
+        if ($new->action !== '') {
+            $new->attributes['action'] = $new->action;
+        }
+
         $new->attributes['method'] = $new->method;
 
         $form = Html::openTag('form', $new->attributes);
@@ -203,7 +207,7 @@ final class Form extends AbstractWidget
      *
      * @return static
      */
-    public function target(string $value): self
+    public function target(string $value = '_blank'): self
     {
         $new = clone $this;
         $new->attributes['target'] = $value;

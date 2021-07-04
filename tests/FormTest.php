@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Form;
 use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
@@ -12,6 +13,35 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 final class FormTest extends TestCase
 {
     use TestTrait;
+
+    public function testAcceptCharset(): void
+    {
+        $this->assertSame(
+            '<form method="POST" accept-charset="UTF-8">',
+            Form::widget()->acceptCharset('UTF-8')->begin(),
+        );
+    }
+
+    public function testAutocomplete(): void
+    {
+        /** on value */
+        $this->assertSame(
+            '<form method="POST" autocomplete="on">',
+            Form::widget()->autocomplete()->begin(),
+        );
+        /** off value */
+        $this->assertSame(
+            '<form method="POST" autocomplete="off">',
+            Form::widget()->autocomplete('off')->begin(),
+        );
+    }
+
+    public function testAutocompleteException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be `on`,` off`.');
+        Form::widget()->autocomplete('exception')->begin();
+    }
 
     public function testBegin(): void
     {
@@ -39,7 +69,15 @@ final class FormTest extends TestCase
 
     public function testBeginEmpty(): void
     {
-        $this->assertSame('<form action="" method="POST">', Form::widget()->begin());
+        $this->assertSame('<form method="POST">', Form::widget()->begin());
+    }
+
+    public function testEnctype(): void
+    {
+        $this->assertSame(
+            '<form id="multipart/form-data" method="POST">',
+            Form::widget()->enctype('multipart/form-data')->begin(),
+        );
     }
 
     /**
@@ -76,9 +114,9 @@ final class FormTest extends TestCase
 
     public function testId(): void
     {
-        $this->assertSame('<form id="form-id" action="" method="POST">', Form::widget()->id('form-id')->begin());
+        $this->assertSame('<form id="form-id" method="POST">', Form::widget()->id('form-id')->begin());
         $this->assertSame(
-            '<form id="form-id" action="" method="POST">',
+            '<form id="form-id" method="POST">',
             Form::widget()->attributes(['id' => 'form-id'])->begin(),
         );
     }
@@ -91,12 +129,17 @@ final class FormTest extends TestCase
 
     public function testMethod(): void
     {
-        $this->assertSame('<form action="" method="GET">', Form::widget()->method('get')->begin());
-        $this->assertSame('<form action="" method="POST">', Form::widget()->method('post')->begin());
+        $this->assertSame('<form method="GET">', Form::widget()->method('get')->begin());
+        $this->assertSame('<form method="POST">', Form::widget()->method('post')->begin());
     }
 
     public function testNoValidateHtml(): void
     {
-        $this->assertSame('<form action="" method="POST" novalidate>', Form::widget()->noValidateHtml()->begin());
+        $this->assertSame('<form method="POST" novalidate>', Form::widget()->noValidateHtml()->begin());
+    }
+
+    public function testTarget(): void
+    {
+        $this->assertSame('<form method="POST" target="_blank">', Form::widget()->target()->begin());
     }
 }
