@@ -88,9 +88,9 @@ final class FormTest extends TestCase
     public function dataProviderBeginViaPost(): array
     {
         return [
-            ['<form action="/foo" method="GET">', 'GET',  'tokenCsrf'],
+            ['<form action="/foo" method="GET" _csrf="tokenCsrf">', 'GET',  'tokenCsrf'],
             [
-                '<form action="/foo" method="POST">' . "\n" . '<input type="hidden" name="_csrf" value="tokenCsrf">',
+                '<form action="/foo" method="POST" _csrf="tokenCsrf">' . "\n" . '<input type="hidden" name="_csrf" value="tokenCsrf">',
                 'POST',
                 '_csrf' => 'tokenCsrf'
             ],

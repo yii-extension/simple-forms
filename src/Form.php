@@ -24,7 +24,6 @@ final class Form extends AbstractWidget
 {
     private string $action = '';
     private array $attributes = [];
-    private string $csrf = '';
     private ?string $id = null;
     private string $method = Method::POST;
 
@@ -44,8 +43,11 @@ final class Form extends AbstractWidget
         /** @var string */
         $new->attributes['id'] = isset($new->attributes['id']) ? $new->attributes['id'] : $new->id;
 
-        if ($new->csrf !== '' && $new->method === Method::POST) {
-            $hiddenInputs[] = Html::hiddenInput('_csrf', $new->csrf);
+        /** @var string */
+        $csrfToken = isset($new->attributes['_csrf']) ? $new->attributes['_csrf'] : '';
+
+        if ($csrfToken !== '' && $new->method === Method::POST) {
+            $hiddenInputs[] = Html::hiddenInput('_csrf', $csrfToken);
         }
 
         if ($new->method === Method::GET && ($pos = strpos($new->action, '?')) !== false) {
@@ -155,7 +157,7 @@ final class Form extends AbstractWidget
     public function csrf(string $value): self
     {
         $new = clone $this;
-        $new->csrf = $value;
+        $new->attributes['_csrf'] = $value;
         return $new;
     }
 
