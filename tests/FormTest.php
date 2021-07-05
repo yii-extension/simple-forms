@@ -110,6 +110,10 @@ final class FormTest extends TestCase
             $expected,
             Form::widget()->action('/foo')->method($method)->csrf($csrf)->begin(),
         );
+        $this->assertSame(
+            $expected,
+            Form::widget()->action('/foo')->attributes(['_csrf' => $csrf])->method($method)->begin(),
+        );
     }
 
     public function testId(): void
