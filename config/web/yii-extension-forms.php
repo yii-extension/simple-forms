@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use Composer\InstalledVersions;
 use Yii\Extension\Simple\Forms\Field;
 
-if ($params['yii-extension/simple-forms']['bootstrap5']['enabled'] === true) {
+if (InstalledVersions::isInstalled('yii-extension/asset-bootstrap5')) {
     return [
         Field::class => Field::widget()
             ->ariaDescribedBy($params['yii-extension/simple-forms']['bootstrap5']['field-template']['ariaDescribedBy'])
@@ -21,12 +22,13 @@ if ($params['yii-extension/simple-forms']['bootstrap5']['enabled'] === true) {
     ];
 }
 
-if ($params['yii-extension/simple-forms']['bulma']['enabled'] === true) {
+if (InstalledVersions::isInstalled('yii-extension/asset-bulma')) {
     return [
         Field::class => Field::widget()
             ->containerCssClass(
                 $params['yii-extension/simple-forms']['bulma']['field-template']['containerCssClass']
             )
+            ->errorCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['errorCssClass'])
             ->hintCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['hintCssClass'])
             ->inputCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['inputCssClass'])
             ->labelCssClass($params['yii-extension/simple-forms']['bulma']['field-template']['labelCssClass'])
@@ -34,7 +36,7 @@ if ($params['yii-extension/simple-forms']['bulma']['enabled'] === true) {
     ];
 }
 
-if ($params['yii-extension/simple-forms']['tailwind']['enabled'] === true) {
+if (InstalledVersions::isInstalled('yii-extension/asset-tailwind')) {
     return [
         Field::class => Field::widget()
             ->containerCssClass(

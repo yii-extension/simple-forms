@@ -12,6 +12,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.4|^8.0",
+        "composer/composer": "^2.1.3",
         "yii-extension/simple-model": "^1.0.0",
         "yii-extension/simple-widget": "^1.0.0",
         "yiisoft/http": "^1.0.0",
