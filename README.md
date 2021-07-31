@@ -13,11 +13,18 @@
 [![static analysis](https://github.com/yii-extension/simple-forms/workflows/static%20analysis/badge.svg)](https://github.com/yii-extension/simple-forms/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yii-extension/simple-forms/coverage.svg)](https://shepherd.dev/github/yii-extension/simple-forms)
 
+
 ## Installation
 
 ```shell
 composer require yii-extension/simple-forms
 ```
+
+# Support css framework
+
+- [Bootstrap](https://getbootstrap.com/docs/5.0/forms/overview/)
+- [Bulma](https://bulma.io/documentation/form/)
+- [Tailwind](https://v1.tailwindcss.com/components/forms)
 
 ### Unit testing
 
@@ -43,13 +50,17 @@ The code is statically analyzed with [Psalm](https://psalm.dev/docs). To run sta
 ./vendor/bin/psalm
 ```
 
-### Support the project
-
-[![Open Collective](https://img.shields.io/badge/Open%20Collective-sponsor-7eadf1?logo=open%20collective&logoColor=7eadf1&labelColor=555555)](https://opencollective.com/yiisoft)
-
 ### License
 
-The Simple Forms for Yii Packages is free software. It is released under the terms of the BSD License.
+The `yii-extension/simple-forms` is free software. It is released under the terms of the BSD License.
 Please see [`LICENSE`](./LICENSE.md) for more information.
 
 Maintained by [Yii Extension](https://github.com/yii-extension).
+
+## Support the project
+
+[![Open Collective](https://img.shields.io/badge/Open%20Collective-sponsor-7eadf1?logo=open%20collective&logoColor=7eadf1&labelColor=555555)](https://opencollective.com/yiisoft)
+
+## Powered by Yii Framework
+
+[![Official website](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](https://www.yiiframework.com/)

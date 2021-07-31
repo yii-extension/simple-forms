@@ -340,7 +340,7 @@ abstract class Widget extends AbstractWidget implements NoEncodeStringableInterf
     }
 
     /**
-     * @return scalar|iterable|Stringable|null
+     * @return scalar|iterable|object|Stringable|null
      */
     protected function getValue()
     {

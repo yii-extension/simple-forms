@@ -51,7 +51,7 @@ final class Checkbox extends Widget
 
         $value = $new->getValue();
 
-        if (is_iterable($value)) {
+        if (is_iterable($value) || is_object($value)) {
             throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
         }
 

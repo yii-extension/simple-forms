@@ -1,0 +1,9 @@
+name: Determine composer cache directory on Linux
+
+runs:
+  using: composite
+
+  steps:
+    - name: Determine composer cache directory on Linux
+      shell: bash
+      run: echo "COMPOSER_CACHE_DIR=$(composer config cache-dir)" >> $GITHUB_ENV

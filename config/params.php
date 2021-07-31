@@ -29,10 +29,10 @@ return [
         ],
         'tailwind' => [
             'field-template' => [
-                'containerCssClass' => 'grid grid-cols-1 gap-6',
-                'inputCssClass' => 'mt-1 block w-full',
-                'labelCssClass' => 'text-gray-700',
-                'template' => "<div class=\"block\">\n{label}{input}</div>\n",
+                'containerCssClass' => 'mb-6',
+                'inputCssClass' => 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline',
+                'labelCssClass' => 'block text-gray-700 text-sm font-bold mb-2',
+                'template' => "{label}{input}",
             ],
         ],
     ],
