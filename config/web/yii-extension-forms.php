@@ -42,6 +42,8 @@ if (InstalledVersions::isInstalled('yii-extension/asset-tailwind')) {
             ->containerCssClass(
                 $params['yii-extension/simple-forms']['tailwind']['field-template']['containerCssClass']
             )
+            ->errorCssClass($params['yii-extension/simple-forms']['tailwind']['field-template']['errorCssClass'])
+            ->hintCssClass($params['yii-extension/simple-forms']['tailwind']['field-template']['hintCssClass'])
             ->inputCssClass($params['yii-extension/simple-forms']['tailwind']['field-template']['inputCssClass'])
             ->labelCssClass($params['yii-extension/simple-forms']['tailwind']['field-template']['labelCssClass'])
             ->nohint()
