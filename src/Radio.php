@@ -4,31 +4,30 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use InvalidArgumentException;
-use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
+use Yiisoft\Html\Tag\Input\Radio as RadioTag;
 
 /**
- * Generates a checkbox tag together with a label for the given form attribute.
+ * Generate a radio button input.
  *
- * This method will generate the "checked" tag attribute according to the form attribute value.
- *
- * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html
  */
-final class Checkbox extends Widget
+final class Radio extends Input
 {
     private bool $unclosedByLabel = false;
     private bool $uncheckValue = true;
 
     /**
-     * @return string the generated checkbox tag.
+     * Generates a radio button tag together with a label for the given form attribute.
+     *
+     * @return string the generated radio button tag.
      */
-    protected function run(): string
+    public function run(): string
     {
         $new = clone $this;
 
-        $checkbox = CheckboxTag::tag();
-
         $label = '';
+
+        $radio = RadioTag::tag();
 
         if ($new->unclosedByLabel === false) {
             /** @var string */
@@ -39,35 +38,28 @@ final class Checkbox extends Widget
 
             unset($new->attributes['label'], $new->attributes['labelAttributes']);
 
-            $checkbox = $checkbox->label($label, $labelAttributes);
+            $radio = $radio->label($label, $labelAttributes);
         }
 
         if ($new->uncheckValue) {
-            $checkbox = $checkbox->uncheckValue('0');
+            $radio = $radio->uncheckValue('0');
         }
 
-        $value = $new->getValue();
-
-        if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
-        }
-
-        return $checkbox
-            ->attributes($new->attributes)
+        return $radio
             ->checked((bool) $new->getValue())
             ->id($new->getId())
             ->name($new->getInputName())
-            ->value($value)
+            ->value($new->getValue())
             ->render();
     }
 
     /**
-     * Label displayed next to the checkbox.
+     * Label displayed next to the radio.
      *
      * It will NOT be HTML-encoded, therefore you can pass in HTML code such as an image tag. If this is is coming from
      * end users, you should {@see encode()} it to prevent XSS attacks.
      *
-     * When this option is specified, the checkbox will be enclosed by a label tag.
+     * When this option is specified, the radio will be enclosed by a label tag.
      *
      * @param string $value
      *
@@ -83,7 +75,7 @@ final class Checkbox extends Widget
     /**
      * HTML attributes for the label tag.
      *
-     * Do not set this option unless you set the "label" attributes.
+     * Do not set this option unless you set the "label" option.
      *
      * @param array $value
      *
@@ -97,7 +89,7 @@ final class Checkbox extends Widget
     }
 
     /**
-     * If the widget should be unclosed by label.
+     * If the widget should be un closed by label.
      *
      * @return static
      */
@@ -109,10 +101,10 @@ final class Checkbox extends Widget
     }
 
     /**
-     * The value associated with the uncheck state of the checkbox.
+     * The value associated with the uncheck state of the radio.
      *
-     * When this attribute is present, a hidden input will be generated so that if the checkbox is not checked and
-     * is submitted, the value of this attribute will still be submitted to the server via the hidden input.
+     * When this attribute is present, a hidden input will be generated so that if the radio is not checked and is
+     * submitted, the value of this attribute will still be submitted to the server via the hidden input.
      *
      * @return static
      */

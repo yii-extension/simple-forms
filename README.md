@@ -13,7 +13,6 @@
 [![static analysis](https://github.com/yii-extension/simple-forms/workflows/static%20analysis/badge.svg)](https://github.com/yii-extension/simple-forms/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yii-extension/simple-forms/coverage.svg)](https://shepherd.dev/github/yii-extension/simple-forms)
 
-
 ## Installation
 
 ```shell

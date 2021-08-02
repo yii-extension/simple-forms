@@ -23,7 +23,8 @@ final class CheckboxList extends Widget
     /** @var array<array-key, string> */
     private array $items = [];
     private array $itemsAttributes = [];
-    private bool $noUnselect = false;
+    /** @var bool|float|int|string|Stringable|null */
+    private $uncheckValue = false;
     private string $unselect = '';
 
     /**
@@ -44,13 +45,9 @@ final class CheckboxList extends Widget
         $separator = $new->attributes['separator'] ?? '';
 
         /** @var string|null */
-        $uncheckValue = $new->attributes['unselect'] ?? null;
+        $uncheckValue = $new->attributes['uncheckValue'] ?? $new->uncheckValue;
 
         unset($new->attributes['itemsAttributes'], $new->attributes['separator']);
-
-        if (!$new->noUnselect) {
-            $uncheckValue = $new->unselect;
-        }
 
         if ($separator !== '') {
             $checkboxList = $checkboxList->separator($separator);
@@ -148,14 +145,19 @@ final class CheckboxList extends Widget
     }
 
     /**
-     * Allows you to disable the widgets hidden input tag.
+     * The value associated with the uncheck state of the checkboxlist.
+     *
+     * When this attribute is present, a hidden input will be generated so that if the checkboxlist is not checked and
+     * is submitted, the value of this attribute will still be submitted to the server via the hidden input.
+     *
+     * @param bool|float|int|string|Stringable|null $value
      *
      * @return static
      */
-    public function noUnselect(): self
+    public function uncheckValue($value): self
     {
         $new = clone $this;
-        $new->noUnselect = true;
+        $new->uncheckValue = $value;
         return $new;
     }
 
@@ -182,23 +184,6 @@ final class CheckboxList extends Widget
     {
         $new = clone $this;
         $new->attributes['separator'] = $value;
-        return $new;
-    }
-
-    /**
-     * The value that should be submitted when none of the list of checkboxes is selected.
-     *
-     * You may set this option to be null to prevent default value submission. If this option is not set, an empty
-     * string will be submitted.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function unselect(string $value): self
-    {
-        $new = clone $this;
-        $new->unselect = $value;
         return $new;
     }
 

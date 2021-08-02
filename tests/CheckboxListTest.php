@@ -85,22 +85,6 @@ final class CheckboxListTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
-    public function testNoUnselect(): void
-    {
-        $html = CheckboxList::widget()
-            ->config(new PersonalForm(), 'cityBirth')
-            ->items(['Moscu', 'San Petesburgo'])
-            ->noUnselect()
-            ->render();
-        $expected = <<<'HTML'
-        <div id="personalform-citybirth">
-        <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>
-        <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="1"> San Petesburgo</label>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
     public function testReadOnly(): void
     {
         $html = CheckboxList::widget()
@@ -149,23 +133,6 @@ final class CheckboxListTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
-    public function testUnselect(): void
-    {
-        $html = CheckboxList::widget()
-            ->config(new PersonalForm(), 'cityBirth')
-            ->items(['Moscu', 'San Petesburgo'])
-            ->unselect('0')
-            ->render();
-        $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="0">
-        <div id="personalform-citybirth">
-        <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>
-        <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="1"> San Petesburgo</label>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
     public function testValueIterable(): void
     {
         $model = new PersonalForm();
@@ -190,7 +157,7 @@ final class CheckboxListTest extends TestCase
         $html = CheckboxList::widget()
             ->config(new PersonalForm(), 'cityBirth')
             ->items(['Moscu'])
-            ->noUnselect()
+            ->uncheckValue(null)
             ->withoutContainer()
             ->render();
         $this->assertSame(
