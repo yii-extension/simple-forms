@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Yiisoft\Form\Tests\Widget;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 use Yii\Extension\Simple\Forms\Radio;
+use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 
 final class RadioTest extends TestCase
 {
@@ -68,5 +69,12 @@ final class RadioTest extends TestCase
         $this->assertEquals(
             $expected, Radio::widget()->config($model, 'terms')->unclosedByLabel()->uncheckValue()->run()
         );
+    }
+
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value must be a bool|float|int|string|Stringable|null.');
+        $html = Radio::widget()->config(new PersonalForm(), 'citys')->render();
     }
 }

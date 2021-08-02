@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use InvalidArgumentException;
 use Yiisoft\Html\Tag\Input\Radio as RadioTag;
 
 /**
@@ -25,8 +26,6 @@ final class Radio extends Input
     {
         $new = clone $this;
 
-        $label = '';
-
         $radio = RadioTag::tag();
 
         if ($new->unclosedByLabel === false) {
@@ -45,11 +44,17 @@ final class Radio extends Input
             $radio = $radio->uncheckValue('0');
         }
 
+        $value = $new->getValue();
+
+        if (is_iterable($value) || is_object($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        }
+
         return $radio
             ->checked((bool) $new->getValue())
             ->id($new->getId())
             ->name($new->getInputName())
-            ->value($new->getValue())
+            ->value($value)
             ->render();
     }
 

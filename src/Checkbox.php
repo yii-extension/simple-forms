@@ -28,8 +28,6 @@ final class Checkbox extends Widget
 
         $checkbox = CheckboxTag::tag();
 
-        $label = '';
-
         if ($new->unclosedByLabel === false) {
             /** @var string */
             $label = $new->attributes['label'] ?? $new->getLabel();
