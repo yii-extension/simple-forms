@@ -148,6 +148,18 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testFieldRadio(): void
+    {
+        $html = Field::widget()->config($this->model, 'terms')->radio()->template('{label}{input}')->render();
+
+        $expected = <<<'HTML'
+        <div>
+        <input type="hidden" name="PersonalForm[terms]" value="0"><label><input type="radio" id="personalform-terms" name="PersonalForm[terms]" value="0"> Terms</label>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testRenderBootstrap5(): void
     {
         $html = $this->fieldBoostrapDefaultConfig();
