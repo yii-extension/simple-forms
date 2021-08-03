@@ -142,12 +142,10 @@ abstract class Input extends FormAttribute
     {
         $new = $new->addHtmlValidation();
 
-        if (!empty($new->getValue()) && ($new->hasErrors() === false) && ($new->validCssClass !== '')) {
-            Html::addCssClass($new->attributes, $new->validCssClass);
-        }
-
         if ($new->hasErrors() == true && $new->invalidCssClass !== '') {
             Html::addCssClass($new->attributes, $new->invalidCssClass);
+        } elseif (!empty($new->getValue()) && $new->validCssClass !== '') {
+            Html::addCssClass($new->attributes, $new->validCssClass);
         }
 
         return $new;
