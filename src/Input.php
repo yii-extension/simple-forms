@@ -15,8 +15,8 @@ use Yiisoft\Html\Html;
  */
 abstract class Input extends FormAttribute
 {
-    protected string $invalidCssClass = '';
-    protected string $validCssClass = '';
+    protected string $invalidClass = '';
+    protected string $validClass = '';
 
     /**
      * Specifies whether the element represents an input control for which a UA is meant to store the value entered by
@@ -39,10 +39,10 @@ abstract class Input extends FormAttribute
         return $new;
     }
 
-    public function invalidCssClass(string $value): self
+    public function invalidClass(string $value): self
     {
         $new = clone $this;
-        $new->invalidCssClass = $value;
+        $new->invalidClass = $value;
         return $new;
     }
 
@@ -131,10 +131,10 @@ abstract class Input extends FormAttribute
         return $new;
     }
 
-    public function validCssClass(string $value): self
+    public function validClass(string $value): self
     {
         $new = clone $this;
-        $new->validCssClass = $value;
+        $new->validClass = $value;
         return $new;
     }
 
@@ -142,10 +142,10 @@ abstract class Input extends FormAttribute
     {
         $new = $new->addHtmlValidation();
 
-        if ($new->hasErrors() == true && $new->invalidCssClass !== '') {
-            Html::addCssClass($new->attributes, $new->invalidCssClass);
-        } elseif (!empty($new->getValue()) && $new->validCssClass !== '') {
-            Html::addCssClass($new->attributes, $new->validCssClass);
+        if ($new->hasErrors() == true && $new->invalidClass !== '') {
+            Html::addCssClass($new->attributes, $new->invalidClass);
+        } elseif (!empty($new->getValue()) && $new->validClass !== '') {
+            Html::addCssClass($new->attributes, $new->validClass);
         }
 
         return $new;

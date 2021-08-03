@@ -17,19 +17,24 @@ use function strtr;
 final class Field extends FormAttribute
 {
     private bool $ariaDescribedBy = false;
-    private string $containerCssClass = '';
-    private string $errorCssClass = '';
+    private string $containerClass = '';
+    private string $errorClass = '';
     private string $errorMessage = '';
-    private string $hintCssClass = '';
-    private string $inputCssClass = '';
-    private string $labelCssClass = '';
-    private string $invalidCssClass = '';
-    private string $validCssClass = '';
+    private string $hintClass = '';
+    private string $inputClass = '';
+    private string $labelClass = '';
+    private string $invalidClass = '';
+    private string $validClass = '';
     private bool $noHint = false;
     private bool $noLabel = false;
     private array $parts = [];
     private string $template = '';
 
+    /**
+     * Set aria-describedby attribute.
+     *
+     * @return static
+     */
     public function ariaDescribedBy(): self
     {
         $new = clone $this;
@@ -37,10 +42,15 @@ final class Field extends FormAttribute
         return $new;
     }
 
-    public function containerCssClass(string $value): self
+    /**
+     * Set container css class.
+     *
+     * @return static
+     */
+    public function containerClass(string $value): self
     {
         $new = clone $this;
-        $new->containerCssClass = $value;
+        $new->containerClass = $value;
         return $new;
     }
 
@@ -105,8 +115,8 @@ final class Field extends FormAttribute
     ): self {
         $new = clone $this;
 
-        if ($new->inputCssClass !== '') {
-            Html::addCssClass($attributes, $new->inputCssClass);
+        if ($new->inputClass !== '') {
+            Html::addCssClass($attributes, $new->inputClass);
         }
 
         $new->parts['{input}'] = DropDownList::widget()
@@ -141,8 +151,8 @@ final class Field extends FormAttribute
     {
         $new = clone $this;
 
-        if ($new->errorCssClass !== '') {
-            Html::addCssClass($attributes, $new->errorCssClass);
+        if ($new->errorClass !== '') {
+            Html::addCssClass($attributes, $new->errorClass);
         }
 
         $new->parts['{error}'] = Error::widget()
@@ -153,13 +163,23 @@ final class Field extends FormAttribute
         return $new;
     }
 
-    public function errorCssClass(string $value): self
+    /**
+     * Set error css class.
+     *
+     * @return static
+     */
+    public function errorClass(string $value): self
     {
         $new = clone $this;
-        $new->errorCssClass = $value;
+        $new->errorClass = $value;
         return $new;
     }
 
+    /**
+     * Set error description message.
+     *
+     * @return static
+     */
     public function errorMessage(string $value): self
     {
         $new = clone $this;
@@ -185,8 +205,8 @@ final class Field extends FormAttribute
         $new->parts['{hint}'] = '';
 
         if ($new->noHint === false) {
-            if ($new->hintCssClass !== '') {
-                Html::addCssClass($attributes, $new->hintCssClass);
+            if ($new->hintClass !== '') {
+                Html::addCssClass($attributes, $new->hintClass);
             }
 
             /** @var string */
@@ -204,10 +224,15 @@ final class Field extends FormAttribute
         return $new;
     }
 
-    public function hintCssClass(string $value): self
+    /**
+     * Set hint css class.
+     *
+     * @return static
+     */
+    public function hintClass(string $value): self
     {
         $new = clone $this;
-        $new->hintCssClass = $value;
+        $new->hintClass = $value;
         return $new;
     }
 
@@ -233,7 +258,7 @@ final class Field extends FormAttribute
     {
         $new = clone $this;
 
-        Html::addCssClass($attributes, $new->inputCssClass);
+        Html::addCssClass($attributes, $new->inputClass);
 
         if ($new->ariaDescribedBy === true) {
             $attributes['aria-describedby'] = $new->getId() . '-hint';
@@ -242,23 +267,33 @@ final class Field extends FormAttribute
         $new->parts['{input}'] = TextInput::widget()
             ->attributes($attributes)
             ->config($new->getModelInterface(), $new->getAttribute())
-            ->invalidCssClass($new->invalidCssClass)
-            ->validCssClass($new->validCssClass) . PHP_EOL;
+            ->invalidClass($new->invalidClass)
+            ->validClass($new->validClass) . PHP_EOL;
 
         return $new;
     }
 
-    public function inputCssClass(string $value): self
+    /**
+     * Set input css class.
+     *
+     * @return static
+     */
+    public function inputClass(string $value): self
     {
         $new = clone $this;
-        $new->inputCssClass = $value;
+        $new->inputClass = $value;
         return $new;
     }
 
-    public function invalidCssClass(string $value): self
+    /**
+     * Set invalid css class.
+     *
+     * @return static
+     */
+    public function invalidClass(string $value): self
     {
         $new = clone $this;
-        $new->invalidCssClass = $value;
+        $new->invalidClass = $value;
         return $new;
     }
 
@@ -284,8 +319,8 @@ final class Field extends FormAttribute
         $new->parts['{label}'] = '';
 
         if ($new->noLabel === false) {
-            if ($new->labelCssClass !== '') {
-                Html::addCssClass($attributes, $new->labelCssClass);
+            if ($new->labelClass !== '') {
+                Html::addCssClass($attributes, $new->labelClass);
             }
 
             $new->parts['{label}'] = Label::widget()
@@ -297,14 +332,24 @@ final class Field extends FormAttribute
         return $new;
     }
 
-    public function labelCssClass(string $value): self
+    /**
+     * Set the label css class.
+     *
+     * @return static
+     */
+    public function labelClass(string $value): self
     {
         $new = clone $this;
-        $new->labelCssClass = $value;
+        $new->labelClass = $value;
         return $new;
     }
 
 
+    /**
+     * Set disabled hint.
+     *
+     * @return static
+     */
     public function noHint(): self
     {
         $new = clone $this;
@@ -312,6 +357,10 @@ final class Field extends FormAttribute
         return $new;
     }
 
+    /**
+     * Set disabled label.
+     * @return static
+     */
     public function noLabel(): self
     {
         $new = clone $this;
@@ -338,7 +387,7 @@ final class Field extends FormAttribute
     {
         $new = clone $this;
 
-        Html::addCssClass($attributes, $new->inputCssClass);
+        Html::addCssClass($attributes, $new->inputClass);
 
         if ($new->ariaDescribedBy === true) {
             $attributes['aria-describedby'] = $new->getId() . '-hint';
@@ -347,12 +396,19 @@ final class Field extends FormAttribute
         $new->parts['{input}'] = PasswordInput::widget()
             ->attributes($attributes)
             ->config($new->getModelInterface(), $new->getAttribute())
-            ->invalidCssClass($new->invalidCssClass)
-            ->validCssClass($new->validCssClass) . PHP_EOL;
+            ->invalidClass($new->invalidClass)
+            ->validClass($new->validClass) . PHP_EOL;
 
         return $new;
     }
 
+    /**
+     * Set layout template for render a field.
+     *
+     * @param string $template
+     *
+     * @return static
+     */
     public function template(string $value): self
     {
         $new = clone $this;
@@ -386,10 +442,17 @@ final class Field extends FormAttribute
         return $new;
     }
 
-    public function validCssClass(string $value): self
+    /**
+     * Set the value valid css class.
+     *
+     * @param string $value is the valid css class.
+     *
+     * @return static
+     */
+    public function validClass(string $value): self
     {
         $new = clone $this;
-        $new->validCssClass = $value;
+        $new->validClass = $value;
         return $new;
     }
 
@@ -428,8 +491,8 @@ final class Field extends FormAttribute
             $new = $new->error();
         }
 
-        if ($new->containerCssClass !== '') {
-            $div = $div->class($new->containerCssClass);
+        if ($new->containerClass !== '') {
+            $div = $div->class($new->containerClass);
         }
 
         return $div->content("\n" . strtr($new->template, $new->parts))->encode(false)->render();

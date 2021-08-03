@@ -60,10 +60,10 @@ final class FieldTest extends TestCase
 
         $html = Field::widget()
             ->config($this->model, 'cityBirth')
-            ->containerCssClass('mb-3')
-            ->inputCssClass('form-control')
+            ->containerClass('mb-3')
+            ->inputClass('form-control')
             ->dropDownList($cities, [], $groups, $prompt)
-            ->labelCssClass('form-label')
+            ->labelClass('form-label')
             ->template('{label}{input}{hint}')
             ->render();
         $expected = <<<'HTML'
@@ -98,10 +98,10 @@ final class FieldTest extends TestCase
         $html = Field::widget()
             ->ariaDescribedBy()
             ->config($this->model, 'name')
-            ->errorCssClass('invalid-feedback')
-            ->invalidCssClass('is-invalid')
+            ->errorClass('invalid-feedback')
+            ->invalidClass('is-invalid')
             ->template('{label}{input}{hint}{error}')
-            ->validCssClass('is-valid')
+            ->validClass('is-valid')
             ->render();
         $expected = <<<'HTML'
         <div>
@@ -208,8 +208,8 @@ final class FieldTest extends TestCase
 
         $html = Field::widget()
             ->config($this->model, 'name')
-            ->containerCssClass('mb-3')
-            ->labelCssClass('form-label')
+            ->containerClass('mb-3')
+            ->labelClass('form-label')
             ->template('{label}{input}{hint}')
             ->textArea()
             ->render();
@@ -232,9 +232,9 @@ final class FieldTest extends TestCase
         $html = Field::widget()
             ->ariaDescribedBy()
             ->config($this->model, 'name')
-            ->inValidCssClass('is-invalid')
+            ->inValidClass('is-invalid')
             ->template('{label}{input}{hint}{error}')
-            ->validCssClass('is-valid')
+            ->validClass('is-valid')
             ->render();
         $expected = <<<'HTML'
         <div>
@@ -257,9 +257,9 @@ final class FieldTest extends TestCase
         $html = Field::widget()
             ->ariaDescribedBy()
             ->config($this->model, 'name')
-            ->inValidCssClass('is-invalid')
+            ->inValidClass('is-invalid')
             ->template('{label}{input}{hint}{error}')
-            ->validCssClass('is-valid')
+            ->validClass('is-valid')
             ->render();
         $expected = <<<'HTML'
         <div>
@@ -277,10 +277,10 @@ final class FieldTest extends TestCase
         return Field::widget()
             ->config($this->model, 'name')
             ->ariaDescribedBy(true)
-            ->containerCssClass('mb-3')
-            ->hintCssClass('form-text')
-            ->inputCssClass('form-control')
-            ->labelCssClass('form-label')
+            ->containerClass('mb-3')
+            ->hintClass('form-text')
+            ->inputClass('form-control')
+            ->labelClass('form-label')
             ->template('{label}{input}{hint}')
             ->render();
     }
@@ -290,12 +290,12 @@ final class FieldTest extends TestCase
         return Field::widget()
             ->config($this->model, 'name')
             ->ariaDescribedBy(true)
-            ->containerCssClass('mb-3')
-            ->errorCssClass('invalid-feedback')
+            ->containerClass('mb-3')
+            ->errorClass('invalid-feedback')
             ->errorMessage('Fill in this field.')
-            ->hintCssClass('form-text')
-            ->inputCssClass('form-control')
-            ->labelCssClass('form-label')
+            ->hintClass('form-text')
+            ->inputClass('form-control')
+            ->labelClass('form-label')
             ->required()
             ->template('{label}{input}{hint}{error}')
             ->render();
@@ -305,10 +305,10 @@ final class FieldTest extends TestCase
     {
         return Field::widget()
             ->config($this->model, 'name')
-            ->containerCssClass('field')
-            ->hintCssClass('help')
-            ->inputCssClass('input')
-            ->labelCssClass('label')
+            ->containerClass('field')
+            ->hintClass('help')
+            ->inputClass('input')
+            ->labelClass('label')
             ->template("{label}<div class=\"control\">\n{input}</div>\n{hint}")
             ->render();
     }
@@ -317,10 +317,10 @@ final class FieldTest extends TestCase
     {
         return Field::widget()
             ->config($this->model, 'name')
-            ->containerCssClass('grid grid-cols-1 gap-6')
-            ->inputCssClass('mt-1 block w-full')
-            ->labelCssClass('text-gray-700')
-            ->nohint()
+            ->containerClass('grid grid-cols-1 gap-6')
+            ->inputClass('mt-1 block w-full')
+            ->labelClass('text-gray-700')
+            ->noHint()
             ->template("<div class=\"block\">\n{label}{input}</div>\n")
             ->render();
     }
