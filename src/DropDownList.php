@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select;
@@ -16,7 +17,7 @@ use Yiisoft\Html\Tag\Select;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/select.html
  */
-final class DropDownList extends Widget
+final class DropDownList extends FormAttribute
 {
     private bool $encode = false;
     private array $items = [];

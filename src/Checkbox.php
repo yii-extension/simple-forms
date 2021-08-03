@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
 
 /**
@@ -14,7 +15,7 @@ use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox
  */
-final class Checkbox extends Widget
+final class Checkbox extends FormAttribute
 {
     private bool $unclosedByLabel = false;
     private bool $uncheckValue = true;

@@ -6,7 +6,7 @@ namespace Yiisoft\Form\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yii\Extension\Simple\Forms\TextArea;
 

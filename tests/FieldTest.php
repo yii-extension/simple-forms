@@ -6,7 +6,7 @@ namespace Yii\Extension\Simple\Forms\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yiisoft\Validator\Formatter;
 use Yiisoft\Validator\Validator;
@@ -130,6 +130,24 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
+    public function testPasswordInput(): void
+    {
+        $html = Field::widget()
+            ->ariaDescribedBy()
+            ->config($this->model, 'password')
+            ->passwordInput()
+            ->template('{label}{input}{hint}')
+            ->render();
+        $expected = <<<'HTML'
+        <div>
+        <label for="personalform-password">Password</label>
+        <input type="password" id="personalform-password" class="" name="PersonalForm[password]" value="" aria-describedby="personalform-password-hint" placeholder="Password">
+        <div id="personalform-password-hint">Write your password.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
     public function testRenderBootstrap5(): void
     {
         $html = $this->fieldBoostrapDefaultConfig();
@@ -184,32 +202,6 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $this->fieldTailwindDefaultConfig());
     }
 
-    public function testPasswordInputWithValidation(): void
-    {
-        /** Add class is-invalid */
-        $validator = $this->getValidator();
-        $this->model->setAttribute('name', '');
-        $validator->validate($this->model);
-
-        $html = Field::widget()
-            ->ariaDescribedBy()
-            ->config($this->model, 'name')
-            ->inValidCssClass('is-invalid')
-            ->passwordInput()
-            ->template('{label}{input}{hint}{error}')
-            ->validCssClass('is-valid')
-            ->render();
-        $expected = <<<'HTML'
-        <div>
-        <label for="personalform-name">Name</label>
-        <input type="password" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint">Write your first name.</div>
-        <div>Value cannot be blank.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
     public function testTextArea(): void
     {
         $this->model->setAttribute('name', 'samdark');
@@ -225,6 +217,56 @@ final class FieldTest extends TestCase
         <div class="mb-3">
         <label class="form-label" for="personalform-name">Name</label>
         <textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea><div id="personalform-name-hint">Write your first name.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testValidationIsInvalid(): void
+    {
+        /** Add class is-invalid */
+        $validator = $this->getValidator();
+        $this->model->setAttribute('name', '');
+        $validator->validate($this->model);
+
+        $html = Field::widget()
+            ->ariaDescribedBy()
+            ->config($this->model, 'name')
+            ->inValidCssClass('is-invalid')
+            ->template('{label}{input}{hint}{error}')
+            ->validCssClass('is-valid')
+            ->render();
+        $expected = <<<'HTML'
+        <div>
+        <label for="personalform-name">Name</label>
+        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <div id="personalform-name-hint">Write your first name.</div>
+        <div>Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $html);
+    }
+
+    public function testValidationIsValid(): void
+    {
+        /** Add class is-invalid */
+        $validator = $this->getValidator();
+        $this->model->setAttribute('name', 'samdark');
+        $validator->validate($this->model);
+
+        $html = Field::widget()
+            ->ariaDescribedBy()
+            ->config($this->model, 'name')
+            ->inValidCssClass('is-invalid')
+            ->template('{label}{input}{hint}{error}')
+            ->validCssClass('is-valid')
+            ->render();
+        $expected = <<<'HTML'
+        <div>
+        <label for="personalform-name">Name</label>
+        <input type="text" id="personalform-name" class="is-valid" name="PersonalForm[name]" value="samdark" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <div id="personalform-name-hint">Write your first name.</div>
+        <div></div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $html);

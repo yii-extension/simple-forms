@@ -15,33 +15,6 @@ use Yiisoft\Html\Tag\Input as InputTag;
 final class TextInput extends Input
 {
     /**
-     * @return string the generated input tag.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        $value = $new->getValue();
-
-        if ($new->getNoPlaceholder() === false) {
-            $new->setPlaceholder();
-        }
-
-        $new = $new->addValidateCssClass($new);
-
-        if (!is_scalar($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
-        }
-
-        return InputTag::text()
-            ->attributes($new->attributes)
-            ->id($new->getId())
-            ->name($new->getInputName())
-            ->value($value)
-            ->render();
-    }
-
-    /**
      * Enables submission of a value for the directionality of the element, and gives the name of the field that
      * contains that value.
      *
@@ -60,5 +33,30 @@ final class TextInput extends Input
         $new = clone $this;
         $new->attributes['dirname'] = $value;
         return $new;
+    }
+
+    /**
+     * @return string the generated input tag.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        $value = $new->getValue();
+
+        $new->setPlaceholder();
+
+        $new = $new->addValidateCssClass($new);
+
+        if (!is_scalar($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        }
+
+        return InputTag::text()
+            ->attributes($new->attributes)
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->value($value)
+            ->render();
     }
 }

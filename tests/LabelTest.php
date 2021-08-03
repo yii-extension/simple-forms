@@ -6,7 +6,7 @@ namespace Yii\Extension\Simple\Forms\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Label;
-use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
 
 final class LabelTest extends TestCase
 {

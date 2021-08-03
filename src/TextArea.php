@@ -12,33 +12,8 @@ use Yiisoft\Html\Tag\Textarea as TextAreaTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html
  */
-final class TextArea extends Widget
+final class TextArea extends Input
 {
-    /**
-     * @return string the generated textarea tag.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        if ($new->getNoPlaceholder() === false) {
-            $new->setPlaceholder();
-        }
-
-        $value = $new->getValue();
-
-        if (!is_string($value)) {
-            throw new InvalidArgumentException('The value must be a string|null.');
-        }
-
-        return TextAreaTag::tag()
-            ->attributes($new->attributes)
-            ->id($new->getId())
-            ->name($new->getInputName())
-            ->value($value)
-            ->render();
-    }
-
     /**
      * The expected maximum number of characters per line of text for the UA to show.
      *
@@ -51,7 +26,7 @@ final class TextArea extends Widget
     public function cols(int $value): self
     {
         $new = clone $this;
-        $new->attributes['cols'] = $new->validateIntegerPositive($value);
+        $new->attributes['cols'] = $value;
         return $new;
     }
 
@@ -70,7 +45,7 @@ final class TextArea extends Widget
     public function maxlength(int $value): self
     {
         $new = clone $this;
-        $new->attributes['maxlength'] = $new->validateIntegerPositive($value);
+        $new->attributes['maxlength'] = $value;
         return $new;
     }
 
@@ -128,5 +103,28 @@ final class TextArea extends Widget
         $new = clone $this;
         $new->attributes['wrap'] = $value;
         return $new;
+    }
+
+    /**
+     * @return string the generated textarea tag.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        $new->setPlaceholder();
+
+        $value = $new->getValue();
+
+        if (!is_string($value)) {
+            throw new InvalidArgumentException('The value must be a string|null.');
+        }
+
+        return TextAreaTag::tag()
+            ->attributes($new->attributes)
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->value($value)
+            ->render();
     }
 }

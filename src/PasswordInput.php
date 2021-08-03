@@ -21,9 +21,7 @@ final class PasswordInput extends Input
     {
         $new = clone $this;
 
-        if ($new->getNoPlaceholder() === false) {
-            $new->setPlaceholder();
-        }
+        $new->setPlaceholder();
 
         $value = $new->getValue();
 

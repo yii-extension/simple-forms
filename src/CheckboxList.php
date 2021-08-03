@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use Closure;
 use Stringable;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxList as ChecboxListWidget;
 
@@ -14,7 +15,7 @@ use Yiisoft\Html\Widget\CheckboxList\CheckboxList as ChecboxListWidget;
  *
  * A checkbox list allows multiple selection, like {@see ListBox}.
  */
-final class CheckboxList extends Widget
+final class CheckboxList extends FormAttribute
 {
     private array $containerAttributes = [];
     private ?string $containerTag = 'div';

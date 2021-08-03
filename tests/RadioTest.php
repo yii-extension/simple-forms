@@ -7,7 +7,7 @@ namespace Yiisoft\Form\Tests\Widget;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Radio;
-use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
 
 final class RadioTest extends TestCase
 {

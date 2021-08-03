@@ -2,18 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Stub;
+namespace Yii\Extension\Simple\Forms\Tests\TestSupport\Widget;
 
-use Yii\Extension\Simple\Forms\Widget;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Html;
 
-final class StubWidget extends Widget
+final class StubWidget extends FormAttribute
 {
     protected function run(): string
     {
         $new = clone $this;
-
-        $new->validateConfig();
 
         return '<' . $new->getId() . Html::renderTagAttributes($new->attributes) . '>';
     }

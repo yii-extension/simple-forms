@@ -7,13 +7,14 @@ namespace Yii\Extension\Simple\Forms;
 use ReflectionException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 
 use function strtr;
 
 /**
  * Renders the field widget along with label and hint tag (if any) according to template.
  */
-final class Field extends Widget
+final class Field extends FormAttribute
 {
     private bool $ariaDescribedBy = false;
     private string $containerCssClass = '';
@@ -28,48 +29,6 @@ final class Field extends Widget
     private bool $noLabel = false;
     private array $parts = [];
     private string $template = '';
-
-    /**
-     * Renders the whole field.
-     *
-     * This method will generate the label, input tag and hint tag (if any), and assemble them into HTML according to
-     * {@see template}.
-     *
-     * If (not set), the default methods will be called to generate the label and input tag, and use them as the
-     * content.
-     *
-     * @throws ReflectionException
-     *
-     * @return string the rendering result.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        $div = Div::tag();
-
-        if (!isset($new->parts['{label}'])) {
-            $new = $new->label();
-        }
-
-        if (!isset($new->parts['{input}'])) {
-            $new = $new->input();
-        }
-
-        if (!isset($new->parts['{hint}'])) {
-            $new = $new->hint();
-        }
-
-        if (!isset($this->parts['{error}'])) {
-            $new = $new->error();
-        }
-
-        if ($new->containerCssClass !== '') {
-            $div = $div->class($new->containerCssClass);
-        }
-
-        return $div->content("\n" . strtr($new->template, $new->parts))->encode(false)->render();
-    }
 
     public function ariaDescribedBy(): self
     {
@@ -152,7 +111,7 @@ final class Field extends Widget
 
         $new->parts['{input}'] = DropDownList::widget()
             ->attributes($attributes)
-            ->config($new->modelInterface, $new->attribute)
+            ->config($new->getModelInterface(), $new->getAttribute())
             ->items($items)
             ->groups($groups)
             ->prompt($prompt)
@@ -188,7 +147,7 @@ final class Field extends Widget
 
         $new->parts['{error}'] = Error::widget()
             ->attributes($attributes)
-            ->config($new->modelInterface, $new->attribute)
+            ->config($new->getModelInterface(), $new->getAttribute())
             ->message($new->errorMessage) . "\n";
 
         return $new;
@@ -237,7 +196,7 @@ final class Field extends Widget
 
             $new->parts['{hint}'] = Hint::widget()
                 ->attributes($attributes)
-                ->config($new->modelInterface, $new->attribute)
+                ->config($new->getModelInterface(), $new->getAttribute())
                 ->hint($content)
                 ->tag($tag) . PHP_EOL;
         }
@@ -282,7 +241,7 @@ final class Field extends Widget
 
         $new->parts['{input}'] = TextInput::widget()
             ->attributes($attributes)
-            ->config($new->modelInterface, $new->attribute)
+            ->config($new->getModelInterface(), $new->getAttribute())
             ->invalidCssClass($new->invalidCssClass)
             ->validCssClass($new->validCssClass) . PHP_EOL;
 
@@ -331,7 +290,7 @@ final class Field extends Widget
 
             $new->parts['{label}'] = Label::widget()
                 ->attributes($attributes)
-                ->config($new->modelInterface, $new->attribute)
+                ->config($new->getModelInterface(), $new->getAttribute())
                 ->label($label) . PHP_EOL;
         }
 
@@ -387,7 +346,7 @@ final class Field extends Widget
 
         $new->parts['{input}'] = PasswordInput::widget()
             ->attributes($attributes)
-            ->config($new->modelInterface, $new->attribute)
+            ->config($new->getModelInterface(), $new->getAttribute())
             ->invalidCssClass($new->invalidCssClass)
             ->validCssClass($new->validCssClass) . PHP_EOL;
 
@@ -421,7 +380,7 @@ final class Field extends Widget
 
         $new->parts['{input}'] = TextArea::widget()
             ->attributes($attributes)
-            ->config($new->modelInterface, $new->attribute)
+            ->config($new->getModelInterface(), $new->getAttribute())
             ->render();
 
         return $new;
@@ -432,5 +391,47 @@ final class Field extends Widget
         $new = clone $this;
         $new->validCssClass = $value;
         return $new;
+    }
+
+    /**
+     * Renders the whole field.
+     *
+     * This method will generate the label, input tag and hint tag (if any), and assemble them into HTML according to
+     * {@see template}.
+     *
+     * If (not set), the default methods will be called to generate the label and input tag, and use them as the
+     * content.
+     *
+     * @throws ReflectionException
+     *
+     * @return string the rendering result.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        $div = Div::tag();
+
+        if (!isset($new->parts['{label}'])) {
+            $new = $new->label();
+        }
+
+        if (!isset($new->parts['{input}'])) {
+            $new = $new->input();
+        }
+
+        if (!isset($new->parts['{hint}'])) {
+            $new = $new->hint();
+        }
+
+        if (!isset($this->parts['{error}'])) {
+            $new = $new->error();
+        }
+
+        if ($new->containerCssClass !== '') {
+            $div = $div->class($new->containerCssClass);
+        }
+
+        return $div->content("\n" . strtr($new->template, $new->parts))->encode(false)->render();
     }
 }

@@ -18,47 +18,6 @@ final class Radio extends Input
     private bool $uncheckValue = true;
 
     /**
-     * Generates a radio button tag together with a label for the given form attribute.
-     *
-     * @return string the generated radio button tag.
-     */
-    public function run(): string
-    {
-        $new = clone $this;
-
-        $radio = RadioTag::tag();
-
-        if ($new->unclosedByLabel === false) {
-            /** @var string */
-            $label = $new->attributes['label'] ?? $new->getLabel();
-
-            /** @var array */
-            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
-
-            unset($new->attributes['label'], $new->attributes['labelAttributes']);
-
-            $radio = $radio->label($label, $labelAttributes);
-        }
-
-        if ($new->uncheckValue) {
-            $radio = $radio->uncheckValue('0');
-        }
-
-        $value = $new->getValue();
-
-        if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
-        }
-
-        return $radio
-            ->checked((bool) $new->getValue())
-            ->id($new->getId())
-            ->name($new->getInputName())
-            ->value($value)
-            ->render();
-    }
-
-    /**
      * Label displayed next to the radio.
      *
      * It will NOT be HTML-encoded, therefore you can pass in HTML code such as an image tag. If this is is coming from
@@ -118,5 +77,46 @@ final class Radio extends Input
         $new = clone $this;
         $new->uncheckValue = false;
         return $new;
+    }
+
+    /**
+     * Generates a radio button tag together with a label for the given form attribute.
+     *
+     * @return string the generated radio button tag.
+     */
+    public function run(): string
+    {
+        $new = clone $this;
+
+        $radio = RadioTag::tag();
+
+        if ($new->unclosedByLabel === false) {
+            /** @var string */
+            $label = $new->attributes['label'] ?? $new->getLabel();
+
+            /** @var array */
+            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
+
+            unset($new->attributes['label'], $new->attributes['labelAttributes']);
+
+            $radio = $radio->label($label, $labelAttributes);
+        }
+
+        if ($new->uncheckValue) {
+            $radio = $radio->uncheckValue('0');
+        }
+
+        $value = $new->getValue();
+
+        if (is_iterable($value) || is_object($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        }
+
+        return $radio
+            ->checked((bool) $new->getValue())
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->value($value)
+            ->render();
     }
 }

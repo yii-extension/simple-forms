@@ -6,8 +6,8 @@ namespace Yii\Extension\Simple\Forms\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
 use Yii\Extension\Simple\Forms\TextInput;
-use Yii\Extension\Simple\Forms\Tests\Stub\PersonalForm;
 
 final class TextInputTest extends TestCase
 {

@@ -5,39 +5,16 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\CustomTag;
 
 /**
  * Generates a hint tag for the given form attribute.
  */
-final class Hint extends Widget
+final class Hint extends FormAttribute
 {
     private string $hint = '';
     private string $tag = 'div';
-
-    /**
-     * @return string the generated hint tag.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        $hint = $new->modelInterface->getAttributeHint($new->attribute) !== ''
-            ? $new->modelInterface->getAttributeHint($new->attribute) : $new->hint;
-
-        if (empty($new->tag)) {
-            throw new InvalidArgumentException('The tag cannot be empty.');
-        }
-
-        return
-            $hint !== ''
-                ? CustomTag::name($new->tag)
-                    ->attributes($new->attributes)
-                    ->content($hint)
-                    ->id($new->getId() . '-hint')
-                    ->render()
-                : '';
-    }
 
     /**
      * This specifies the hint to be displayed.
@@ -71,5 +48,28 @@ final class Hint extends Widget
         $new = clone $this;
         $new->tag = $value;
         return $new;
+    }
+
+    /**
+     * @return string the generated hint tag.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        $hint = $new->getAttributehint() !== '' ? $new->getAttributehint() : $new->hint;
+
+        if (empty($new->tag)) {
+            throw new InvalidArgumentException('The tag cannot be empty.');
+        }
+
+        return
+            $hint !== ''
+                ? CustomTag::name($new->tag)
+                    ->attributes($new->attributes)
+                    ->content($hint)
+                    ->id($new->getId() . '-hint')
+                    ->render()
+                : '';
     }
 }

@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\Div;
 
-final class Error extends Widget
+final class Error extends FormAttribute
 {
     private string $message = '';
+
+    public function message(string $value): self
+    {
+        $new = clone $this;
+        $new->message = $value;
+        return $new;
+    }
 
     /**
      * Generates a tag that contains the first validation error of the specified form attribute.
@@ -26,12 +34,5 @@ final class Error extends Widget
         }
 
         return Div::tag()->attributes($new->attributes)->content($error)->render();
-    }
-
-    public function message(string $value): self
-    {
-        $new = clone $this;
-        $new->message = $value;
-        return $new;
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Stub;
+namespace Yii\Extension\Simple\Forms\Tests\TestSupport\Form;
 
 use Yii\Extension\Simple\Model\BaseModel;
 use Yiisoft\Validator\Rule\HasLength;
@@ -14,6 +14,7 @@ final class PersonalForm extends BaseModel
     private array $citys = [];
     private ?int $cityBirth = null;
     private string $name = '';
+    private string $password = '';
     private int $terms = 0;
 
     public function getAttributeLabels(): array
@@ -25,6 +26,7 @@ final class PersonalForm extends BaseModel
     {
         return [
             'name' => 'Write your first name.',
+            'password' => 'Write your password.',
         ];
     }
 

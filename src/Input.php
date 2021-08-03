@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Html;
 
 /**
@@ -12,7 +13,7 @@ use Yiisoft\Html\Html;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input
  */
-abstract class Input extends Widget
+abstract class Input extends FormAttribute
 {
     protected string $invalidCssClass = '';
     protected string $validCssClass = '';
@@ -60,7 +61,7 @@ abstract class Input extends Widget
     public function maxlength(int $value): self
     {
         $new = clone $this;
-        $new->attributes['maxlength'] = $new->validateIntegerPositive($value);
+        $new->attributes['maxlength'] = $value;
         return $new;
     }
 
@@ -126,7 +127,7 @@ abstract class Input extends Widget
     public function size(int $value): self
     {
         $new = clone $this;
-        $new->attributes['size'] = $new->validateIntegerPositive($value);
+        $new->attributes['size'] = $value;
         return $new;
     }
 
@@ -141,12 +142,12 @@ abstract class Input extends Widget
     {
         $new = $new->addHtmlValidation();
 
-        if (empty($new->modelInterface->getError($new->attribute)) && !empty($new->getValue())) {
-            $new->validCssClass === '' ?: Html::addCssClass($new->attributes, $new->validCssClass);
+        if (!empty($new->getValue()) && ($new->hasErrors() === false) && ($new->validCssClass !== '')) {
+            Html::addCssClass($new->attributes, $new->validCssClass);
         }
 
-        if ($new->modelInterface->getError($new->attribute)) {
-            $new->invalidCssClass === '' ?: Html::addCssClass($new->attributes, $new->invalidCssClass);
+        if ($new->hasErrors() == true && $new->invalidCssClass !== '') {
+            Html::addCssClass($new->attributes, $new->invalidCssClass);
         }
 
         return $new;

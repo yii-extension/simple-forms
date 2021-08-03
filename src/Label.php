@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\Label as LabelTag;
 
 /**
@@ -11,24 +12,9 @@ use Yiisoft\Html\Tag\Label as LabelTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
  */
-final class Label extends Widget
+final class Label extends FormAttribute
 {
     private string $label = '';
-
-    /**
-     * @return string the generated label tag.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        /** @var string */
-        $for = $new->attributes['for'] ?? $new->getId();
-
-        $label = $new->label === '' ? $new->getLabel() : $new->label;
-
-        return LabelTag::tag()->attributes($new->attributes)->content($label)->forId($for)->render();
-    }
 
     /**
      * The id of a labelable form-related element in the same document as the tag label element.
@@ -65,5 +51,20 @@ final class Label extends Widget
         $new = clone $this;
         $new->label = $value;
         return $new;
+    }
+
+    /**
+     * @return string the generated label tag.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        /** @var string */
+        $for = $new->attributes['for'] ?? $new->getId();
+
+        $label = $new->label === '' ? $new->getLabel() : $new->label;
+
+        return LabelTag::tag()->attributes($new->attributes)->content($label)->forId($for)->render();
     }
 }
