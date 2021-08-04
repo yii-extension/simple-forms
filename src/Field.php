@@ -7,14 +7,13 @@ namespace Yii\Extension\Simple\Forms;
 use ReflectionException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
-use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 
 use function strtr;
 
 /**
  * Renders the field widget along with label and hint tag (if any) according to template.
  */
-final class Field extends FormAttribute
+final class Field extends Widget
 {
     private bool $ariaDescribedBy = false;
     private string $containerClass = '';

@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\CustomTag;
 
 /**
  * Generates a hint tag for the given form attribute.
  */
-final class Hint extends FormAttribute
+final class Hint extends Widget
 {
     private string $hint = '';
     private string $tag = 'div';

@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\Div;
 
-final class Error extends FormAttribute
+final class Error extends Widget
 {
     private string $message = '';
 

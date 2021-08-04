@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Html;
 
 /**
@@ -13,7 +12,7 @@ use Yiisoft\Html\Html;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input
  */
-abstract class Input extends FormAttribute
+abstract class Input extends Widget
 {
     protected string $invalidClass = '';
     protected string $validClass = '';

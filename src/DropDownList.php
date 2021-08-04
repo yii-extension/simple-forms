@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\FormAttribute;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select;
@@ -17,7 +16,7 @@ use Yiisoft\Html\Tag\Select;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/select.html
  */
-final class DropDownList extends FormAttribute
+final class DropDownList extends Widget
 {
     private bool $encode = false;
     private array $items = [];
@@ -109,7 +108,7 @@ final class DropDownList extends FormAttribute
      *
      * The array keys are option values, and the array values are the corresponding option labels. The array can also
      * be nested (i.e. some array values are arrays too). For each sub-array, an option group will be generated whose
-     * label is the key associated with the sub-array. If you have a list of data {@see FormModel}, you may convert
+     * label is the key associated with the sub-array. If you have a list of data {@see Widget}, you may convert
      * them into the format described above using {@see \Yiisoft\Arrays\ArrayHelper::map()}
      *
      * Example:

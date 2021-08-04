@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms\Attribute;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Html;
-use Yiisoft\Html\NoEncodeStringableInterface;
 
-abstract class Attributes extends AbstractWidget implements NoEncodeStringableInterface
+trait GlobalsAttribute
 {
     protected array $attributes = [];
     private string $dir = '';

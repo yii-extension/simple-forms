@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Attribute;
+namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use UnexpectedValueException;
+use Yii\Extension\Simple\Forms\Attribute\GlobalsAttribute;
 use Yii\Extension\Simple\Model\ModelInterface;
+use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\NoEncodeStringableInterface;
 use Yiisoft\Validator\Rule\Required;
 
-abstract class FormAttribute extends Attributes
+abstract class Widget extends AbstractWidget implements NoEncodeStringableInterface
 {
+    use GlobalsAttribute;
+
     private string $attribute = '';
     private string $charset = 'UTF-8';
     private string $id = '';
