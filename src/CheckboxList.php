@@ -23,52 +23,6 @@ final class CheckboxList extends Widget
     /** @var array<array-key, string> */
     private array $items = [];
     private array $itemsAttributes = [];
-    /** @var bool|float|int|string|Stringable|null */
-    private $uncheckValue = false;
-    private string $unselect = '';
-
-    /**
-     * @return string the generated checkbox list.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        $checkboxList = ChecboxListWidget::create($new->getInputName());
-
-        $new->containerAttributes['id'] = $new->containerAttributes['id'] ?? $new->getId();
-
-        /** @var null|scalar|Stringable|iterable<int, Stringable|scalar> */
-        $values = $new->getValue();
-
-        /** @var string */
-        $separator = $new->attributes['separator'] ?? '';
-
-        /** @var string|null */
-        $uncheckValue = $new->attributes['uncheckValue'] ?? $new->uncheckValue;
-
-        unset($new->attributes['itemsAttributes'], $new->attributes['separator']);
-
-        if ($separator !== '') {
-            $checkboxList = $checkboxList->separator($separator);
-        }
-
-        if (is_iterable($values)) {
-            $checkboxList = $checkboxList->values($values);
-        } elseif (is_scalar($values)) {
-            $checkboxList = $checkboxList->value($values);
-        }
-
-        return $checkboxList
-            ->checkboxAttributes($new->attributes)
-            ->containerAttributes($new->containerAttributes)
-            ->containerTag($new->containerTag)
-            ->itemFormatter($new->itemFormatter)
-            ->items($new->items)
-            ->replaceCheckboxAttributes($new->itemsAttributes)
-            ->uncheckValue($uncheckValue)
-            ->render();
-    }
 
     /**
      * The container attributes for generating the list of checkboxes tag using {@see CheckBoxList}.
@@ -145,23 +99,6 @@ final class CheckboxList extends Widget
     }
 
     /**
-     * The value associated with the uncheck state of the checkboxlist.
-     *
-     * When this attribute is present, a hidden input will be generated so that if the checkboxlist is not checked and
-     * is submitted, the value of this attribute will still be submitted to the server via the hidden input.
-     *
-     * @param bool|float|int|string|Stringable|null $value
-     *
-     * @return static
-     */
-    public function uncheckValue($value): self
-    {
-        $new = clone $this;
-        $new->uncheckValue = $value;
-        return $new;
-    }
-
-    /**
      * @link https://www.w3.org/TR/html52/sec-forms.html#the-readonly-attribute
      *
      * @return static
@@ -187,10 +124,55 @@ final class CheckboxList extends Widget
         return $new;
     }
 
+    /**
+     * Disabled container tag.
+     *
+     * @return static
+     */
     public function withoutContainer(): self
     {
         $new = clone $this;
         $new->containerTag = null;
         return $new;
+    }
+
+    /**
+     * @return string the generated checkbox list.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        $checkboxList = ChecboxListWidget::create($new->getInputName());
+
+        $new->containerAttributes['id'] = $new->containerAttributes['id'] ?? $new->getId();
+
+        /** @var null|scalar|Stringable|iterable<int, Stringable|scalar> */
+        $values = $new->getValue();
+
+        /** @var string */
+        $separator = $new->attributes['separator'] ?? '';
+
+        unset($new->attributes['itemsAttributes'], $new->attributes['separator']);
+
+        if ($separator !== '') {
+            $checkboxList = $checkboxList->separator($separator);
+        }
+
+        if (is_iterable($values)) {
+            $checkboxList = $checkboxList->values($values);
+        } elseif (is_scalar($values)) {
+            $checkboxList = $checkboxList->value($values);
+        }
+
+        return $checkboxList
+            ->checkboxAttributes($new->attributes)
+            ->containerAttributes($new->containerAttributes)
+            ->containerTag($new->containerTag)
+            ->itemFormatter($new->itemFormatter)
+            ->items($new->items)
+            ->replaceCheckboxAttributes($new->itemsAttributes)
+            ->uncheckValue(null)
+            ->render();
     }
 }

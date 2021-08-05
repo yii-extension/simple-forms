@@ -16,47 +16,20 @@ use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
  */
 final class Checkbox extends Widget
 {
-    private bool $unclosedByLabel = false;
-    private bool $uncheckValue = true;
+    private bool $enclosedByLabel = true;
 
     /**
-     * @return string the generated checkbox tag.
+     * If the widget should be enclosed by label.
+     *
+     * @param bool $value If the widget should be en closed by label.
+     *
+     * @return static
      */
-    protected function run(): string
+    public function enclosedByLabel(bool $value = true): self
     {
         $new = clone $this;
-
-        $checkbox = CheckboxTag::tag();
-
-        if ($new->unclosedByLabel === false) {
-            /** @var string */
-            $label = $new->attributes['label'] ?? $new->getLabel();
-
-            /** @var array */
-            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
-
-            unset($new->attributes['label'], $new->attributes['labelAttributes']);
-
-            $checkbox = $checkbox->label($label, $labelAttributes);
-        }
-
-        if ($new->uncheckValue) {
-            $checkbox = $checkbox->uncheckValue('0');
-        }
-
-        $value = $new->getValue();
-
-        if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
-        }
-
-        return $checkbox
-            ->attributes($new->attributes)
-            ->checked((bool) $new->getValue())
-            ->id($new->getId())
-            ->name($new->getInputName())
-            ->value($value)
-            ->render();
+        $new->enclosedByLabel = $value;
+        return $new;
     }
 
     /**
@@ -95,29 +68,39 @@ final class Checkbox extends Widget
     }
 
     /**
-     * If the widget should be unclosed by label.
-     *
-     * @return static
+     * @return string the generated checkbox tag.
      */
-    public function unclosedByLabel(): self
+    protected function run(): string
     {
         $new = clone $this;
-        $new->unclosedByLabel = true;
-        return $new;
-    }
 
-    /**
-     * The value associated with the uncheck state of the checkbox.
-     *
-     * When this attribute is present, a hidden input will be generated so that if the checkbox is not checked and
-     * is submitted, the value of this attribute will still be submitted to the server via the hidden input.
-     *
-     * @return static
-     */
-    public function uncheckValue(): self
-    {
-        $new = clone $this;
-        $new->uncheckValue = false;
-        return $new;
+        $checkbox = CheckboxTag::tag();
+
+        if ($new->enclosedByLabel === true) {
+            /** @var string */
+            $label = $new->attributes['label'] ?? $new->getLabel();
+
+            /** @var array */
+            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
+
+            unset($new->attributes['label'], $new->attributes['labelAttributes']);
+
+            $checkbox = $checkbox->label($label, $labelAttributes);
+        }
+
+        $value = $new->getValue();
+
+        if (is_iterable($value) || is_object($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        }
+
+        return $checkbox
+            ->attributes($new->attributes)
+            ->checked((bool) $new->getValue())
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->value($value)
+            ->uncheckValue(null)
+            ->render();
     }
 }

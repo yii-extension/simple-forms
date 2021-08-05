@@ -257,28 +257,6 @@ final class DropDownListTest extends TestCase
         $this->assertEqualsWithoutLE($expected, $html);
     }
 
-    public function testUnselectWithMultiple(): void
-    {
-        $this->model->setAttribute('cityBirth', 2);
-
-        $html = DropDownList::widget()
-            ->config($this->model, 'cityBirth')
-            ->items($this->cities)
-            ->multiple()
-            ->unselectValue('0')
-            ->render();
-        $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="0">
-        <select id="personalform-citybirth" name="PersonalForm[cityBirth][]" multiple size="4">
-        <option value="1">Moscu</option>
-        <option value="2" selected>San Petersburgo</option>
-        <option value="3">Novosibirsk</option>
-        <option value="4">Ekaterinburgo</option>
-        </select>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);

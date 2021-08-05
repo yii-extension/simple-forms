@@ -14,8 +14,21 @@ use Yiisoft\Html\Tag\Input\Radio as RadioTag;
  */
 final class Radio extends Input
 {
-    private bool $unclosedByLabel = false;
-    private bool $uncheckValue = true;
+    private bool $enclosedByLabel = true;
+
+    /**
+     * If the widget should be enclosed by label.
+     *
+     * @param bool $value If the widget should be en closed by label.
+     *
+     * @return static
+     */
+    public function enclosedByLabel(bool $value = true): self
+    {
+        $new = clone $this;
+        $new->enclosedByLabel = $value;
+        return $new;
+    }
 
     /**
      * Label displayed next to the radio.
@@ -53,44 +66,17 @@ final class Radio extends Input
     }
 
     /**
-     * If the widget should be un closed by label.
-     *
-     * @return static
-     */
-    public function unclosedByLabel(): self
-    {
-        $new = clone $this;
-        $new->unclosedByLabel = true;
-        return $new;
-    }
-
-    /**
-     * The value associated with the uncheck state of the radio.
-     *
-     * When this attribute is present, a hidden input will be generated so that if the radio is not checked and is
-     * submitted, the value of this attribute will still be submitted to the server via the hidden input.
-     *
-     * @return static
-     */
-    public function uncheckValue(): self
-    {
-        $new = clone $this;
-        $new->uncheckValue = false;
-        return $new;
-    }
-
-    /**
      * Generates a radio button tag together with a label for the given form attribute.
      *
      * @return string the generated radio button tag.
      */
-    public function run(): string
+    protected function run(): string
     {
         $new = clone $this;
 
         $radio = RadioTag::tag();
 
-        if ($new->unclosedByLabel === false) {
+        if ($new->enclosedByLabel === true) {
             /** @var string */
             $label = $new->attributes['label'] ?? $new->getLabel();
 
@@ -100,10 +86,6 @@ final class Radio extends Input
             unset($new->attributes['label'], $new->attributes['labelAttributes']);
 
             $radio = $radio->label($label, $labelAttributes);
-        }
-
-        if ($new->uncheckValue) {
-            $radio = $radio->uncheckValue('0');
         }
 
         $value = $new->getValue();
@@ -116,6 +98,7 @@ final class Radio extends Input
             ->checked((bool) $new->getValue())
             ->id($new->getId())
             ->name($new->getInputName())
+            ->uncheckValue(null)
             ->value($value)
             ->render();
     }

@@ -15,7 +15,7 @@ final class CheckboxListTest extends TestCase
 {
     use TestTrait;
 
-    public function testCheckBoxListItemsAttributes(): void
+    public function testItemsAttributes(): void
     {
         $html = CheckboxList::widget()
             ->config(new PersonalForm(), 'cityBirth')
@@ -23,7 +23,6 @@ final class CheckboxListTest extends TestCase
             ->itemsAttributes(['class' => 'itemClass'])
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
         <div id="personalform-citybirth">
         <label><input type="checkbox" class="itemClass" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>
         <label><input type="checkbox" class="itemClass" name="PersonalForm[cityBirth][]" value="1"> San Petesburgo</label>
@@ -40,7 +39,6 @@ final class CheckboxListTest extends TestCase
             ->items(['Moscu', 'San Petesburgo'])
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
         <div id="personalform-citybirth" class="text-danger">
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="1"> San Petesburgo</label>
@@ -57,7 +55,6 @@ final class CheckboxListTest extends TestCase
             ->items(['Moscu', 'San Petesburgo'])
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[terms]" value="">
         <articles id="personalform-terms">
         <label><input type="checkbox" name="PersonalForm[terms][]" value="0" checked> Moscu</label>
         <label><input type="checkbox" name="PersonalForm[terms][]" value="1"> San Petesburgo</label>
@@ -76,7 +73,6 @@ final class CheckboxListTest extends TestCase
             })
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
         <div id="personalform-citybirth">
         <div class='col-sm-12'><label><input tabindex='0' class='book' type='checkbox' name='PersonalForm[cityBirth][]' value='0'> Moscu</label></div>
         <div class='col-sm-12'><label><input tabindex='1' class='book' type='checkbox' name='PersonalForm[cityBirth][]' value='1'> San Petesburgo</label></div>
@@ -93,7 +89,6 @@ final class CheckboxListTest extends TestCase
             ->readonly()
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
         <div id="personalform-citybirth">
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0" readonly> Moscu</label>
         </div>
@@ -107,7 +102,6 @@ final class CheckboxListTest extends TestCase
         $model->setAttribute('cityBirth', 1);
 
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
         <div id="personalform-citybirth">
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="1" checked> San Petesburgo</label>
@@ -125,7 +119,6 @@ final class CheckboxListTest extends TestCase
             ->separator('&#9866;')
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
         <div id="personalform-citybirth">
         <label><input type="checkbox" name="PersonalForm[cityBirth][]" value="0"> Moscu</label>&#9866;<label><input type="checkbox" name="PersonalForm[cityBirth][]" value="1"> San Petesburgo</label>
         </div>
@@ -143,7 +136,6 @@ final class CheckboxListTest extends TestCase
             ->items(['Moscu', 'San Petesburgo'])
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[citys]" value="">
         <div id="personalform-citys">
         <label><input type="checkbox" name="PersonalForm[citys][]" value="0" checked> Moscu</label>
         <label><input type="checkbox" name="PersonalForm[citys][]" value="1" checked> San Petesburgo</label>
@@ -157,7 +149,6 @@ final class CheckboxListTest extends TestCase
         $html = CheckboxList::widget()
             ->config(new PersonalForm(), 'cityBirth')
             ->items(['Moscu'])
-            ->uncheckValue(null)
             ->withoutContainer()
             ->render();
         $this->assertSame(

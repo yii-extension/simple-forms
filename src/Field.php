@@ -99,19 +99,12 @@ final class Field extends Widget
      * ]
      * ```
      *
-     * @param string|null $unselectValue
-     *
      * @throws ReflectionException
      *
      * @return static the field object itself.
      */
-    public function dropDownList(
-        array $items,
-        array $attributes = [],
-        array $groups = [],
-        array $prompt = [],
-        string $unselectValue = null
-    ): self {
+    public function dropDownList(array $items, array $attributes = [], array $groups = [], array $prompt = []): self
+    {
         $new = clone $this;
 
         if ($new->inputClass !== '') {
@@ -123,8 +116,7 @@ final class Field extends Widget
             ->config($new->getModelInterface(), $new->getAttribute())
             ->items($items)
             ->groups($groups)
-            ->prompt($prompt)
-            ->unselectValue($unselectValue);
+            ->prompt($prompt);
 
         return $new;
     }
@@ -343,7 +335,6 @@ final class Field extends Widget
         return $new;
     }
 
-
     /**
      * Set disabled hint.
      *
@@ -432,7 +423,7 @@ final class Field extends Widget
      *
      * @return static the field object itself.
      */
-    public function radio(array $attributes = [], bool $unclosedByLabel = false): self
+    public function radio(array $attributes = [], bool $enclosedByLabel = true): self
     {
         $new = clone $this;
 
@@ -440,9 +431,7 @@ final class Field extends Widget
 
         Html::addCssClass($attributes, $new->inputClass);
 
-        if ($unclosedByLabel === true) {
-            $radio = $radio->unclosedByLabel();
-        }
+        $radio = $radio->enclosedByLabel($enclosedByLabel);
 
         $new->parts['{label}'] = '';
 

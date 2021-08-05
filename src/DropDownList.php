@@ -25,55 +25,6 @@ final class DropDownList extends Widget
     /** @var string[] */
     private array $optionsData = [];
     private array $prompt = [];
-    private ?string $unselectValue = null;
-
-    /**
-     *
-     * @return string the generated drop-down list tag.
-     */
-    protected function run(): string
-    {
-        $new = clone $this;
-
-        $select = Select::tag();
-
-        if (isset($new->attributes['multiple']) && !isset($new->attributes['size'])) {
-            $new = $new->size();
-        }
-
-        $promptOption = null;
-
-        if ($new->prompt !== []) {
-            /** @var string */
-            $promptText = $new->prompt['text'] ?? '';
-
-            /** @var array */
-            $promptAttributes = $new->prompt['attributes'] ?? [];
-
-            $promptOption = Option::tag()->attributes($promptAttributes)->content($promptText);
-        }
-
-        if ($new->items !== []) {
-            $select = $select->items(...$new->renderItems($new->items));
-        } elseif ($new->optionsData !== []) {
-            $select = $select->optionsData($new->optionsData, $new->encode);
-        }
-
-        $value = $new->getValue() ?? '';
-
-        if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
-        }
-
-        return $select
-            ->attributes($new->attributes)
-            ->id($new->getId())
-            ->name($new->getInputName())
-            ->promptOption($promptOption)
-            ->unselectValue($new->unselectValue)
-            ->value($value)
-            ->render();
-    }
 
     /**
      * The attributes for the optgroup tags.
@@ -245,23 +196,6 @@ final class DropDownList extends Widget
     }
 
     /**
-     * The value that should be submitted when none of the dropdown list is selected.
-     *
-     * You may set this option to be null to prevent default value submission. If this option is not set, an empty
-     * string will be submitted.
-     *
-     * @param string|null $value
-     *
-     * @return static
-     */
-    public function unselectValue(?string $value): self
-    {
-        $new = clone $this;
-        $new->unselectValue = $value;
-        return $new;
-    }
-
-    /**
      * @return Option[]|Optgroup[]
      */
     private function renderItems(array $values = []): array
@@ -292,5 +226,53 @@ final class DropDownList extends Widget
         }
 
         return $items;
+    }
+
+        /**
+     *
+     * @return string the generated drop-down list tag.
+     */
+    protected function run(): string
+    {
+        $new = clone $this;
+
+        $select = Select::tag();
+
+        if (isset($new->attributes['multiple']) && !isset($new->attributes['size'])) {
+            $new = $new->size();
+        }
+
+        $promptOption = null;
+
+        if ($new->prompt !== []) {
+            /** @var string */
+            $promptText = $new->prompt['text'] ?? '';
+
+            /** @var array */
+            $promptAttributes = $new->prompt['attributes'] ?? [];
+
+            $promptOption = Option::tag()->attributes($promptAttributes)->content($promptText);
+        }
+
+        if ($new->items !== []) {
+            $select = $select->items(...$new->renderItems($new->items));
+        } elseif ($new->optionsData !== []) {
+            $select = $select->optionsData($new->optionsData, $new->encode);
+        }
+
+        $value = $new->getValue() ?? '';
+
+        if (is_iterable($value) || is_object($value)) {
+            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+        }
+
+        return $select
+            ->attributes($new->attributes)
+            ->id($new->getId())
+            ->name($new->getInputName())
+            ->promptOption($promptOption)
+            ->unselectValue(null)
+            ->value($value)
+            ->render();
     }
 }

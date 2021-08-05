@@ -88,18 +88,6 @@ final class Form extends AbstractWidget
     }
 
     /**
-     * Generates a form end tag.
-     *
-     * @return string the generated tag.
-     *
-     * {@see beginForm()}
-     */
-    protected function run(): string
-    {
-        return Html::closeTag('form');
-    }
-
-    /**
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-action
      *
      * @return static
@@ -218,5 +206,17 @@ final class Form extends AbstractWidget
         $new = clone $this;
         $new->attributes['target'] = $value;
         return $new;
+    }
+
+    /**
+     * Generates a form end tag.
+     *
+     * @return string the generated tag.
+     *
+     * {@see beginForm()}
+     */
+    protected function run(): string
+    {
+        return Html::closeTag('form');
     }
 }
