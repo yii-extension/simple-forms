@@ -141,7 +141,7 @@ final class DropDownListTest extends TestCase
             ->multiple()
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
+        <input type="hidden" name="PersonalForm[cityBirth]" value>
         <select id="personalform-citybirth" name="PersonalForm[cityBirth][]" multiple size="4">
         <option value="1">Moscu</option>
         <option value="2">San Petersburgo</option>
@@ -246,7 +246,7 @@ final class DropDownListTest extends TestCase
             ->size(3)
             ->render();
         $expected = <<<'HTML'
-        <input type="hidden" name="PersonalForm[cityBirth]" value="">
+        <input type="hidden" name="PersonalForm[cityBirth]" value>
         <select id="personalform-citybirth" name="PersonalForm[cityBirth][]" multiple size="3">
         <option value="1">Moscu</option>
         <option value="2" selected>San Petersburgo</option>

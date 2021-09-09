@@ -106,7 +106,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint">Write your first name.</div>
         <div class="invalid-feedback">Value cannot be blank.</div>
         </div>
@@ -123,7 +123,7 @@ final class FieldTest extends TestCase
             ->render();
         $expected = <<<'HTML'
         <div>
-        <input type="text" id="personalform-name" class="" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <input type="text" id="personalform-name" class name="PersonalForm[name]" value placeholder="Name" required>
         <div id="personalform-name-hint">Write your first name.</div>
         </div>
         HTML;
@@ -141,7 +141,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="personalform-password">Password</label>
-        <input type="password" id="personalform-password" class="" name="PersonalForm[password]" value="" aria-describedby="personalform-password-hint" placeholder="Password">
+        <input type="password" id="personalform-password" class name="PersonalForm[password]" value aria-describedby="personalform-password-hint" placeholder="Password">
         <div id="personalform-password-hint">Write your password.</div>
         </div>
         HTML;
@@ -179,7 +179,7 @@ final class FieldTest extends TestCase
         $expected = <<<HTML
         <div class="mb-3">
         <label class="form-label" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint" class="form-text">Write your first name.</div>
         </div>
         HTML;
@@ -191,7 +191,7 @@ final class FieldTest extends TestCase
         $expected = <<<HTML
         <div class="mb-3">
         <label class="form-label" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint" class="form-text">Write your first name.</div>
         <div class="invalid-feedback">Fill in this field.</div>
         </div>
@@ -205,7 +205,7 @@ final class FieldTest extends TestCase
         <div class="field">
         <label class="label" for="personalform-name">Name</label>
         <div class="control">
-        <input type="text" id="personalform-name" class="input" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <input type="text" id="personalform-name" class="input" name="PersonalForm[name]" value placeholder="Name" required>
         </div>
         <div id="personalform-name-hint" class="help">Write your first name.</div>
         </div>
@@ -219,7 +219,7 @@ final class FieldTest extends TestCase
         <div class="grid grid-cols-1 gap-6">
         <div class="block">
         <label class="text-gray-700" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="mt-1 block w-full" name="PersonalForm[name]" value="" placeholder="Name" required>
+        <input type="text" id="personalform-name" class="mt-1 block w-full" name="PersonalForm[name]" value placeholder="Name" required>
         </div>
         </div>
         HTML;
@@ -263,7 +263,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value="" aria-describedby="personalform-name-hint" placeholder="Name" required>
+        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
         <div id="personalform-name-hint">Write your first name.</div>
         <div>Value cannot be blank.</div>
         </div>

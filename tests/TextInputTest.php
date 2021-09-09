@@ -15,12 +15,12 @@ final class TextInputTest extends TestCase
     {
         /** on value */
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" autocomplete="on" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value autocomplete="on" placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->autocomplete()->render(),
         );
         /** off value */
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" autocomplete="off" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value autocomplete="off" placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->autocomplete('off')->render(),
         );
     }
@@ -35,7 +35,7 @@ final class TextInputTest extends TestCase
     public function testAttributes(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" class="customClass" name="PersonalForm[name]" value placeholder="Name" required>',
             TextInput::widget()->attributes(['class' => 'customClass'])->config(new PersonalForm(), 'name')->render(),
         );
     }
@@ -43,7 +43,7 @@ final class TextInputTest extends TestCase
     public function testDirname(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" dirname="test.dir" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value dirname="test.dir" placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->dirname('test.dir')->render(),
         );
     }
@@ -58,7 +58,7 @@ final class TextInputTest extends TestCase
     public function testMaxLength(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" maxlength="50" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value maxlength="50" placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->maxlength(50)->render(),
         );
     }
@@ -66,7 +66,7 @@ final class TextInputTest extends TestCase
     public function testOninvalid(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->onInvalid('No puede estar en blanco')->render(),
 
         );
@@ -75,7 +75,7 @@ final class TextInputTest extends TestCase
     public function testPattern(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" pattern="[A-Za-z]{10}" placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value pattern="[A-Za-z]{10}" placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->pattern('[A-Za-z]{10}')->render(),
         );
     }
@@ -83,7 +83,7 @@ final class TextInputTest extends TestCase
     public function testReadonly(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" readonly placeholder="Name" required>',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value readonly placeholder="Name" required>',
             TextInput::widget()->config(new PersonalForm(), 'name')->readonly()->render(),
         );
     }
@@ -111,7 +111,7 @@ final class TextInputTest extends TestCase
     public function testSize(): void
     {
         $this->assertSame(
-            '<input type="text" id="personalform-name" name="PersonalForm[name]" value="" size="10" required placeholder="Name">',
+            '<input type="text" id="personalform-name" name="PersonalForm[name]" value size="10" required placeholder="Name">',
             TextInput::widget()->config(new PersonalForm(), 'name')->size(10)->required()->render(),
         );
     }

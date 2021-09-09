@@ -15,12 +15,12 @@ final class PasswordInputTest extends TestCase
     {
         /** on value */
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" autocomplete="on" placeholder="Name" required>',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value autocomplete="on" placeholder="Name" required>',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->autocomplete()->render(),
         );
         /** off value */
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" autocomplete="off" placeholder="Name" required>',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value autocomplete="off" placeholder="Name" required>',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->autocomplete('off')->render(),
         );
     }
@@ -35,7 +35,7 @@ final class PasswordInputTest extends TestCase
     public function testAttributes(): void
     {
         $this->assertSame(
-            '<input type="password" id="personalform-name" class="customClass" name="PersonalForm[name]" value="" placeholder="Name" required>',
+            '<input type="password" id="personalform-name" class="customClass" name="PersonalForm[name]" value placeholder="Name" required>',
             PasswordInput::widget()
                 ->attributes(['class' => 'customClass'])
                 ->config(new PersonalForm(), 'name')
@@ -46,7 +46,7 @@ final class PasswordInputTest extends TestCase
     public function testMaxLength(): void
     {
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" maxlength="50" placeholder="Name" required>',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value maxlength="50" placeholder="Name" required>',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->maxlength(50)->render(),
         );
     }
@@ -54,7 +54,7 @@ final class PasswordInputTest extends TestCase
     public function testOninvalid(): void
     {
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" placeholder="Name" required>',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value oninvalid="this.setCustomValidity(&apos;No puede estar en blanco&apos;)" placeholder="Name" required>',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->onInvalid('No puede estar en blanco')->render(),
         );
     }
@@ -62,7 +62,7 @@ final class PasswordInputTest extends TestCase
     public function testPattern(): void
     {
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" pattern="[A-Za-z]{10}" placeholder="Name" required>',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value pattern="[A-Za-z]{10}" placeholder="Name" required>',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->pattern('[A-Za-z]{10}')->render(),
         );
     }
@@ -70,7 +70,7 @@ final class PasswordInputTest extends TestCase
     public function testReadonly(): void
     {
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" readonly placeholder="Name" required>',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value readonly placeholder="Name" required>',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->readonly()->render(),
         );
     }
@@ -98,7 +98,7 @@ final class PasswordInputTest extends TestCase
     public function testSize(): void
     {
         $this->assertSame(
-            '<input type="password" id="personalform-name" name="PersonalForm[name]" value="" size="10" required placeholder="Name">',
+            '<input type="password" id="personalform-name" name="PersonalForm[name]" value size="10" required placeholder="Name">',
             PasswordInput::widget()->config(new PersonalForm(), 'name')->size(10)->required()->render(),
         );
     }
