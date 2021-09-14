@@ -4,16 +4,66 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yiisoft\Html\Tag\Div;
+use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
+use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yiisoft\Arrays\ArrayHelper;
+use Yiisoft\Html\Tag\CustomTag;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 
-final class Error extends Widget
+/**
+ * The Error widget displays an error message.
+ */
+final class Error extends AbstractWidget
 {
+    use ModelAttributes;
+
     private string $message = '';
 
+    /**
+     * Error message to display.
+     *
+     * @return static
+     */
     public function message(string $value): self
     {
         $new = clone $this;
         $new->message = $value;
+        return $new;
+    }
+
+    /**
+     * Callback that will be called to obtain an error message.
+     *
+     * The signature of the callback must be:
+     *
+     * ```php
+     * [$FormModel, function()]
+     * ```
+     *
+     * @param array $value
+     *
+     * @return static
+     */
+    public function messageCallback(array $value = []): self
+    {
+        $new = clone $this;
+        $new->attributes['messageCallback'] = $value;
+        return $new;
+    }
+
+    /**
+     * The tag name of the container element.
+     *
+     * Empty to render error messages without container {@see Html::tag()}.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function tag(string $value = ''): self
+    {
+        $new = clone $this;
+        $new->attributes['tag'] = $value;
         return $new;
     }
 
@@ -26,12 +76,28 @@ final class Error extends Widget
     {
         $new = clone $this;
 
-        if ($new->message !== '') {
-            $error = $new->message;
-        } else {
-            $error = $new->getFirstError();
+        /** @var bool */
+        $encode = $new->attributes['encode'] ?? true;
+
+        $error = $new->message !== '' ? $new->message : HtmlModel::getFirstError($new->getModel(), $new->attribute);
+
+        /** @var string */
+        $tag = ArrayHelper::remove($new->attributes, 'tag', 'div');
+
+        /** @var array|null */
+        $messageCallback = $new->attributes['messageCallback'] ?? null;
+
+        if ($messageCallback !== null) {
+            /** @var string */
+            $error = $messageCallback($new->getModel(), $new->attribute);
         }
 
-        return Div::tag()->attributes($new->attributes)->content($error)->render();
+        unset($new->attributes['messageCallback']);
+
+        $html = $tag !== ''
+            ? CustomTag::name($tag)->attributes($new->attributes)->content($error)->encode($encode)->render()
+            : $error;
+
+        return $error !== '' ? $html : '';
     }
 }

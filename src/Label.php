@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
+use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Label as LabelTag;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * Generates a label tag for the given form attribute.
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
  */
-final class Label extends Widget
+final class Label extends AbstractWidget
 {
+    use ModelAttributes;
+
     private string $label = '';
 
     /**
@@ -37,13 +43,13 @@ final class Label extends Widget
     /**
      * This specifies the label to be displayed.
      *
-     * @param string $value
+     * @param string $value The label to be displayed.
      *
      * @return static
      *
      * Note that this will NOT be encoded.
-     * - If this is not set, {@see \Yii\Extension\Simple\Forms\BaseModel::getAttributeLabel() will be called to get the
-     * label for display (after encoding).
+     * - If this is not set, {@see \Yiisoft\Forms\FormModel::getAttributeLabel() will be called to get the label for
+     * display (after encoding).
      */
     public function label(string $value): self
     {
@@ -59,11 +65,23 @@ final class Label extends Widget
     {
         $new = clone $this;
 
+        $label = $new->label !== '' ? $new->label : HtmlModel::getAttributeLabel($new->getModel(), $new->attribute);
+
+        /** @var bool|string */
+        $attributeLabel = ArrayHelper::remove($new->attributes, 'label', '');
+
+        /** @var bool */
+        $encode = $new->attributes['encode'] ?? false;
+
+        if (is_string($attributeLabel) && $attributeLabel !== '') {
+            $label = $attributeLabel;
+        }
+
         /** @var string */
         $for = $new->attributes['for'] ?? $new->getId();
 
-        $label = $new->label === '' ? $new->getLabel() : $new->label;
-
-        return LabelTag::tag()->attributes($new->attributes)->content($label)->forId($for)->render();
+        return $attributeLabel !== false
+            ? LabelTag::tag()->attributes($new->attributes)->content($label)->encode($encode)->forId($for)->render()
+            : '';
     }
 }

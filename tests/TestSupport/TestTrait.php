@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Tests\TestSupport;
 
+use ReflectionClass;
 use ReflectionObject;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Validator\ValidatorMock;
+use Yiisoft\Validator\ValidatorInterface;
 
 trait TestTrait
 {
@@ -38,16 +41,52 @@ trait TestTrait
     protected function invokeMethod(object $object, string $method, array $args = [], bool $revoke = true)
     {
         $reflection = new ReflectionObject($object);
-
         $method = $reflection->getMethod($method);
-
         $method->setAccessible(true);
-
         $result = $method->invokeArgs($object, $args);
 
         if ($revoke) {
             $method->setAccessible(false);
         }
+
         return $result;
     }
+
+    /**
+     * Sets an inaccessible object property to a designated value.
+     *
+     * @param object $object
+     * @param string $propertyName
+     * @param $value
+     * @param bool $revoke whether to make property inaccessible after setting
+     */
+    protected function setInaccessibleProperty(object $object, string $propertyName, $value, bool $revoke = true): void
+    {
+        $class = new ReflectionClass($object);
+
+        while (!$class->hasProperty($propertyName)) {
+            $class = $class->getParentClass();
+        }
+
+        $property = $class->getProperty($propertyName);
+
+        $property->setAccessible(true);
+
+        $property->setValue($object, $value);
+
+        if ($revoke) {
+            $property->setAccessible(false);
+        }
+    }
+
+    protected function createValidatorMock(): ValidatorInterface
+    {
+        return new ValidatorMock();
+    }
+}
+
+namespace Yiisoft\Html;
+
+function hrtime(bool $getAsNumber = false)
+{
 }

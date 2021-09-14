@@ -4,71 +4,45 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
+use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\CustomTag;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
- * Generates a hint tag for the given form attribute.
+ * The widget for hint form.
  */
-final class Hint extends Widget
+final class Hint extends AbstractWidget
 {
-    private string $hint = '';
-    private string $tag = 'div';
+    use ModelAttributes;
 
     /**
-     * This specifies the hint to be displayed.
+     * Generates a hint tag for the given form attribute.
      *
-     * Note that this will NOT be encoded.
-     * If this is not set, {@see \Yii\Extension\Simple\Model\ModelInterface::getAttributeHint()} will be called to get
-     * the hint for display (without encoding).
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function hint(string $value): self
-    {
-        $new = clone $this;
-        $new->hint = $value;
-        return $new;
-    }
-
-    /**
-     * The tag name of the container element.
-     *
-     * Null to render hint without container {@see Html::tag()}.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function tag(string $value): self
-    {
-        $new = clone $this;
-        $new->tag = $value;
-        return $new;
-    }
-
-    /**
      * @return string the generated hint tag.
      */
     protected function run(): string
     {
         $new = clone $this;
 
-        $hint = $new->getAttributehint() !== '' ? $new->getAttributehint() : $new->hint;
+        /** @var bool */
+        $encode = $new->attributes['encode'] ?? false;
 
-        if (empty($new->tag)) {
-            throw new InvalidArgumentException('The tag cannot be empty.');
-        }
+        /** @var bool|string */
+        $hint = ArrayHelper::remove(
+            $new->attributes,
+            'hint',
+            HtmlModel::getAttributeHint($new->getModel(), $new->attribute),
+        );
 
-        return
-            $hint !== ''
-                ? CustomTag::name($new->tag)
-                    ->attributes($new->attributes)
-                    ->content($hint)
-                    ->id($new->getId() . '-hint')
-                    ->render()
-                : '';
+        /** @psalm-var non-empty-string */
+        $tag = $new->attributes['tag'] ?? 'div';
+
+        unset($new->attributes['hint'], $new->attributes['tag']);
+
+        return (!is_bool($hint) && $hint !== '')
+            ? CustomTag::name($tag)->attributes($new->attributes)->content($hint)->encode($encode)->render()
+            : '';
     }
 }

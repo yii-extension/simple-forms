@@ -5,18 +5,28 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
+use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
+use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
- * Generates a checkbox tag together with a label for the given form attribute.
+ * The input element with a type attribute whose value is "checkbox" represents a state or option that can be toggled.
  *
  * This method will generate the "checked" tag attribute according to the form attribute value.
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox
  */
-final class Checkbox extends Widget
+final class Checkbox extends AbstractWidget
 {
+    use CommonAttributes;
+    use ModelAttributes;
+
     private bool $enclosedByLabel = true;
+    private string $label = '';
+    private array $labelAttributes = [];
 
     /**
      * If the widget should be enclosed by label.
@@ -43,11 +53,13 @@ final class Checkbox extends Widget
      * @param string $value
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#the-label-element
      */
     public function label(string $value): self
     {
         $new = clone $this;
-        $new->attributes['label'] = $value;
+        $new->label = $value;
         return $new;
     }
 
@@ -56,14 +68,16 @@ final class Checkbox extends Widget
      *
      * Do not set this option unless you set the "label" attributes.
      *
-     * @param array $value
+     * @param array $attributes
      *
      * @return static
+     *
+     * {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
-    public function labelAttributes(array $value = []): self
+    public function labelAttributes(array $attributes = []): self
     {
         $new = clone $this;
-        $new->attributes['labelAttributes'] = $value;
+        $new->labelAttributes = $attributes;
         return $new;
     }
 
@@ -76,31 +90,27 @@ final class Checkbox extends Widget
 
         $checkbox = CheckboxTag::tag();
 
-        if ($new->enclosedByLabel === true) {
-            /** @var string */
-            $label = $new->attributes['label'] ?? $new->getLabel();
+        /** @var bool|float|int|string|null  */
+        $forceUncheckedValue = ArrayHelper::remove($new->attributes, 'forceUncheckedValue', null);
 
-            /** @var array */
-            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
-
-            unset($new->attributes['label'], $new->attributes['labelAttributes']);
-
-            $checkbox = $checkbox->label($label, $labelAttributes);
-        }
-
-        $value = $new->getValue();
+        $value = HtmlModel::getAttributeValue($new->getModel(), $new->attribute);
 
         if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+            throw new InvalidArgumentException('Checkbox widget requires a bool|float|int|string|null value.');
+        }
+
+        if ($new->enclosedByLabel === true) {
+            $label = $new->label !== '' ? $new->label : HtmlModel::getAttributeLabel($new->getModel(), $new->attribute);
+            $checkbox = $checkbox->label($label, $new->labelAttributes);
         }
 
         return $checkbox
             ->attributes($new->attributes)
-            ->checked((bool) $new->getValue())
+            ->checked((bool) $value)
             ->id($new->getId())
-            ->name($new->getInputName())
-            ->value($value)
-            ->uncheckValue(null)
+            ->name(HtmlModel::getInputName($this->getModel(), $this->attribute))
+            ->uncheckValue($forceUncheckedValue)
+            ->value((int) $value)
             ->render();
     }
 }

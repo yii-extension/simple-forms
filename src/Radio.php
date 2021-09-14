@@ -5,16 +5,26 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
+use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
+use Yii\Extension\Simple\Model\Helper\HtmlModel;
 use Yiisoft\Html\Tag\Input\Radio as RadioTag;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
- * Generate a radio button input.
+ * The input element with a type attribute whose value is "radio" represents a selection of one item from a list of
+ * items (a radio button).
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html
  */
-final class Radio extends Input
+final class Radio extends AbstractWidget
 {
+    use CommonAttributes;
+    use ModelAttributes;
+
     private bool $enclosedByLabel = true;
+    private string $label = '';
+    private array $labelAttributes = [];
 
     /**
      * If the widget should be enclosed by label.
@@ -45,7 +55,7 @@ final class Radio extends Input
     public function label(string $value): self
     {
         $new = clone $this;
-        $new->attributes['label'] = $value;
+        $new->label = $value;
         return $new;
     }
 
@@ -61,7 +71,7 @@ final class Radio extends Input
     public function labelAttributes(array $value = []): self
     {
         $new = clone $this;
-        $new->attributes['labelAttributes'] = $value;
+        $new->labelAttributes = $value;
         return $new;
     }
 
@@ -73,33 +83,31 @@ final class Radio extends Input
     protected function run(): string
     {
         $new = clone $this;
-
         $radio = RadioTag::tag();
 
-        if ($new->enclosedByLabel === true) {
-            /** @var string */
-            $label = $new->attributes['label'] ?? $new->getLabel();
+        /** @var bool|float|int|string|null  */
+        $forceUncheckedValue = $new->attributes['forceUncheckedValue'] ?? null;
 
-            /** @var array */
-            $labelAttributes = $new->attributes['labelAttributes'] ?? [];
+        unset($new->attributes['forceUncheckedValue']);
 
-            unset($new->attributes['label'], $new->attributes['labelAttributes']);
-
-            $radio = $radio->label($label, $labelAttributes);
-        }
-
-        $value = $new->getValue();
+        $value = HtmlModel::getAttributeValue($new->getModel(), $new->attribute);
 
         if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('The value must be a bool|float|int|string|Stringable|null.');
+            throw new InvalidArgumentException('Radio widget requires a bool|float|int|string|null value.');
+        }
+
+        if ($new->enclosedByLabel === true) {
+            $label = $new->label !== '' ? $new->label : HtmlModel::getAttributeLabel($new->getModel(), $new->attribute);
+            $radio = $radio->label($label, $new->labelAttributes);
         }
 
         return $radio
-            ->checked((bool) $new->getValue())
+            ->attributes($new->attributes)
+            ->checked((bool) $value)
             ->id($new->getId())
-            ->name($new->getInputName())
-            ->uncheckValue(null)
-            ->value($value)
+            ->name(HtmlModel::getInputName($new->getModel(), $new->attribute))
+            ->uncheckValue($forceUncheckedValue)
+            ->value((int) $value)
             ->render();
     }
 }
