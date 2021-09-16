@@ -8,9 +8,9 @@ use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * The input element with a type attribute whose value is "checkbox" represents a state or option that can be toggled.
@@ -82,7 +82,9 @@ final class Checkbox extends AbstractWidget
     }
 
     /**
-     * @return string the generated checkbox tag.
+     * Generates a checkbox input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

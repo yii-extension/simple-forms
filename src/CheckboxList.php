@@ -10,10 +10,10 @@ use Stringable;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxList as ChecboxListTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /*
  * Generates a list of checkboxes.
@@ -191,7 +191,9 @@ final class CheckboxList extends AbstractWidget
     }
 
     /**
-     * @return string the generated checkbox list.
+     * Generates a checkboxlist input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

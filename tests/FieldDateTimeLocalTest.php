@@ -20,30 +20,31 @@ final class FieldDateTimeLocalTest extends TestCase
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-todate">To Date</label>
-        <input type="datetime-local" id="typeform-todate" name="TypeForm[toDate]" value>
+        <label for="typeform-string">String</label>
+        <input type="datetime-local" id="typeform-string" name="TypeForm[string]" value placeholder="Typed your text string.">
+        <div>Write your text string.</div>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->config($this->model, 'toDate')->datetimelocal()->render(),
+            Field::widget()->config($this->model, 'string')->datetimelocal()->render(),
         );
     }
 
     public function testValue(): void
     {
-        // string '2021-09-18'
-        $this->model->setAttribute('string', '2021-09-18T23:59:00');
+        // string '2021-09-18T23:59:00'
         $expected = <<<HTML
         <div>
-        <label for="typeform-todate">To Date</label>
-        <input type="datetime-local" id="typeform-todate" name="TypeForm[toDate]" value>
+        <label for="typeform-string">String</label>
+        <input type="datetime-local" id="typeform-string" name="TypeForm[string]" value="2021-09-18T23:59:00" placeholder="Typed your text string.">
+        <div>Write your text string.</div>
         </div>
         HTML;
         $this->model->setAttribute('string', '2021-09-18T23:59:00');
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->config($this->model, 'toDate')->datetimelocal()->render(),
+            Field::widget()->config($this->model, 'string')->datetimelocal()->render(),
         );
     }
 

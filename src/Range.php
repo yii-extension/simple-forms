@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "range" represents an imprecise control for setting the
@@ -55,7 +55,9 @@ final class Range extends AbstractWidget
     }
 
     /**
-     * @return string the generated input tag.
+     * Generates a range input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

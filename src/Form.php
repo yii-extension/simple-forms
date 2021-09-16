@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Http\Method;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 use function explode;
 use function implode;
@@ -15,7 +15,7 @@ use function substr;
 use function urldecode;
 
 /**
- *  Generates a form start tag.
+ *  Generates a form tag.
  *
  *  @link https://www.w3.org/TR/html52/sec-forms.html
  */
@@ -251,7 +251,7 @@ final class Form extends AbstractWidget
     /**
      * Generates a form end tag.
      *
-     * @return string the generated tag.
+     * @return string
      *
      * {@see beginForm()}
      */

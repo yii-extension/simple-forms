@@ -9,10 +9,10 @@ use Stringable;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select as SelectTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * Generates a drop-down list for the given form attribute.

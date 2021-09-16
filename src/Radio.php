@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input\Radio as RadioTag;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input\Radio as RadioTag;
 
 /**
  * The input element with a type attribute whose value is "radio" represents a selection of one item from a list of
@@ -76,9 +76,9 @@ final class Radio extends AbstractWidget
     }
 
     /**
-     * Generates a radio button tag together with a label for the given form attribute.
+     * Generates a radio input element for the given model attribute.
      *
-     * @return string the generated radio button tag.
+     * @return string
      */
     protected function run(): string
     {

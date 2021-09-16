@@ -440,6 +440,23 @@ final class Field extends AbstractWidget
     }
 
     /**
+     * Renders a month widget.
+     *
+     * @param array $attributes the tag attributes in terms of name-value pairs.
+     *
+     * @return static the field object itself.
+     */
+    public function month(array $attributes = []): self
+    {
+        $new = clone $this;
+        $attributes = $new->setInputAttributes($attributes);
+
+        $new->parts['{input}'] = Month::widget()->config($new->getModel(), $new->attribute, $attributes)->render();
+
+        return $new;
+    }
+
+    /**
      * Renders a number widget.
      *
      * This method will generate the `name` and `value` tag attributes automatically for the model attribute unless
@@ -871,6 +888,23 @@ final class Field extends AbstractWidget
         unset($attributes['dirname'], $attributes['wrap']);
 
         $new->parts['{input}'] = $textArea->config($new->getModel(), $new->attribute, $attributes)->render();
+
+        return $new;
+    }
+
+    /**
+     * Renders a time widget.
+     *
+     * @param array $attributes the tag attributes in terms of name-value pairs.
+     *
+     * @return static the field object itself.
+     */
+    public function time(array $attributes = []): self
+    {
+        $new = clone $this;
+        $attributes = $new->setInputAttributes($attributes);
+
+        $new->parts['{input}'] = Time::widget()->config($new->getModel(), $new->attribute, $attributes)->render();
 
         return $new;
     }

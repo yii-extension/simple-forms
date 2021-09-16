@@ -6,9 +6,9 @@ namespace Yii\Extension\Simple\Forms;
 
 use JsonException;
 use Yii\Extension\Simple\Model\ModelInterface;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 use function array_merge;
 use function array_unique;
@@ -94,7 +94,7 @@ final class ErrorSummary extends AbstractWidget
      *
      * @throws JsonException
      *
-     * @return string the generated error summary
+     * @return string the generated error summary.
      */
     protected function run(): string
     {

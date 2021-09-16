@@ -15,7 +15,6 @@ final class TypeForm extends BaseModel
     private ?object $object = null;
     private string $string = '';
     private string $toCamelCase = '';
-    private string $toDate = '';
     private ?string $toNull = null;
 
     public function getAttributeHints(): array

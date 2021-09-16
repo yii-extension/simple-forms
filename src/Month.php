@@ -13,19 +13,19 @@ use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Tag\Input;
 
 /**
- * The input element with a type attribute whose value is "time" represents a control for setting the element’s value to
- * a string representing a time (with no timezone information).
+ * The input element with a type attribute whose value is "month" represents a control for setting the element’s value
+ * to a string representing a month.
  *
- * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.time.html#input.time
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.month.html#input.month.attrs.value
  */
-final class Time extends AbstractWidget
+final class Month extends AbstractWidget
 {
     use CommonAttributes;
     use DateAttributes;
     use ModelAttributes;
 
     /**
-     * Generates a time input element for the given model attribute.
+     * Generates a month input element for the given model attribute.
      *
      * @return string
      */
@@ -35,11 +35,11 @@ final class Time extends AbstractWidget
         $value = HtmlModel::getAttributeValue($this->getModel(), $this->attribute);
 
         if (!is_string($value)) {
-            throw new InvalidArgumentException('Time widget requires a string value.');
+            throw new InvalidArgumentException('Month widget requires a string value.');
         }
 
         return Input::tag()
-            ->type('time')
+            ->type('month')
             ->attributes($this->attributes)
             ->id($this->getId())
             ->name(HtmlModel::getInputName($this->getModel(), $this->attribute))

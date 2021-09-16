@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 
 /**
  * Generates a textarea tag for the given form attribute.
@@ -170,7 +170,9 @@ final class TextArea extends AbstractWidget
     }
 
     /**
-     * @return string the generated textarea tag.
+     * Generates text area tag element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

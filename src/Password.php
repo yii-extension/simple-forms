@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "password" represents a one-line plain-text edit control for
@@ -128,9 +128,9 @@ final class Password extends AbstractWidget
     }
 
     /**
-     * Generates a password input tag for the given form attribute.
+     * Generates a password input element for the given model attribute.
      *
-     * @return string the generated input tag,
+     * @return string
      */
     protected function run(): string
     {

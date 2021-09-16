@@ -7,8 +7,8 @@ namespace Yii\Extension\Simple\Forms;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "file" represents a list of file items, each consisting of a
@@ -56,9 +56,9 @@ final class File extends AbstractWidget
     }
 
     /**
-     * Generates a file input tag for the given form attribute.
+     * Generates a file input element for the given model attribute.
      *
-     * @return string the generated input tag.
+     * @return string
      */
     protected function run(): string
     {

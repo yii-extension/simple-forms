@@ -6,9 +6,9 @@ namespace Yii\Extension\Simple\Forms;
 
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Label as LabelTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * Generates a label tag for the given form attribute.
@@ -59,7 +59,9 @@ final class Label extends AbstractWidget
     }
 
     /**
-     * @return string the generated label tag.
+     * Generates a label input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

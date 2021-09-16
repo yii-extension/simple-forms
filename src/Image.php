@@ -6,8 +6,8 @@ namespace Yii\Extension\Simple\Forms;
 
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\WithoutModelAttribute;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "image" represents either an image from which the UA enables a
@@ -87,7 +87,9 @@ final class Image extends AbstractWidget
     }
 
     /**
-     * @return string the generated input tag.
+     * Generates a image input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

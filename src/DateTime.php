@@ -9,8 +9,8 @@ use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\DateAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "datetime" represents a control for setting the element’s
@@ -25,9 +25,9 @@ final class DateTime extends AbstractWidget
     use ModelAttributes;
 
     /**
-     * Generates a datepicker tag together with a label for the given form attribute.
+     * Generates a datetime input element for the given model attribute.
      *
-     * @return string the generated checkbox tag.
+     * @return string
      */
     protected function run(): string
     {

@@ -9,10 +9,10 @@ use InvalidArgumentException;
 use Stringable;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Widget\RadioList\RadioItem;
 use Yiisoft\Html\Widget\RadioList\RadioList as RadioListTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * Generates a list of radio.
@@ -187,11 +187,11 @@ final class RadioList extends AbstractWidget
     }
 
     /**
-     * Generates a list of radio buttons.
+     * Generates a radio lisy input element for the given model attribute.
      *
      * A radio button list is like a checkbox list, except that it only allows single selection.
      *
-     * @return string the generated radio button list
+     * @return string
      */
     protected function run(): string
     {

@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * Generates an text input tag for the given form attribute.
@@ -135,7 +135,9 @@ final class Text extends AbstractWidget
     }
 
     /**
-     * @return string the generated input tag.
+     * Generates a text input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

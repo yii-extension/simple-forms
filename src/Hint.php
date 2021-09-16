@@ -6,9 +6,9 @@ namespace Yii\Extension\Simple\Forms;
 
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\CustomTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * The widget for hint form.
@@ -18,9 +18,9 @@ final class Hint extends AbstractWidget
     use ModelAttributes;
 
     /**
-     * Generates a hint tag for the given form attribute.
+     * Generates a hint tag for the given model attribute.
      *
-     * @return string the generated hint tag.
+     * @return string
      */
     protected function run(): string
     {

@@ -7,8 +7,8 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "hidden" represents a value that is not intended to be
@@ -21,9 +21,9 @@ final class Hidden extends AbstractWidget
     use ModelAttributes;
 
     /**
-     * Generates a hidden input tag for the given form attribute.
+     * Generates a hidden input element for the given model attribute.
      *
-     * @return string the generated input tag.
+     * @return string
      */
     protected function run(): string
     {

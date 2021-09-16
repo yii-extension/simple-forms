@@ -10,7 +10,7 @@ use Yii\Extension\Simple\Forms\Field;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
-final class FieldDateTest extends TestCase
+final class FieldMonthTest extends TestCase
 {
     use TestTrait;
 
@@ -21,32 +21,32 @@ final class FieldDateTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="date" id="typeform-string" name="TypeForm[string]" value placeholder="Typed your text string.">
+        <input type="month" id="typeform-string" name="TypeForm[string]" value placeholder="Typed your text string.">
         <div>Write your text string.</div>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->config($this->model, 'string')->date()->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->config($this->model, 'string')->month()->render());
     }
 
     public function testValue(): void
     {
-        // string '2021-09-18'
+        // string '1996-12'
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="date" id="typeform-string" name="TypeForm[string]" value="2021-09-18" placeholder="Typed your text string.">
+        <input type="month" id="typeform-string" name="TypeForm[string]" value="1996-12" placeholder="Typed your text string.">
         <div>Write your text string.</div>
         </div>
         HTML;
-        $this->model->setAttribute('string', '2021-09-18');
-        $this->assertEqualsWithoutLE($expected, Field::widget()->config($this->model, 'string')->date()->render());
+        $this->model->setAttribute('string', '1996-12');
+        $this->assertEqualsWithoutLE($expected, Field::widget()->config($this->model, 'string')->month()->render());
     }
 
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Date widget requires a string value.');
-        $html = Field::widget()->config($this->model, 'array')->date()->render();
+        $this->expectExceptionMessage('Month widget requires a string value.');
+        $html = Field::widget()->config($this->model, 'array')->month()->render();
     }
 
     protected function setUp(): void

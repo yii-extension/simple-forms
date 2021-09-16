@@ -111,7 +111,9 @@ final class Url extends AbstractWidget
     }
 
     /**
-     * @return string the generated input tag.
+     * Generates a url input element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {

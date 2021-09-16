@@ -6,8 +6,8 @@ namespace Yii\Extension\Simple\Forms;
 
 use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\WithoutModelAttribute;
-use Yiisoft\Html\Tag\Input;
 use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Tag\Input;
 
 /**
  * The input element with a type attribute whose value is "reset" represents a button for resetting a form.
@@ -20,7 +20,9 @@ final class ResetButton extends AbstractWidget
     use WithoutModelAttribute;
 
     /**
-     * @return string the generated input tag.
+     * Generates a reset input element.
+     *
+     * @return string
      */
     protected function run(): string
     {

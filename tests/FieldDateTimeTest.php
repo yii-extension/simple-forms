@@ -20,14 +20,12 @@ final class FieldDateTimeTest extends TestCase
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-todate">To Date</label>
-        <input type="datetime" id="typeform-todate" name="TypeForm[toDate]" value>
+        <label for="typeform-string">String</label>
+        <input type="datetime" id="typeform-string" name="TypeForm[string]" value placeholder="Typed your text string.">
+        <div>Write your text string.</div>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->config($this->model, 'toDate')->datetime()->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->config($this->model, 'string')->datetime()->render());
     }
 
     public function testValue(): void
@@ -36,14 +34,12 @@ final class FieldDateTimeTest extends TestCase
         $this->model->setAttribute('string', '2021-09-18T23:59:00');
         $expected = <<<HTML
         <div>
-        <label for="typeform-todate">To Date</label>
-        <input type="datetime" id="typeform-todate" name="TypeForm[toDate]" value>
+        <label for="typeform-string">String</label>
+        <input type="datetime" id="typeform-string" name="TypeForm[string]" value="2021-09-18T23:59:00" placeholder="Typed your text string.">
+        <div>Write your text string.</div>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->config($this->model, 'toDate')->datetime()->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->config($this->model, 'string')->datetime()->render());
     }
 
     public function testValueException(): void

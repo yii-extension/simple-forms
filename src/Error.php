@@ -6,9 +6,9 @@ namespace Yii\Extension\Simple\Forms;
 
 use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
 use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\CustomTag;
-use Yii\Extension\Simple\Widget\AbstractWidget;
 
 /**
  * The Error widget displays an error message.
@@ -68,9 +68,9 @@ final class Error extends AbstractWidget
     }
 
     /**
-     * Generates a tag that contains the first validation error of the specified form attribute.
+     * Generates a tag that contains the first validation error for the given model attribute.
      *
-     * @return string the generated label tag
+     * @return string
      */
     protected function run(): string
     {
