@@ -6,73 +6,108 @@ namespace Yiisoft\Form\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\TextArea;
 
 final class TextAreaTest extends TestCase
 {
+    private TypeForm $model;
+
     public function testCols(): void
     {
         $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" cols="10" placeholder="Name"></textarea>',
-            TextArea::widget()->config(new PersonalForm(), 'name')->cols(10)->render(),
+            '<textarea id="typeform-string" name="TypeForm[string]" cols="50"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->cols(50)->render(),
         );
+    }
+
+    public function testDirname(): void
+    {
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]" dirname="test.dir"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->dirname('test.dir')->render(),
+        );
+    }
+
+    public function testDirnameException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value cannot be empty.');
+        TextArea::widget()->config($this->model, 'string')->dirname('')->render();
+    }
+
+    public function testForm(): void
+    {
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]" form="form-id"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->form('form-id')->render(),
+        );
+    }
+
+    public function testImmutability(): void
+    {
+        $textArea = TextArea::widget();
+        $this->assertNotSame($textArea, $textArea->cols(0));
+        $this->assertNotSame($textArea, $textArea->dirname('test.dir'));
+        $this->assertNotSame($textArea, $textArea->form(''));
+        $this->assertNotSame($textArea, $textArea->maxlength(0));
+        $this->assertNotSame($textArea, $textArea->placeholder(''));
+        $this->assertNotSame($textArea, $textArea->readOnly());
+        $this->assertNotSame($textArea, $textArea->rows(0));
+        $this->assertNotSame($textArea, $textArea->wrap('hard'));
     }
 
     public function testMaxLength(): void
     {
         $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" maxlength="50" placeholder="Name"></textarea>',
-            TextArea::widget()->config(new PersonalForm(), 'name')->maxlength(50)->render(),
+            '<textarea id="typeform-string" name="TypeForm[string]" maxlength="100"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->maxLength(100)->render(),
+        );
+    }
+
+    public function testPlaceholder(): void
+    {
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
     public function testRender(): void
     {
-        $model = new PersonalForm();
-        $model->setAttribute('name', 'samdark');
-
         $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea>',
-            TextArea::widget()->config($model, 'name')->render(),
+            '<textarea id="typeform-string" name="TypeForm[string]"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->render(),
         );
     }
 
-    public function testReadonly(): void
+    public function testTextAreaReadOnly(): void
     {
         $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" readonly placeholder="Name"></textarea>',
-            TextArea::widget()->config(new PersonalForm(), 'name')->readonly()->render(),
-        );
-    }
-
-    public function testRows(): void
-    {
-        $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" rows="6" placeholder="Name"></textarea>',
-            TextArea::widget()->config(new PersonalForm(), 'name')->rows(6)->render(),
+            '<textarea id="typeform-string" name="TypeForm[string]" readonly></textarea>',
+            TextArea::widget()->config($this->model, 'string')->readOnly()->render(),
         );
     }
 
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The value must be a string|null.');
-        $html = TextArea::widget()->config(new PersonalForm(), 'cityBirth')->render();
+        $this->expectExceptionMessage('TextArea widget must be a string.');
+        $html = TextArea::widget()->config($this->model, 'array')->render();
     }
 
     public function testWrap(): void
     {
         /** hard value */
         $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" wrap="hard" placeholder="Name"></textarea>',
-            TextArea::widget()->config(new PersonalForm(), 'name')->wrap()->render(),
+            '<textarea id="typeform-string" name="TypeForm[string]" wrap="hard"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->wrap()->render(),
         );
+
         /** soft value */
         $this->assertSame(
-            '<textarea id="personalform-name" name="PersonalForm[name]" wrap="soft" placeholder="Name"></textarea>',
-            TextArea::widget()->config(new PersonalForm(), 'name')->wrap('soft')->render(),
+            '<textarea id="typeform-string" name="TypeForm[string]" wrap="soft"></textarea>',
+            TextArea::widget()->config($this->model, 'string')->wrap('soft')->render(),
         );
     }
 
@@ -80,6 +115,12 @@ final class TextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
-        TextArea::widget()->config(new PersonalForm(), 'name')->wrap('exception');
+        TextArea::widget()->config($this->model, 'string')->wrap('exception');
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->model = new TypeForm();
     }
 }

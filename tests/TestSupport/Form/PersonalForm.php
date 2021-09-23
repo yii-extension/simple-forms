@@ -5,28 +5,32 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms\Tests\TestSupport\Form;
 
 use Yii\Extension\Simple\Model\BaseModel;
+use Yiisoft\Form\FormModel;
+use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\HasLength;
+use Yiisoft\Validator\Rule\MatchRegularExpression;
 use Yiisoft\Validator\Rule\Required;
 
 final class PersonalForm extends BaseModel
 {
-    private string $id = '';
-    private array $citys = [];
-    private ?int $cityBirth = null;
+    private string $email = '';
     private string $name = '';
     private string $password = '';
-    private int $terms = 0;
 
-    public function getAttributeLabels(): array
+    public function customError(): string
     {
-        return [];
+        return 'This is custom error message.';
+    }
+
+    public function customErrorWithIcon(): string
+    {
+        return '(&#10006;) This is custom error message.';
     }
 
     public function getAttributeHints(): array
     {
         return [
             'name' => 'Write your first name.',
-            'password' => 'Write your password.',
         ];
     }
 
@@ -34,25 +38,15 @@ final class PersonalForm extends BaseModel
     {
         return [
             'name' => [Required::rule(), HasLength::rule()->min(4)->tooShortMessage('Is too short.')],
+            'email' => [Email::rule()],
+            'password' => [
+                Required::rule(),
+                (MatchRegularExpression::rule("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/"))
+                    ->message(
+                        'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or ' .
+                        'more characters.'
+                    ),
+            ],
         ];
-    }
-
-    public function validate(): bool
-    {
-        $this->clearErrors();
-
-        $rules = $this->rules();
-
-        if (!empty($rules)) {
-            $results = (new Validator($rules))->validate($this);
-
-            foreach ($results as $attribute => $result) {
-                if ($result->isValid() === false) {
-                    $this->addErrors([$attribute => $result->getErrors()]);
-                }
-            }
-        }
-
-        return !$this->hasErrors();
     }
 }

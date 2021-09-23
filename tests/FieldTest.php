@@ -2,355 +2,522 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yiisoft\Form\Tests\Widget;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\AttributesValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
-use Yiisoft\Validator\Formatter;
-use Yiisoft\Validator\Validator;
 
 final class FieldTest extends TestCase
 {
     use TestTrait;
 
-    private PersonalForm $personalForm;
+    private AttributesValidatorForm $attributeValidatorForm;
+
+    public function testAddAttributesEmailValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('email', '');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-email">Email</label>
+        <input type="email" id="attributesvalidatorform-email" class="is-invalid" name="AttributesValidatorForm[email]" value maxlength="20" minlength="8" required pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$">
+        <div class="info-class">Write your email.</div>
+        <div class="hasError">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'email')->email()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('email', 'a@a.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-email">Email</label>
+        <input type="email" id="attributesvalidatorform-email" class="is-invalid" name="AttributesValidatorForm[email]" value="a@a.com" maxlength="20" minlength="8" required pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$">
+        <div class="info-class">Write your email.</div>
+        <div class="hasError">Is too short.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'email')->email()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('email', 'awesomexample@example.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-email">Email</label>
+        <input type="email" id="attributesvalidatorform-email" class="is-invalid" name="AttributesValidatorForm[email]" value="awesomexample@example.com" maxlength="20" minlength="8" required pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$">
+        <div class="info-class">Write your email.</div>
+        <div class="hasError">Is too long.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'email')->email()->render());
+
+        // add attributes html validator `MatchRegularExpression::class`.
+        $this->model->setAttribute('email', 'awesome.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-email">Email</label>
+        <input type="email" id="attributesvalidatorform-email" class="is-invalid" name="AttributesValidatorForm[email]" value="awesome.com" maxlength="20" minlength="8" required pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$">
+        <div class="info-class">Write your email.</div>
+        <div class="hasError">Is not a valid email address.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'email')->email()->render());
+
+        // passed all rules for validation email.
+        $this->model->setAttribute('email', 'test@example.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-email">Email</label>
+        <input type="email" id="attributesvalidatorform-email" class="is-valid" name="AttributesValidatorForm[email]" value="test@example.com" maxlength="20" minlength="8" required pattern="^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$">
+        <div class="info-class">Write your email.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'email')->email()->render());
+    }
+
+    public function testAddAttributesNumberValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('number', '1');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-number">Number</label>
+        <input type="number" id="attributesvalidatorform-number" class="is-invalid" name="AttributesValidatorForm[number]" value="1" required max="5" min="3">
+        <div class="hasError">Is too small.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'number')->number()->render());
+
+        // add attributes html validator `Number::rule()`.
+        $this->model->setAttribute('number', '6');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-number">Number</label>
+        <input type="number" id="attributesvalidatorform-number" class="is-invalid" name="AttributesValidatorForm[number]" value="6" required max="5" min="3">
+        <div class="hasError">Is too big.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'number')->number()->render());
+
+        // passed all rules for validation number.
+        $this->model->setAttribute('number', '4');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-number">Number</label>
+        <input type="number" id="attributesvalidatorform-number" class="is-valid" name="AttributesValidatorForm[number]" value="4" required max="5" min="3">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'number')->number()->render());
+    }
+
+    public function testAddAttributesPasswordValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('password', '');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-password">Password</label>
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <div class="hasError">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'password')->password()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('password', 't');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-password">Password</label>
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value="t" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <div class="hasError">Is too short.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'password')->password()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('password', '012345678');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-password">Password</label>
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value="012345678" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <div class="hasError">Is too long.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'password')->password()->render());
+
+        // add attributes html validator `MatchRegularExpression::rule()`.
+        $this->model->setAttribute('password', '12345');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-password">Password</label>
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value="12345" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <div class="hasError">Is not a valid password.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'password')->password()->render());
+
+        // passed all rules for validation password.
+        $this->model->setAttribute('password', 'test1234');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-password">Password</label>
+        <input type="password" id="attributesvalidatorform-password" class="is-valid" name="AttributesValidatorForm[password]" value="test1234" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'password')->password()->render());
+    }
+
+    public function testAddAttributesRangeValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('number', '1');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-number">Number</label>
+        <input type="range" id="attributesvalidatorform-number" class="is-invalid" name="AttributesValidatorForm[number]" value="1" required max="5" min="3">
+        <div class="hasError">Is too small.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'number')->range()->render());
+
+        // add attributes html validator `Number::rule()`.
+        $this->model->setAttribute('number', '6');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-number">Number</label>
+        <input type="range" id="attributesvalidatorform-number" class="is-invalid" name="AttributesValidatorForm[number]" value="6" required max="5" min="3">
+        <div class="hasError">Is too big.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'number')->range()->render());
+
+        // passed all rules for validation number.
+        $this->model->setAttribute('number', '4');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-number">Number</label>
+        <input type="range" id="attributesvalidatorform-number" class="is-valid" name="AttributesValidatorForm[number]" value="4" required max="5" min="3">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'number')->range()->render());
+    }
+
+    public function testAddAttributesTelephoneValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('telephone', '');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-telephone">Telephone</label>
+        <input type="tel" id="attributesvalidatorform-telephone" class="is-invalid" name="AttributesValidatorForm[telephone]" value maxlength="16" minlength="8" required pattern="[^0-9+\(\)-]">
+        <div class="hasError">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            $this->field()->config($this->model, 'telephone')->telephone()->render()
+        );
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('telephone', '+56');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-telephone">Telephone</label>
+        <input type="tel" id="attributesvalidatorform-telephone" class="is-invalid" name="AttributesValidatorForm[telephone]" value="+56" maxlength="16" minlength="8" required pattern="[^0-9+\(\)-]">
+        <div class="hasError">Is too short.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            $this->field()->config($this->model, 'telephone')->telephone()->render(),
+        );
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('telephone', '+56(999-999-99999)');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-telephone">Telephone</label>
+        <input type="tel" id="attributesvalidatorform-telephone" class="is-invalid" name="AttributesValidatorForm[telephone]" value="+56(999-999-99999)" maxlength="16" minlength="8" required pattern="[^0-9+\(\)-]">
+        <div class="hasError">Is too long.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            $this->field()->config($this->model, 'telephone')->telephone()->render(),
+        );
+
+        // add attributes html validator `MatchRegularExpression::rule()`.
+        $this->model->setAttribute('telephone', '+1(999-999-999)');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-telephone">Telephone</label>
+        <input type="tel" id="attributesvalidatorform-telephone" class="is-invalid" name="AttributesValidatorForm[telephone]" value="+1(999-999-999)" maxlength="16" minlength="8" required pattern="[^0-9+\(\)-]">
+        <div class="hasError">Is not a valid telephone number.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            $this->field()->config($this->model, 'telephone')->telephone()->render(),
+        );
+
+        // passed all rules for validation telephone.
+        $this->model->setAttribute('telephone', '+1 (999-999-999)');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-telephone">Telephone</label>
+        <input type="tel" id="attributesvalidatorform-telephone" class="is-valid" name="AttributesValidatorForm[telephone]" value="+1 (999-999-999)" maxlength="16" minlength="8" required pattern="[^0-9+\(\)-]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            $this->field()->config($this->model, 'telephone')->telephone()->render(),
+        );
+    }
+
+    public function testAddAttributesTextValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('text', '');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <input type="text" id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" value maxlength="6" minlength="3" required pattern="^[a-zA-Z0-9_.-]+$">
+        <div class="hasError">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('text', 'a');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <input type="text" id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" value="a" maxlength="6" minlength="3" required pattern="^[a-zA-Z0-9_.-]+$">
+        <div class="hasError">Is too short.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('text', 'testsme');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <input type="text" id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" value="testsme" maxlength="6" minlength="3" required pattern="^[a-zA-Z0-9_.-]+$">
+        <div class="hasError">Is too long.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->render());
+
+        // add attributes html validator `MatchRegularExpression::rule()`.
+        $this->model->setAttribute('text', '????');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <input type="text" id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" value="????" maxlength="6" minlength="3" required pattern="^[a-zA-Z0-9_.-]+$">
+        <div class="hasError">Is not a valid text.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->render());
+
+        // passed all rules for validation text.
+        $this->model->setAttribute('text', 'tests');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <input type="text" id="attributesvalidatorform-text" class="is-valid" name="AttributesValidatorForm[text]" value="tests" maxlength="6" minlength="3" required pattern="^[a-zA-Z0-9_.-]+$">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->render());
+    }
+
+    public function testAddAttributesTextAreaValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('text', '');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <textarea id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" required></textarea>
+        <div class="hasError">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->textArea()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('text', 'a');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <textarea id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" required>a</textarea>
+        <div class="hasError">Is too short.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->textArea()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('text', 'testsme');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <textarea id="attributesvalidatorform-text" class="is-invalid" name="AttributesValidatorForm[text]" required>testsme</textarea>
+        <div class="hasError">Is too long.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->textArea()->render());
+
+        // passed all rules for validation textarea.
+        $this->model->setAttribute('text', 'tests');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-text">Text</label>
+        <textarea id="attributesvalidatorform-text" class="is-valid" name="AttributesValidatorForm[text]" required>tests</textarea>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'text')->textArea()->render());
+    }
+
+    public function testAddAttributesUrlValidator(): void
+    {
+        // add attributes html validator `Required::rule()`.
+        $this->model->setAttribute('url', '');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-url">Url</label>
+        <input type="url" id="attributesvalidatorform-url" class="is-invalid" name="AttributesValidatorForm[url]" value maxlength="20" minlength="15" required pattern="^(http|https):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(?::\d{1,5})?(?:$|[?\/#])">
+        <div class="hasError">Value cannot be blank.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'url')->url()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('url', 'http://a.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-url">Url</label>
+        <input type="url" id="attributesvalidatorform-url" class="is-invalid" name="AttributesValidatorForm[url]" value="http://a.com" maxlength="20" minlength="15" required pattern="^(http|https):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(?::\d{1,5})?(?:$|[?\/#])">
+        <div class="hasError">Is too short.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'url')->url()->render());
+
+        // add attributes html validator `HasLength::rule()`.
+        $this->model->setAttribute('url', 'http://awesomexample.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-url">Url</label>
+        <input type="url" id="attributesvalidatorform-url" class="is-invalid" name="AttributesValidatorForm[url]" value="http://awesomexample.com" maxlength="20" minlength="15" required pattern="^(http|https):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(?::\d{1,5})?(?:$|[?\/#])">
+        <div class="hasError">Is too long.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'url')->url()->render());
+
+        // add attributes html validator `MatchRegularExpression::rule()`.
+        $this->model->setAttribute('url', 'awesomexample.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-url">Url</label>
+        <input type="url" id="attributesvalidatorform-url" class="is-invalid" name="AttributesValidatorForm[url]" value="awesomexample.com" maxlength="20" minlength="15" required pattern="^(http|https):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(?::\d{1,5})?(?:$|[?\/#])">
+        <div class="hasError">Is not a valid URL.</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'url')->url()->render());
+
+        // passed all rules for validation url.
+        $this->model->setAttribute('url', 'http://example.com');
+        $validator = $this->createValidatorMock();
+        $validator->validate($this->model);
+        $expected = <<<'HTML'
+        <div>
+        <label for="attributesvalidatorform-url">Url</label>
+        <input type="url" id="attributesvalidatorform-url" class="is-valid" name="AttributesValidatorForm[url]" value="http://example.com" maxlength="20" minlength="15" required pattern="^(http|https):\/\/(([A-Z0-9][A-Z0-9_-]*)(\.[A-Z0-9][A-Z0-9_-]*)+)(?::\d{1,5})?(?:$|[?\/#])">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'url')->url()->render());
+    }
 
     protected function setUp(): void
     {
-        $this->model = new PersonalForm();
+        parent::setUp();
+        $this->model = new AttributesValidatorForm();
     }
 
-    protected function tearDowm(): void
+    private function field(): Field
     {
-        unset($this->model);
-    }
-
-    public function testDropdownList(): void
-    {
-        $cities = [
-            '1' => [
-                '2' => 'Moscu',
-                '3' => 'San Petersburgo',
-                '4' => 'Novosibirsk',
-                '5' => 'Ekaterinburgo',
-            ],
-            '2' => [
-                '6' => 'Santiago',
-                '7' => 'Concepcion',
-                '8' => 'Chillan',
-            ],
-        ];
-
-        $groups = [
-            '1' => ['class' => 'text-danger', 'label' => 'Russia'],
-            '2' => ['class' => 'text-primary', 'label' => 'Chile'],
-        ];
-
-        $prompt = [
-            'text' => 'Select City Birth',
-            'attributes' => [
-                'value' => '0',
-                'selected' => 'selected',
-            ],
-        ];
-
-        $this->model->setAttribute('cityBirth', 0);
-
-        $html = Field::widget()
-            ->config($this->model, 'cityBirth')
-            ->containerClass('mb-3')
-            ->inputClass('form-control')
-            ->dropDownList($cities, [], $groups, $prompt)
-            ->labelClass('form-label')
-            ->template('{label}{input}{hint}')
-            ->render();
-        $expected = <<<'HTML'
-        <div class="mb-3">
-        <label class="form-label" for="personalform-citybirth">City Birth</label>
-        <select id="personalform-citybirth" class="form-control" name="PersonalForm[cityBirth]">
-        <option value="0" selected>Select City Birth</option>
-        <optgroup class="text-danger" label="Russia">
-        <option value="2">Moscu</option>
-        <option value="3">San Petersburgo</option>
-        <option value="4">Novosibirsk</option>
-        <option value="5">Ekaterinburgo</option>
-        </optgroup>
-        <optgroup class="text-primary" label="Chile">
-        <option value="6">Santiago</option>
-        <option value="7">Concepcion</option>
-        <option value="8">Chillan</option>
-        </optgroup>
-        </select>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testInputWithValidation(): void
-    {
-        /** Add class is-invalid */
-        $validator = $this->getValidator();
-        $this->model->setAttribute('name', '');
-        $validator->validate($this->model);
-
-        $html = Field::widget()
-            ->ariaDescribedBy()
-            ->config($this->model, 'name')
-            ->errorClass('invalid-feedback')
+        return Field::widget()
+            ->errorClass('hasError')
+            ->hintClass('info-class')
             ->invalidClass('is-invalid')
-            ->template('{label}{input}{hint}{error}')
-            ->validClass('is-valid')
-            ->render();
-        $expected = <<<'HTML'
-        <div>
-        <label for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint">Write your first name.</div>
-        <div class="invalid-feedback">Value cannot be blank.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testNoLabel(): void
-    {
-        $html = Field::widget()
-            ->config($this->model, 'name')
-            ->noLabel()
-            ->template('{label}{input}{hint}')
-            ->render();
-        $expected = <<<'HTML'
-        <div>
-        <input type="text" id="personalform-name" class name="PersonalForm[name]" value placeholder="Name" required>
-        <div id="personalform-name-hint">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testPasswordInput(): void
-    {
-        $html = Field::widget()
-            ->ariaDescribedBy()
-            ->config($this->model, 'password')
-            ->passwordInput()
-            ->template('{label}{input}{hint}')
-            ->render();
-        $expected = <<<'HTML'
-        <div>
-        <label for="personalform-password">Password</label>
-        <input type="password" id="personalform-password" class name="PersonalForm[password]" value aria-describedby="personalform-password-hint" placeholder="Password">
-        <div id="personalform-password-hint">Write your password.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testRadio(): void
-    {
-        $html = Field::widget()->config($this->model, 'terms')->radio()->template('{label}{input}')->render();
-
-        $expected = <<<'HTML'
-        <div>
-        <label><input type="radio" id="personalform-terms" name="PersonalForm[terms]" value="0"> Terms</label>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testRadioEnclosedByLabelFalse(): void
-    {
-        $html = Field::widget()->config($this->model, 'terms')->radio([], false)->template('{label}{input}')->render();
-
-        $expected = <<<'HTML'
-        <div>
-        <input type="radio" id="personalform-terms" name="PersonalForm[terms]" value="0">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testRenderBootstrap5(): void
-    {
-        $html = $this->fieldBoostrapDefaultConfig();
-
-        $expected = <<<HTML
-        <div class="mb-3">
-        <label class="form-label" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint" class="form-text">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testRenderBootstrap5WithValidation(): void
-    {
-        $expected = <<<HTML
-        <div class="mb-3">
-        <label class="form-label" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="form-control" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint" class="form-text">Write your first name.</div>
-        <div class="invalid-feedback">Fill in this field.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $this->fieldBoostrapValidationConfig());
-    }
-
-    public function testRenderBulma(): void
-    {
-        $expected = <<<HTML
-        <div class="field">
-        <label class="label" for="personalform-name">Name</label>
-        <div class="control">
-        <input type="text" id="personalform-name" class="input" name="PersonalForm[name]" value placeholder="Name" required>
-        </div>
-        <div id="personalform-name-hint" class="help">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $this->fieldBulmaDefaultConfig());
-    }
-
-    public function testRenderTailwind(): void
-    {
-        $expected = <<<HTML
-        <div class="grid grid-cols-1 gap-6">
-        <div class="block">
-        <label class="text-gray-700" for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="mt-1 block w-full" name="PersonalForm[name]" value placeholder="Name" required>
-        </div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $this->fieldTailwindDefaultConfig());
-    }
-
-    public function testTextArea(): void
-    {
-        $this->model->setAttribute('name', 'samdark');
-
-        $html = Field::widget()
-            ->config($this->model, 'name')
-            ->containerClass('mb-3')
-            ->labelClass('form-label')
-            ->template('{label}{input}{hint}')
-            ->textArea()
-            ->render();
-        $expected = <<<'HTML'
-        <div class="mb-3">
-        <label class="form-label" for="personalform-name">Name</label>
-        <textarea id="personalform-name" name="PersonalForm[name]" placeholder="Name">samdark</textarea><div id="personalform-name-hint">Write your first name.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testValidationIsInvalid(): void
-    {
-        /** Add class is-invalid */
-        $validator = $this->getValidator();
-        $this->model->setAttribute('name', '');
-        $validator->validate($this->model);
-
-        $html = Field::widget()
-            ->ariaDescribedBy()
-            ->config($this->model, 'name')
-            ->inValidClass('is-invalid')
-            ->template('{label}{input}{hint}{error}')
-            ->validClass('is-valid')
-            ->render();
-        $expected = <<<'HTML'
-        <div>
-        <label for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-invalid" name="PersonalForm[name]" value aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint">Write your first name.</div>
-        <div>Value cannot be blank.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    public function testValidationIsValid(): void
-    {
-        /** Add class is-invalid */
-        $validator = $this->getValidator();
-        $this->model->setAttribute('name', 'samdark');
-        $validator->validate($this->model);
-
-        $html = Field::widget()
-            ->ariaDescribedBy()
-            ->config($this->model, 'name')
-            ->inValidClass('is-invalid')
-            ->template('{label}{input}{hint}{error}')
-            ->validClass('is-valid')
-            ->render();
-        $expected = <<<'HTML'
-        <div>
-        <label for="personalform-name">Name</label>
-        <input type="text" id="personalform-name" class="is-valid" name="PersonalForm[name]" value="samdark" aria-describedby="personalform-name-hint" placeholder="Name" required>
-        <div id="personalform-name-hint">Write your first name.</div>
-        <div></div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, $html);
-    }
-
-    private function fieldBoostrapDefaultConfig(): string
-    {
-        return Field::widget()
-            ->config($this->model, 'name')
-            ->ariaDescribedBy(true)
-            ->containerClass('mb-3')
-            ->hintClass('form-text')
-            ->inputClass('form-control')
-            ->labelClass('form-label')
-            ->template('{label}{input}{hint}')
-            ->render();
-    }
-
-    private function fieldBoostrapValidationConfig(): string
-    {
-        return Field::widget()
-            ->config($this->model, 'name')
-            ->ariaDescribedBy(true)
-            ->containerClass('mb-3')
-            ->errorClass('invalid-feedback')
-            ->errorMessage('Fill in this field.')
-            ->hintClass('form-text')
-            ->inputClass('form-control')
-            ->labelClass('form-label')
-            ->required()
-            ->template('{label}{input}{hint}{error}')
-            ->render();
-    }
-
-    private function fieldBulmaDefaultConfig(): string
-    {
-        return Field::widget()
-            ->config($this->model, 'name')
-            ->containerClass('field')
-            ->hintClass('help')
-            ->inputClass('input')
-            ->labelClass('label')
-            ->template("{label}<div class=\"control\">\n{input}</div>\n{hint}")
-            ->render();
-    }
-
-    private function fieldTailwindDefaultConfig(): string
-    {
-        return Field::widget()
-            ->config($this->model, 'name')
-            ->containerClass('grid grid-cols-1 gap-6')
-            ->inputClass('mt-1 block w-full')
-            ->labelClass('text-gray-700')
-            ->noHint()
-            ->template("<div class=\"block\">\n{label}{input}</div>\n")
-            ->render();
-    }
-
-    private function getValidator(): Validator
-    {
-        return new Validator(new Formatter());
+            ->validClass('is-valid');
     }
 }

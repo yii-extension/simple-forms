@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
+use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
+use Yii\Extension\Simple\Model\Helper\HtmlModel;
+use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 
 /**
@@ -12,8 +16,14 @@ use Yiisoft\Html\Tag\Textarea as TextAreaTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html
  */
-final class TextArea extends Input
+final class TextArea extends AbstractWidget
 {
+    use CommonAttributes;
+    use ModelAttributes;
+
+    private string $dirname = '';
+    private string $wrap = '';
+
     /**
      * The expected maximum number of characters per line of text for the UA to show.
      *
@@ -27,6 +37,44 @@ final class TextArea extends Input
     {
         $new = clone $this;
         $new->attributes['cols'] = $value;
+        return $new;
+    }
+
+    /**
+     * Enables submission of a value for the directionality of the element, and gives the name of the field that
+     * contains that value.
+     *
+     * @param string $value Any string that is not empty.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.dirname
+     */
+    public function dirname(string $value): self
+    {
+        if (empty($value)) {
+            throw new InvalidArgumentException('The value cannot be empty.');
+        }
+
+        $new = clone $this;
+        $new->dirname = $value;
+        return $new;
+    }
+
+    /**
+     * Specifies the form element the tag input element belongs to. The value of this attribute must be the id
+     * attribute of a {@see Form} element in the same document.
+     *
+     * @param string $value
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.form
+     */
+    public function form(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['form'] = $value;
         return $new;
     }
 
@@ -46,6 +94,22 @@ final class TextArea extends Input
     {
         $new = clone $this;
         $new->attributes['maxlength'] = $value;
+        return $new;
+    }
+
+    /**
+     * It allows defining placeholder.
+     *
+     * @param string $value
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.placeholder
+     */
+    public function placeholder(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
         return $new;
     }
 
@@ -101,29 +165,37 @@ final class TextArea extends Input
         }
 
         $new = clone $this;
-        $new->attributes['wrap'] = $value;
+        $new->wrap = $value;
         return $new;
     }
 
     /**
-     * @return string the generated textarea tag.
+     * Generates text area tag element for the given model attribute.
+     *
+     * @return string
      */
     protected function run(): string
     {
         $new = clone $this;
 
-        $new->setPlaceholder();
-
-        $value = $new->getValue();
+        $value = HtmlModel::getAttributeValue($new->getModel(), $new->attribute);
 
         if (!is_string($value)) {
-            throw new InvalidArgumentException('The value must be a string|null.');
+            throw new InvalidArgumentException('TextArea widget must be a string.');
+        }
+
+        if ($new->dirname !== '') {
+            $new->attributes['dirname'] = $new->dirname;
+        }
+
+        if ($new->wrap !== '') {
+            $new->attributes['wrap'] = $new->wrap;
         }
 
         return TextAreaTag::tag()
             ->attributes($new->attributes)
             ->id($new->getId())
-            ->name($new->getInputName())
+            ->name(HtmlModel::getInputName($new->getModel(), $new->attribute))
             ->value($value)
             ->render();
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use InvalidArgumentException;
 use Yii\Extension\Simple\Widget\AbstractWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Http\Method;
@@ -16,7 +15,7 @@ use function substr;
 use function urldecode;
 
 /**
- *  Generates a form start tag.
+ *  Generates a form tag.
  *
  *  @link https://www.w3.org/TR/html52/sec-forms.html
  */
@@ -24,7 +23,7 @@ final class Form extends AbstractWidget
 {
     private string $action = '';
     private array $attributes = [];
-    private ?string $id = null;
+    private string $id = '';
     private string $method = Method::POST;
 
     /**
@@ -41,7 +40,11 @@ final class Form extends AbstractWidget
         $hiddenInputs = [];
 
         /** @var string */
-        $new->attributes['id'] = isset($new->attributes['id']) ? $new->attributes['id'] : $new->id;
+        $new->attributes['id'] = $new->attributes['id'] ?? $new->id;
+
+        if ($new->attributes['id'] === '') {
+            unset($new->attributes['id']);
+        }
 
         /** @var string */
         $csrfToken = $new->attributes['_csrf'] ?? '';
@@ -81,28 +84,22 @@ final class Form extends AbstractWidget
         $form = Html::openTag('form', $new->attributes);
 
         if (!empty($hiddenInputs)) {
-            $form .= "\n" . implode("\n", $hiddenInputs);
+            $form .= PHP_EOL . implode(PHP_EOL, $hiddenInputs);
         }
 
         return $form;
     }
 
     /**
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-action
+     * The accept-charset content attribute gives the character encodings that are to be used for the submission.
+     * If specified, the value must be an ordered set of unique space-separated tokens that are ASCII case-insensitive,
+     * and each token must be an ASCII case-insensitive match for one of the labels of an ASCII-compatible encoding.
+     *
+     * @param string $value the accept-charset attribute value.
      *
      * @return static
-     */
-    public function action(string $value): self
-    {
-        $new = clone $this;
-        $new->action = $value;
-        return $new;
-    }
-
-    /**
+     *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-accept-charset
-     *
-     * @return static
      */
     public function acceptCharset(string $value): self
     {
@@ -112,9 +109,26 @@ final class Form extends AbstractWidget
     }
 
     /**
-     * The HTML attributes for the navbar. The following special options are recognized.
+     * The action and formaction content attributes, if specified, must have a value that is a valid non-empty URL
+     * potentially surrounded by spaces.
      *
-     * @param array $value
+     * @param string $action the action attribute value.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-action
+     */
+    public function action(string $value): self
+    {
+        $new = clone $this;
+        $new->action = $value;
+        return $new;
+    }
+
+    /**
+     * The HTML attributes for the form. The following special options are recognized.
+     *
+     * @param array $value the HTML attributes for the form.
      *
      * @return static
      */
@@ -129,23 +143,26 @@ final class Form extends AbstractWidget
      * Specifies whether the element represents an input control for which a UA is meant to store the value entered by
      * the user (so that the UA can prefill the form later).
      *
-     * @param string $value The value must be `on`,` off`.
+     * @param bool $value
      *
      * @return static
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-autocompleteelements-autocomplete
      */
-    public function autocomplete(string $value = 'on'): self
+    public function autocomplete(bool $value = true): self
     {
-        if ($value !== 'on' && $value !== 'off') {
-            throw new InvalidArgumentException('The value must be `on`,` off`.');
-        }
-
         $new = clone $this;
-        $new->attributes['autocomplete'] = $value;
+        $new->attributes['autocomplete'] = $value ? 'on' : 'off';
         return $new;
     }
 
+    /**
+     * The csrf-token content attribute is a space-separated list of tokens that are known to be safe to use for.
+     *
+     * @param string $value the csrf-token attribute value.
+     *
+     * @return static
+     */
     public function csrf(string $value): self
     {
         $new = clone $this;
@@ -154,9 +171,13 @@ final class Form extends AbstractWidget
     }
 
     /**
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-enctype
+     * The formenctype content attribute specifies the content type of the form submission.
+     *
+     * @param string $value the formenctype attribute value.
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-enctype
      */
     public function enctype(string $value): self
     {
@@ -165,6 +186,13 @@ final class Form extends AbstractWidget
         return $new;
     }
 
+    /**
+     * The id content attribute is a unique identifier for the element.
+     *
+     * @param string $value the id attribute value.
+     *
+     * @return static
+     */
     public function id(string $value): self
     {
         $new = clone $this;
@@ -173,9 +201,13 @@ final class Form extends AbstractWidget
     }
 
     /**
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-method
+     * The method content attribute specifies how the form-data should be submitted.
+     *
+     * @param string $value the method attribute value.
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-method
      */
     public function method(string $value): self
     {
@@ -185,11 +217,14 @@ final class Form extends AbstractWidget
     }
 
     /**
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-novalidate
+     * The novalidate and formnovalidate content attributes are boolean attributes. If present, they indicate that the
+     * form is not to be validated during submission.
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-novalidate
      */
-    public function noValidateHtml(): self
+    public function noHtmlValidatation(): self
     {
         $new = clone $this;
         $new->attributes['novalidate'] = true;
@@ -197,11 +232,16 @@ final class Form extends AbstractWidget
     }
 
     /**
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-target
+     * The target and formtarget content attributes, if specified, must have values that are valid browsing context
+     * names or keywords.
+     *
+     * @param string $value the target attribute value, for default its `_blank`.
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-target
      */
-    public function target(string $value = '_blank'): self
+    public function target(string $value): self
     {
         $new = clone $this;
         $new->attributes['target'] = $value;
@@ -211,7 +251,7 @@ final class Form extends AbstractWidget
     /**
      * Generates a form end tag.
      *
-     * @return string the generated tag.
+     * @return string
      *
      * {@see beginForm()}
      */

@@ -2,23 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yiisoft\Form\Tests\Widget;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Form;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\PersonalForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Form\Tests\Stub\ValidatorMock;
+use Yiisoft\Test\Support\Container\SimpleContainer;
+use Yiisoft\Validator\ValidatorInterface;
 
 final class FormTest extends TestCase
 {
-    use TestTrait;
-
     public function testAcceptCharset(): void
     {
         $this->assertSame(
             '<form method="POST" accept-charset="UTF-8">',
             Form::widget()->acceptCharset('UTF-8')->begin(),
+        );
+    }
+
+    public function testAction(): void
+    {
+        $this->assertSame('<form action="/test" method="POST">', Form::widget()->action('/test')->begin());
+    }
+
+    public function testAttributes(): void
+    {
+        $this->assertSame(
+            '<form class="test-class" method="POST">',
+            Form::widget()->attributes(['class' => 'test-class'])->begin(),
         );
     }
 
@@ -32,33 +43,19 @@ final class FormTest extends TestCase
         /** off value */
         $this->assertSame(
             '<form method="POST" autocomplete="off">',
-            Form::widget()->autocomplete('off')->begin(),
+            Form::widget()->autocomplete(false)->begin(),
         );
-    }
-
-    public function testAutocompleteException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('The value must be `on`,` off`.');
-        Form::widget()->autocomplete('exception')->begin();
     }
 
     public function testBegin(): void
     {
-        $this->assertSame(
-            '<form action="/test" method="POST">',
-            Form::widget()->action('/test')->begin(),
-        );
-        $this->assertSame(
-            '<form action="/example" method="GET">',
-            Form::widget()->action('/example')->method('GET')->begin(),
-        );
+        $this->assertSame('<form method="POST">', Form::widget()->begin());
         $hiddens = [
             '<input type="hidden" name="id" value="1">',
             '<input type="hidden" name="title" value="&lt;">',
         ];
         $this->assertSame(
-            '<form action="/example" method="GET">' . "\n" . implode("\n", $hiddens),
+            '<form action="/example" method="GET">' . PHP_EOL . implode(PHP_EOL, $hiddens),
             Form::widget()->action('/example?id=1&title=%3C')->method('GET')->begin()
         );
         $this->assertStringMatchesFormat(
@@ -67,9 +64,46 @@ final class FormTest extends TestCase
         );
     }
 
-    public function testBeginEmpty(): void
+    /**
+     * Data provider for {@see testCsrf()}.
+     *
+     * @return array test data
+     */
+    public function dataProviderCsrf(): array
     {
-        $this->assertSame('<form method="POST">', Form::widget()->begin());
+        return [
+            ['<form action="/foo" method="GET">', 'GET',  ''],
+            ['<form action="/foo" method="GET" _csrf="tokenCsrf">', 'GET',  'tokenCsrf'],
+            ['<form action="/foo" method="POST">', 'POST', '_csrf' => ''],
+            [
+                '<form action="/foo" method="POST" _csrf="tokenCsrf">' . PHP_EOL .
+                '<input type="hidden" name="_csrf" value="tokenCsrf">',
+                'POST',
+                '_csrf' => 'tokenCsrf',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider dataProviderCsrf
+     *
+     * @param string $expected
+     * @param string $method
+     * @param array $options
+     */
+    public function testCsrf(string $expected, string $method, string $csrf): void
+    {
+        $this->assertSame($expected, Form::widget()->action('/foo')->method($method)->csrf($csrf)->begin());
+        $this->assertSame(
+            $expected,
+            Form::widget()->action('/foo')->attributes(['_csrf' => $csrf])->method($method)->begin(),
+        );
+    }
+
+    public function testEnd(): void
+    {
+        Form::widget()->begin();
+        $this->assertSame('</form>', Form::end());
     }
 
     public function testEnctype(): void
@@ -77,44 +111,6 @@ final class FormTest extends TestCase
         $this->assertSame(
             '<form id="multipart/form-data" method="POST">',
             Form::widget()->enctype('multipart/form-data')->begin(),
-        );
-    }
-
-    /**
-     * Data provider for {@see testBeginSimulateViaPost()}.
-     *
-     * @return array test data
-     */
-    public function dataProviderBeginViaPost(): array
-    {
-        return [
-            ['<form action="/foo" method="GET">', 'GET',  ''],
-            ['<form action="/foo" method="GET" _csrf="tokenCsrf">', 'GET',  'tokenCsrf'],
-            ['<form action="/foo" method="POST">', 'POST', '_csrf' => ''],
-            [
-                '<form action="/foo" method="POST" _csrf="tokenCsrf">' . "\n" . '<input type="hidden" name="_csrf" value="tokenCsrf">',
-                'POST',
-                '_csrf' => 'tokenCsrf'
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider dataProviderBeginViaPost
-     *
-     * @param string $expected
-     * @param string $method
-     * @param array $options
-     */
-    public function testBeginViaPost(string $expected, string $method, string $csrf): void
-    {
-        $this->assertSame(
-            $expected,
-            Form::widget()->action('/foo')->method($method)->csrf($csrf)->begin(),
-        );
-        $this->assertSame(
-            $expected,
-            Form::widget()->action('/foo')->attributes(['_csrf' => $csrf])->method($method)->begin(),
         );
     }
 
@@ -127,10 +123,19 @@ final class FormTest extends TestCase
         );
     }
 
-    public function testEnd(): void
+    public function testImmutability(): void
     {
-        Form::widget()->begin();
-        $this->assertSame('</form>', Form::end());
+        $form = Form::widget();
+        $this->assertNotSame($form, $form->acceptCharset(''));
+        $this->assertNotSame($form, $form->action(''));
+        $this->assertNotSame($form, $form->attributes([]));
+        $this->assertNotSame($form, $form->autocomplete());
+        $this->assertNotSame($form, $form->csrf(''));
+        $this->assertNotSame($form, $form->enctype(''));
+        $this->assertNotSame($form, $form->id(''));
+        $this->assertNotSame($form, $form->method(''));
+        $this->assertNotSame($form, $form->noHtmlValidatation());
+        $this->assertNotSame($form, $form->target(''));
     }
 
     public function testMethod(): void
@@ -139,13 +144,18 @@ final class FormTest extends TestCase
         $this->assertSame('<form method="POST">', Form::widget()->method('post')->begin());
     }
 
-    public function testNoValidateHtml(): void
+    public function testNoHtmlValidatation(): void
     {
-        $this->assertSame('<form method="POST" novalidate>', Form::widget()->noValidateHtml()->begin());
+        $this->assertSame('<form method="POST" novalidate>', Form::widget()->noHtmlValidatation()->begin());
     }
 
     public function testTarget(): void
     {
-        $this->assertSame('<form method="POST" target="_blank">', Form::widget()->target()->begin());
+        $this->assertSame('<form method="POST" target="_blank">', Form::widget()->target('_blank')->begin());
+    }
+
+    private function createValidatorMock(): ValidatorInterface
+    {
+        return new ValidatorMock();
     }
 }
