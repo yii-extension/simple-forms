@@ -137,7 +137,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="attributesvalidatorform-password">Password</label>
-        <input type="password" class="is-invalid" name="attributesvalidatorform-password" value maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
         <div class="hasError">Value cannot be blank.</div>
         </div>
         HTML;
@@ -150,7 +150,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="attributesvalidatorform-password">Password</label>
-        <input type="password" class="is-invalid" name="attributesvalidatorform-password" value="t" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value="t" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
         <div class="hasError">Is too short.</div>
         </div>
         HTML;
@@ -163,7 +163,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="attributesvalidatorform-password">Password</label>
-        <input type="password" class="is-invalid" name="attributesvalidatorform-password" value="012345678" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value="012345678" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
         <div class="hasError">Is too long.</div>
         </div>
         HTML;
@@ -176,7 +176,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="attributesvalidatorform-password">Password</label>
-        <input type="password" class="is-invalid" name="attributesvalidatorform-password" value="12345" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <input type="password" id="attributesvalidatorform-password" class="is-invalid" name="AttributesValidatorForm[password]" value="12345" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
         <div class="hasError">Is not a valid password.</div>
         </div>
         HTML;
@@ -189,7 +189,7 @@ final class FieldTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="attributesvalidatorform-password">Password</label>
-        <input type="password" class="is-valid" name="attributesvalidatorform-password" value="test1234" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
+        <input type="password" id="attributesvalidatorform-password" class="is-valid" name="AttributesValidatorForm[password]" value="test1234" maxlength="8" minlength="4" required pattern="^(?=.*\d)(?=.*[A-Za-z])[0-9A-Za-z!@#$%]{4,8}$">
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, $this->field()->config($this->model, 'password')->password()->render());
