@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -66,8 +67,8 @@ final class Url extends AbstractWidget implements HasLengthInterface, MatchRegul
             throw new InvalidArgumentException('Url widget must be a string or null value.');
         }
 
-        $new->attributes['id'] ??= $new->getInputId();
-        $new->attributes['name'] ??= $new->getInputName();
+        $new->attributes['id'] = ArrayHelper::getValue($new->attributes, 'id', $new->getInputId());
+        $new->attributes['name'] = ArrayHelper::getValue($new->attributes, 'name', $new->getInputName());
 
         return Input::tag()->type('url')->attributes($new->attributes)->value($value === '' ? null : $value)->render();
     }

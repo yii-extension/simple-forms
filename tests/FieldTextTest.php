@@ -57,6 +57,20 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    public function testId(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="id-test">String</label>
+        <input type="text" id="id-test" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->id('id-test')->render(),
+        );
+    }
+
     public function testMaxLength(): void
     {
         $expected = <<<'HTML'
@@ -82,6 +96,20 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->text(new LoginForm(), 'login', ['minlength' => 4])->render(),
+        );
+    }
+
+    public function testName(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="name-test">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new LoginForm(), 'login')->name('name-test')->render(),
         );
     }
 
@@ -210,5 +238,33 @@ final class FieldTextTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Text widget must be a string or null value.');
         Field::widget()->text(new TypeForm(), 'array')->render();
+    }
+
+    public function testWithoutId(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label>Password</label>
+        <input type="text" name="LoginForm[password]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new LoginForm(), 'password')->id(null)->render(),
+        );
+    }
+
+    public function testWithoutName(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="text" id="loginform-password">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new LoginForm(), 'password')->name(null)->render(),
+        );
     }
 }

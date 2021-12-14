@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -85,8 +86,8 @@ final class Password extends AbstractWidget implements HasLengthInterface, Match
             throw new InvalidArgumentException('Password widget must be a string or null value.');
         }
 
-        $new->attributes['id'] ??= $new->getInputId();
-        $new->attributes['name'] ??= $new->getInputName();
+        $new->attributes['id'] = ArrayHelper::getValue($new->attributes, 'id', $new->getInputId());
+        $new->attributes['name'] = ArrayHelper::getValue($new->attributes, 'name', $new->getInputName());
 
         return Input::tag()
             ->type('password')

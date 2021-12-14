@@ -63,6 +63,38 @@ abstract class AbstractField extends Widget
     }
 
     /**
+     * Set the ID of the widget.
+     *
+     * @param string|null $id
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
+     */
+    public function id(?string $id): self
+    {
+        $new = clone $this;
+        $new->widgetAttributes['id'] = $id;
+        return $new;
+    }
+
+    /**
+     * The name part of the name/value pair associated with this element for the purposes of form submission.
+     *
+     * @param string|null The name of the widget.
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-name
+     */
+    public function name(?string $value): self
+    {
+        $new = clone $this;
+        $new->widgetAttributes['name'] = $value;
+        return $new;
+    }
+
+    /**
      * A Boolean attribute which, if present, means this field cannot be edited by the user.
      * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
      * property.

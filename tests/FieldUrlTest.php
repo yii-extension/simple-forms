@@ -42,6 +42,20 @@ final class FieldUrlTest extends TestCase
         );
     }
 
+    public function testId(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="id-test">String</label>
+        <input type="url" id="id-test" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->id('id-test')->render(),
+        );
+    }
+
     public function testMaxLength(): void
     {
         $expected = <<<'HTML'
@@ -67,6 +81,20 @@ final class FieldUrlTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->url(new TypeForm(), 'string', ['minlength' => 4])->render(),
+        );
+    }
+
+    public function testName(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="name-test">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -192,5 +220,33 @@ final class FieldUrlTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Url widget must be a string or null value.');
         Field::widget()->url(new TypeForm(), 'array')->render();
+    }
+
+    public function testWithoutId(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label>String</label>
+        <input type="url" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->id(null)->render(),
+        );
+    }
+
+    public function testWithoutName(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->name(null)->render(),
+        );
     }
 }

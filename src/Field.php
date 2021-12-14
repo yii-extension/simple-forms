@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use Stringable;
 use Yii\Extension\Simple\Model\FormModelInterface;
+use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -507,9 +508,9 @@ final class Field extends AbstractField
         }
 
         if ($new->labelFor === '') {
-            $new->labelFor = $new->widget->getInputId();
+            /** @var string|null */
+            $new->labelFor = ArrayHelper::getValue($new->widgetAttributes, 'id', $new->widget->getInputId());
         }
-
 
         return Label::widget()
             ->attributes($new->labelAttributes)

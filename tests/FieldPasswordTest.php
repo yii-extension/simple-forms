@@ -43,6 +43,20 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    public function testId(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="id-test">Password</label>
+        <input type="password" id="id-test" name="LoginForm[password]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->id('id-test')->render(),
+        );
+    }
+
     public function testMaxLength(): void
     {
         $expected = <<<'HTML'
@@ -68,6 +82,20 @@ final class FieldPasswordTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->password(new LoginForm(), 'password', ['minlength' => 8])->render(),
+        );
+    }
+
+    public function testName(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="name-test">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->name('name-test')->render(),
         );
     }
 
@@ -195,5 +223,33 @@ final class FieldPasswordTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Password widget must be a string or null value.');
         Field::widget()->password(new TypeForm(), 'array')->render();
+    }
+
+    public function testWithoutId(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label>Password</label>
+        <input type="password" name="LoginForm[password]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->id(null)->render(),
+        );
+    }
+
+    public function testWithoutName(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->name(null)->render(),
+        );
     }
 }
