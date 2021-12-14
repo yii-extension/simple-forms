@@ -36,13 +36,6 @@ final class Url extends AbstractWidget implements HasLengthInterface, MatchRegul
         return $new;
     }
 
-    public function placeholder(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
     /**
      * The height of the input with multiple is true.
      *

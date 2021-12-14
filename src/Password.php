@@ -36,13 +36,6 @@ final class Password extends AbstractWidget implements HasLengthInterface, Match
         return $new;
     }
 
-    public function placeholder(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
     /**
      * A Boolean attribute which, if present, means this field cannot be edited by the user.
      * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
