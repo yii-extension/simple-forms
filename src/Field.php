@@ -36,11 +36,11 @@ final class Field extends Widget
     private string $errorTag = 'div';
     private string $inputClass = '';
     private string $invalidClass = '';
-    private string $hint = '';
+    private string|null $hint = '';
     private string $hintClass = '';
     private array $hintAttributes = [];
     private string $hintTag = 'div';
-    private string $label = '';
+    private string|null $label = '';
     private array $labelAttributes = [];
     private string $labelClass = '';
     private array $parts = [];
@@ -101,6 +101,13 @@ final class Field extends Widget
         return $new;
     }
 
+    public function hint(string $value): self
+    {
+        $new = clone $this;
+        $new->hint = $value;
+        return $new;
+    }
+
     /**
      * Set input css class.
      *
@@ -110,6 +117,13 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->inputClass = $value;
+        return $new;
+    }
+
+    public function label(string $value): self
+    {
+        $new = clone $this;
+        $new->label = $value;
         return $new;
     }
 
@@ -232,6 +246,20 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->widget = Url::widget()->for($formModel, $attribute)->attributes($attributes);
+        return $new;
+    }
+
+    public function withoutHint(): self
+    {
+        $new = clone $this;
+        $new->hint = null;
+        return $new;
+    }
+
+    public function withoutLabel(): self
+    {
+        $new = clone $this;
+        $new->label = null;
         return $new;
     }
 
