@@ -6,57 +6,42 @@ namespace Yiisoft\Form\Tests\Widget;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Label;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class LabelTest extends TestCase
 {
-    private TypeForm $model;
+    use TestTrait;
 
-    /**
-     * @link https://github.com/yiisoft/form/issues/85
-     */
-    public function testEncodeFalse(): void
+    public function testForId(): void
     {
-        $this->assertSame(
-            '<label for="typeform-string">My&nbsp;Field</label>',
-            Label::widget()->config($this->model, 'string', ['encode' => false])->label('My&nbsp;Field')->render(),
-        );
-    }
-
-    public function testFor(): void
-    {
-        $this->assertSame(
-            '<label for="for-id">String</label>',
-            Label::widget()->config($this->model, 'string')->for('for-id')->render(),
-        );
+        $this->assertSame('<label for="test-id"></label>', Label::widget()->forId('test-id')->render());
     }
 
     public function testImmutability(): void
     {
         $label = Label::widget();
-        $this->assertNotSame($label, $label->for(''));
+        $this->assertNotSame($label, $label->forId(''));
         $this->assertNotSame($label, $label->label(''));
     }
 
     public function testLabel(): void
     {
-        $this->assertSame(
-            '<label for="typeform-string">Label:</label>',
-            Label::widget()->config($this->model, 'string')->label('Label:')->render(),
-        );
+        $this->assertSame('<label>Label:</label>', Label::widget()->label('Label:')->render());
     }
 
     public function testRender(): void
     {
-        $this->assertSame(
-            '<label for="typeform-string">String</label>',
-            Label::widget()->config($this->model, 'string')->render(),
-        );
+        $this->assertSame('<label></label>', Label::widget()->render());
     }
 
-    protected function setUp(): void
+    /**
+     * @link https://github.com/yiisoft/form/issues/85
+     */
+    public function testWithoutEncode(): void
     {
-        parent::setUp();
-        $this->model = new TypeForm();
+        $this->assertSame(
+            '<label>My&nbsp;Field</label>',
+            Label::widget()->encode(false)->label('My&nbsp;Field')->render(),
+        );
     }
 }

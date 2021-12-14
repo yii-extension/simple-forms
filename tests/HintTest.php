@@ -2,51 +2,46 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Form\Tests\Widget;
+namespace Yii\Extension\Simple\Forms\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Hint;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class HintTest extends TestCase
 {
-    private TypeForm $model;
+    use TestTrait;
 
-    public function testContent(): void
+    public function testHint(): void
     {
-        $this->assertSame(
-            '<div>Write your text.</div>',
-            Hint::widget()->config($this->model, 'string', ['hint' => 'Write your text.'])->render(),
-        );
+        $this->assertSame('<div>Write your text.</div>', Hint::widget()->hint('Write your text.')->render());
     }
 
-    public function testEncodeFalse(): void
+    public function testImmutability(): void
     {
-        $html = Hint::widget()
-            ->config($this->model, 'string', ['hint' => 'Write&nbsp;your&nbsp;text.', 'encode' => false])
-            ->render();
-        $this->assertSame('<div>Write&nbsp;your&nbsp;text.</div>', $html);
+        $hint = Hint::widget();
+        $this->assertNotSame($hint, $hint->hint(null));
+        $this->assertNotSame($hint, $hint->tag(''));
     }
 
     public function testRender(): void
     {
-        $this->assertSame(
-            '<div>Write your text string.</div>',
-            Hint::widget()->config($this->model, 'string')->render(),
-        );
+        $this->assertSame('<div></div>', Hint::widget()->render());
     }
 
     public function testTag(): void
     {
         $this->assertSame(
-            '<span>Write your text string.</span>',
-            Hint::widget()->config($this->model, 'string', ['tag' => 'span'])->render(),
+            '<span>Write your text.</span>',
+            Hint::widget()->hint('Write your text.')->tag('span')->render(),
         );
     }
 
-    protected function setUp(): void
+    public function testTagException(): void
     {
-        parent::setUp();
-        $this->model = new TypeForm();
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Tag name cannot be empty.');
+        Hint::widget()->tag('')->render();
     }
 }

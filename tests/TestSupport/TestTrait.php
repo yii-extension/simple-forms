@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms\Tests\TestSupport;
 
 use ReflectionClass;
+use ReflectionException;
 use ReflectionObject;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Validator\ValidatorMock;
+use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Validator\ValidatorInterface;
+use Yiisoft\Widget\WidgetFactory;
 
 trait TestTrait
 {
@@ -24,6 +27,11 @@ trait TestTrait
         $actual = str_replace("\r\n", "\n", $actual);
 
         $this->assertEquals($expected, $actual, $message);
+    }
+
+    private function createValidatorMock(): ValidatorInterface
+    {
+        return new ValidatorMock();
     }
 
     /**
@@ -79,14 +87,15 @@ trait TestTrait
         }
     }
 
-    protected function createValidatorMock(): ValidatorInterface
+    protected function setUp(): void
     {
-        return new ValidatorMock();
+        parent::setUp();
+        WidgetFactory::initialize(new SimpleContainer(), []);
     }
 }
 
 namespace Yiisoft\Html;
 
-function hrtime(bool $getAsNumber = false)
+function hrtime(bool $getAsNumber = false): void
 {
 }

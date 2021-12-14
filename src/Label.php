@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
-use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yii\Extension\Simple\Widget\AbstractWidget;
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Label as LabelTag;
 
 /**
@@ -15,25 +11,24 @@ use Yiisoft\Html\Tag\Label as LabelTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
  */
-final class Label extends AbstractWidget
+final class Label extends AbstractForm
 {
-    use ModelAttributes;
-
-    private string $label = '';
+    private ?string $label = '';
 
     /**
-     * The id of a labelable form-related element in the same document as the tag label element.
+     * The id of a labeled form-related element in the same document as the tag label element.
      *
      * The first element in the document with an id matching the value of the for attribute is the labeled control for
-     * this label element, if it is a labelable element.
+     * this label element, if it is a labeled element.
      *
-     * @param string $value
+     * @param string|null $value The id of a labeled form-related element in the same document as the tag label
+     * element. If null, the attribute will be removed.
      *
      * @return static
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html#label.attrs.for
      */
-    public function for(string $value): self
+    public function forId(?string $value): self
     {
         $new = clone $this;
         $new->attributes['for'] = $value;
@@ -43,15 +38,15 @@ final class Label extends AbstractWidget
     /**
      * This specifies the label to be displayed.
      *
-     * @param string $value The label to be displayed.
+     * @param string|null $value The label to be displayed.
      *
      * @return static
      *
      * Note that this will NOT be encoded.
-     * - If this is not set, {@see \Yiisoft\Forms\FormModel::getAttributeLabel() will be called to get the label for
-     * display (after encoding).
+     * - If this is not set, {@see \Yii\Extension\Simple\Model\FormModel::getAttributeLabel() will be called to get the
+     * label for display (after encoding).
      */
-    public function label(string $value): self
+    public function label(?string $value): self
     {
         $new = clone $this;
         $new->label = $value;
@@ -59,31 +54,14 @@ final class Label extends AbstractWidget
     }
 
     /**
-     * Generates a label input element for the given model attribute.
-     *
-     * @return string
+     * @return string the generated label tag.
      */
     protected function run(): string
     {
         $new = clone $this;
 
-        $label = $new->label !== '' ? $new->label : HtmlModel::getAttributeLabel($new->getModel(), $new->attribute);
-
-        /** @var bool|string */
-        $attributeLabel = ArrayHelper::remove($new->attributes, 'label', '');
-
-        /** @var bool */
-        $encode = $new->attributes['encode'] ?? false;
-
-        if (is_string($attributeLabel) && $attributeLabel !== '') {
-            $label = $attributeLabel;
-        }
-
-        /** @var string */
-        $for = $new->attributes['for'] ?? $new->getId();
-
-        return $attributeLabel !== false
-            ? LabelTag::tag()->attributes($new->attributes)->content($label)->encode($encode)->forId($for)->render()
+        return $new->label !== null ?
+            LabelTag::tag()->attributes($new->attributes)->content($new->label)->encode($new->encode)->render()
             : '';
     }
 }

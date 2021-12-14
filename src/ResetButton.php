@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yii\Extension\Simple\Forms\Attribute\CommonAttributes;
-use Yii\Extension\Simple\Forms\Attribute\WithoutModelAttribute;
-use Yii\Extension\Simple\Widget\AbstractWidget;
+use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -16,27 +14,16 @@ use Yiisoft\Html\Tag\Input;
  */
 final class ResetButton extends AbstractWidget
 {
-    use CommonAttributes;
-    use WithoutModelAttribute;
-
     /**
-     * Generates a reset input element.
-     *
-     * @return string
+     * @return string the generated input tag.
      */
     protected function run(): string
     {
         $new = clone $this;
-        $input = Input::tag()->type('reset');
+        $id = Html::generateId('w') . '-reset';
+        $new->attributes['id'] ??= $id;
+        $new->attributes['name'] ??= $id;
 
-        if ($new->autoIdPrefix === '') {
-            $new->autoIdPrefix = 'reset-';
-        }
-
-        if ($new->value !== '') {
-            $input = $input->value($new->value);
-        }
-
-        return $input ->attributes($new->attributes)->id($new->getId())->name($new->getName())->render();
+        return Input::tag()->type('reset')->attributes($new->attributes)->render();
     }
 }

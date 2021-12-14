@@ -4,20 +4,15 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yii\Extension\Simple\Forms\Attribute\ModelAttributes;
-use Yii\Extension\Simple\Model\Helper\HtmlModel;
-use Yii\Extension\Simple\Widget\AbstractWidget;
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\CustomTag;
 
 /**
  * The Error widget displays an error message.
  */
-final class Error extends AbstractWidget
+final class Error extends AbstractForm
 {
-    use ModelAttributes;
-
     private string $message = '';
+    private string $tag = 'div';
 
     /**
      * Error message to display.
@@ -32,26 +27,6 @@ final class Error extends AbstractWidget
     }
 
     /**
-     * Callback that will be called to obtain an error message.
-     *
-     * The signature of the callback must be:
-     *
-     * ```php
-     * [$FormModel, function()]
-     * ```
-     *
-     * @param array $value
-     *
-     * @return static
-     */
-    public function messageCallback(array $value = []): self
-    {
-        $new = clone $this;
-        $new->attributes['messageCallback'] = $value;
-        return $new;
-    }
-
-    /**
      * The tag name of the container element.
      *
      * Empty to render error messages without container {@see Html::tag()}.
@@ -60,44 +35,28 @@ final class Error extends AbstractWidget
      *
      * @return static
      */
-    public function tag(string $value = ''): self
+    public function tag(string $value): self
     {
         $new = clone $this;
-        $new->attributes['tag'] = $value;
+        $new->tag = $value;
         return $new;
     }
 
     /**
-     * Generates a tag that contains the first validation error for the given model attribute.
+     * Generates a tag that contains the first validation error of the specified form attribute.
      *
-     * @return string
+     * @return string the generated label tag
      */
     protected function run(): string
     {
         $new = clone $this;
 
-        /** @var bool */
-        $encode = $new->attributes['encode'] ?? true;
-
-        $error = $new->message !== '' ? $new->message : HtmlModel::getFirstError($new->getModel(), $new->attribute);
-
-        /** @var string */
-        $tag = ArrayHelper::remove($new->attributes, 'tag', 'div');
-
-        /** @var array|null */
-        $messageCallback = $new->attributes['messageCallback'] ?? null;
-
-        if ($messageCallback !== null) {
-            /** @var string */
-            $error = $messageCallback($new->getModel(), $new->attribute);
-        }
-
-        unset($new->attributes['messageCallback']);
-
-        $html = $tag !== ''
-            ? CustomTag::name($tag)->attributes($new->attributes)->content($error)->encode($encode)->render()
-            : $error;
-
-        return $error !== '' ? $html : '';
+        return $new->tag !== '' && $new->message !== ''
+            ? CustomTag::name($new->tag)
+                ->attributes($new->attributes)
+                ->content($new->message)
+                ->encode($new->encode)
+                ->render()
+            : $new->message;
     }
 }

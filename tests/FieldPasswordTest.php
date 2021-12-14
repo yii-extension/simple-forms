@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Form\Tests\Widget;
+namespace Yii\Extension\Simple\Forms\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Field;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
@@ -14,35 +15,17 @@ final class FieldPasswordTest extends TestCase
 {
     use TestTrait;
 
-    private TypeForm $model;
-
-    public function testForm(): void
-    {
-        $expected = <<<'HTML'
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value form="form-id" placeholder="Typed your text string.">
-        <div>Write your text string.</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->config($this->model, 'string')->password(['form' => 'form-id'])->render(),
-        );
-    }
-
     public function testMaxLength(): void
     {
         $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value maxlength="16" placeholder="Typed your text string.">
-        <div>Write your text string.</div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" maxlength="16">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->config($this->model, 'string')->password(['maxlength' => 16])->render(),
+            Field::widget()->password(new LoginForm(), 'password', ['maxlength' => 16])->render(),
         );
     }
 
@@ -50,14 +33,13 @@ final class FieldPasswordTest extends TestCase
     {
         $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value minlength="8" placeholder="Typed your text string.">
-        <div>Write your text string.</div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" minlength="8">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->config($this->model, 'string')->password(['minlength' => 8])->render(),
+            Field::widget()->password(new LoginForm(), 'password', ['minlength' => 8])->render(),
         );
     }
 
@@ -65,40 +47,37 @@ final class FieldPasswordTest extends TestCase
     {
         $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Typed your text string.">
-        <div>Write your text string.</div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
         </div>
         HTML;
-        $html = Field::widget()
-            ->config($this->model, 'string')
-            ->password(
-                [
-                    'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
-                    'title' => 'Must contain at least one number and one uppercase and lowercase letter, and at ' .
-                    'least 8 or more characters.',
-                ]
-            )
-            ->render();
-        $this->assertEqualsWithoutLE($expected, $html);
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()
+                ->password(
+                    new LoginForm(),
+                    'password',
+                    [
+                        'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
+                        'title' => 'Must contain at least one number and one uppercase and lowercase letter, and at ' .
+                        'least 8 or more characters.',
+                    ]
+                )
+                ->render()
+        );
     }
 
     public function testPlaceholder(): void
     {
         $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value placeholder="PlaceHolder Text">
-        <div>Write your text string.</div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" placeholder="PlaceHolder Text">
         </div>
         HTML;
-        $html = Field::widget()
-            ->config($this->model, 'string')
-            ->password(['placeholder' => 'PlaceHolder Text'])
-            ->render();
         $this->assertEqualsWithoutLE(
             $expected,
-            $html,
+            Field::widget()->password(new LoginForm(), 'password', ['placeholder' => 'PlaceHolder Text'])->render(),
         );
     }
 
@@ -106,14 +85,13 @@ final class FieldPasswordTest extends TestCase
     {
         $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value readonly placeholder="Typed your text string.">
-        <div>Write your text string.</div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" readonly>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->config($this->model, 'string')->password(['readonly' => true])->render(),
+            Field::widget()->password(new LoginForm(), 'password', ['readonly' => true])->render(),
         );
     }
 
@@ -121,27 +99,45 @@ final class FieldPasswordTest extends TestCase
     {
         $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <input type="password" id="typeform-string" name="TypeForm[string]" value placeholder="Typed your text string.">
-        <div>Write your text string.</div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->config($this->model, 'string')->password()->render(),
+            Field::widget()->password(new LoginForm(), 'password')->render(),
         );
+    }
+
+    public function testValue(): void
+    {
+        $formModel = new LoginForm();
+
+        // Value `null`.
+        $formModel->setAttribute('password', null);
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->password($formModel, 'password')->render());
+
+        // Value string `1234??`.
+        $formModel->setAttribute('password', '1234??');
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->password($formModel, 'password')->render());
     }
 
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Password widget must be a string.');
-        Field::widget()->config($this->model, 'array')->password()->render();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->model = new TypeForm();
+        $this->expectExceptionMessage('Password widget must be a string or null value.');
+        Field::widget()->password(new TypeForm(), 'array')->render();
     }
 }
