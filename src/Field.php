@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Stringable;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
@@ -26,6 +27,7 @@ use function strtr;
  */
 final class Field extends Widget
 {
+    private string $ariaLabel = '';
     private bool $ariaDescribedBy = false;
     private string $containerClass = '';
     private string $error = '';
@@ -42,6 +44,7 @@ final class Field extends Widget
     private array $labelAttributes = [];
     private string $labelClass = '';
     private array $parts = [];
+    private string|null $placeHolder = null;
     private string $template = "{label}\n{input}\n{hint}\n{error}";
     private string $validClass = '';
     private AbstractWidget $widget;
@@ -57,6 +60,44 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->ariaDescribedBy = true;
+        return $new;
+    }
+
+    public function ariaLabel(string $value): self
+    {
+        $new = clone $this;
+        $new->ariaLabel = $value;
+        return $new;
+    }
+
+    /**
+     * Set after input html.
+     *
+     * @return static
+     */
+    public function afterInputHtml(string|Stringable $value): self
+    {
+        $new = clone $this;
+        $new->parts['{after}'] = (string)$value;
+        return $new;
+    }
+
+    /**
+     * Set after input html.
+     *
+     * @return static
+     */
+    public function beforeInputHtml(string|Stringable $value): self
+    {
+        $new = clone $this;
+        $new->parts['{before}'] = (string)$value;
+        return $new;
+    }
+
+    public function containerClass(string $value): self
+    {
+        $new = clone $this;
+        $new->containerClass = $value;
         return $new;
     }
 
@@ -96,6 +137,13 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->widget = Password::widget()->for($formModel, $attribute)->attributes($attributes);
+        return $new;
+    }
+
+    public function placeHolder(?string $value): self
+    {
+        $new = clone $this;
+        $new->placeHolder = $value;
         return $new;
     }
 
@@ -154,6 +202,13 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->widget = Text::widget()->for($formModel, $attribute)->attributes($attributes);
+        return $new;
+    }
+
+    public function template(string $value): self
+    {
+        $new = clone $this;
+        $new->template = $value;
         return $new;
     }
 
@@ -225,16 +280,21 @@ final class Field extends Widget
             $new->widget = $new->widget->ariaDescribedBy($attributes['id']);
         }
 
+        // set arialabel.
+        if ($new->ariaLabel !== '') {
+            $new->widget = $new->widget->ariaLabel($new->ariaLabel);
+        }
+
         // set input class.
         if ($new->inputClass !== '') {
             $new->widget = $new->widget->addClass($new->inputClass);
         }
 
         // set placeholder.
-        $placeHolder = $new->widget->getAttributePlaceHolder();
+        $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
 
-        if ($placeHolder !== '') {
-            $new->widget = $new->widget->placeHolder($placeHolder);
+        if ($new->placeHolder !== '') {
+            $new->widget = $new->widget->placeHolder($new->placeHolder);
         }
 
         // set valid class and invalid class.

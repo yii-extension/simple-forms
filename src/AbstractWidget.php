@@ -43,6 +43,20 @@ abstract class AbstractWidget extends Widget
     }
 
     /**
+     * Set aria-label attribute.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function ariaLabel(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['aria-label'] = $value;
+        return $new;
+    }
+
+    /**
      * The HTML attributes. The following special options are recognized.
      *
      * @param array $values Attribute values indexed by attribute names.
