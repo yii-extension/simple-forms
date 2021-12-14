@@ -15,6 +15,20 @@ final class FieldTextTest extends TestCase
 {
     use TestTrait;
 
+    public function testAutofocus(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]" autofocus>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->autofocus()->render(),
+        );
+    }
+
     public function testDirname(): void
     {
         $expected = <<<'HTML'
@@ -26,6 +40,20 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->text(new LoginForm(), 'login', ['dirname' => 'test.dir'])->render(),
+        );
+    }
+
+    public function testDisabled(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]" disabled>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->disabled()->render(),
         );
     }
 
@@ -68,10 +96,8 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->text(
-                    new LoginForm(),
-                    'login',
-                    ['pattern' => '[A-Za-z]', 'title' => 'Only accepts uppercase and lowercase letters.'])
+                ->text(new LoginForm(), 'login', ['pattern' => '[A-Za-z]'])
+                ->title('Only accepts uppercase and lowercase letters.')
                 ->render()
         );
     }
@@ -86,7 +112,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['placeholder' => 'PlaceHolder Text'])->render(),
+            Field::widget()->text(new LoginForm(), 'login')->placeHolder('PlaceHolder Text')->render(),
         );
     }
 
@@ -100,7 +126,21 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['readonly' => true])->render(),
+            Field::widget()->text(new LoginForm(), 'login')->readonly()->render(),
+        );
+    }
+
+    public function testRequired(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]" required>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->required()->render(),
         );
     }
 
@@ -125,9 +165,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['size' => 10])
-
-->render(),
+            Field::widget()->text(new LoginForm(), 'login', ['size' => 10])->render(),
         );
     }
 
@@ -154,6 +192,17 @@ final class FieldTextTest extends TestCase
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
+    }
+
+    public function testTabIndex(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="LoginForm[login]" tabindex="1">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new LoginForm(), 'login')->tabIndex(1)->render());
     }
 
     public function testValueException(): void

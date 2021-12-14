@@ -14,6 +14,34 @@ final class FieldUrlTest extends TestCase
 {
     use TestTrait;
 
+    public function testAutofocus(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]" autofocus>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->autofocus()->render(),
+        );
+    }
+
+    public function testDisabled(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]" disabled>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->disabled()->render(),
+        );
+    }
+
     public function testMaxLength(): void
     {
         $expected = <<<'HTML'
@@ -66,7 +94,35 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['placeholder' => 'PlaceHolder Text'])->render(),
+            Field::widget()->url(new TypeForm(), 'string')->placeholder('PlaceHolder Text')->render(),
+        );
+    }
+
+    public function testReadOnly(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]" readonly>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->readonly()->render(),
+        );
+    }
+
+    public function testRequired(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]" required>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->required()->render(),
         );
     }
 
@@ -93,6 +149,17 @@ final class FieldUrlTest extends TestCase
             $expected,
             Field::widget()->url(new TypeForm(), 'string', ['size' => 20])->render(),
         );
+    }
+
+    public function testTabIndex(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]" tabindex="1">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new TypeForm(), 'string')->tabIndex(1)->render());
     }
 
     public function testValue(): void

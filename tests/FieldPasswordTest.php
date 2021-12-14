@@ -15,6 +15,34 @@ final class FieldPasswordTest extends TestCase
 {
     use TestTrait;
 
+    public function testAutofocus(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" autofocus>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->autofocus()->render(),
+        );
+    }
+
+    public function testDisabled(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" disabled>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->disabled()->render(),
+        );
+    }
+
     public function testMaxLength(): void
     {
         $expected = <<<'HTML'
@@ -77,7 +105,7 @@ final class FieldPasswordTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->password(new LoginForm(), 'password', ['placeholder' => 'PlaceHolder Text'])->render(),
+            Field::widget()->password(new LoginForm(), 'password')->placeHolder('PlaceHolder Text')->render(),
         );
     }
 
@@ -91,7 +119,21 @@ final class FieldPasswordTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->password(new LoginForm(), 'password', ['readonly' => true])->render(),
+            Field::widget()->password(new LoginForm(), 'password')->readonly()->render(),
+        );
+    }
+
+    public function testRequired(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="password" id="typeform-string" name="TypeForm[string]" required>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new TypeForm(), 'string')->required()->render(),
         );
     }
 
@@ -106,6 +148,20 @@ final class FieldPasswordTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->password(new LoginForm(), 'password')->render(),
+        );
+    }
+
+    public function testTabIndex(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" tabindex="1">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->tabIndex(1)->render(),
         );
     }
 

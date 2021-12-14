@@ -110,6 +110,21 @@ final class FieldTest extends TestCase
         );
     }
 
+    public function testHintCustomWithClassCustom(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <div class="text-success">Custom hint</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->hint('Custom hint')->hintClass('text-success')->render(),
+        );
+    }
+
     public function testWithoutHint(): void
     {
         $expected = <<<'HTML'
@@ -138,6 +153,20 @@ final class FieldTest extends TestCase
         );
     }
 
+    public function testLabelCustomWithLabelClass(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label class="required" for="typeform-string">Custom label</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->label('Custom label')->labelClass('required')->render(),
+        );
+    }
+
     public function testWithoutLabel(): void
     {
         $expected = <<<'HTML'
@@ -148,6 +177,20 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->text(new TypeForm(), 'string')->withoutLabel()->render(),
+        );
+    }
+
+    public function testWithoutLabelFor(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label>String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->WithoutLabelFor()->render(),
         );
     }
 }

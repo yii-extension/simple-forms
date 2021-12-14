@@ -65,7 +65,7 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
      *
      * @return static
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.readonly
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.readonly
      */
     public function readonly(bool $value = true): self
     {

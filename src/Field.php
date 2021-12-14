@@ -25,7 +25,7 @@ use function strtr;
 /**
  * Renders the field widget along with label and hint tag (if any) according to template.
  */
-final class Field extends Widget
+final class Field extends AbstractField
 {
     private string $ariaLabel = '';
     private bool $ariaDescribedBy = false;
@@ -43,11 +43,24 @@ final class Field extends Widget
     private string|null $label = '';
     private array $labelAttributes = [];
     private string $labelClass = '';
+    private string|null $labelFor = '';
     private array $parts = [];
     private string|null $placeHolder = null;
     private string $template = "{label}\n{input}\n{hint}\n{error}";
     private string $validClass = '';
     private AbstractWidget $widget;
+
+    /**
+     * Set after input html.
+     *
+     * @return static
+     */
+    public function afterInputHtml(string|Stringable $value): self
+    {
+        $new = clone $this;
+        $new->parts['{after}'] = (string)$value;
+        return $new;
+    }
 
     /**
      * Set aria-describedby attribute.
@@ -67,18 +80,6 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->ariaLabel = $value;
-        return $new;
-    }
-
-    /**
-     * Set after input html.
-     *
-     * @return static
-     */
-    public function afterInputHtml(string|Stringable $value): self
-    {
-        $new = clone $this;
-        $new->parts['{after}'] = (string)$value;
         return $new;
     }
 
@@ -108,6 +109,13 @@ final class Field extends Widget
         return $new;
     }
 
+    public function hintClass(string $value): self
+    {
+        $new = clone $this;
+        $new->hintClass = $value;
+        return $new;
+    }
+
     /**
      * Set input css class.
      *
@@ -124,6 +132,20 @@ final class Field extends Widget
     {
         $new = clone $this;
         $new->label = $value;
+        return $new;
+    }
+
+    public function labelClass(string $value): self
+    {
+        $new = clone $this;
+        $new->labelClass = $value;
+        return $new;
+    }
+
+    public function labelFor(string $value): self
+    {
+        $new = clone $this;
+        $new->labelFor = $value;
         return $new;
     }
 
@@ -263,6 +285,13 @@ final class Field extends Widget
         return $new;
     }
 
+    public function WithoutLabelFor(): self
+    {
+        $new = clone $this;
+        $new->labelFor = null;
+        return $new;
+    }
+
     /**
      * Renders the whole field.
      *
@@ -330,6 +359,12 @@ final class Field extends Widget
             $new->widget = $new->widget->addClass($new->invalidClass);
         } elseif ($new->validClass !== '' && $new->widget->isValidated()) {
             $new->widget = $new->widget->addClass($new->validClass);
+        }
+
+        // set widget attributes.
+        if ($new->widgetAttributes !== []) {
+            $attributes = array_merge($new->widget->getAttributes(), $new->widgetAttributes);
+            $new->widget = $new->widget->attributes($attributes);
         }
 
         $new->checkValidator();
@@ -471,11 +506,15 @@ final class Field extends Widget
             $new->label = $new->widget->getAttributeLabel();
         }
 
-        $new->labelAttributes['for'] ??= $new->widget->getInputId();
+        if ($new->labelFor === '') {
+            $new->labelFor = $new->widget->getInputId();
+        }
+
 
         return Label::widget()
             ->attributes($new->labelAttributes)
             ->encode($new->widget->getEncode())
+            ->forId($new->labelFor)
             ->label($new->label)
             ->render();
     }
