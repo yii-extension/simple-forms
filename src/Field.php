@@ -7,6 +7,9 @@ namespace Yii\Extension\Simple\Forms;
 use Stringable;
 use Yii\Extension\Simple\Forms\Attribute\FieldAttributes;
 use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
+use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
+use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
+use Yii\Extension\Simple\Forms\Interface\NumberInterface;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
@@ -32,7 +35,7 @@ final class Field extends FieldAttributes
 {
     private array $parts = [];
     private string $template = "{label}\n{input}\n{hint}\n{error}";
-    /** @var AbstractWidget|AbstractForm */
+    /** @var AbstractWidget|GlobalAttributes */
     private $widget;
 
     /**
@@ -56,13 +59,6 @@ final class Field extends FieldAttributes
     {
         $new = clone $this;
         $new->parts['{before}'] = (string)$value;
-        return $new;
-    }
-
-    public function validClass(string $value): self
-    {
-        $new = clone $this;
-        $new->validClass = $value;
         return $new;
     }
 

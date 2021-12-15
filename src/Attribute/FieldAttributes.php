@@ -94,7 +94,7 @@ abstract class FieldAttributes extends GlobalAttributes
     /**
      * The HTML attributes for hint widget. The following special options are recognized.
      *
-     * @param array $values Attribute values indexed by attribute names.
+     * @param array $value Attribute values indexed by attribute names.
      *
      * @return static
      *
@@ -110,7 +110,7 @@ abstract class FieldAttributes extends GlobalAttributes
     /**
      * Set CSS class names to the hint widget.
      *
-     * @param array $value CSS class names.
+     * @param string $value CSS class names.
      *
      * @return static
      */
@@ -180,7 +180,7 @@ abstract class FieldAttributes extends GlobalAttributes
     /**
      * The HTML attributes for label widget. The following special options are recognized.
      *
-     * @param array $values Attribute values indexed by attribute names.
+     * @param array $value Attribute values indexed by attribute names.
      *
      * @return static
      *
@@ -212,7 +212,7 @@ abstract class FieldAttributes extends GlobalAttributes
      *
      * @param string $value
      *
-     * @return static`
+     * @return static
      */
     public function labelFor(string $value): self
     {
