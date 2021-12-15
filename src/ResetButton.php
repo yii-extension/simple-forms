@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Input;
@@ -13,7 +14,7 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.reset.html#input.reset
  */
-final class ResetButton extends AbstractForm
+final class ResetButton extends GlobalAttributes
 {
     /**
      * @return string the generated input tag.

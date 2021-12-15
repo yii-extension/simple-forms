@@ -24,7 +24,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->autofocus()->render(),
+            Field::widget()->autofocus()->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -38,7 +38,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->disabled()->render(),
+            Field::widget()->disabled()->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -52,7 +52,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->id('id-test')->render(),
+            Field::widget()->id('id-test')->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['maxlength' => 10])->render(),
+            Field::widget()->attributes(['maxlength' => 10])->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -80,7 +80,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['minlength' => 4])->render(),
+            Field::widget()->attributes(['minlength' => 4])->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -94,7 +94,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->name('name-test')->render(),
+            Field::widget()->name('name-test')->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -107,7 +107,8 @@ final class FieldUrlTest extends TestCase
         </div>
         HTML;
         $html = Field::widget()
-            ->url(new TypeForm(), 'string', ['pattern' => "^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"])
+            ->attributes(['pattern' => "^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"])
+            ->url(new TypeForm(), 'string')
             ->render();
         $this->assertEqualsWithoutLE($expected, $html);
     }
@@ -122,7 +123,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->placeholder('PlaceHolder Text')->render(),
+            Field::widget()->placeholder('PlaceHolder Text')->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -136,7 +137,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->readonly()->render(),
+            Field::widget()->readonly()->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -150,7 +151,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->required()->render(),
+            Field::widget()->required()->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -175,7 +176,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['size' => 20])->render(),
+            Field::widget()->attributes(['size' => 20])->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -259,7 +260,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->id(null)->render(),
+            Field::widget()->id(null)->url(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -273,7 +274,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->name(null)->render(),
+            Field::widget()->name(null)->url(new TypeForm(), 'string')->render(),
         );
     }
 }

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yiisoft\Html\Tag\CustomTag;
 
 /**
  * The widget for hint form.
  */
-final class Hint extends AbstractForm
+final class Hint extends GlobalAttributes
 {
     private ?string $hint = '';
     private string $tag = 'div';

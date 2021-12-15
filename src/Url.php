@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
+use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Input;
 

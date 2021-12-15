@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use Stringable;
+use Yii\Extension\Simple\Forms\Attribute\FieldAttributes;
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
@@ -26,29 +28,10 @@ use function strtr;
 /**
  * Renders the field widget along with label and hint tag (if any) according to template.
  */
-final class Field extends AbstractField
+final class Field extends FieldAttributes
 {
-    private string $ariaLabel = '';
-    private bool $ariaDescribedBy = false;
-    private string $containerClass = '';
-    private bool $encode = true;
-    private string $error = '';
-    private array $errorAttributes = [];
-    private string $errorClass = '';
-    private string $errorTag = 'div';
-    private string $inputClass = '';
-    private string $invalidClass = '';
-    private string|null $hint = '';
-    private string $hintClass = '';
-    private array $hintAttributes = [];
-    private string $hintTag = 'div';
-    private string|null $label = '';
-    private array $labelAttributes = [];
-    private string $labelClass = '';
     private array $parts = [];
-    private string|null $placeHolder = null;
     private string $template = "{label}\n{input}\n{hint}\n{error}";
-    private string $validClass = '';
     /** @var AbstractWidget|AbstractForm */
     private $widget;
 
@@ -65,27 +48,6 @@ final class Field extends AbstractField
     }
 
     /**
-     * Set aria-describedby attribute.
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/WCAG20-TECHS/ARIA1.html
-     */
-    public function ariaDescribedBy(): self
-    {
-        $new = clone $this;
-        $new->ariaDescribedBy = true;
-        return $new;
-    }
-
-    public function ariaLabel(string $value): self
-    {
-        $new = clone $this;
-        $new->ariaLabel = $value;
-        return $new;
-    }
-
-    /**
      * Set after input html.
      *
      * @return static
@@ -97,71 +59,10 @@ final class Field extends AbstractField
         return $new;
     }
 
-    public function containerClass(string $value): self
+    public function validClass(string $value): self
     {
         $new = clone $this;
-        $new->containerClass = $value;
-        return $new;
-    }
-
-    public function encode(bool $value): self
-    {
-        $new = clone $this;
-        $new->encode = $value;
-        return $new;
-    }
-
-    public function errorClass(string $value): self
-    {
-        $new = clone $this;
-        Html::addCssClass($new->errorAttributes, $value);
-        return $new;
-    }
-
-    public function hint(string $value): self
-    {
-        $new = clone $this;
-        $new->hint = $value;
-        return $new;
-    }
-
-    public function hintClass(string $value): self
-    {
-        $new = clone $this;
-        Html::addCssClass($new->hintAttributes, $value);
-        return $new;
-    }
-
-    /**
-     * Set input css class.
-     *
-     * @return static
-     */
-    public function inputClass(string $value): self
-    {
-        $new = clone $this;
-        $new->inputClass = $value;
-        return $new;
-    }
-
-    public function label(string $value): self
-    {
-        $new = clone $this;
-        $new->label = $value;
-        return $new;
-    }
-
-    public function labelClass(string $value): self
-    {
-        $new = clone $this;
-        Html::addCssClass($new->labelAttributes, $value);
-        return $new;
-    }
-
-    public function labelFor(string $value): self
-    {
-        $new = clone $this;
-        $new->labelAttributes['for'] = $value;
+        $new->validClass = $value;
         return $new;
     }
 
@@ -185,17 +86,10 @@ final class Field extends AbstractField
      *
      * @throws CircularReferenceException|InvalidConfigException|NotInstantiableException|NotFoundException
      */
-    public function password(FormModelInterface $formModel, string $attribute, array $attributes = []): self
+    public function password(FormModelInterface $formModel, string $attribute): self
     {
         $new = clone $this;
-        $new->widget = Password::widget()->for($formModel, $attribute)->attributes($attributes);
-        return $new;
-    }
-
-    public function placeHolder(?string $value): self
-    {
-        $new = clone $this;
-        $new->placeHolder = $value;
+        $new->widget = Password::widget()->for($formModel, $attribute);
         return $new;
     }
 
@@ -208,10 +102,10 @@ final class Field extends AbstractField
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function resetButton(array $attributes = []): self
+    public function resetButton(): self
     {
         $new = clone $this;
-        $new->widget = ResetButton::widget()->attributes($attributes);
+        $new->widget = ResetButton::widget();
         return $new;
     }
 
@@ -224,10 +118,10 @@ final class Field extends AbstractField
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function submitButton(array $attributes = []): self
+    public function submitButton(): self
     {
         $new = clone $this;
-        $new->widget = SubmitButton::widget()->attributes($attributes);
+        $new->widget = SubmitButton::widget();
         return $new;
     }
 
@@ -250,10 +144,10 @@ final class Field extends AbstractField
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function text(FormModelInterface $formModel, string $attribute, array $attributes = []): self
+    public function text(FormModelInterface $formModel, string $attribute): self
     {
         $new = clone $this;
-        $new->widget = Text::widget()->for($formModel, $attribute)->attributes($attributes);
+        $new->widget = Text::widget()->for($formModel, $attribute);
         return $new;
     }
 
@@ -283,7 +177,7 @@ final class Field extends AbstractField
     public function url(FormModelInterface $formModel, string $attribute, array $attributes = []): self
     {
         $new = clone $this;
-        $new->widget = Url::widget()->for($formModel, $attribute)->attributes($attributes);
+        $new->widget = Url::widget()->for($formModel, $attribute);
         return $new;
     }
 
@@ -322,22 +216,17 @@ final class Field extends AbstractField
     protected function run(): string
     {
         $new = clone $this;
-
         $div = Div::tag();
-
         $new = $new->setGlobalAttributes();
-
         $new = $new->buildField();
         $new->parts['{input}'] = $new->widget->render();
 
-        if ($new->widget instanceof AbstractWidget) {
+        if ($new->widget instanceof ResetButton || $new->widget instanceof SubmitButton) {
+            $new = $new->template('{input}');
+        } else {
+            $new->parts['{label}'] = $new->renderLabel();
             $new->parts['{error}'] = $new->renderError();
             $new->parts['{hint}'] = $new->renderHint();
-            $new->parts['{label}'] = $new->renderLabel();
-        }
-
-        if ($new->widget instanceof AbstractForm) {
-            $new = $new->template('{input}');
         }
 
         if ($new->containerClass !== '') {
@@ -367,8 +256,8 @@ final class Field extends AbstractField
         }
 
         // set input class.
-        if ($new->inputClass !== '' && $new->widget instanceof AbstractWidget) {
-            $new->widget = $new->widget->addClass($new->inputClass);
+        if ($new->inputClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->getInputClass() === '') {
+            $new->widget = $new->widget->inputClass($new->inputClass);
         }
 
         // set placeholder.
@@ -382,9 +271,9 @@ final class Field extends AbstractField
 
         // set valid class and invalid class.
         if ($new->invalidClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->hasError()) {
-            $new->widget = $new->widget->addClass($new->invalidClass);
+            $new->widget = $new->widget->inputClass($new->invalidClass);
         } elseif ($new->validClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->isValidated()) {
-            $new->widget = $new->widget->addClass($new->validClass);
+            $new->widget = $new->widget->inputClass($new->validClass);
         }
 
         $new->checkValidator();
@@ -502,7 +391,7 @@ final class Field extends AbstractField
 
         if (!array_key_exists('for', $new->labelAttributes) && $new->widget instanceof AbstractWidget) {
             /** @var string */
-            $for = ArrayHelper::getValue($new->widgetAttributes, 'id', $new->widget->getInputId());
+            $for = ArrayHelper::getValue($new->attributes, 'id', $new->widget->getInputId());
             $label = $label->forId($for);
         }
 
@@ -514,8 +403,8 @@ final class Field extends AbstractField
         $new = clone $this;
 
         // set global attributes to widget.
-        if ($new->widgetAttributes !== []) {
-            $attributes = array_merge($new->widget->getAttributes(), $new->widgetAttributes);
+        if ($new->attributes !== []) {
+            $attributes = array_merge($new->widget->getAttributes(), $new->attributes);
             $new->widget = $new->widget->attributes($attributes);
         }
 

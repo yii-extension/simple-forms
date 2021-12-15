@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Simple\Forms\Attribute;
 
-use Yii\Extension\Simple\Model\FormModelInterface;
-use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yiisoft\Widget\Widget;
 
-abstract class AbstractField extends Widget
+abstract class GlobalAttributes extends Widget
 {
-    protected array $widgetAttributes = [];
+    protected array $attributes = [];
+    protected bool $encode = false;
 
     /**
      * Focus on the control (put cursor into it) when the page loads.
@@ -23,7 +22,23 @@ abstract class AbstractField extends Widget
     public function autofocus(): self
     {
         $new = clone $this;
-        $new->widgetAttributes['autofocus'] = true;
+        $new->attributes['autofocus'] = true;
+        return $new;
+    }
+
+    /**
+     * The HTML attributes. The following special options are recognized.
+     *
+     * @param array $values Attribute values indexed by attribute names.
+     *
+     * @return static
+     *
+     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
+     */
+    public function attributes(array $values): self
+    {
+        $new = clone $this;
+        $new->attributes = $values;
         return $new;
     }
 
@@ -43,7 +58,21 @@ abstract class AbstractField extends Widget
     public function disabled(): self
     {
         $new = clone $this;
-        $new->widgetAttributes['disabled'] = true;
+        $new->attributes['disabled'] = true;
+        return $new;
+    }
+
+    /**
+     * Whether content should be HTML-encoded.
+     *
+     * @param bool $value
+     *
+     * @return static
+     */
+    public function encode(bool $value): self
+    {
+        $new = clone $this;
+        $new->encode = $value;
         return $new;
     }
 
@@ -60,8 +89,13 @@ abstract class AbstractField extends Widget
     public function form(string $value): self
     {
         $new = clone $this;
-        $new->widgetAttributes['form'] = $value;
+        $new->attributes['form'] = $value;
         return $new;
+    }
+
+    public function getAttributes(): array
+    {
+        return $this->attributes;
     }
 
     /**
@@ -76,7 +110,7 @@ abstract class AbstractField extends Widget
     public function id(?string $id): self
     {
         $new = clone $this;
-        $new->widgetAttributes['id'] = $id;
+        $new->attributes['id'] = $id;
         return $new;
     }
 
@@ -92,7 +126,23 @@ abstract class AbstractField extends Widget
     public function name(?string $value): self
     {
         $new = clone $this;
-        $new->widgetAttributes['name'] = $value;
+        $new->attributes['name'] = $value;
+        return $new;
+    }
+
+    /**
+     * It allows defining placeholder.
+     *
+     * @param string $value
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/input.html#the-placeholder-attribute
+     */
+    public function placeholder(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
         return $new;
     }
 
@@ -110,7 +160,7 @@ abstract class AbstractField extends Widget
     public function readonly(bool $value = true): self
     {
         $new = clone $this;
-        $new->widgetAttributes['readonly'] = $value;
+        $new->attributes['readonly'] = $value;
         return $new;
     }
 
@@ -124,7 +174,7 @@ abstract class AbstractField extends Widget
     public function required(): self
     {
         $new = clone $this;
-        $new->widgetAttributes['required'] = true;
+        $new->attributes['required'] = true;
         return $new;
     }
 
@@ -151,7 +201,7 @@ abstract class AbstractField extends Widget
     public function tabIndex(int $value): self
     {
         $new = clone $this;
-        $new->widgetAttributes['tabindex'] = $value;
+        $new->attributes['tabindex'] = $value;
         return $new;
     }
 
@@ -167,7 +217,7 @@ abstract class AbstractField extends Widget
     public function title(string $value): self
     {
         $new = clone $this;
-        $new->widgetAttributes['title'] = $value;
+        $new->attributes['title'] = $value;
         return $new;
     }
 
@@ -183,12 +233,7 @@ abstract class AbstractField extends Widget
     public function value($value): self
     {
         $new = clone $this;
-        $new->widgetAttributes['value'] = $value;
+        $new->attributes['value'] = $value;
         return $new;
-    }
-
-    public function getAttributeLabel(FormModelInterface $formModel, string $attribute): string
-    {
-        return HtmlForm::getAttributeLabel($formModel, $attribute);
     }
 }

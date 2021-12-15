@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yiisoft\Html\Tag\Label as LabelTag;
 
 /**
@@ -11,7 +12,7 @@ use Yiisoft\Html\Tag\Label as LabelTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
  */
-final class Label extends AbstractForm
+final class Label extends GlobalAttributes
 {
     private ?string $label = '';
 

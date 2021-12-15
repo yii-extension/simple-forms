@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yiisoft\Html\Tag\CustomTag;
 
 /**
  * The Error widget displays an error message.
  */
-final class Error extends AbstractForm
+final class Error extends GlobalAttributes
 {
     private string $message = '';
     private string $tag = 'div';

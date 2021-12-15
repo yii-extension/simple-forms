@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Simple\Forms\Interface;
 
 interface HasLengthInterface
 {

@@ -5,26 +5,21 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yii\Extension\Simple\Model\Helper\HtmlFormErrors;
 use Yiisoft\Html\Html;
 use Yiisoft\Widget\Widget;
 
-abstract class AbstractWidget extends Widget
+abstract class AbstractWidget extends GlobalAttributes
 {
-    protected array $attributes = [];
     private string $attribute = '';
-    private bool $encode = false;
-    private string $id = '';
+    private ?string $containerClass = null;
     private ?FormModelInterface $formModel = null;
-
-    public function addClass(string $class): self
-    {
-        $new = clone $this;
-        Html::addCssClass($new->attributes, $class);
-        return $new;
-    }
+    private string $id = '';
+    private string $inputClass = '';
+    private ?string $template = null;
 
     /**
      * Set aria-describedby attribute.
@@ -56,33 +51,10 @@ abstract class AbstractWidget extends Widget
         return $new;
     }
 
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $values): self
+    public function containerClass(string $value): self
     {
         $new = clone $this;
-        $new->attributes = $values;
-        return $new;
-    }
-
-    /**
-     * Whether content should be HTML-encoded.
-     *
-     * @param bool $value
-     *
-     * @return static
-     */
-    public function encode(bool $value): self
-    {
-        $new = clone $this;
-        $new->encode = $value;
+        $new->containerClass = $value;
         return $new;
     }
 
@@ -121,14 +93,14 @@ abstract class AbstractWidget extends Widget
         return HtmlForm::getAttributePlaceHolder($this->getFormModel(), $this->getAttribute());
     }
 
+    public function getContainerClass(): ?string
+    {
+        return $this->containerClass;
+    }
+
     public function getFirstError(): string
     {
         return HtmlFormErrors::getFirstError($this->getFormModel(), $this->getAttribute());
-    }
-
-    public function hasError(): bool
-    {
-        return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
     }
 
     /**
@@ -145,6 +117,13 @@ abstract class AbstractWidget extends Widget
         return $this->formModel;
     }
 
+    public function getInputClass(): string
+    {
+        /** @var string */
+        $inputClass = $this->attributes['class'] ?? '';
+        return $inputClass;
+    }
+
     public function getInputId(): string
     {
         return HtmlForm::getInputId($this->getFormModel(), $this->getAttribute());
@@ -155,17 +134,20 @@ abstract class AbstractWidget extends Widget
         return HtmlForm::getInputName($this->getFormModel(), $this->getAttribute());
     }
 
-    /**
-     * The id content attribute is a unique identifier for the element.
-     *
-     * @param string $value the id attribute value.
-     *
-     * @return static
-     */
-    public function id(string $value): self
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function hasError(): bool
+    {
+        return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
+    }
+
+    public function inputClass(string $class): self
     {
         $new = clone $this;
-        $new->attributes['id'] = $value;
+        Html::addCssClass($new->attributes, $class);
         return $new;
     }
 
@@ -174,71 +156,11 @@ abstract class AbstractWidget extends Widget
         return $this->getFormModel()->isValidated();
     }
 
-    /**
-     * The name part of the name/value pair associated with this element for the purposes of form submission.
-     *
-     * @param string|null The name of the widget.
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-name
-     */
-    public function name(?string $value): self
+    public function template(string $template): self
     {
         $new = clone $this;
-        $new->attributes['name'] = $value;
+        $new->template = $template;
         return $new;
-    }
-
-    /**
-     * It allows defining placeholder.
-     *
-     * @param string $value
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/input.html#the-placeholder-attribute
-     */
-    public function placeholder(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
-    /**
-     * If it is required to fill in a value in order to submit the form.
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/html52/sec-forms.html#the-required-attribute
-     */
-    public function required(): self
-    {
-        $new = clone $this;
-        $new->attributes['required'] = true;
-        return $new;
-    }
-
-    /**
-     * The value obtained by the form model
-     *
-     * @param array|object|string|bool|int|float|null $value
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
-     */
-    public function value($value): self
-    {
-        $new = clone $this;
-        $new->attributes['value'] = $value;
-        return $new;
-    }
-
-    public function getEncode(): bool
-    {
-        return $this->encode;
     }
 
     /**

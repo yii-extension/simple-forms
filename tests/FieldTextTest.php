@@ -25,7 +25,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->autofocus()->render(),
+            Field::widget()->autofocus()->text(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -39,7 +39,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['dirname' => 'test.dir'])->render(),
+            Field::widget()->attributes(['dirname' => 'test.dir'])->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -53,7 +53,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->disabled()->render(),
+            Field::widget()->disabled()->text(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -67,7 +67,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->id('id-test')->render(),
+            Field::widget()->id('id-test')->text(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -81,7 +81,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['maxlength' => 10])->render(),
+            Field::widget()->attributes(['maxlength' => 10])->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -95,7 +95,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['minlength' => 4])->render(),
+            Field::widget()->attributes(['minlength' => 4])->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -109,7 +109,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login')->name('name-test')->render(),
+            Field::widget()->name('name-test')->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -124,7 +124,8 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->text(new LoginForm(), 'login', ['pattern' => '[A-Za-z]'])
+                ->attributes(['pattern' => '[A-Za-z]'])
+                ->text(new LoginForm(), 'login')
                 ->title('Only accepts uppercase and lowercase letters.')
                 ->render()
         );
@@ -140,7 +141,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login')->placeHolder('PlaceHolder Text')->render(),
+            Field::widget()->placeHolder('PlaceHolder Text')->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -154,7 +155,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login')->readonly()->render(),
+            Field::widget()->readonly()->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -168,7 +169,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->required()->render(),
+            Field::widget()->required()->text(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -193,7 +194,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['size' => 10])->render(),
+            Field::widget()->attributes(['size' => 10])->text(new LoginForm(), 'login')->render(),
         );
     }
 
@@ -257,7 +258,7 @@ final class FieldTextTest extends TestCase
         <input type="text" id="loginform-login" name="LoginForm[login]" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new LoginForm(), 'login')->tabIndex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->tabIndex(1)->text(new LoginForm(), 'login')->render());
     }
 
     public function testValueException(): void
@@ -277,7 +278,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'password')->id(null)->render(),
+            Field::widget()->id(null)->text(new LoginForm(), 'password')->render(),
         );
     }
 
@@ -291,7 +292,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'password')->name(null)->render(),
+            Field::widget()->name(null)->text(new LoginForm(), 'password')->render(),
         );
     }
 }
