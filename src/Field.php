@@ -147,6 +147,13 @@ final class Field extends FieldAttributes
         return $new;
     }
 
+    /**
+     * Set the template for the field.
+     *
+     * @param string $value the template.
+     *
+     * @return static
+     */
     public function template(string $value): self
     {
         $new = clone $this;
@@ -174,27 +181,6 @@ final class Field extends FieldAttributes
     {
         $new = clone $this;
         $new->widget = Url::widget()->for($formModel, $attribute);
-        return $new;
-    }
-
-    public function withoutHint(): self
-    {
-        $new = clone $this;
-        $new->hint = null;
-        return $new;
-    }
-
-    public function withoutLabel(): self
-    {
-        $new = clone $this;
-        $new->label = null;
-        return $new;
-    }
-
-    public function withoutLabelFor(): self
-    {
-        $new = clone $this;
-        $new->labelAttributes['for'] = null;
         return $new;
     }
 
