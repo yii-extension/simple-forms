@@ -16,7 +16,7 @@ final class FieldUrlTest extends TestCase
 
     public function testAutofocus(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" autofocus>
@@ -30,7 +30,7 @@ final class FieldUrlTest extends TestCase
 
     public function testDisabled(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" disabled>
@@ -44,7 +44,7 @@ final class FieldUrlTest extends TestCase
 
     public function testId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="id-test">String</label>
         <input type="url" id="id-test" name="TypeForm[string]">
@@ -58,7 +58,7 @@ final class FieldUrlTest extends TestCase
 
     public function testMaxLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" maxlength="10">
@@ -72,7 +72,7 @@ final class FieldUrlTest extends TestCase
 
     public function testMinLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" minlength="4">
@@ -86,7 +86,7 @@ final class FieldUrlTest extends TestCase
 
     public function testName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="name-test">
@@ -100,7 +100,7 @@ final class FieldUrlTest extends TestCase
 
     public function testPattern(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
@@ -114,7 +114,7 @@ final class FieldUrlTest extends TestCase
 
     public function testPlaceholder(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text">
@@ -128,7 +128,7 @@ final class FieldUrlTest extends TestCase
 
     public function testReadOnly(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" readonly>
@@ -142,7 +142,7 @@ final class FieldUrlTest extends TestCase
 
     public function testRequired(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" required>
@@ -156,7 +156,7 @@ final class FieldUrlTest extends TestCase
 
     public function testRender(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]">
@@ -167,7 +167,7 @@ final class FieldUrlTest extends TestCase
 
     public function testSize(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" size="20">
@@ -181,7 +181,7 @@ final class FieldUrlTest extends TestCase
 
     public function testTabIndex(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" tabindex="1">
@@ -192,11 +192,38 @@ final class FieldUrlTest extends TestCase
 
     public function testValue(): void
     {
+        // Value `null`.
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->value(null)->render(),
+        );
+
+        // Value string `'https://yiiframework.com'`.
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->value('https://yiiframework.com')->render(),
+        );
+    }
+
+    public function testValueWithForm(): void
+    {
         $formModel = new TypeForm();
 
         // Value `null`.
         $formModel->setAttribute('string', null);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]">
@@ -206,7 +233,7 @@ final class FieldUrlTest extends TestCase
 
         // Value string `'https://yiiframework.com'`.
         $formModel->setAttribute('string', 'https://yiiframework.com');
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">
@@ -224,7 +251,7 @@ final class FieldUrlTest extends TestCase
 
     public function testWithoutId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label>String</label>
         <input type="url" name="TypeForm[string]">
@@ -238,7 +265,7 @@ final class FieldUrlTest extends TestCase
 
     public function testWithoutName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string">

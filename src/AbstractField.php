@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Model\FormModelInterface;
+use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yiisoft\Widget\Widget;
 
 abstract class AbstractField extends Widget
@@ -167,5 +169,26 @@ abstract class AbstractField extends Widget
         $new = clone $this;
         $new->widgetAttributes['title'] = $value;
         return $new;
+    }
+
+    /**
+     * The value obtained by the form model
+     *
+     * @param array|object|string|bool|int|float|null $value
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
+     */
+    public function value($value): self
+    {
+        $new = clone $this;
+        $new->widgetAttributes['value'] = $value;
+        return $new;
+    }
+
+    public function getAttributeLabel(FormModelInterface $formModel, string $attribute): string
+    {
+        return HtmlForm::getAttributeLabel($formModel, $attribute);
     }
 }

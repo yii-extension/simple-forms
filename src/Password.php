@@ -79,20 +79,27 @@ final class Password extends AbstractWidget implements HasLengthInterface, Match
     protected function run(): string
     {
         $new = clone $this;
+        $input = Input::tag()->type('password');
 
+        /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
         $value = $new->getAttributeValue();
 
         if (null !== $value && !is_string($value)) {
             throw new InvalidArgumentException('Password widget must be a string or null value.');
         }
 
-        $new->attributes['id'] = ArrayHelper::getValue($new->attributes, 'id', $new->getInputId());
-        $new->attributes['name'] = ArrayHelper::getValue($new->attributes, 'name', $new->getInputName());
+        if (!array_key_exists('value', $new->attributes)) {
+            $input = $input->value($value === '' ? null : $value);
+        }
 
-        return Input::tag()
-            ->type('password')
-            ->attributes($new->attributes)
-            ->value($value === '' ? null : $value)
-            ->render();
+        if (!array_key_exists('id', $new->attributes)) {
+            $input = $input->id($new->getInputId());
+        }
+
+        if (!array_key_exists('name', $new->attributes)) {
+            $input = $input->name($new->getInputName());
+        }
+
+        return $input->attributes($new->attributes)->render();
     }
 }

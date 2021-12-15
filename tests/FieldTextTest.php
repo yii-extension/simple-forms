@@ -17,7 +17,7 @@ final class FieldTextTest extends TestCase
 
     public function testAutofocus(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="text" id="typeform-string" name="TypeForm[string]" autofocus>
@@ -31,7 +31,7 @@ final class FieldTextTest extends TestCase
 
     public function testDirname(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" dirname="test.dir">
@@ -45,7 +45,7 @@ final class FieldTextTest extends TestCase
 
     public function testDisabled(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="text" id="typeform-string" name="TypeForm[string]" disabled>
@@ -59,7 +59,7 @@ final class FieldTextTest extends TestCase
 
     public function testId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="id-test">String</label>
         <input type="text" id="id-test" name="TypeForm[string]">
@@ -73,7 +73,7 @@ final class FieldTextTest extends TestCase
 
     public function testMaxLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" maxlength="10">
@@ -87,7 +87,7 @@ final class FieldTextTest extends TestCase
 
     public function testMinLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" minlength="4">
@@ -101,7 +101,7 @@ final class FieldTextTest extends TestCase
 
     public function testName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="name-test">
@@ -115,7 +115,7 @@ final class FieldTextTest extends TestCase
 
     public function testPattern(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" title="Only accepts uppercase and lowercase letters." pattern="[A-Za-z]">
@@ -132,7 +132,7 @@ final class FieldTextTest extends TestCase
 
     public function testPlaceholder(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" placeholder="PlaceHolder Text">
@@ -146,7 +146,7 @@ final class FieldTextTest extends TestCase
 
     public function testReadOnly(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" readonly>
@@ -160,7 +160,7 @@ final class FieldTextTest extends TestCase
 
     public function testRequired(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="text" id="typeform-string" name="TypeForm[string]" required>
@@ -174,7 +174,7 @@ final class FieldTextTest extends TestCase
 
     public function testRender(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]">
@@ -185,7 +185,7 @@ final class FieldTextTest extends TestCase
 
     public function testSize(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" size="10">
@@ -199,11 +199,38 @@ final class FieldTextTest extends TestCase
 
     public function testValue(): void
     {
+        // Value `null`.
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="LoginForm[login]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new LoginForm(), 'login')->value(null)->render(),
+        );
+
+        // Value `string`.
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="LoginForm[login]" value="joe">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new LoginForm(), 'login')->value('joe')->render(),
+        );
+    }
+
+    public function testValueWithForm(): void
+    {
         $formModel = new LoginForm();
 
         // Value `null`.
         $formModel->setAttribute('login', null);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]">
@@ -213,7 +240,7 @@ final class FieldTextTest extends TestCase
 
         // Value `string`.
         $formModel->setAttribute('login', 'joe');
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" value="joe">
@@ -224,7 +251,7 @@ final class FieldTextTest extends TestCase
 
     public function testTabIndex(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" tabindex="1">
@@ -242,7 +269,7 @@ final class FieldTextTest extends TestCase
 
     public function testWithoutId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label>Password</label>
         <input type="text" name="LoginForm[password]">
@@ -256,7 +283,7 @@ final class FieldTextTest extends TestCase
 
     public function testWithoutName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="text" id="loginform-password">

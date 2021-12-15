@@ -31,6 +31,7 @@ final class Field extends AbstractField
     private string $ariaLabel = '';
     private bool $ariaDescribedBy = false;
     private string $containerClass = '';
+    private bool $encode = true;
     private string $error = '';
     private array $errorAttributes = [];
     private string $errorClass = '';
@@ -44,12 +45,12 @@ final class Field extends AbstractField
     private string|null $label = '';
     private array $labelAttributes = [];
     private string $labelClass = '';
-    private string|null $labelFor = '';
     private array $parts = [];
     private string|null $placeHolder = null;
     private string $template = "{label}\n{input}\n{hint}\n{error}";
     private string $validClass = '';
-    private AbstractWidget $widget;
+    /** @var AbstractWidget|AbstractForm */
+    private $widget;
 
     /**
      * Set after input html.
@@ -103,6 +104,20 @@ final class Field extends AbstractField
         return $new;
     }
 
+    public function encode(bool $value): self
+    {
+        $new = clone $this;
+        $new->encode = $value;
+        return $new;
+    }
+
+    public function errorClass(string $value): self
+    {
+        $new = clone $this;
+        Html::addCssClass($new->errorAttributes, $value);
+        return $new;
+    }
+
     public function hint(string $value): self
     {
         $new = clone $this;
@@ -113,7 +128,7 @@ final class Field extends AbstractField
     public function hintClass(string $value): self
     {
         $new = clone $this;
-        $new->hintClass = $value;
+        Html::addCssClass($new->hintAttributes, $value);
         return $new;
     }
 
@@ -139,14 +154,14 @@ final class Field extends AbstractField
     public function labelClass(string $value): self
     {
         $new = clone $this;
-        $new->labelClass = $value;
+        Html::addCssClass($new->labelAttributes, $value);
         return $new;
     }
 
     public function labelFor(string $value): self
     {
         $new = clone $this;
-        $new->labelFor = $value;
+        $new->labelAttributes['for'] = $value;
         return $new;
     }
 
@@ -286,10 +301,10 @@ final class Field extends AbstractField
         return $new;
     }
 
-    public function WithoutLabelFor(): self
+    public function withoutLabelFor(): self
     {
         $new = clone $this;
-        $new->labelFor = null;
+        $new->labelAttributes['for'] = null;
         return $new;
     }
 
@@ -310,12 +325,20 @@ final class Field extends AbstractField
 
         $div = Div::tag();
 
-        $new = $new->buildField();
+        $new = $new->setGlobalAttributes();
 
+        $new = $new->buildField();
         $new->parts['{input}'] = $new->widget->render();
-        $new->parts['{error}'] = $new->renderError();
-        $new->parts['{hint}'] = $new->renderHint();
-        $new->parts['{label}'] = $new->renderLabel();
+
+        if ($new->widget instanceof AbstractWidget) {
+            $new->parts['{error}'] = $new->renderError();
+            $new->parts['{hint}'] = $new->renderHint();
+            $new->parts['{label}'] = $new->renderLabel();
+        }
+
+        if ($new->widget instanceof AbstractForm) {
+            $new = $new->template('{input}');
+        }
 
         if ($new->containerClass !== '') {
             $div = $div->class($new->containerClass);
@@ -331,7 +354,7 @@ final class Field extends AbstractField
         $new = clone $this;
 
         // set ariadescribedby.
-        if ($new->ariaDescribedBy === true) {
+        if ($new->ariaDescribedBy === true && $new->widget instanceof AbstractWidget) {
             $attributes = $new->widget->getAttributes();
             /** @var string */
             $attributes['id'] ??= $new->widget->getInputId();
@@ -339,33 +362,29 @@ final class Field extends AbstractField
         }
 
         // set arialabel.
-        if ($new->ariaLabel !== '') {
+        if ($new->ariaLabel !== '' && $new->widget instanceof AbstractWidget) {
             $new->widget = $new->widget->ariaLabel($new->ariaLabel);
         }
 
         // set input class.
-        if ($new->inputClass !== '') {
+        if ($new->inputClass !== '' && $new->widget instanceof AbstractWidget) {
             $new->widget = $new->widget->addClass($new->inputClass);
         }
 
         // set placeholder.
-        $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
+        if ($new->widget instanceof AbstractWidget) {
+            $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
+        }
 
-        if ($new->placeHolder !== '') {
+        if (!empty($new->placeHolder) && $new->widget instanceof AbstractWidget) {
             $new->widget = $new->widget->placeHolder($new->placeHolder);
         }
 
         // set valid class and invalid class.
-        if ($new->invalidClass !== '' && $new->widget->hasError()) {
+        if ($new->invalidClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->hasError()) {
             $new->widget = $new->widget->addClass($new->invalidClass);
-        } elseif ($new->validClass !== '' && $new->widget->isValidated()) {
+        } elseif ($new->validClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->isValidated()) {
             $new->widget = $new->widget->addClass($new->validClass);
-        }
-
-        // set widget attributes.
-        if ($new->widgetAttributes !== []) {
-            $attributes = array_merge($new->widget->getAttributes(), $new->widgetAttributes);
-            $new->widget = $new->widget->attributes($attributes);
         }
 
         $new->checkValidator();
@@ -376,78 +395,62 @@ final class Field extends AbstractField
     private function getSchemePattern(string $scheme): string
     {
         $result = '';
+
         for ($i = 0, $length = mb_strlen($scheme); $i < $length; $i++) {
             $result .= '[' . mb_strtolower($scheme[$i]) . mb_strtoupper($scheme[$i]) . ']';
         }
+
         return $result;
-    }
-
-    private function checkHasLengthValidator(Rule $rule): void
-    {
-        if ($rule instanceof HasLength && $this->widget instanceof HasLengthInterface) {
-            $this->widget->maxlength((int)$rule->getOptions()['max']);
-            $this->widget->minlength((int)$rule->getOptions()['min']);
-        }
-    }
-
-    private function checkMatchRegularExpression(Rule $rule): void
-    {
-        if ($rule instanceof MatchRegularExpression && $this->widget instanceof MatchRegularInterface) {
-            /** @var string */
-            $pattern = $rule->getOptions()['pattern'];
-            $this->widget->pattern(Html::normalizeRegexpPattern($pattern));
-        }
-    }
-
-    private function checkNumberValidator(Rule $rule): void
-    {
-        if ($rule instanceof Number && $this->widget instanceof NumberInterface) {
-            /** @var string */
-            $this->widget->max((int)$rule->getOptions()['max']);
-            /** @var string */
-            $this->widget->min((int)$rule->getOptions()['min']);
-        }
-    }
-
-    private function checkRequiredValidator(Rule $rule): void
-    {
-        if ($rule instanceof Required) {
-            $this->widget->required();
-        }
-    }
-
-    private function checkUrlValidator(Rule $rule): void
-    {
-        if ($rule instanceof UrlValidator && $this->widget instanceof Url) {
-            /** @var array<array-key, string> */
-            $validSchemes = $rule->getOptions()['validSchemes'];
-
-            $schemes = [];
-
-            foreach ($validSchemes as $scheme) {
-                $schemes[] = $this->getSchemePattern($scheme);
-            }
-
-            /** @var array<array-key, float|int|string>|string */
-            $pattern = $rule->getOptions()['pattern'];
-            $normalizePattern = str_replace('{schemes}', '(' . implode('|', $schemes) . ')', $pattern);
-            $this->widget->pattern(Html::normalizeRegexpPattern($normalizePattern));
-        }
     }
 
     private function checkValidator(): void
     {
         $new = clone $this;
+        $rules = [];
 
-        /** @psalm-var array<array-key,Rule> */
-        $rules = $new->widget->getFormModel()->getRules()[$new->widget->getAttribute()] ?? [];
+        if ($new->widget instanceof AbstractWidget) {
+            /** @psalm-var array<array-key,Rule> */
+            $rules = $new->widget->getFormModel()->getRules()[$new->widget->getAttribute()] ?? [];
+        }
 
         foreach ($rules as $rule) {
-            $new->checkRequiredValidator($rule);
-            $new->checkHasLengthValidator($rule);
-            $new->checkMatchRegularExpression($rule);
-            $new->checkNumberValidator($rule);
-            $new->checkUrlValidator($rule);
+            if ($rule instanceof Required && $new->widget instanceof AbstractWidget) {
+                $new->widget->required();
+            }
+
+            if ($rule instanceof HasLength && $new->widget instanceof HasLengthInterface) {
+                $new->widget->maxlength((int)$rule->getOptions()['max']);
+                $new->widget->minlength((int)$rule->getOptions()['min']);
+            }
+
+            if ($rule instanceof MatchRegularExpression && $new->widget instanceof MatchRegularInterface) {
+                /** @var string */
+                $pattern = $rule->getOptions()['pattern'];
+                $new->widget->pattern(Html::normalizeRegexpPattern($pattern));
+            }
+
+            if ($rule instanceof Number && $new->widget instanceof NumberInterface) {
+                /** @var string */
+                $new->widget->max((int)$rule->getOptions()['max']);
+                /** @var string */
+                $new->widget->min((int)$rule->getOptions()['min']);
+            }
+
+            if ($rule instanceof UrlValidator && $new->widget instanceof Url) {
+                /** @var array<array-key, string> */
+                $validSchemes = $rule->getOptions()['validSchemes'];
+
+                $schemes = [];
+
+                foreach ($validSchemes as $scheme) {
+                    $schemes[] = $this->getSchemePattern($scheme);
+                }
+
+                /** @var array<array-key, float|int|string>|string */
+                $pattern = $rule->getOptions()['pattern'];
+                $normalizePattern = str_replace('{schemes}', '(' . implode('|', $schemes) . ')', $pattern);
+                $new->widget->pattern(Html::normalizeRegexpPattern($normalizePattern));
+            }
         }
     }
 
@@ -455,17 +458,13 @@ final class Field extends AbstractField
     {
         $new = clone $this;
 
-        if ($new->errorClass !== '') {
-            Html::addCssClass($new->errorAttributes, $new->errorClass);
-        }
-
-        if ($new->error === '') {
+        if ($new->error === '' && $new->widget instanceof AbstractWidget) {
             $new->error = $new->widget->getFirstError();
         }
 
         return Error::widget()
             ->attributes($new->errorAttributes)
-            ->encode($new->widget->getEncode())
+            ->encode($new->encode)
             ->message($new->error)
             ->tag($new->errorTag)
             ->render();
@@ -474,49 +473,52 @@ final class Field extends AbstractField
     private function renderHint(): string
     {
         $new = clone $this;
+        $hint = Hint::widget()->attributes($new->hintAttributes)->encode($new->encode)->tag($new->hintTag);
 
-        if ($new->ariaDescribedBy === true) {
-            $new->hintAttributes['id'] ??= $new->widget->getInputId();
+        if (
+            $new->ariaDescribedBy === true
+            && array_key_exists('id', $new->hintAttributes)
+            && $new->widget instanceof AbstractWidget
+        ) {
+            $hint = $hint->id($new->widget->getInputId());
         }
 
-        if ($new->hintClass !== '') {
-            Html::addCssClass($new->hintAttributes, $new->hintClass);
-        }
-
-        if ($new->hint === '') {
+        if ($new->hint === '' && $new->widget instanceof AbstractWidget) {
             $new->hint = $new->widget->getAttributeHint();
         }
 
-        return Hint::widget()
-            ->attributes($new->hintAttributes)
-            ->encode($new->widget->getEncode())
-            ->hint($new->hint === '' ? null : $new->hint)
-            ->tag($new->hintTag)
-            ->render();
+        return $hint->hint($new->hint === '' ? null : $new->hint)->render();
     }
 
     private function renderLabel(): string
     {
         $new = clone $this;
 
-        if ($new->labelClass !== '') {
-            Html::addCssClass($new->labelAttributes, $new->labelClass);
+        $label = Label::widget()->attributes($new->labelAttributes)->encode($new->encode);
+
+        if ($new->label === '' && $new->widget instanceof AbstractWidget) {
+            $new->label = $new->getAttributeLabel($new->widget->getFormModel(), $new->widget->getAttribute());
         }
 
-        if ($new->label === '') {
-            $new->label = $new->widget->getAttributeLabel();
+        if (!array_key_exists('for', $new->labelAttributes) && $new->widget instanceof AbstractWidget) {
+            /** @var string */
+            $for = ArrayHelper::getValue($new->widgetAttributes, 'id', $new->widget->getInputId());
+            $label = $label->forId($for);
         }
 
-        if ($new->labelFor === '') {
-            /** @var string|null */
-            $new->labelFor = ArrayHelper::getValue($new->widgetAttributes, 'id', $new->widget->getInputId());
+        return $label->label($new->label)->render();
+    }
+
+    private function setGlobalAttributes(): self
+    {
+        $new = clone $this;
+
+        // set global attributes to widget.
+        if ($new->widgetAttributes !== []) {
+            $attributes = array_merge($new->widget->getAttributes(), $new->widgetAttributes);
+            $new->widget = $new->widget->attributes($attributes);
         }
 
-        return Label::widget()
-            ->attributes($new->labelAttributes)
-            ->encode($new->widget->getEncode())
-            ->forId($new->labelFor)
-            ->label($new->label)
-            ->render();
+        return $new;
     }
 }

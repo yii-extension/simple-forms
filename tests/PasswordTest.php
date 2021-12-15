@@ -44,7 +44,7 @@ final class PasswordTest extends TestCase
 
     public function testPattern(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <input type="password" id="loginform-password" name="LoginForm[password]" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
         HTML;
         $this->assertSame(

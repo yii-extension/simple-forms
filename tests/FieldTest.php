@@ -21,7 +21,7 @@ final class FieldTest extends TestCase
      */
     public function testAfterInput(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div class="input-group mb-3">
         <span id="loginform-login" class="input-group-text">@</span>
         <input type="text" id="loginform-login" class="form-control" name="LoginForm[login]" aria-describedby="loginform-login" aria-label="Login" placeholder="Login">
@@ -47,7 +47,7 @@ final class FieldTest extends TestCase
      */
     public function testAfterAndBeforeInput(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div class="input-group mb-3">
         <span class="input-group-text">.00</span>
         <input type="text" id="typeform-string" class="form-control" name="TypeForm[string]" aria-describedby="typeform-string" aria-label="Amount (to the nearest dollar)">
@@ -74,7 +74,7 @@ final class FieldTest extends TestCase
      */
     public function testBeforeInput(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div class="input-group mb-3">
         <input type="text" id="typeform-string" class="form-control" name="TypeForm[string]" aria-describedby="typeform-string" aria-label="Recipient&apos;s username" placeholder="Recipient&apos;s username">
         <span id="typeform-string" class="input-group-text">@example.com</span>
@@ -97,7 +97,7 @@ final class FieldTest extends TestCase
 
     public function testHintCustom(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="text" id="typeform-string" name="TypeForm[string]">
@@ -112,7 +112,7 @@ final class FieldTest extends TestCase
 
     public function testHintCustomWithClassCustom(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="text" id="typeform-string" name="TypeForm[string]">
@@ -127,7 +127,7 @@ final class FieldTest extends TestCase
 
     public function testWithoutHint(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typewithhintform-login">Login</label>
         <input type="text" id="typewithhintform-login" name="TypeWithHintForm[login]">
@@ -141,7 +141,7 @@ final class FieldTest extends TestCase
 
     public function testLabelCustom(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">Custom label</label>
         <input type="text" id="typeform-string" name="TypeForm[string]">
@@ -155,7 +155,7 @@ final class FieldTest extends TestCase
 
     public function testLabelCustomWithLabelClass(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label class="required" for="typeform-string">Custom label</label>
         <input type="text" id="typeform-string" name="TypeForm[string]">
@@ -169,7 +169,7 @@ final class FieldTest extends TestCase
 
     public function testWithoutLabel(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="text" id="typeform-string" name="TypeForm[string]">
         </div>
@@ -182,7 +182,7 @@ final class FieldTest extends TestCase
 
     public function testWithoutLabelFor(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label>String</label>
         <input type="text" id="typeform-string" name="TypeForm[string]">

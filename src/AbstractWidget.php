@@ -116,11 +116,6 @@ abstract class AbstractWidget extends Widget
         return HtmlForm::getAttributeHint($this->getFormModel(), $this->getAttribute());
     }
 
-    public function getAttributeLabel(): string
-    {
-        return HtmlForm::getAttributeLabel($this->getFormModel(), $this->getAttribute());
-    }
-
     public function getAttributePlaceHolder(): string
     {
         return HtmlForm::getAttributePlaceHolder($this->getFormModel(), $this->getAttribute());
@@ -234,7 +229,7 @@ abstract class AbstractWidget extends Widget
      *
      * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
      */
-    public function value(array|object|string|bool|int|float|null $value): self
+    public function value($value): self
     {
         $new = clone $this;
         $new->attributes['value'] = $value;
@@ -246,12 +241,10 @@ abstract class AbstractWidget extends Widget
         return $this->encode;
     }
 
-    protected function getId(): string
-    {
-        return $this->id;
-    }
-
-    protected function getAttributeValue(): array|object|string|bool|int|float|null
+    /**
+     * @return array|object|string|bool|int|float|null
+     */
+    protected function getAttributeValue()
     {
         return HtmlForm::getAttributeValue($this->getFormModel(), $this->getAttribute());
     }

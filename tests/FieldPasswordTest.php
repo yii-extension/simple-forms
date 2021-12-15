@@ -17,7 +17,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testAutofocus(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" autofocus>
@@ -31,7 +31,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testDisabled(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" disabled>
@@ -45,7 +45,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="id-test">Password</label>
         <input type="password" id="id-test" name="LoginForm[password]">
@@ -59,7 +59,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testMaxLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" maxlength="16">
@@ -73,7 +73,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testMinLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" minlength="8">
@@ -87,7 +87,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="name-test">
@@ -101,7 +101,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testPattern(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
@@ -125,7 +125,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testPlaceholder(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" placeholder="PlaceHolder Text">
@@ -139,7 +139,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testReadOnly(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" readonly>
@@ -153,7 +153,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testRequired(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="password" id="typeform-string" name="TypeForm[string]" required>
@@ -167,7 +167,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testRender(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]">
@@ -181,7 +181,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testTabIndex(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" tabindex="1">
@@ -195,11 +195,38 @@ final class FieldPasswordTest extends TestCase
 
     public function testValue(): void
     {
+        // Value `null`.
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->value(null)->render(),
+        );
+
+        // Value string `1234??`.
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-password">Password</label>
+        <input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new LoginForm(), 'password')->value('1234??')->render(),
+        );
+    }
+
+    public function testValueWithFormModel(): void
+    {
         $formModel = new LoginForm();
 
         // Value `null`.
         $formModel->setAttribute('password', null);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]">
@@ -209,7 +236,7 @@ final class FieldPasswordTest extends TestCase
 
         // Value string `1234??`.
         $formModel->setAttribute('password', '1234??');
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">
@@ -227,7 +254,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testWithoutId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label>Password</label>
         <input type="password" name="LoginForm[password]">
@@ -241,7 +268,7 @@ final class FieldPasswordTest extends TestCase
 
     public function testWithoutName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="loginform-password">Password</label>
         <input type="password" id="loginform-password">

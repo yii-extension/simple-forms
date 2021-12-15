@@ -42,7 +42,7 @@ final class UrlTest extends TestCase
 
     public function testPattern(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <input type="url" id="typeform-string" name="TypeForm[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
         HTML;
         $html = Url::widget()
