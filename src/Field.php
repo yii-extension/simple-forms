@@ -178,7 +178,7 @@ final class Field extends FieldAttributes
             $div = $div->class($new->containerClass);
         }
 
-        if (isset($new->widget)) {
+        if (!empty($new->widget)) {
             $content .= $new->renderField();
         }
 
@@ -196,37 +196,31 @@ final class Field extends FieldAttributes
         $new = clone $this;
 
         // set ariadescribedby.
-        if ($new->ariaDescribedBy === true && $new->widget instanceof AbstractWidget) {
+        if ($new->ariaDescribedBy === true) {
             $new->widget = $new->widget->ariaDescribedBy($new->widget->getAttribute() . 'Help');
         }
 
         // set arialabel.
-        if ($new->ariaLabel !== '' && $new->widget instanceof AbstractWidget) {
+        if ($new->ariaLabel !== '') {
             $new->widget = $new->widget->ariaLabel($new->ariaLabel);
         }
 
         // set input class.
-        if (
-            $new->inputClass !== ''
-            && $new->widget instanceof AbstractWidget
-            && !array_key_exists('class', $new->widget->getAttributes())
-        ) {
+        if ($new->inputClass !== '' && !array_key_exists('class', $new->widget->getAttributes())) {
             $new->widget = $new->widget->inputClass($new->inputClass);
         }
 
         // set placeholder.
-        if ($new->widget instanceof AbstractWidget) {
-            $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
-        }
+        $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
 
-        if (!empty($new->placeHolder) && $new->widget instanceof AbstractWidget) {
+        if (!empty($new->placeHolder)) {
             $new->widget = $new->widget->placeHolder($new->placeHolder);
         }
 
         // set valid class and invalid class.
-        if ($new->invalidClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->hasError()) {
+        if ($new->invalidClass !== '' && $new->widget->hasError()) {
             $new->widget = $new->widget->inputClass($new->invalidClass);
-        } elseif ($new->validClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->isValidated()) {
+        } elseif ($new->validClass !== '' && $new->widget->isValidated()) {
             $new->widget = $new->widget->inputClass($new->validClass);
         }
 
@@ -249,8 +243,7 @@ final class Field extends FieldAttributes
     private function checkValidator(): void
     {
         $new = clone $this;
-        $rules = [];
-
+        /** @psalm-var array<array-key, Rule> */
         $rules = $new->widget->getFormModel()->getRules()[$new->widget->getAttribute()] ?? [];
 
         foreach ($rules as $rule) {
@@ -315,7 +308,7 @@ final class Field extends FieldAttributes
     {
         $new = clone $this;
 
-        if ($new->error === '' && $new->widget instanceof AbstractWidget) {
+        if ($new->error === '') {
             $new->error = $new->widget->getFirstError();
         }
 
@@ -349,11 +342,11 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $hint = Hint::widget()->attributes($new->hintAttributes)->encode($new->encode)->tag($new->hintTag);
 
-        if ($new->ariaDescribedBy === true && $new->widget instanceof AbstractWidget) {
+        if ($new->ariaDescribedBy === true) {
             $hint = $hint->id($new->widget->getAriaDescribedBy());
         }
 
-        if ($new->hint === '' && $new->widget instanceof AbstractWidget) {
+        if ($new->hint === '') {
             $new->hint = $new->widget->getAttributeHint();
         }
 
@@ -369,11 +362,11 @@ final class Field extends FieldAttributes
 
         $label = Label::widget()->attributes($new->labelAttributes)->encode($new->encode);
 
-        if ($new->label === '' && $new->widget instanceof AbstractWidget) {
+        if ($new->label === '') {
             $new->label = $new->getAttributeLabel($new->widget->getFormModel(), $new->widget->getAttribute());
         }
 
-        if (!array_key_exists('for', $new->labelAttributes) && $new->widget instanceof AbstractWidget) {
+        if (!array_key_exists('for', $new->labelAttributes)) {
             /** @var string */
             $for = ArrayHelper::getValue($new->attributes, 'id', $new->widget->getInputId());
             $label = $label->forId($for);

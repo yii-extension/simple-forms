@@ -12,7 +12,7 @@ abstract class FieldAttributes extends GlobalAttributes
 {
     protected bool $ariaDescribedBy = false;
     protected string $ariaLabel = '';
-    private array $buttonsIndividualAttributes = [];
+    protected array $buttonsIndividualAttributes = [];
     protected bool $container = false;
     protected string $containerClass = '';
     protected string $error = '';
@@ -49,18 +49,6 @@ abstract class FieldAttributes extends GlobalAttributes
     {
         $new = clone $this;
         $new->ariaDescribedBy = true;
-        return $new;
-    }
-
-    /**
-     * Set CSS class for the container buttons.
-     *
-     * @return static
-     */
-    public function buttonContainerClass(): self
-    {
-        $new = clone $this;
-        $new->buttonContainer = true;
         return $new;
     }
 
