@@ -21,17 +21,9 @@ final class SubmitButton extends GlobalAttributes
     protected function run(): string
     {
         $new = clone $this;
-        $input = Input::tag()->type('submit');
         $id = Html::generateId('w') . '-submit';
-
-        if (!array_key_exists('id', $new->attributes)) {
-            $input = $input->id($id);
-        }
-
-        if (!array_key_exists('name', $new->attributes)) {
-            $input = $input->name($id);
-        }
-
-        return $input->attributes($new->attributes)->render();
+        $new = $new->setId($id);
+        $new = $new->setName($id);
+        return Input::tag()->type('submit')->attributes($new->attributes)->render();
     }
 }

@@ -93,11 +93,6 @@ abstract class GlobalAttributes extends Widget
         return $new;
     }
 
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
     /**
      * Set the ID of the widget.
      *
@@ -234,6 +229,56 @@ abstract class GlobalAttributes extends Widget
     {
         $new = clone $this;
         $new->attributes['value'] = $value;
+        return $new;
+    }
+
+    /**
+     * Set id of the widget.
+     *
+     * @return static
+     */
+    protected function setId(string $value): self
+    {
+        $new = clone $this;
+
+        if (!array_key_exists('id', $new->attributes)) {
+            $new = $new->id($value);
+        }
+
+        return $new;
+    }
+
+    /**
+     * Set the name of the widget.
+     *
+     * @return static
+     */
+    protected function setName(string $value): self
+    {
+        $new = clone $this;
+
+        if (!array_key_exists('name', $new->attributes)) {
+            $new = $new->name($value);
+        }
+
+        return $new;
+    }
+
+    /**
+     * Set value of the field widget.
+     *
+     * @param array|object|string|bool|int|float|null $value
+     *
+     * @return static
+     */
+    protected function setValue($value): self
+    {
+        $new = clone $this;
+
+        if (!array_key_exists('value', $new->attributes)) {
+            $new = $new->value($value === '' ? null : $value);
+        }
+
         return $new;
     }
 }

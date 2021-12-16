@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Input;
 
@@ -22,17 +21,9 @@ final class ResetButton extends GlobalAttributes
     protected function run(): string
     {
         $new = clone $this;
-        $input = Input::tag()->type('reset');
         $id = Html::generateId('w') . '-reset';
-
-        if (!array_key_exists('id', $new->attributes)) {
-            $input = $input->id($id);
-        }
-
-        if (!array_key_exists('name', $new->attributes)) {
-            $input = $input->name($id);
-        }
-
-        return $input->attributes($new->attributes)->render();
+        $new = $new->setId($id);
+        $new = $new->setName($id);
+        return Input::tag()->type('reset')->attributes($new->attributes)->render();
     }
 }

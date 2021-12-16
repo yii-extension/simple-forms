@@ -10,11 +10,18 @@ use Yii\Extension\Simple\Forms\Field;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class FieldPasswordTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testAutofocus(): void
     {
         $expected = <<<HTML
@@ -29,6 +36,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDisabled(): void
     {
         $expected = <<<HTML
@@ -43,6 +53,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testId(): void
     {
         $expected = <<<HTML
@@ -57,6 +70,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMaxLength(): void
     {
         $expected = <<<HTML
@@ -71,6 +87,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMinLength(): void
     {
         $expected = <<<HTML
@@ -85,6 +104,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testName(): void
     {
         $expected = <<<HTML
@@ -99,6 +121,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPattern(): void
     {
         $expected = <<<HTML
@@ -119,6 +144,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPlaceholder(): void
     {
         $expected = <<<HTML
@@ -133,6 +161,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testReadOnly(): void
     {
         $expected = <<<HTML
@@ -147,6 +178,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRequired(): void
     {
         $expected = <<<HTML
@@ -161,6 +195,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $expected = <<<HTML
@@ -175,6 +212,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTabIndex(): void
     {
         $expected = <<<HTML
@@ -189,6 +229,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value `null`.
@@ -216,6 +259,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueWithFormModel(): void
     {
         $formModel = new LoginForm();
@@ -241,6 +287,9 @@ final class FieldPasswordTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->password($formModel, 'password')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -248,6 +297,9 @@ final class FieldPasswordTest extends TestCase
         Field::widget()->password(new TypeForm(), 'array')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutId(): void
     {
         $expected = <<<HTML
@@ -262,6 +314,9 @@ final class FieldPasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutName(): void
     {
         $expected = <<<HTML

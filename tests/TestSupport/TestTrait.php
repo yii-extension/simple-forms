@@ -8,6 +8,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionObject;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Validator\ValidatorMock;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Widget\WidgetFactory;
@@ -29,7 +30,7 @@ trait TestTrait
         $this->assertEquals($expected, $actual, $message);
     }
 
-    private function createValidatorMock(): ValidatorInterface
+    protected function createValidatorMock(): ValidatorInterface
     {
         return new ValidatorMock();
     }
@@ -87,6 +88,9 @@ trait TestTrait
         }
     }
 
+    /**
+     * @throws InvalidConfigException
+     */
     protected function setUp(): void
     {
         parent::setUp();

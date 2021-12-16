@@ -24,7 +24,6 @@ use Yiisoft\Validator\Rule\MatchRegularExpression;
 use Yiisoft\Validator\Rule\Number;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\Rule\Url as UrlValidator;
-use Yiisoft\Widget\Widget;
 
 use function strtr;
 
@@ -33,10 +32,11 @@ use function strtr;
  */
 final class Field extends FieldAttributes
 {
+    /** @psalm-var GlobalAttributes[] */
+    private array $buttons = [];
     private array $parts = [];
     private string $template = "{label}\n{input}\n{hint}\n{error}";
-    /** @var AbstractWidget|GlobalAttributes */
-    private $widget;
+    private AbstractWidget $widget;
 
     /**
      * Set after input html.
@@ -67,16 +67,6 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel the model object.
      * @param string $attribute the attribute name or expression.
-     * @param array $attributes the HTML attributes for the widget.
-     * Most used attributes:
-     * [
-     *     'maxlength' => 16,
-     *     'minlength' => 8,
-     *     'pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}',
-     *     'title' => 'Must contain at least one number and one uppercase and lowercase letter, and at ' .
-     *                'least 8 or more characters.',
-     *     'readonly' => true
-     * ]
      *
      * @return static the field object itself.
      *
@@ -92,8 +82,6 @@ final class Field extends FieldAttributes
     /**
      * Renders a reset button widget.
      *
-     * @param array $attributes the HTML attributes for the widget.
-     *
      * @return static the field object itself.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
@@ -101,14 +89,12 @@ final class Field extends FieldAttributes
     public function resetButton(): self
     {
         $new = clone $this;
-        $new->widget = ResetButton::widget();
+        $new->buttons[] = ResetButton::widget();
         return $new;
     }
 
     /**
      * Renders a submit button widget.
-     *
-     * @param array $attributes the HTML attributes for the widget.
      *
      * @return static the field object itself.
      *
@@ -117,7 +103,7 @@ final class Field extends FieldAttributes
     public function submitButton(): self
     {
         $new = clone $this;
-        $new->widget = SubmitButton::widget();
+        $new->buttons[] = SubmitButton::widget();
         return $new;
     }
 
@@ -126,15 +112,6 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel the model object.
      * @param string $attribute the attribute name or expression.
-     * @param array $attributes the HTML attributes for the widget.
-     * Most used attributes:
-     * [
-     *     'dirname' => 'my-dir',
-     *     'maxlength' => 10,
-     *     'placeholder' => 'Enter your name',
-     *     'pattern' => '\d+',
-     *     'readonly' => true,
-     * ]
      *
      * @return static the field widget instance.
      *
@@ -166,18 +143,12 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel the model object.
      * @param string $attribute the attribute name or expression.
-     * @param array $attributes the HTML attributes for the widget.
-     * Most used attributes:
-     * [
-     *     'maxlength' => 10,
-     *     'minlength' => 5,
-     *     'pattern' => '\d+',
-     *     'size' => 5,
-     * ]
      *
      * @return static the field widget instance.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function url(FormModelInterface $formModel, string $attribute, array $attributes = []): self
+    public function url(FormModelInterface $formModel, string $attribute): self
     {
         $new = clone $this;
         $new->widget = Url::widget()->for($formModel, $attribute);
@@ -194,30 +165,30 @@ final class Field extends FieldAttributes
      * content.
      *
      * @return string the rendering result.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     protected function run(): string
     {
         $new = clone $this;
         $div = Div::tag();
-        $new = $new->setGlobalAttributes();
-        $new = $new->buildField();
-        $new->parts['{input}'] = $new->widget->render();
-
-        if ($new->widget instanceof ResetButton || $new->widget instanceof SubmitButton) {
-            $new = $new->template('{input}');
-        } else {
-            $new->parts['{label}'] = $new->renderLabel();
-            $new->parts['{error}'] = $new->renderError();
-            $new->parts['{hint}'] = $new->renderHint();
-        }
+        $content = '';
 
         if ($new->containerClass !== '') {
             $div = $div->class($new->containerClass);
         }
 
-        $content = preg_replace('/^\h*\v+/m', '', trim(strtr($new->template, $new->parts)));
+        if (isset($new->widget)) {
+            $content .= $new->renderField();
+        }
 
-        return $div->content(PHP_EOL . $content . PHP_EOL)->encode(false)->render();
+        $renderButtons = $new->renderButtons();
+
+        if ($renderButtons !== '') {
+            $content .= $renderButtons;
+        }
+
+        return $new->container ? $content : $div->content(PHP_EOL . $content . PHP_EOL)->encode(false)->render();
     }
 
     private function buildField(): self
@@ -226,10 +197,7 @@ final class Field extends FieldAttributes
 
         // set ariadescribedby.
         if ($new->ariaDescribedBy === true && $new->widget instanceof AbstractWidget) {
-            $attributes = $new->widget->getAttributes();
-            /** @var string */
-            $attributes['id'] ??= $new->widget->getInputId();
-            $new->widget = $new->widget->ariaDescribedBy($attributes['id']);
+            $new->widget = $new->widget->ariaDescribedBy($new->widget->getAttribute() . 'Help');
         }
 
         // set arialabel.
@@ -238,7 +206,11 @@ final class Field extends FieldAttributes
         }
 
         // set input class.
-        if ($new->inputClass !== '' && $new->widget instanceof AbstractWidget && $new->widget->getInputClass() === '') {
+        if (
+            $new->inputClass !== ''
+            && $new->widget instanceof AbstractWidget
+            && !array_key_exists('class', $new->widget->getAttributes())
+        ) {
             $new->widget = $new->widget->inputClass($new->inputClass);
         }
 
@@ -279,13 +251,10 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $rules = [];
 
-        if ($new->widget instanceof AbstractWidget) {
-            /** @psalm-var array<array-key,Rule> */
-            $rules = $new->widget->getFormModel()->getRules()[$new->widget->getAttribute()] ?? [];
-        }
+        $rules = $new->widget->getFormModel()->getRules()[$new->widget->getAttribute()] ?? [];
 
         foreach ($rules as $rule) {
-            if ($rule instanceof Required && $new->widget instanceof AbstractWidget) {
+            if ($rule instanceof Required) {
                 $new->widget->required();
             }
 
@@ -325,6 +294,23 @@ final class Field extends FieldAttributes
         }
     }
 
+    private function renderButtons(): string
+    {
+        $new = clone $this;
+        $buttons = '';
+
+        foreach ($new->buttons as $key => $button) {
+            /** @var array */
+            $buttonsAttributes = $new->buttonsIndividualAttributes[$key] ?? $new->attributes;
+            $buttons .= $button->attributes($buttonsAttributes)->render();
+        }
+
+        return $buttons;
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     private function renderError(): string
     {
         $new = clone $this;
@@ -341,17 +327,30 @@ final class Field extends FieldAttributes
             ->render();
     }
 
+    private function renderField(): string
+    {
+        $new = clone $this;
+
+        $new = $new->setGlobalAttributesField();
+        $new = $new->buildField();
+        $new->parts['{input}'] = $new->widget->render();
+        $new->parts['{label}'] = $new->renderLabel();
+        $new->parts['{error}'] = $new->renderError();
+        $new->parts['{hint}'] = $new->renderHint();
+
+        return preg_replace('/^\h*\v+/m', '', trim(strtr($new->template, $new->parts)));
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     private function renderHint(): string
     {
         $new = clone $this;
         $hint = Hint::widget()->attributes($new->hintAttributes)->encode($new->encode)->tag($new->hintTag);
 
-        if (
-            $new->ariaDescribedBy === true
-            && array_key_exists('id', $new->hintAttributes)
-            && $new->widget instanceof AbstractWidget
-        ) {
-            $hint = $hint->id($new->widget->getInputId());
+        if ($new->ariaDescribedBy === true && $new->widget instanceof AbstractWidget) {
+            $hint = $hint->id($new->widget->getAriaDescribedBy());
         }
 
         if ($new->hint === '' && $new->widget instanceof AbstractWidget) {
@@ -361,6 +360,9 @@ final class Field extends FieldAttributes
         return $hint->hint($new->hint === '' ? null : $new->hint)->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     private function renderLabel(): string
     {
         $new = clone $this;
@@ -380,7 +382,7 @@ final class Field extends FieldAttributes
         return $label->label($new->label)->render();
     }
 
-    private function setGlobalAttributes(): self
+    private function setGlobalAttributesField(): self
     {
         $new = clone $this;
 

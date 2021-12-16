@@ -10,15 +10,12 @@ use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yii\Extension\Simple\Model\Helper\HtmlFormErrors;
 use Yiisoft\Html\Html;
-use Yiisoft\Widget\Widget;
 
 abstract class AbstractWidget extends GlobalAttributes
 {
     private string $attribute = '';
     private ?string $containerClass = null;
     private ?FormModelInterface $formModel = null;
-    private string $id = '';
-    private string $inputClass = '';
     private ?string $template = null;
 
     /**
@@ -51,14 +48,9 @@ abstract class AbstractWidget extends GlobalAttributes
         return $new;
     }
 
-    public function containerClass(string $value): self
-    {
-        $new = clone $this;
-        $new->containerClass = $value;
-        return $new;
-    }
-
     /**
+     * Set form model and attribute widget.
+     *
      * @return static
      */
     public function for(FormModelInterface $formModel, string $attribute): self
@@ -69,11 +61,21 @@ abstract class AbstractWidget extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * Return attributes for the widget.
+     *
+     * @return array
+     */
     public function getAttributes(): array
     {
         return $this->attributes;
     }
 
+    /**
+     * Return attribute field.
+     *
+     * @return string
+     */
     public function getAttribute(): string
     {
         if ($this->attribute === '') {
@@ -83,21 +85,42 @@ abstract class AbstractWidget extends GlobalAttributes
         return $this->attribute;
     }
 
+    /**
+     * Return aria-describedby attribute.
+     *
+     * @return string
+     */
+    public function getAriaDescribedBy(): string
+    {
+        /** @var string */
+        return $this->attributes['aria-describedby'] ?? '';
+    }
+
+    /**
+     * Generate hint attribute.
+     *
+     * @return string
+     */
     public function getAttributeHint(): string
     {
         return HtmlForm::getAttributeHint($this->getFormModel(), $this->getAttribute());
     }
 
+    /**
+     * Generate placeholder attribute.
+     *
+     * @return string
+     */
     public function getAttributePlaceHolder(): string
     {
         return HtmlForm::getAttributePlaceHolder($this->getFormModel(), $this->getAttribute());
     }
 
-    public function getContainerClass(): ?string
-    {
-        return $this->containerClass;
-    }
-
+    /**
+     * Return first error message for the attribute.
+     *
+     * @return string
+     */
     public function getFirstError(): string
     {
         return HtmlFormErrors::getFirstError($this->getFormModel(), $this->getAttribute());
@@ -117,33 +140,39 @@ abstract class AbstractWidget extends GlobalAttributes
         return $this->formModel;
     }
 
-    public function getInputClass(): string
-    {
-        /** @var string */
-        $inputClass = $this->attributes['class'] ?? '';
-        return $inputClass;
-    }
-
+    /**
+     * Generate input id attribute.
+     */
     public function getInputId(): string
     {
         return HtmlForm::getInputId($this->getFormModel(), $this->getAttribute());
     }
 
+    /**
+     * Generate input name attribute.
+     *
+     * @return string
+     */
     public function getInputName(): string
     {
         return HtmlForm::getInputName($this->getFormModel(), $this->getAttribute());
     }
 
-    public function getTemplate(): ?string
-    {
-        return $this->template;
-    }
-
+    /**
+     * Return if there is a validation error in the attribute.
+     */
     public function hasError(): bool
     {
         return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
     }
 
+    /**
+     * Set CSS class of the field widget.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
     public function inputClass(string $class): self
     {
         $new = clone $this;
@@ -151,11 +180,23 @@ abstract class AbstractWidget extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * Return if the field was validated.
+     *
+     * @return bool
+     */
     public function isValidated(): bool
     {
         return $this->getFormModel()->isValidated();
     }
 
+    /**
+     * Set template for field widget.
+     *
+     * @param string $template
+     *
+     * @return static
+     */
     public function template(string $template): self
     {
         $new = clone $this;
@@ -164,6 +205,8 @@ abstract class AbstractWidget extends GlobalAttributes
     }
 
     /**
+     * Return value of attribute.
+     *
      * @return array|object|string|bool|int|float|null
      */
     protected function getAttributeValue()

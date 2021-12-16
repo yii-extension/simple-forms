@@ -10,6 +10,10 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeWithHintForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Tag\Span;
 
 final class FieldTest extends TestCase
@@ -17,84 +21,8 @@ final class FieldTest extends TestCase
     use TestTrait;
 
     /**
-     * @link https://getbootstrap.com/docs/5.0/forms/input-group/
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testAfterInput(): void
-    {
-        $expected = <<<HTML
-        <div class="input-group mb-3">
-        <span id="loginform-login" class="input-group-text">@</span>
-        <input type="text" id="loginform-login" class="form-control" name="LoginForm[login]" aria-describedby="loginform-login" aria-label="Login" placeholder="Login">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()
-                ->ariaDescribedBy()
-                ->ariaLabel('Login')
-                ->beforeInputHtml(Span::tag()->class('input-group-text')->id('loginform-login')->content('@'))
-                ->containerClass('input-group mb-3')
-                ->inputClass('form-control')
-                ->text(new LoginForm(), 'login')
-                ->template("{before}\n{input}\n{hint}\n{error}")
-                ->placeholder('Login')
-                ->render(),
-        );
-    }
-
-    /**
-     * @link https://getbootstrap.com/docs/5.0/forms/input-group/
-     */
-    public function testAfterAndBeforeInput(): void
-    {
-        $expected = <<<HTML
-        <div class="input-group mb-3">
-        <span class="input-group-text">.00</span>
-        <input type="text" id="typeform-string" class="form-control" name="TypeForm[string]" aria-describedby="typeform-string" aria-label="Amount (to the nearest dollar)">
-        <span class="input-group-text">$</span>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()
-                ->ariaDescribedBy()
-                ->ariaLabel("Amount (to the nearest dollar)")
-                ->afterInputHtml(Span::tag()->class('input-group-text')->content('$'))
-                ->beforeInputHtml(Span::tag()->class('input-group-text')->content('.00'))
-                ->containerClass('input-group mb-3')
-                ->inputClass('form-control')
-                ->text(new TypeForm(), 'string')
-                ->template("{before}\n{input}\n{after}\n{hint}\n{error}")
-                ->render(),
-        );
-    }
-
-    /**
-     * @link https://getbootstrap.com/docs/5.0/forms/input-group/
-     */
-    public function testBeforeInput(): void
-    {
-        $expected = <<<HTML
-        <div class="input-group mb-3">
-        <input type="text" id="typeform-string" class="form-control" name="TypeForm[string]" aria-describedby="typeform-string" aria-label="Recipient&apos;s username" placeholder="Recipient&apos;s username">
-        <span id="typeform-string" class="input-group-text">@example.com</span>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()
-                ->ariaDescribedBy()
-                ->ariaLabel("Recipient's username")
-                ->afterInputHtml(Span::tag()->class('input-group-text')->id('typeform-string')->content('@example.com'))
-                ->containerClass('input-group mb-3')
-                ->inputClass('form-control')
-                ->text(new TypeForm(), 'string')
-                ->template("{input}\n{after}\n{hint}\n{error}")
-                ->placeholder("Recipient's username")
-                ->render(),
-        );
-    }
-
     public function testHintCustom(): void
     {
         $expected = <<<HTML
@@ -110,6 +38,9 @@ final class FieldTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testHintCustomWithClassCustom(): void
     {
         $expected = <<<HTML
@@ -125,6 +56,9 @@ final class FieldTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutHint(): void
     {
         $expected = <<<HTML
@@ -139,6 +73,9 @@ final class FieldTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testLabelCustom(): void
     {
         $expected = <<<HTML
@@ -153,6 +90,9 @@ final class FieldTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testLabelCustomWithLabelClass(): void
     {
         $expected = <<<HTML
@@ -167,6 +107,24 @@ final class FieldTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testWithoutContainer(): void
+    {
+        $expected = <<<HTML
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeForm(), 'string')->withoutContainer()->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutLabel(): void
     {
         $expected = <<<HTML
@@ -180,6 +138,9 @@ final class FieldTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutLabelFor(): void
     {
         $expected = <<<HTML

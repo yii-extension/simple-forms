@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Attribute;
 
-use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yiisoft\Html\Html;
-use Yiisoft\Widget\Widget;
 
 abstract class FieldAttributes extends GlobalAttributes
 {
     protected bool $ariaDescribedBy = false;
     protected string $ariaLabel = '';
+    private array $buttonsIndividualAttributes = [];
+    protected bool $container = false;
     protected string $containerClass = '';
     protected string $error = '';
     protected array $errorAttributes = [];
@@ -28,6 +28,9 @@ abstract class FieldAttributes extends GlobalAttributes
     protected string|null $placeHolder = null;
     protected string $validClass = '';
 
+    /**
+     * @return static
+     */
     public function ariaLabel(string $value): self
     {
         $new = clone $this;
@@ -49,6 +52,33 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * Set CSS class for the container buttons.
+     *
+     * @return static
+     */
+    public function buttonContainerClass(): self
+    {
+        $new = clone $this;
+        $new->buttonContainer = true;
+        return $new;
+    }
+
+    /**
+     * Set individual attributes for the buttons widgets.
+     */
+    public function buttonsIndividualAttributes(array $value): self
+    {
+        $new = clone $this;
+        $new->buttonsIndividualAttributes = $value;
+        return $new;
+    }
+
+    /**
+     * Set CSS class for the container field.
+     *
+     * @return static
+     */
     public function containerClass(string $value): self
     {
         $new = clone $this;
@@ -56,6 +86,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function error(string $value): self
     {
         $new = clone $this;
@@ -63,6 +96,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function errorAttributes(array $value): self
     {
         $new = clone $this;
@@ -70,6 +106,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function errorClass(string $value): self
     {
         $new = clone $this;
@@ -77,6 +116,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function errorTag(string $value): self
     {
         $new = clone $this;
@@ -84,6 +126,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function hint(string $value): self
     {
         $new = clone $this;
@@ -224,7 +269,7 @@ abstract class FieldAttributes extends GlobalAttributes
     /**
      * Set placeholder attribute for the field.
      *
-     * @param string $value The placeholder.
+     * @param string|null $value The placeholder.
      *
      * @return static
      */
@@ -249,6 +294,21 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * Disabled container for field.
+     *
+     * @return static
+     */
+    public function withoutContainer(): self
+    {
+        $new = clone $this;
+        $new->container = true;
+        return $new;
+    }
+
+    /**
+     * @return static
+     */
     public function withoutHint(): self
     {
         $new = clone $this;
@@ -256,6 +316,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function withoutLabel(): self
     {
         $new = clone $this;
@@ -263,6 +326,9 @@ abstract class FieldAttributes extends GlobalAttributes
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function withoutLabelFor(): self
     {
         $new = clone $this;

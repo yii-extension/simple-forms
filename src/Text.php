@@ -7,7 +7,6 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
 use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
-use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -99,7 +98,6 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
     protected function run(): string
     {
         $new = clone $this;
-        $input = Input::tag()->type('text');
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
         $value = $new->getAttributeValue();
@@ -108,18 +106,9 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
             throw new InvalidArgumentException('Text widget must be a string or null value.');
         }
 
-        if (!array_key_exists('value', $new->attributes)) {
-            $input = $input->value($value === '' ? null : $value);
-        }
-
-        if (!array_key_exists('id', $new->attributes)) {
-            $input = $input->id($new->getInputId());
-        }
-
-        if (!array_key_exists('name', $new->attributes)) {
-            $input = $input->name($new->getInputName());
-        }
-
-        return $input->attributes($new->attributes)->render();
+        $new = $new->setId($new->getInputId());
+        $new = $new->setName($new->getInputName());
+        $new = $new->setValue($value);
+        return Input::tag()->type('text')->attributes($new->attributes)->render();
     }
 }

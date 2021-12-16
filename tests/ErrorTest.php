@@ -6,13 +6,19 @@ namespace Yii\Extension\Simple\Forms\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Error;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class ErrorTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testImmutability(): void
     {
         $error = Error::widget();
@@ -20,6 +26,9 @@ final class ErrorTest extends TestCase
         $this->assertNotSame($error, $error->tag('div'));
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMessage(): void
     {
         $this->assertSame(
@@ -28,11 +37,17 @@ final class ErrorTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $this->assertEmpty(Error::widget()->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTag(): void
     {
         $this->assertEmpty('', Error::widget()->tag('')->render());
