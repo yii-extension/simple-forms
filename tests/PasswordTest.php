@@ -9,11 +9,44 @@ use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Password;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class PasswordTest extends TestCase
 {
     use TestTrait;
+
+    public function testGetValidatorMatchRegularExpression(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">',
+            Password::widget()->for(new ValidatorForm(), 'matchregular')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMaxLength(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">',
+            Password::widget()->for(new ValidatorForm(), 'maxlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMinLength(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">',
+            Password::widget()->for(new ValidatorForm(), 'minlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeRequired(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="validatorform-required" name="ValidatorForm[required]" required>',
+            Password::widget()->for(new ValidatorForm(), 'required')->render(),
+        );
+    }
 
     public function testImmutability(): void
     {

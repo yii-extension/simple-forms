@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yii\Extension\Simple\Forms\Text;
 
@@ -28,6 +29,38 @@ final class TextTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
         Text::widget()->for(new LoginForm(), 'login')->dirname('')->render();
+    }
+
+    public function testGetValidatorMatchRegularExpression(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">',
+            Text::widget()->for(new ValidatorForm(), 'matchregular')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMaxLength(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">',
+            Text::widget()->for(new ValidatorForm(), 'maxlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMinLength(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">',
+            Text::widget()->for(new ValidatorForm(), 'minlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeRequired(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="validatorform-required" name="ValidatorForm[required]" required>',
+            Text::widget()->for(new ValidatorForm(), 'required')->render(),
+        );
     }
 
     public function testImmutability(): void

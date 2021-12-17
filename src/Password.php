@@ -88,9 +88,8 @@ final class Password extends AbstractWidget implements HasLengthInterface, Match
             throw new InvalidArgumentException('Password widget must be a string or null value.');
         }
 
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
-        $new = $new->setValue($value);
+        $new = $new->build($value);
+
         return Input::tag()->type('password')->attributes($new->attributes)->render();
     }
 }

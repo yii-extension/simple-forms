@@ -106,9 +106,8 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
             throw new InvalidArgumentException('Text widget must be a string or null value.');
         }
 
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
-        $new = $new->setValue($value);
+        $new = $new->build($value);
+
         return Input::tag()->type('text')->attributes($new->attributes)->render();
     }
 }

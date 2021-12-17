@@ -7,12 +7,45 @@ namespace Yii\Extension\Simple\Forms\Tests;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yii\Extension\Simple\Forms\Url;
 
 final class UrlTest extends TestCase
 {
     use TestTrait;
+
+    public function testGetValidatorMatchRegularExpression(): void
+    {
+        $this->assertSame(
+            '<input type="url" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">',
+            Url::widget()->for(new ValidatorForm(), 'matchregular')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMaxLength(): void
+    {
+        $this->assertSame(
+            '<input type="url" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">',
+            Url::widget()->for(new ValidatorForm(), 'maxlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMinLength(): void
+    {
+        $this->assertSame(
+            '<input type="url" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">',
+            Url::widget()->for(new ValidatorForm(), 'minlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeRequired(): void
+    {
+        $this->assertSame(
+            '<input type="url" id="validatorform-required" name="ValidatorForm[required]" required>',
+            Url::widget()->for(new ValidatorForm(), 'required')->render(),
+        );
+    }
 
     public function testImmutability(): void
     {

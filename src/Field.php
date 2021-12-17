@@ -7,9 +7,6 @@ namespace Yii\Extension\Simple\Forms;
 use Stringable;
 use Yii\Extension\Simple\Forms\Attribute\FieldAttributes;
 use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
-use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
-use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
-use Yii\Extension\Simple\Forms\Interface\NumberInterface;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
@@ -18,12 +15,6 @@ use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
-use Yiisoft\Validator\Rule;
-use Yiisoft\Validator\Rule\HasLength;
-use Yiisoft\Validator\Rule\MatchRegularExpression;
-use Yiisoft\Validator\Rule\Number;
-use Yiisoft\Validator\Rule\Required;
-use Yiisoft\Validator\Rule\Url as UrlValidator;
 
 use function strtr;
 
@@ -234,67 +225,7 @@ final class Field extends FieldAttributes
             $new->widget = $new->widget->inputClass($new->validClass);
         }
 
-        $new->checkValidator();
-
         return $new;
-    }
-
-    private function getSchemePattern(string $scheme): string
-    {
-        $result = '';
-
-        for ($i = 0, $length = mb_strlen($scheme); $i < $length; $i++) {
-            $result .= '[' . mb_strtolower($scheme[$i]) . mb_strtoupper($scheme[$i]) . ']';
-        }
-
-        return $result;
-    }
-
-    private function checkValidator(): void
-    {
-        $new = clone $this;
-        /** @psalm-var array<array-key, Rule> */
-        $rules = $new->widget->getFormModel()->getRules()[$new->widget->getAttribute()] ?? [];
-
-        foreach ($rules as $rule) {
-            if ($rule instanceof Required) {
-                $new->widget->required();
-            }
-
-            if ($rule instanceof HasLength && $new->widget instanceof HasLengthInterface) {
-                $new->widget->maxlength((int)$rule->getOptions()['max']);
-                $new->widget->minlength((int)$rule->getOptions()['min']);
-            }
-
-            if ($rule instanceof MatchRegularExpression && $new->widget instanceof MatchRegularInterface) {
-                /** @var string */
-                $pattern = $rule->getOptions()['pattern'];
-                $new->widget->pattern(Html::normalizeRegexpPattern($pattern));
-            }
-
-            if ($rule instanceof Number && $new->widget instanceof NumberInterface) {
-                /** @var string */
-                $new->widget->max((int)$rule->getOptions()['max']);
-                /** @var string */
-                $new->widget->min((int)$rule->getOptions()['min']);
-            }
-
-            if ($rule instanceof UrlValidator && $new->widget instanceof Url) {
-                /** @var array<array-key, string> */
-                $validSchemes = $rule->getOptions()['validSchemes'];
-
-                $schemes = [];
-
-                foreach ($validSchemes as $scheme) {
-                    $schemes[] = $this->getSchemePattern($scheme);
-                }
-
-                /** @var array<array-key, float|int|string>|string */
-                $pattern = $rule->getOptions()['pattern'];
-                $normalizePattern = str_replace('{schemes}', '(' . implode('|', $schemes) . ')', $pattern);
-                $new->widget->pattern(Html::normalizeRegexpPattern($normalizePattern));
-            }
-        }
     }
 
     private function renderButtons(): string

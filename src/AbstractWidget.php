@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
+use Yii\Extension\Simple\Forms\Validator\FieldValidator;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yii\Extension\Simple\Model\Helper\HtmlFormErrors;
@@ -201,6 +202,27 @@ abstract class AbstractWidget extends GlobalAttributes
     {
         $new = clone $this;
         $new->template = $template;
+        return $new;
+    }
+
+    /**
+     * Set build attributes for the widget.
+     *
+     * @param array|object|string|bool|int|float|null $value
+     *
+     * @return static
+     */
+    protected function build($value): self
+    {
+        $new = clone $this;
+
+        $fieldValidator = new FieldValidator();
+
+        $new = $new->setId($new->getInputId());
+        $new = $new->setName($new->getInputName());
+        $new = $new->setValue($value);
+        $new = $fieldValidator->getValidatorAttributes($new);
+
         return $new;
     }
 

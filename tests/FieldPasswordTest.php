@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Field;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
+use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
@@ -50,6 +51,62 @@ final class FieldPasswordTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->disabled()->password(new LoginForm(), 'password')->render(),
+        );
+    }
+
+    public function testGetValidatorMatchRegularExpression(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="validatorform-matchregular">Matchregular</label>
+        <input type="password" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new ValidatorForm(), 'matchregular')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMaxLength(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="validatorform-maxlength">Maxlength</label>
+        <input type="password" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new ValidatorForm(), 'maxlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeMinLength(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="validatorform-minlength">Minlength</label>
+        <input type="password" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new ValidatorForm(), 'minlength')->render(),
+        );
+    }
+
+    public function testGetValidatorAttributeRequired(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="validatorform-required">Required</label>
+        <input type="password" id="validatorform-required" name="ValidatorForm[required]" required>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->password(new ValidatorForm(), 'required')->render(),
         );
     }
 
