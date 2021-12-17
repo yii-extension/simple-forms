@@ -83,7 +83,7 @@ final class FieldPasswordTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attributes(['maxlength' => 16])->password(new LoginForm(), 'password')->render(),
+            Field::widget()->password(new LoginForm(), 'password', ['maxlength()' => [16]])->render(),
         );
     }
 
@@ -100,7 +100,7 @@ final class FieldPasswordTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attributes(['minlength' => 8])->password(new LoginForm(), 'password')->render(),
+            Field::widget()->password(new LoginForm(), 'password', ['minlength()' => [8]])->render(),
         );
     }
 
@@ -135,8 +135,7 @@ final class FieldPasswordTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->password(new LoginForm(), 'password')
-                ->attributes(['pattern' => '(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}'])
+                ->password(new LoginForm(), 'password', ['pattern()' => ['(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}']])
                 ->title(
                     'Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters.'
                 )

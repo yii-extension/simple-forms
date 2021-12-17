@@ -67,67 +67,75 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel the model object.
      * @param string $attribute the attribute name or expression.
+     * @param array $config The config for the factory widget.
      *
      * @return static the field object itself.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotInstantiableException|NotFoundException
      */
-    public function password(FormModelInterface $formModel, string $attribute): self
+    public function password(FormModelInterface $formModel, string $attribute, array $config = []): self
     {
         $new = clone $this;
-        $new->widget = Password::widget()->for($formModel, $attribute);
+        $new->widget = $config !== []
+            ? Password::widget($config)->for($formModel, $attribute) : Password::widget()->for($formModel, $attribute);
         return $new;
     }
 
     /**
      * Renders a reset button widget.
      *
-     * @return static the field object itself.
+     * @param array $config The config for the factory widget.
+     *
+     * @return static The field object itself.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function resetButton(): self
+    public function resetButton(array $config = []): self
     {
         $new = clone $this;
-        $new->buttons[] = ResetButton::widget();
+        $new->buttons[] = $config !== [] ? ResetButton::widget($config) : ResetButton::widget();
         return $new;
     }
 
     /**
      * Renders a submit button widget.
      *
-     * @return static the field object itself.
+     * @param array $config The config for the factory widget.
+     *
+     * @return static The field object itself.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function submitButton(): self
+    public function submitButton(array $config = []): self
     {
         $new = clone $this;
-        $new->buttons[] = SubmitButton::widget();
+        $new->buttons[] = $config !== [] ? SubmitButton::widget($config) : SubmitButton::widget();
         return $new;
     }
 
     /**
      * Renders a text widget.
      *
-     * @param FormModelInterface $formModel the model object.
-     * @param string $attribute the attribute name or expression.
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config for the factory widget.
      *
-     * @return static the field widget instance.
+     * @return static The field widget instance.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function text(FormModelInterface $formModel, string $attribute): self
+    public function text(FormModelInterface $formModel, string $attribute, array $config = []): self
     {
         $new = clone $this;
-        $new->widget = Text::widget()->for($formModel, $attribute);
+        $new->widget = $config !== []
+            ? Text::widget($config)->for($formModel, $attribute) : Text::widget()->for($formModel, $attribute);
         return $new;
     }
 
     /**
      * Set the template for the field.
      *
-     * @param string $value the template.
+     * @param string $value The template.
      *
      * @return static
      */
@@ -141,17 +149,19 @@ final class Field extends FieldAttributes
     /**
      * Renders a url widget.
      *
-     * @param FormModelInterface $formModel the model object.
-     * @param string $attribute the attribute name or expression.
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config for the factory widget.
      *
-     * @return static the field widget instance.
+     * @return static The field widget instance.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function url(FormModelInterface $formModel, string $attribute): self
+    public function url(FormModelInterface $formModel, string $attribute, array $config = []): self
     {
         $new = clone $this;
-        $new->widget = Url::widget()->for($formModel, $attribute);
+        $new->widget = $config !== []
+            ? Url::widget($config)->for($formModel, $attribute) : Url::widget()->for($formModel, $attribute);
         return $new;
     }
 
@@ -164,7 +174,7 @@ final class Field extends FieldAttributes
      * If (not set), the default methods will be called to generate the label and input tag, and use them as the
      * content.
      *
-     * @return string the rendering result.
+     * @return string The rendering result.
      *
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */

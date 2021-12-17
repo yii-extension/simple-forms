@@ -39,8 +39,15 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attributes(['dirname' => 'test.dir'])->text(new LoginForm(), 'login')->render(),
+            Field::widget()->text(new LoginForm(), 'login', ['dirname()' => ['test.dir']])->render(),
         );
+    }
+
+    public function testDirnameException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value cannot be empty.');
+        Field::widget()->text(new LoginForm(), 'login', ['dirname()' => ['']])->render();
     }
 
     public function testDisabled(): void
@@ -81,7 +88,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attributes(['maxlength' => 10])->text(new LoginForm(), 'login')->render(),
+            Field::widget()->text(new LoginForm(), 'login', ['maxlength()' => [10]])->render(),
         );
     }
 
@@ -95,7 +102,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attributes(['minlength' => 4])->text(new LoginForm(), 'login')->render(),
+            Field::widget()->text(new LoginForm(), 'login', ['minlength()' => [4]])->render(),
         );
     }
 
@@ -124,8 +131,7 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->attributes(['pattern' => '[A-Za-z]'])
-                ->text(new LoginForm(), 'login')
+                ->text(new LoginForm(), 'login', ['pattern()' => ['[A-Za-z]']])
                 ->title('Only accepts uppercase and lowercase letters.')
                 ->render()
         );
@@ -194,7 +200,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attributes(['size' => 10])->text(new LoginForm(), 'login')->render(),
+            Field::widget()->text(new LoginForm(), 'login', ['size()' => [10]])->render(),
         );
     }
 
