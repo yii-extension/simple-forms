@@ -47,6 +47,14 @@ final class UrlTest extends TestCase
         );
     }
 
+    public function testGetValidatorAttributeUrlValidator(): void
+    {
+        $expected = <<<HTML
+        <input type="url" id="validatorform-url" name="ValidatorForm[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
+        HTML;
+        $this->assertSame($expected, Url::widget()->for(new ValidatorForm(), 'url')->render());
+    }
+
     public function testImmutability(): void
     {
         $url = Url::widget();

@@ -53,7 +53,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->url(new TypeForm(), 'string')->render(),
+            Field::widget()->id('id-test')->url(new TypeForm(), 'string')->render()
         );
     }
 
@@ -65,10 +65,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->url(new ValidatorForm(), 'matchregular')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'matchregular')->render());
     }
 
     public function testGetValidatorAttributeMaxLength(): void
@@ -79,10 +76,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->url(new ValidatorForm(), 'maxlength')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'maxlength')->render());
     }
 
     public function testGetValidatorAttributeMinLength(): void
@@ -93,10 +87,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->url(new ValidatorForm(), 'minlength')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'minlength')->render());
     }
 
     public function testGetValidatorAttributeRequired(): void
@@ -107,10 +98,18 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorform-required" name="ValidatorForm[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->url(new ValidatorForm(), 'required')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'required')->render());
+    }
+
+    public function testGetValidatorAttributeUrlValidator(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="validatorform-url">Url</label>
+        <input type="url" id="validatorform-url" name="ValidatorForm[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'url')->render());
     }
 
     public function testMaxLength(): void

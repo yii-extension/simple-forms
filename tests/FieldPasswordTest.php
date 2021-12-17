@@ -76,10 +76,7 @@ final class FieldPasswordTest extends TestCase
         <input type="password" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->password(new ValidatorForm(), 'maxlength')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->password(new ValidatorForm(), 'maxlength')->render());
     }
 
     public function testGetValidatorAttributeMinLength(): void
@@ -90,10 +87,7 @@ final class FieldPasswordTest extends TestCase
         <input type="password" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->password(new ValidatorForm(), 'minlength')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->password(new ValidatorForm(), 'minlength')->render());
     }
 
     public function testGetValidatorAttributeRequired(): void
@@ -104,10 +98,7 @@ final class FieldPasswordTest extends TestCase
         <input type="password" id="validatorform-required" name="ValidatorForm[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->password(new ValidatorForm(), 'required')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->password(new ValidatorForm(), 'required')->render());
     }
 
     /**

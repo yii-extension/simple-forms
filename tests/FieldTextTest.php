@@ -73,10 +73,7 @@ final class FieldTextTest extends TestCase
         <input type="text" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new ValidatorForm(), 'matchregular')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'matchregular')->render());
     }
 
     public function testGetValidatorAttributeMaxLength(): void
@@ -87,10 +84,7 @@ final class FieldTextTest extends TestCase
         <input type="text" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new ValidatorForm(), 'maxlength')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'maxlength')->render());
     }
 
     public function testGetValidatorAttributeMinLength(): void
@@ -101,10 +95,7 @@ final class FieldTextTest extends TestCase
         <input type="text" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new ValidatorForm(), 'minlength')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'minlength')->render());
     }
 
     public function testGetValidatorAttributeRequired(): void
@@ -115,10 +106,7 @@ final class FieldTextTest extends TestCase
         <input type="text" id="validatorform-required" name="ValidatorForm[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new ValidatorForm(), 'required')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'required')->render());
     }
 
     public function testId(): void
