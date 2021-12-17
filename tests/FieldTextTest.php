@@ -249,6 +249,17 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    public function testTabIndex(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="LoginForm[login]" tabindex="1">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->tabIndex(1)->text(new LoginForm(), 'login')->render());
+    }
+
     public function testValue(): void
     {
         // Value `null`.
@@ -276,6 +287,13 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Text widget must be a string or null value.');
+        Field::widget()->text(new TypeForm(), 'array')->render();
+    }
+
     public function testValueWithForm(): void
     {
         $formModel = new LoginForm();
@@ -299,24 +317,6 @@ final class FieldTextTest extends TestCase
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
-    }
-
-    public function testTabIndex(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" tabindex="1">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->tabIndex(1)->text(new LoginForm(), 'login')->render());
-    }
-
-    public function testValueException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Text widget must be a string or null value.');
-        Field::widget()->text(new TypeForm(), 'array')->render();
     }
 
     public function testWithoutId(): void

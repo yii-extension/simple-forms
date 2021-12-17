@@ -16,6 +16,22 @@ final class PasswordTest extends TestCase
 {
     use TestTrait;
 
+    public function testAutofocus(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="LoginForm[password]" autofocus>',
+            Password::widget()->autofocus()->for(new LoginForm(), 'password')->render(),
+        );
+    }
+
+    public function testDisabled(): void
+    {
+        $this->assertEqualsWithoutLE(
+            '<input type="password" id="loginform-password" name="LoginForm[password]" disabled>',
+            Password::widget()->disabled()->for(new LoginForm(), 'password')->render(),
+        );
+    }
+
     public function testGetValidatorMatchRegularExpression(): void
     {
         $this->assertSame(
@@ -48,6 +64,14 @@ final class PasswordTest extends TestCase
         );
     }
 
+    public function testId(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="id-test" name="LoginForm[password]">',
+            Password::widget()->for(new LoginForm(), 'password')->id('id-test')->render(),
+        );
+    }
+
     public function testImmutability(): void
     {
         $password = Password::widget();
@@ -72,6 +96,14 @@ final class PasswordTest extends TestCase
         $this->assertSame(
             '<input type="password" id="loginform-password" name="LoginForm[password]" minlength="8">',
             Password::widget()->for(new LoginForm(), 'password')->minlength(8)->render(),
+        );
+    }
+
+    public function testName(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="name-test">',
+            Password::widget()->for(new LoginForm(), 'password')->name('name-test')->render(),
         );
     }
 
@@ -105,6 +137,14 @@ final class PasswordTest extends TestCase
         );
     }
 
+    public function testRequired(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="LoginForm[password]" required>',
+            Password::widget()->for(new LoginForm(), 'password')->required()->render(),
+        );
+    }
+
     public function testRender(): void
     {
         $this->assertSame(
@@ -121,7 +161,37 @@ final class PasswordTest extends TestCase
         );
     }
 
+    public function testTabIndex(): void
+    {
+        $this->assertEqualsWithoutLE(
+            '<input type="password" id="loginform-password" name="LoginForm[password]" tabindex="1">',
+            Password::widget()->for(new LoginForm(), 'password')->tabIndex(1)->render(),
+        );
+    }
+
     public function testValue(): void
+    {
+        // Value `null`.
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="LoginForm[password]">',
+            Password::widget()->for(new LoginForm(), 'password')->value(null)->render(),
+        );
+
+        // value string '1234??'.
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
+            Password::widget()->for(new LoginForm(), 'password')->value('1234??')->render(),
+        );
+    }
+
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Password widget must be a string or null value.');
+        Password::widget()->for(new TypeForm(), 'array')->render();
+    }
+
+    public function testValueWithForm(): void
     {
         $formModel = new LoginForm();
 
@@ -139,10 +209,19 @@ final class PasswordTest extends TestCase
         );
     }
 
-    public function testValueException(): void
+    public function testWithoutId(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Password widget must be a string or null value.');
-        Password::widget()->for(new TypeForm(), 'array')->render();
+        $this->assertSame(
+            '<input type="password" name="LoginForm[password]">',
+            Password::widget()->for(new LoginForm(), 'password')->id(null)->render(),
+        );
+    }
+
+    public function testWithoutName(): void
+    {
+        $this->assertSame(
+            '<input type="password" id="loginform-password">',
+            Password::widget()->for(new LoginForm(), 'password')->name(null)->render(),
+        );
     }
 }

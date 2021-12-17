@@ -16,6 +16,14 @@ final class TextTest extends TestCase
 {
     use TestTrait;
 
+    public function testAutofocus(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="LoginForm[login]" autofocus>',
+            Text::widget()->autofocus()->for(new LoginForm(), 'login')->render(),
+        );
+    }
+
     public function testDirname(): void
     {
         $this->assertSame(
@@ -29,6 +37,14 @@ final class TextTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
         Text::widget()->for(new LoginForm(), 'login')->dirname('')->render();
+    }
+
+    public function testDisabled(): void
+    {
+        $this->assertEqualsWithoutLE(
+            '<input type="text" id="loginform-login" name="LoginForm[login]" disabled>',
+            Text::widget()->disabled()->for(new LoginForm(), 'login')->render(),
+        );
     }
 
     public function testGetValidatorMatchRegularExpression(): void
@@ -63,6 +79,14 @@ final class TextTest extends TestCase
         );
     }
 
+    public function testId(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="id-test" name="LoginForm[login]">',
+            Text::widget()->for(new LoginForm(), 'login')->id('id-test')->render(),
+        );
+    }
+
     public function testImmutability(): void
     {
         $text = Text::widget();
@@ -90,6 +114,14 @@ final class TextTest extends TestCase
         );
     }
 
+    public function testName(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="name-test">',
+            Text::widget()->for(new LoginForm(), 'login')->name('name-test')->render(),
+        );
+    }
+
     public function testPattern(): void
     {
         $this->assertSame(
@@ -114,6 +146,14 @@ final class TextTest extends TestCase
         );
     }
 
+    public function testRequired(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="LoginForm[login]" required>',
+            Text::widget()->for(new LoginForm(), 'login')->required()->render(),
+        );
+    }
+
     public function testRender(): void
     {
         $this->assertSame(
@@ -130,22 +170,26 @@ final class TextTest extends TestCase
         );
     }
 
+    public function testTabIndex(): void
+    {
+        $this->assertEqualsWithoutLE(
+            '<input type="text" id="typeform-string" name="TypeForm[string]" tabindex="1">',
+            Text::widget()->tabIndex(1)->for(new TypeForm(), 'string')->render(),
+        );
+    }
+
     public function testValue(): void
     {
-        $formModel = new LoginForm();
-
         // Value `null`.
-        $formModel->setAttribute('string', null);
         $this->assertSame(
             '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for($formModel, 'login')->render(),
+            Text::widget()->for(new LoginForm(), 'login')->value(null)->render(),
         );
 
         // Value string `hello`.
-        $formModel->setAttribute('string', 'hello');
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for($formModel, 'login')->render(),
+            '<input type="text" id="loginform-login" name="LoginForm[login]" value="hello">',
+            Text::widget()->for(new LoginForm(), 'login')->value('hello')->render(),
         );
     }
 
@@ -154,5 +198,40 @@ final class TextTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Text widget must be a string or null value.');
         Text::widget()->for(new TypeForm(), 'array')->render();
+    }
+
+    public function testValueWithForm(): void
+    {
+        $formModel = new LoginForm();
+
+        // Value `null`.
+        $formModel->setAttribute('login', null);
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="LoginForm[login]">',
+            Text::widget()->for($formModel, 'login')->render(),
+        );
+
+        // Value string `hello`.
+        $formModel->setAttribute('login', 'hello');
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="LoginForm[login]" value="hello">',
+            Text::widget()->for($formModel, 'login')->render(),
+        );
+    }
+
+    public function testWithoutId(): void
+    {
+        $this->assertSame(
+            '<input type="text" name="TypeForm[string]">',
+            Text::widget()->for(new TypeForm(), 'string')->id(null)->render(),
+        );
+    }
+
+    public function testWithoutName(): void
+    {
+        $this->assertSame(
+            '<input type="text" id="typeform-string">',
+            Text::widget()->for(new TypeForm(), 'string')->name(null)->render(),
+        );
     }
 }
