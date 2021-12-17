@@ -210,7 +210,7 @@ abstract class AbstractWidget extends GlobalAttributes
      *
      * @param array|object|string|bool|int|float|null $value
      *
-     * @return static
+     * @return self
      */
     protected function build($value): self
     {
