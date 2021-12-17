@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Form\Tests\Widget;
+namespace Yii\Extension\Simple\Forms\Tests\Field;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Label;
+use Yii\Extension\Simple\Forms\Field\Label;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class LabelTest extends TestCase

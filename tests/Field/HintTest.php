@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Simple\Forms\Tests\Field;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Hint;
+use Yii\Extension\Simple\Forms\Field\Hint;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 
 final class HintTest extends TestCase

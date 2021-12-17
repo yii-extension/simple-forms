@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Simple\Forms\Field;
 
 use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yiisoft\Html\Tag\Label as LabelTag;
