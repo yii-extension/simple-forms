@@ -7,6 +7,7 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
 use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
+use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -14,7 +15,7 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text
  */
-final class Text extends AbstractWidget implements HasLengthInterface, MatchRegularInterface
+final class Text extends AbstractWidget implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
 {
     /**
      * Enables submission of a value for the directionality of the element, and gives the name of the field that
@@ -37,6 +38,9 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function maxlength(int $value): self
     {
         $new = clone $this;
@@ -44,6 +48,9 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function minlength(int $value): self
     {
         $new = clone $this;
@@ -51,10 +58,23 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function pattern(string $value): self
     {
         $new = clone $this;
         $new->attributes['pattern'] = $value;
+        return $new;
+    }
+
+    /**
+     * @return static
+     */
+    public function placeholder(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
         return $new;
     }
 

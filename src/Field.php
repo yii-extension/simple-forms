@@ -10,6 +10,7 @@ use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yii\Extension\Simple\Forms\Field\Error;
 use Yii\Extension\Simple\Forms\Field\Hint;
 use Yii\Extension\Simple\Forms\Field\Label;
+use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
@@ -18,6 +19,7 @@ use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
+use Yiisoft\Html\Tag\Option;
 
 use function strtr;
 
@@ -59,9 +61,9 @@ final class Field extends FieldAttributes
     /**
      * Renders a password widget.
      *
-     * @param FormModelInterface $formModel the model object.
-     * @param string $attribute the attribute name or expression.
-     * @param array $config The config for the factory widget.
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget
      *
      * @return static the field object itself.
      *
@@ -75,9 +77,42 @@ final class Field extends FieldAttributes
     }
 
     /**
+     * Renders a radio widget.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget
+     * Available methods:
+     * [
+     *     'enclosedByLabel()' => [false],
+     *     'label()' => ['Email:'],
+     *     'labelAttributes()' => [['class' => 'test-class']]
+     *     'uncheckValue()' => ['0'],
+     * ]
+     *
+     * @return static the field object itself.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotInstantiableException|NotFoundException
+     */
+    public function radio(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+
+        /** @var array */
+        $enclosedByLabel = $config['enclosedByLabel()'] ?? [true];
+
+        if ($enclosedByLabel !== [false]) {
+            $new->parts['{label}'] = '';
+        }
+
+        $new->widget = Radio::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
      * Renders a reset button widget.
      *
-     * @param array $config The config for the factory widget.
+     * @param array $config The config array definition for the factory widget
      *
      * @return static The field object itself.
      *
@@ -91,9 +126,38 @@ final class Field extends FieldAttributes
     }
 
     /**
+     * Renders a select widget.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget.
+     * Available methods:
+     * [
+     *     'encode()' => [true],
+     *     'groups()' => [['1' => ['2' => ' Moscu', '3' => ' San Petersburgo']]],
+     *     'items()' => [['1' => 'Moscu', '2' => 'San Petersburgo']],
+     *     'itemsAttributes()' => [['2' => ['disabled' => true]],
+     *     'optionsData()' => [['1' => '<b>Moscu</b>', '2' => 'San Petersburgo']],
+     *     'prompt()' => 'Select...',
+     *     'promptTag()' => [Option::tag()->content('Select City Birth')->value(0)],
+     *     'unselectValue()' => ['0'],
+     * ]
+     *
+     * @return static the field object itself.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     */
+    public function select(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+        $new->widget = Select::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
      * Renders a submit button widget.
      *
-     * @param array $config The config for the factory widget.
+     * @param array $config The config array definition for the factory widget
      *
      * @return static The field object itself.
      *
@@ -111,7 +175,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config for the factory widget.
+     * @param array $config The config array definition for the factory widget
      *
      * @return static The field widget instance.
      *
@@ -131,7 +195,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config for the factory widget.
+     * @param array $config The config array definition for the factory widget
      *
      * @return static the field object itself.
      *
@@ -163,7 +227,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config for the factory widget.
+     * @param array $config The config array definition for the factory widget
      *
      * @return static The field widget instance.
      *
@@ -220,29 +284,38 @@ final class Field extends FieldAttributes
     {
         $new = clone $this;
 
-        // set ariadescribedby.
+        // Set ariadescribedby.
         if ($new->ariaDescribedBy === true) {
             $new->widget = $new->widget->ariaDescribedBy($new->widget->getAttribute() . 'Help');
         }
 
-        // set arialabel.
+        // Set arialabel.
         if ($new->ariaLabel !== '') {
             $new->widget = $new->widget->ariaLabel($new->ariaLabel);
         }
 
-        // set input class.
+        // Set encode.
+        $new->widget = $new->widget->encode($new->encode);
+
+        // Set input class.
         if ($new->inputClass !== '' && !array_key_exists('class', $new->widget->getAttributes())) {
             $new->widget = $new->widget->inputClass($new->inputClass);
         }
 
-        // set placeholder.
+        // Set label settings for the radio and checkbox fields.
+        if ($new->widget instanceof Radio) {
+            $new->widget = $new->widget->label($new->label)->labelAttributes($new->labelAttributes);
+        }
+
+        // Set placeholder.
         $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
 
-        if (!empty($new->placeHolder)) {
+        if (!empty($new->placeHolder) && $new->widget instanceof PlaceholderInterface) {
+            /** @var AbstractWidget */
             $new->widget = $new->widget->placeHolder($new->placeHolder);
         }
 
-        // set valid class and invalid class.
+        // Set valid class and invalid class.
         if ($new->invalidClass !== '' && $new->widget->hasError()) {
             $new->widget = $new->widget->inputClass($new->invalidClass);
         } elseif ($new->validClass !== '' && $new->widget->isValidated()) {
@@ -292,9 +365,12 @@ final class Field extends FieldAttributes
         $new = $new->setGlobalAttributesField();
         $new = $new->buildField();
         $new->parts['{input}'] = $new->widget->render();
-        $new->parts['{label}'] = $new->renderLabel();
         $new->parts['{error}'] = $new->renderError();
         $new->parts['{hint}'] = $new->renderHint();
+
+        if (!array_key_exists('{label}', $new->parts)) {
+            $new->parts['{label}'] = $new->renderLabel();
+        }
 
         return preg_replace('/^\h*\v+/m', '', trim(strtr($new->template, $new->parts)));
     }
@@ -328,7 +404,7 @@ final class Field extends FieldAttributes
         $label = Label::widget()->attributes($new->labelAttributes)->encode($new->encode);
 
         if ($new->label === '') {
-            $new->label = $new->getAttributeLabel($new->widget->getFormModel(), $new->widget->getAttribute());
+            $new->label = $new->widget->getAttributeLabel();
         }
 
         if (!array_key_exists('for', $new->labelAttributes)) {

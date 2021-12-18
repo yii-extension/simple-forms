@@ -126,22 +126,6 @@ abstract class GlobalAttributes extends Widget
     }
 
     /**
-     * It allows defining placeholder.
-     *
-     * @param string $value
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/input.html#the-placeholder-attribute
-     */
-    public function placeholder(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
-    /**
      * A Boolean attribute which, if present, means this field cannot be edited by the user.
      * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
      * property.

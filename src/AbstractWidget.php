@@ -108,6 +108,16 @@ abstract class AbstractWidget extends GlobalAttributes
     }
 
     /**
+     * Generate label attribute.
+     *
+     * @return string
+     */
+    public function getAttributeLabel(): string
+    {
+        return HtmlForm::getAttributeLabel($this->getFormModel(), $this->getAttribute());
+    }
+
+    /**
      * Generate placeholder attribute.
      *
      * @return string

@@ -9,6 +9,8 @@ use Yii\Extension\Simple\Model\FormModel;
 final class TypeForm extends FormModel
 {
     private ?array $array = [];
+    private ?bool $bool = null;
     private ?int $int = null;
+    private ?object $object = null;
     private ?string $string = '';
 }

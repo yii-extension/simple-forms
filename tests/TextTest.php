@@ -57,7 +57,7 @@ final class TextTest extends TestCase
      */
     public function testDisabled(): void
     {
-        $this->assertEqualsWithoutLE(
+        $this->assertSame(
             '<input type="text" id="loginform-login" name="LoginForm[login]" disabled>',
             Text::widget()->disabled()->for(new LoginForm(), 'login')->render(),
         );
@@ -236,9 +236,9 @@ final class TextTest extends TestCase
      */
     public function testTabIndex(): void
     {
-        $this->assertEqualsWithoutLE(
+        $this->assertSame(
             '<input type="text" id="typeform-string" name="TypeForm[string]" tabindex="1">',
-            Text::widget()->tabIndex(1)->for(new TypeForm(), 'string')->render(),
+            Text::widget()->for(new TypeForm(), 'string')->tabIndex(1)->render(),
         );
     }
 
@@ -273,7 +273,7 @@ final class TextTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testValueWithForm(): void
+    public function testValueWithFormModel(): void
     {
         $formModel = new LoginForm();
 

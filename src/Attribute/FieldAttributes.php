@@ -364,9 +364,4 @@ abstract class FieldAttributes extends GlobalAttributes
         $new->labelAttributes['for'] = null;
         return $new;
     }
-
-    public function getAttributeLabel(FormModelInterface $formModel, string $attribute): string
-    {
-        return HtmlForm::getAttributeLabel($formModel, $attribute);
-    }
 }

@@ -265,7 +265,7 @@ final class UrlTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testValueWithForm(): void
+    public function testValueWithFormModel(): void
     {
         $formModel = new TypeForm();
 

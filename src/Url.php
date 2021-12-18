@@ -7,6 +7,7 @@ namespace Yii\Extension\Simple\Forms;
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
 use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
+use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
 use Yii\Extension\Simple\Forms\Validator\FieldValidator;
 use Yiisoft\Html\Tag\Input;
 
@@ -16,8 +17,11 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html
  */
-final class Url extends AbstractWidget implements HasLengthInterface, MatchRegularInterface
+final class Url extends AbstractWidget implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
 {
+    /**
+     * @return static
+     */
     public function maxlength(int $value): self
     {
         $new = clone $this;
@@ -25,6 +29,9 @@ final class Url extends AbstractWidget implements HasLengthInterface, MatchRegul
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function minlength(int $value): self
     {
         $new = clone $this;
@@ -32,10 +39,23 @@ final class Url extends AbstractWidget implements HasLengthInterface, MatchRegul
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function pattern(string $value): self
     {
         $new = clone $this;
         $new->attributes['pattern'] = $value;
+        return $new;
+    }
+
+    /**
+     * @return static
+     */
+    public function placeholder(string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
         return $new;
     }
 

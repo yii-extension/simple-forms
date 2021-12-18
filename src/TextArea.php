@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
+use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
 use Yii\Extension\Simple\Forms\Validator\FieldValidator;
 use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 
@@ -14,7 +15,7 @@ use Yiisoft\Html\Tag\Textarea as TextAreaTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html
  */
-final class TextArea extends AbstractWidget implements HasLengthInterface
+final class TextArea extends AbstractWidget implements HasLengthInterface, PlaceholderInterface
 {
     /**
      * The expected maximum number of characters per line of text for the UA to show.
@@ -53,6 +54,9 @@ final class TextArea extends AbstractWidget implements HasLengthInterface
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function maxlength(int $value): self
     {
         $new = clone $this;
@@ -60,6 +64,9 @@ final class TextArea extends AbstractWidget implements HasLengthInterface
         return $new;
     }
 
+    /**
+     * @return static
+     */
     public function minlength(int $value): self
     {
         $new = clone $this;
@@ -68,13 +75,7 @@ final class TextArea extends AbstractWidget implements HasLengthInterface
     }
 
     /**
-     * It allows defining placeholder.
-     *
-     * @param string $value
-     *
      * @return static
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.placeholder
      */
     public function placeholder(string $value): self
     {
@@ -147,15 +148,11 @@ final class TextArea extends AbstractWidget implements HasLengthInterface
         $new = clone $this;
 
         /** @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value */
-        $value = $new->getAttributeValue();
+        $value = $new->attributes['value'] ?? $new->getAttributeValue();
+        unset($new->attributes['value']);
 
         if (!is_string($value) && null !== $value) {
             throw new InvalidArgumentException('TextArea widget must be a string or null value.');
-        }
-
-        if (array_key_exists('value', $new->attributes) && is_string($new->attributes['value'])) {
-            $value = $new->attributes['value'];
-            unset($new->attributes['value']);
         }
 
         $new = $new->setId($new->getInputId());
