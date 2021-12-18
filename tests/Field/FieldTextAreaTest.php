@@ -15,7 +15,7 @@ use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
 
-final class FieldUrlTest extends TestCase
+final class FieldTextAreaTest extends TestCase
 {
     use TestTrait;
 
@@ -27,13 +27,57 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" autofocus>
+        <textarea id="typeform-string" name="TypeForm[string]" autofocus></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->url(new TypeForm(), 'string')->render(),
+            Field::widget()->autofocus()->textArea(new TypeForm(), 'string')->render(),
         );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testCols(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <textarea id="typeform-string" name="TypeForm[string]" cols="20"></textarea>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea(new TypeForm(), 'string', ['cols()' => [20]])->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testDirname(): void
+    {
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <textarea id="typeform-string" name="TypeForm[string]" dirname="test.dir"></textarea>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea(new TypeForm(), 'string', ['dirname()' => ['test.dir']])->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testDirnameException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('The value cannot be empty.');
+        Field::widget()->textArea(new TypeForm(), 'string', ['dirname()' => ['']])->render();
     }
 
     /**
@@ -44,44 +88,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" disabled>
+        <textarea id="typeform-string" name="TypeForm[string]" disabled></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->url(new TypeForm(), 'string')->render(),
+            Field::widget()->disabled()->textArea(new TypeForm(), 'string')->render(),
         );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testId(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="id-test">String</label>
-        <input type="url" id="id-test" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->id('id-test')->url(new TypeForm(), 'string')->render()
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testGetValidatorMatchRegularExpression(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="validatorform-matchregular">Matchregular</label>
-        <input type="url" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'matchregular')->render());
     }
 
     /**
@@ -92,10 +105,10 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="validatorform-maxlength">Maxlength</label>
-        <input type="url" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">
+        <textarea id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'maxlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorForm(), 'maxlength')->render());
     }
 
     /**
@@ -106,38 +119,27 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="validatorform-minlength">Minlength</label>
-        <input type="url" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">
+        <textarea id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'minlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorForm(), 'minlength')->render());
     }
 
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testGetValidatorAttributeRequired(): void
+    public function testId(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-required">Required</label>
-        <input type="url" id="validatorform-required" name="ValidatorForm[required]" required>
+        <label for="id-test">String</label>
+        <textarea id="id-test" name="TypeForm[string]"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'required')->render());
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testGetValidatorAttributeUrlValidator(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="validatorform-url">Url</label>
-        <input type="url" id="validatorform-url" name="ValidatorForm[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorForm(), 'url')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->id('id-test')->textArea(new TypeForm(), 'string')->render(),
+        );
     }
 
     /**
@@ -145,15 +147,15 @@ final class FieldUrlTest extends TestCase
      */
     public function testMaxLength(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" maxlength="10">
+        <textarea id="typeform-string" name="TypeForm[string]" maxlength="100"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['maxlength()' => [10]])->render(),
+            Field::widget()->textArea(new TypeForm(), 'string', ['maxLength()' => [100]])->render(),
         );
     }
 
@@ -162,15 +164,15 @@ final class FieldUrlTest extends TestCase
      */
     public function testMinLength(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" minlength="4">
+        <textarea id="typeform-string" name="TypeForm[string]" minlength="20"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['minlength()' => [4]])->render(),
+            Field::widget()->textArea(new TypeForm(), 'string', ['minLength()' => [20]])->render(),
         );
     }
 
@@ -182,34 +184,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="name-test">
+        <textarea id="typeform-string" name="name-test"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->url(new TypeForm(), 'string')->render(),
+            Field::widget()->name('name-test')->textArea(new TypeForm(), 'string')->render(),
         );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testPattern(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
-        </div>
-        HTML;
-        $html = Field::widget()
-            ->url(
-                new TypeForm(),
-                'string',
-                ['pattern()' => ["^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"]],
-            )
-            ->render();
-        $this->assertEqualsWithoutLE($expected, $html);
     }
 
     /**
@@ -217,15 +198,15 @@ final class FieldUrlTest extends TestCase
      */
     public function testPlaceholder(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text">
+        <textarea id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeholder('PlaceHolder Text')->url(new TypeForm(), 'string')->render(),
+            Field::widget()->placeholder('PlaceHolder Text')->textArea(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -237,12 +218,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" readonly>
+        <textarea id="typeform-string" name="TypeForm[string]" readonly></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->readonly()->url(new TypeForm(), 'string')->render(),
+            Field::widget()->readonly()->textArea(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -254,12 +235,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" required>
+        <textarea id="typeform-string" name="TypeForm[string]" required></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->required()->url(new TypeForm(), 'string')->render(),
+            Field::widget()->required()->textArea(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -268,29 +249,32 @@ final class FieldUrlTest extends TestCase
      */
     public function testRender(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]">
+        <textarea id="typeform-string" name="TypeForm[string]"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new TypeForm(), 'string')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea(new TypeForm(), 'string')->render(),
+        );
     }
 
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testSize(): void
+    public function testRows(): void
     {
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" size="20">
+        <textarea id="typeform-string" name="TypeForm[string]" rows="4"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string', ['size()' => [20]])->render(),
+            Field::widget()->textArea(new TypeForm(), 'string', ['rows()' => [4]])->render(),
         );
     }
 
@@ -302,10 +286,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" tabindex="1">
+        <textarea id="typeform-string" name="TypeForm[string]" tabindex="1"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new TypeForm(), 'string')->tabIndex(1)->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->tabIndex(1)->textArea(new TypeForm(), 'string')->render(),
+        );
     }
 
     /**
@@ -314,27 +301,27 @@ final class FieldUrlTest extends TestCase
     public function testValue(): void
     {
         // Value `null`.
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]">
+        <textarea id="typeform-string" name="TypeForm[string]"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->value(null)->render(),
+            Field::widget()->textArea(new TypeForm(), 'string')->value(null)->render(),
         );
 
-        // Value string `'https://yiiframework.com'`.
-        $expected = <<<HTML
+        // Value string `hello`.
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">
+        <textarea id="typeform-string" name="TypeForm[string]">hello</textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new TypeForm(), 'string')->value('https://yiiframework.com')->render(),
+            Field::widget()->textArea(new TypeForm(), 'string')->value('hello')->render(),
         );
     }
 
@@ -344,8 +331,8 @@ final class FieldUrlTest extends TestCase
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Url widget must be a string or null value.');
-        Field::widget()->url(new TypeForm(), 'array')->render();
+        $this->expectExceptionMessage('TextArea widget must be a string or null value.');
+        Field::widget()->textArea(new TypeForm(), 'array')->render();
     }
 
     /**
@@ -357,23 +344,69 @@ final class FieldUrlTest extends TestCase
 
         // Value `null`.
         $formModel->setAttribute('string', null);
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]">
+        <textarea id="typeform-string" name="TypeForm[string]"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea($formModel, 'string')->render(),
+        );
 
-        // Value string `'https://yiiframework.com'`.
-        $formModel->setAttribute('string', 'https://yiiframework.com');
-        $expected = <<<HTML
+        // Value string `hello`.
+        $formModel->setAttribute('string', 'hello');
+        $expected = <<<'HTML'
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">
+        <textarea id="typeform-string" name="TypeForm[string]">hello</textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea($formModel, 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testWrap(): void
+    {
+        /** hard value */
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <textarea id="typeform-string" name="TypeForm[string]" wrap="hard"></textarea>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['hard']])->render(),
+        );
+
+        /** soft value */
+        $expected = <<<'HTML'
+        <div>
+        <label for="typeform-string">String</label>
+        <textarea id="typeform-string" name="TypeForm[string]" wrap="soft"></textarea>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['soft']])->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testWrapException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
+        Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['exception']]);
     }
 
     /**
@@ -384,12 +417,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label>String</label>
-        <input type="url" name="TypeForm[string]">
+        <textarea name="TypeForm[string]"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->url(new TypeForm(), 'string')->render(),
+            Field::widget()->id(null)->textArea(new TypeForm(), 'string')->render(),
         );
     }
 
@@ -401,12 +434,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string">
+        <textarea id="typeform-string"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->url(new TypeForm(), 'string')->render(),
+            Field::widget()->name(null)->textArea(new TypeForm(), 'string')->render(),
         );
     }
 }

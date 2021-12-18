@@ -70,8 +70,7 @@ final class Field extends FieldAttributes
     public function password(FormModelInterface $formModel, string $attribute, array $config = []): self
     {
         $new = clone $this;
-        $new->widget = $config !== []
-            ? Password::widget($config)->for($formModel, $attribute) : Password::widget()->for($formModel, $attribute);
+        $new->widget = Password::widget($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -87,7 +86,7 @@ final class Field extends FieldAttributes
     public function resetButton(array $config = []): self
     {
         $new = clone $this;
-        $new->buttons[] = $config !== [] ? ResetButton::widget($config) : ResetButton::widget();
+        $new->buttons[] = ResetButton::widget($config);
         return $new;
     }
 
@@ -103,7 +102,7 @@ final class Field extends FieldAttributes
     public function submitButton(array $config = []): self
     {
         $new = clone $this;
-        $new->buttons[] = $config !== [] ? SubmitButton::widget($config) : SubmitButton::widget();
+        $new->buttons[] = SubmitButton::widget($config);
         return $new;
     }
 
@@ -121,8 +120,27 @@ final class Field extends FieldAttributes
     public function text(FormModelInterface $formModel, string $attribute, array $config = []): self
     {
         $new = clone $this;
-        $new->widget = $config !== []
-            ? Text::widget($config)->for($formModel, $attribute) : Text::widget()->for($formModel, $attribute);
+        $new->widget = Text::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
+     * Renders a text area.
+     *
+     * The model attribute value will be used as the content in the textarea.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config for the factory widget.
+     *
+     * @return static the field object itself.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     */
+    public function textArea(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+        $new->widget = TextArea::widget($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -154,8 +172,7 @@ final class Field extends FieldAttributes
     public function url(FormModelInterface $formModel, string $attribute, array $config = []): self
     {
         $new = clone $this;
-        $new->widget = $config !== []
-            ? Url::widget($config)->for($formModel, $attribute) : Url::widget()->for($formModel, $attribute);
+        $new->widget = Url::widget($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -180,6 +197,10 @@ final class Field extends FieldAttributes
 
         if ($new->containerClass !== '') {
             $div = $div->class($new->containerClass);
+        }
+
+        if ($new->containerAttributes !== []) {
+            $div = $div->attributes($new->containerAttributes);
         }
 
         if (!empty($new->widget)) {

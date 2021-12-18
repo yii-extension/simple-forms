@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
+use Yii\Extension\Simple\Forms\Validator\FieldValidator;
 use Yiisoft\Html\Tag\Textarea as TextAreaTag;
 
 /**
@@ -152,8 +153,17 @@ final class TextArea extends AbstractWidget implements HasLengthInterface
             throw new InvalidArgumentException('TextArea widget must be a string or null value.');
         }
 
-        $new = $new->build($value);
+        if (array_key_exists('value', $new->attributes) && is_string($new->attributes['value'])) {
+            $value = $new->attributes['value'];
+            unset($new->attributes['value']);
+        }
 
-        return TextAreaTag::tag()->attributes($new->attributes)->render();
+        $new = $new->setId($new->getInputId());
+        $new = $new->setName($new->getInputName());
+
+        $fieldValidator = new FieldValidator();
+        $new = $fieldValidator->getValidatorAttributes($new);
+
+        return TextAreaTag::tag()->attributes($new->attributes)->content($value ?? '')->render();
     }
 }

@@ -11,11 +11,18 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yii\Extension\Simple\Forms\Text;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class TextTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testAutofocus(): void
     {
         $this->assertSame(
@@ -24,6 +31,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDirname(): void
     {
         $this->assertSame(
@@ -32,6 +42,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDirnameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -39,6 +52,9 @@ final class TextTest extends TestCase
         Text::widget()->for(new LoginForm(), 'login')->dirname('')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDisabled(): void
     {
         $this->assertEqualsWithoutLE(
@@ -47,6 +63,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorMatchRegularExpression(): void
     {
         $this->assertSame(
@@ -55,6 +74,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
@@ -63,6 +85,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
@@ -71,6 +96,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeRequired(): void
     {
         $this->assertSame(
@@ -79,6 +107,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testId(): void
     {
         $this->assertSame(
@@ -87,6 +118,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testImmutability(): void
     {
         $text = Text::widget();
@@ -98,6 +132,9 @@ final class TextTest extends TestCase
         $this->assertNotSame($text, $text->size(0));
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMaxLength(): void
     {
         $this->assertSame(
@@ -106,6 +143,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMinLength(): void
     {
         $this->assertSame(
@@ -114,6 +154,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testName(): void
     {
         $this->assertSame(
@@ -122,6 +165,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPattern(): void
     {
         $this->assertSame(
@@ -130,6 +176,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPlaceholder(): void
     {
         $this->assertSame(
@@ -138,6 +187,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testReadOnly(): void
     {
         $this->assertSame(
@@ -146,6 +198,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRequired(): void
     {
         $this->assertSame(
@@ -154,6 +209,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $this->assertSame(
@@ -162,6 +220,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testSize(): void
     {
         $this->assertSame(
@@ -170,6 +231,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTabIndex(): void
     {
         $this->assertEqualsWithoutLE(
@@ -178,6 +242,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value `null`.
@@ -193,6 +260,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -200,6 +270,9 @@ final class TextTest extends TestCase
         Text::widget()->for(new TypeForm(), 'array')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueWithForm(): void
     {
         $formModel = new LoginForm();
@@ -219,6 +292,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutId(): void
     {
         $this->assertSame(
@@ -227,6 +303,9 @@ final class TextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutName(): void
     {
         $this->assertSame(

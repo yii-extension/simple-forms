@@ -10,11 +10,18 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yii\Extension\Simple\Forms\TextArea;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class TextAreaTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testAutofocus(): void
     {
         $this->assertSame(
@@ -23,6 +30,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testCols(): void
     {
         $this->assertSame(
@@ -31,6 +41,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDirname(): void
     {
         $this->assertSame(
@@ -39,6 +52,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDirnameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -46,6 +62,9 @@ final class TextAreaTest extends TestCase
         TextArea::widget()->for(new TypeForm(), 'string')->dirname('')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDisabled(): void
     {
         $this->assertSame(
@@ -54,6 +73,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
@@ -62,6 +84,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
@@ -70,6 +95,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testImmutability(): void
     {
         $textArea = TextArea::widget();
@@ -82,6 +110,9 @@ final class TextAreaTest extends TestCase
         $this->assertNotSame($textArea, $textArea->wrap('hard'));
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMaxLength(): void
     {
         $this->assertSame(
@@ -90,6 +121,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMinLength(): void
     {
         $this->assertSame(
@@ -98,6 +132,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testName(): void
     {
         $this->assertSame(
@@ -106,6 +143,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPlaceholder(): void
     {
         $this->assertSame(
@@ -114,6 +154,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testReadOnly(): void
     {
         $this->assertSame(
@@ -122,6 +165,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRequired(): void
     {
         $this->assertSame(
@@ -130,6 +176,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $this->assertSame(
@@ -138,6 +187,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRows(): void
     {
         $this->assertSame(
@@ -146,6 +198,9 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value `null`.
@@ -156,11 +211,14 @@ final class TextAreaTest extends TestCase
 
         // Value string `hello`.
         $this->assertSame(
-            '<textarea id="typeform-string" name="TypeForm[string]" value="hello"></textarea>',
+            '<textarea id="typeform-string" name="TypeForm[string]">hello</textarea>',
             TextArea::widget()->for(new TypeForm(), 'string')->value('hello')->render(),
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -168,6 +226,31 @@ final class TextAreaTest extends TestCase
         TextArea::widget()->for(new TypeForm(), 'array')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testValueWithForm(): void
+    {
+        $formModel = new TypeForm();
+
+        // Value `null`.
+        $formModel->setAttribute('string', null);
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]"></textarea>',
+            TextArea::widget()->for($formModel, 'string')->render(),
+        );
+
+        // Value string `hello`.
+        $formModel->setAttribute('string', 'hello');
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]">hello</textarea>',
+            TextArea::widget()->for($formModel, 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWrap(): void
     {
         /** hard value */
@@ -183,10 +266,35 @@ final class TextAreaTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWrapException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
         TextArea::widget()->for(new TypeForm(), 'string')->wrap('exception');
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testWithoutId(): void
+    {
+        $this->assertSame(
+            '<textarea name="TypeForm[string]"></textarea>',
+            TextArea::widget()->for(new TypeForm(), 'string')->id(null)->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testWithoutName(): void
+    {
+        $this->assertSame(
+            '<textarea id="typeform-string"></textarea>',
+            TextArea::widget()->for(new TypeForm(), 'string')->name(null)->render(),
+        );
     }
 }

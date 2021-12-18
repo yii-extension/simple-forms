@@ -23,6 +23,57 @@ final class FieldTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
+    public function testContainerAttributes(): void
+    {
+        $expected = <<<HTML
+        <div class="text-danger">
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->containerAttributes(['class' => 'text-danger'])->text(new TypeForm(), 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testContainerId(): void
+    {
+        $expected = <<<HTML
+        <div id="id-test">
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->containerId('id-test')->text(new TypeForm(), 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testContainerName(): void
+    {
+        $expected = <<<HTML
+        <div name="name-test">
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->containerName('name-test')->text(new TypeForm(), 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testHintCustom(): void
     {
         $expected = <<<HTML

@@ -14,6 +14,7 @@ abstract class FieldAttributes extends GlobalAttributes
     protected string $ariaLabel = '';
     protected array $buttonsIndividualAttributes = [];
     protected bool $container = false;
+    protected array $containerAttributes = [];
     protected string $containerClass = '';
     protected string $error = '';
     protected array $errorAttributes = [];
@@ -29,6 +30,8 @@ abstract class FieldAttributes extends GlobalAttributes
     protected string $validClass = '';
 
     /**
+     * Set aria-label attribute.
+     *
      * @return static
      */
     public function ariaLabel(string $value): self
@@ -54,11 +57,49 @@ abstract class FieldAttributes extends GlobalAttributes
 
     /**
      * Set individual attributes for the buttons widgets.
+     *
+     * @return static
      */
     public function buttonsIndividualAttributes(array $value): self
     {
         $new = clone $this;
         $new->buttonsIndividualAttributes = $value;
+        return $new;
+    }
+
+    /**
+     * Set container attributes.
+     *
+     * @return static
+     */
+    public function containerAttributes(array $value): self
+    {
+        $new = clone $this;
+        $new->containerAttributes = $value;
+        return $new;
+    }
+
+    /**
+     * Set container ID.
+     *
+     * @return static
+     */
+    public function containerId(string $value): self
+    {
+        $new = clone $this;
+        $new->containerAttributes['id'] = $value;
+        return $new;
+    }
+
+    /**
+     * Set container name.
+     *
+     * @return static
+     */
+    public function containerName(string $value): self
+    {
+        $new = clone $this;
+        $new->containerAttributes['name'] = $value;
         return $new;
     }
 

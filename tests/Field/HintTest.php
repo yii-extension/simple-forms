@@ -8,16 +8,26 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\Field\Hint;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class HintTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testHint(): void
     {
         $this->assertSame('<div>Write your text.</div>', Hint::widget()->hint('Write your text.')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testImmutability(): void
     {
         $hint = Hint::widget();
@@ -25,11 +35,17 @@ final class HintTest extends TestCase
         $this->assertNotSame($hint, $hint->tag(''));
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $this->assertSame('<div></div>', Hint::widget()->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTag(): void
     {
         $this->assertSame(
@@ -38,6 +54,9 @@ final class HintTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTagException(): void
     {
         $this->expectException(InvalidArgumentException::class);

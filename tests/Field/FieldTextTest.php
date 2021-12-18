@@ -11,11 +11,18 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class FieldTextTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testAutofocus(): void
     {
         $expected = <<<HTML
@@ -30,6 +37,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDirname(): void
     {
         $expected = <<<HTML
@@ -44,6 +54,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDirnameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -51,6 +64,9 @@ final class FieldTextTest extends TestCase
         Field::widget()->text(new LoginForm(), 'login', ['dirname()' => ['']])->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDisabled(): void
     {
         $expected = <<<HTML
@@ -65,6 +81,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorMatchRegularExpression(): void
     {
         $expected = <<<HTML
@@ -76,6 +95,9 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'matchregular')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $expected = <<<HTML
@@ -87,6 +109,9 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'maxlength')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMinLength(): void
     {
         $expected = <<<HTML
@@ -98,6 +123,9 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'minlength')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeRequired(): void
     {
         $expected = <<<HTML
@@ -109,6 +137,9 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'required')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testId(): void
     {
         $expected = <<<HTML
@@ -123,6 +154,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMaxLength(): void
     {
         $expected = <<<HTML
@@ -137,6 +171,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMinLength(): void
     {
         $expected = <<<HTML
@@ -151,6 +188,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testName(): void
     {
         $expected = <<<HTML
@@ -165,6 +205,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPattern(): void
     {
         $expected = <<<HTML
@@ -182,6 +225,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPlaceholder(): void
     {
         $expected = <<<HTML
@@ -196,6 +242,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testReadOnly(): void
     {
         $expected = <<<HTML
@@ -210,6 +259,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRequired(): void
     {
         $expected = <<<HTML
@@ -224,6 +276,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $expected = <<<HTML
@@ -235,6 +290,9 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text(new LoginForm(), 'login')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testSize(): void
     {
         $expected = <<<HTML
@@ -249,6 +307,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTabIndex(): void
     {
         $expected = <<<HTML
@@ -260,6 +321,9 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->tabIndex(1)->text(new LoginForm(), 'login')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value `null`.
@@ -274,7 +338,7 @@ final class FieldTextTest extends TestCase
             Field::widget()->text(new LoginForm(), 'login')->value(null)->render(),
         );
 
-        // Value `string`.
+        // Value string `joe`.
         $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
@@ -287,6 +351,9 @@ final class FieldTextTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -294,6 +361,9 @@ final class FieldTextTest extends TestCase
         Field::widget()->text(new TypeForm(), 'array')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueWithForm(): void
     {
         $formModel = new LoginForm();
@@ -308,7 +378,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
 
-        // Value `string`.
+        // Value string `joe`.
         $formModel->setAttribute('login', 'joe');
         $expected = <<<HTML
         <div>
@@ -319,31 +389,37 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutId(): void
     {
         $expected = <<<HTML
         <div>
-        <label>Password</label>
-        <input type="text" name="LoginForm[password]">
+        <label>Login</label>
+        <input type="text" name="LoginForm[login]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->text(new LoginForm(), 'password')->render(),
+            Field::widget()->id(null)->text(new LoginForm(), 'login')->render(),
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutName(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="loginform-password">Password</label>
-        <input type="text" id="loginform-password">
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->text(new LoginForm(), 'password')->render(),
+            Field::widget()->name(null)->text(new LoginForm(), 'login')->render(),
         );
     }
 }

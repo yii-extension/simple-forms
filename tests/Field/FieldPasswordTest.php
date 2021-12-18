@@ -309,6 +309,16 @@ final class FieldPasswordTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
+    public function testValueException(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Password widget must be a string or null value.');
+        Field::widget()->password(new TypeForm(), 'array')->render();
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueWithFormModel(): void
     {
         $formModel = new LoginForm();
@@ -332,16 +342,6 @@ final class FieldPasswordTest extends TestCase
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->password($formModel, 'password')->render());
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testValueException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Password widget must be a string or null value.');
-        Field::widget()->password(new TypeForm(), 'array')->render();
     }
 
     /**

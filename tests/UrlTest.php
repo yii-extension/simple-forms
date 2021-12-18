@@ -10,11 +10,18 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yii\Extension\Simple\Forms\Url;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class UrlTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testAutofocus(): void
     {
         $this->assertSame(
@@ -23,6 +30,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDisabled(): void
     {
         $this->assertEqualsWithoutLE(
@@ -31,6 +41,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorMatchRegularExpression(): void
     {
         $this->assertSame(
@@ -39,6 +52,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
@@ -47,6 +63,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
@@ -55,6 +74,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeRequired(): void
     {
         $this->assertSame(
@@ -63,6 +85,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeUrlValidator(): void
     {
         $expected = <<<HTML
@@ -71,6 +96,9 @@ final class UrlTest extends TestCase
         $this->assertSame($expected, Url::widget()->for(new ValidatorForm(), 'url')->render());
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testId(): void
     {
         $this->assertSame(
@@ -79,6 +107,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testImmutability(): void
     {
         $url = Url::widget();
@@ -89,6 +120,9 @@ final class UrlTest extends TestCase
         $this->assertNotSame($url, $url->size(0));
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMaxLength(): void
     {
         $this->assertSame(
@@ -97,6 +131,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMinLength(): void
     {
         $this->assertSame(
@@ -105,6 +142,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testName(): void
     {
         $this->assertSame(
@@ -113,6 +153,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPattern(): void
     {
         $expected = <<<HTML
@@ -125,6 +168,9 @@ final class UrlTest extends TestCase
         $this->assertSame($expected, $html);
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPlaceholder(): void
     {
         $this->assertSame(
@@ -133,6 +179,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testReadOnly(): void
     {
         $this->assertSame(
@@ -141,6 +190,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRequired(): void
     {
         $this->assertSame(
@@ -149,6 +201,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $this->assertSame(
@@ -157,6 +212,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testSize(): void
     {
         $this->assertSame(
@@ -165,6 +223,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTabIndex(): void
     {
         $this->assertEqualsWithoutLE(
@@ -173,6 +234,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value `null`.
@@ -181,13 +245,16 @@ final class UrlTest extends TestCase
             Url::widget()->for(new TypeForm(), 'string')->value(null)->render(),
         );
 
-        // Value string `'https://yiiframework.com'`
+        // Value string `https://yiiframework.com`
         $this->assertSame(
             '<input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">',
             Url::widget()->for(new TypeForm(), 'string')->value('https://yiiframework.com')->render(),
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -195,6 +262,9 @@ final class UrlTest extends TestCase
         Url::widget()->for(new TypeForm(), 'array')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueWithForm(): void
     {
         $formModel = new TypeForm();
@@ -206,7 +276,7 @@ final class UrlTest extends TestCase
             Url::widget()->for($formModel, 'string')->render(),
         );
 
-        // Value string `'https://yiiframework.com'`
+        // Value string `https://yiiframework.com`.
         $formModel->setAttribute('string', 'https://yiiframework.com');
         $this->assertSame(
             '<input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">',
@@ -214,6 +284,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutId(): void
     {
         $this->assertSame(
@@ -222,6 +295,9 @@ final class UrlTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutName(): void
     {
         $this->assertSame(

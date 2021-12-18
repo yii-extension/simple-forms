@@ -11,11 +11,18 @@ use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yiisoft\Definitions\Exception\CircularReferenceException;
+use Yiisoft\Definitions\Exception\InvalidConfigException;
+use Yiisoft\Definitions\Exception\NotInstantiableException;
+use Yiisoft\Factory\NotFoundException;
 
 final class PasswordTest extends TestCase
 {
     use TestTrait;
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testAutofocus(): void
     {
         $this->assertSame(
@@ -24,6 +31,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testDisabled(): void
     {
         $this->assertEqualsWithoutLE(
@@ -32,6 +42,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorMatchRegularExpression(): void
     {
         $this->assertSame(
@@ -40,6 +53,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
@@ -48,6 +64,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
@@ -56,6 +75,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testGetValidatorAttributeRequired(): void
     {
         $this->assertSame(
@@ -64,6 +86,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testId(): void
     {
         $this->assertSame(
@@ -72,6 +97,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testImmutability(): void
     {
         $password = Password::widget();
@@ -83,6 +111,9 @@ final class PasswordTest extends TestCase
         $this->assertNotSame($password, $password->size(0));
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMaxLength(): void
     {
         $this->assertSame(
@@ -91,6 +122,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testMinLength(): void
     {
         $this->assertSame(
@@ -99,6 +133,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testName(): void
     {
         $this->assertSame(
@@ -107,6 +144,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPattern(): void
     {
         $expected = <<<HTML
@@ -121,6 +161,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testPlaceholder(): void
     {
         $this->assertSame(
@@ -129,6 +172,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testReadOnly(): void
     {
         $this->assertSame(
@@ -137,6 +183,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRequired(): void
     {
         $this->assertSame(
@@ -145,6 +194,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $this->assertSame(
@@ -153,6 +205,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testSize(): void
     {
         $this->assertSame(
@@ -161,6 +216,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testTabIndex(): void
     {
         $this->assertEqualsWithoutLE(
@@ -169,6 +227,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value `null`.
@@ -177,13 +238,16 @@ final class PasswordTest extends TestCase
             Password::widget()->for(new LoginForm(), 'password')->value(null)->render(),
         );
 
-        // value string '1234??'.
+        // Value string `1234??`.
         $this->assertSame(
             '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
             Password::widget()->for(new LoginForm(), 'password')->value('1234??')->render(),
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -191,6 +255,9 @@ final class PasswordTest extends TestCase
         Password::widget()->for(new TypeForm(), 'array')->render();
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueWithForm(): void
     {
         $formModel = new LoginForm();
@@ -201,7 +268,7 @@ final class PasswordTest extends TestCase
             Password::widget()->for($formModel, 'password')->render(),
         );
 
-        // value string '1234??'.
+        // Value string `1234??`.
         $formModel->setAttribute('password', '1234??');
         $this->assertSame(
             '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
@@ -209,6 +276,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutId(): void
     {
         $this->assertSame(
@@ -217,6 +287,9 @@ final class PasswordTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testWithoutName(): void
     {
         $this->assertSame(

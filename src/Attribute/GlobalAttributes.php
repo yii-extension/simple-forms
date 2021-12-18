@@ -38,7 +38,7 @@ abstract class GlobalAttributes extends Widget
     public function attributes(array $values): self
     {
         $new = clone $this;
-        $new->attributes = $values;
+        $new->attributes = array_merge($new->attributes, $values);
         return $new;
     }
 
