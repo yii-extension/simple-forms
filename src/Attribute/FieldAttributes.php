@@ -8,10 +8,9 @@ use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yiisoft\Html\Html;
 
-abstract class FieldAttributes extends GlobalAttributes
+abstract class FieldAttributes extends InputAttributes
 {
     protected bool $ariaDescribedBy = false;
-    protected string $ariaLabel = '';
     protected array $buttonsIndividualAttributes = [];
     protected bool $container = false;
     protected array $containerAttributes = [];
@@ -28,32 +27,6 @@ abstract class FieldAttributes extends GlobalAttributes
     protected array $labelAttributes = [];
     protected string|null $placeHolder = null;
     protected string $validClass = '';
-
-    /**
-     * Set aria-label attribute.
-     *
-     * @return static
-     */
-    public function ariaLabel(string $value): self
-    {
-        $new = clone $this;
-        $new->ariaLabel = $value;
-        return $new;
-    }
-
-    /**
-     * Set aria-describedby attribute.
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/WCAG20-TECHS/ARIA1.html
-     */
-    public function ariaDescribedBy(): self
-    {
-        $new = clone $this;
-        $new->ariaDescribedBy = true;
-        return $new;
-    }
 
     /**
      * Set individual attributes for the buttons widgets.
@@ -210,20 +183,6 @@ abstract class FieldAttributes extends GlobalAttributes
     }
 
     /**
-     * Set CSS class names to widget for field.
-     *
-     * @param string $value CSS class names.
-     *
-     * @return static
-     */
-    public function inputClass(string $value): self
-    {
-        $new = clone $this;
-        $new->inputClass = $value;
-        return $new;
-    }
-
-    /**
      * Set CSS class names to widget for invalid field.
      *
      * @param string $value CSS class names.
@@ -306,6 +265,21 @@ abstract class FieldAttributes extends GlobalAttributes
     {
         $new = clone $this;
         $new->placeHolder = $value;
+        return $new;
+    }
+
+    /**
+     * Set aria-describedby attribute.
+     *
+     * @param bool $value Whether to add aria-describedby attribute.
+     * @return static
+     *
+     * @link https://www.w3.org/TR/WCAG20-TECHS/ARIA1.html
+     */
+    public function setAriaDescribedBy(bool $value = true): self
+    {
+        $new = clone $this;
+        $new->ariaDescribedBy = $value;
         return $new;
     }
 

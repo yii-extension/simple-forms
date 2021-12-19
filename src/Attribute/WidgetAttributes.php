@@ -2,50 +2,49 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Simple\Forms\Attribute;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
-use Yii\Extension\Simple\Forms\Validator\FieldValidator;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yii\Extension\Simple\Model\Helper\HtmlFormErrors;
 use Yiisoft\Html\Html;
+use Yiisoft\Widget\Widget;
 
-abstract class AbstractWidget extends GlobalAttributes
+abstract class WidgetAttributes extends Widget
 {
+    protected array $attributes = [];
+    protected bool $encode = false;
     private string $attribute = '';
-    private ?string $containerClass = null;
     private ?FormModelInterface $formModel = null;
-    private ?string $template = null;
 
     /**
-     * Set aria-describedby attribute.
+     * The HTML attributes. The following special options are recognized.
      *
-     * @param string $value
+     * @param array $values Attribute values indexed by attribute names.
      *
      * @return static
      *
-     * @link https://www.w3.org/TR/WCAG20-TECHS/ARIA1.html
+     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
-    public function ariaDescribedBy(string $value): self
+    public function attributes(array $values): self
     {
         $new = clone $this;
-        $new->attributes['aria-describedby'] = $value;
+        $new->attributes = array_merge($new->attributes, $values);
         return $new;
     }
 
     /**
-     * Set aria-label attribute.
+     * Whether content should be HTML-encoded.
      *
-     * @param string $value
+     * @param bool $value
      *
      * @return static
      */
-    public function ariaLabel(string $value): self
+    public function encode(bool $value): self
     {
         $new = clone $this;
-        $new->attributes['aria-label'] = $value;
+        $new->encode = $value;
         return $new;
     }
 
@@ -63,16 +62,6 @@ abstract class AbstractWidget extends GlobalAttributes
     }
 
     /**
-     * Return attributes for the widget.
-     *
-     * @return array
-     */
-    public function getAttributes(): array
-    {
-        return $this->attributes;
-    }
-
-    /**
      * Return attribute field.
      *
      * @return string
@@ -87,14 +76,13 @@ abstract class AbstractWidget extends GlobalAttributes
     }
 
     /**
-     * Return aria-describedby attribute.
+     * Return attributes for the widget.
      *
-     * @return string
+     * @return array
      */
-    public function getAriaDescribedBy(): string
+    public function getAttributes(): array
     {
-        /** @var string */
-        return $this->attributes['aria-describedby'] ?? '';
+        return $this->attributes;
     }
 
     /**
@@ -170,17 +158,9 @@ abstract class AbstractWidget extends GlobalAttributes
     }
 
     /**
-     * Return if there is a validation error in the attribute.
-     */
-    public function hasError(): bool
-    {
-        return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
      * Set CSS class of the field widget.
      *
-     * @param string $value
+     * @param string $class
      *
      * @return static
      */
@@ -192,6 +172,14 @@ abstract class AbstractWidget extends GlobalAttributes
     }
 
     /**
+     * Return if there is a validation error in the attribute.
+     */
+    public function hasError(): bool
+    {
+        return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
+    }
+
+    /**
      * Return if the field was validated.
      *
      * @return bool
@@ -199,41 +187,6 @@ abstract class AbstractWidget extends GlobalAttributes
     public function isValidated(): bool
     {
         return $this->getFormModel()->isValidated();
-    }
-
-    /**
-     * Set template for field widget.
-     *
-     * @param string $template
-     *
-     * @return static
-     */
-    public function template(string $template): self
-    {
-        $new = clone $this;
-        $new->template = $template;
-        return $new;
-    }
-
-    /**
-     * Set build attributes for the widget.
-     *
-     * @param array|object|string|bool|int|float|null $value
-     *
-     * @return self
-     */
-    protected function build($value): self
-    {
-        $new = clone $this;
-
-        $fieldValidator = new FieldValidator();
-
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
-        $new = $new->setValue($value);
-        $new = $fieldValidator->getValidatorAttributes($new);
-
-        return $new;
     }
 
     /**

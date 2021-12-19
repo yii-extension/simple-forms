@@ -255,7 +255,7 @@ final class FieldTextTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->readonly()->text(new LoginForm(), 'login')->render(),
+            Field::widget()->attribute('readonly', true)->text(new LoginForm(), 'login')->render(),
         );
     }
 

@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Stringable;
+use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
 use Yiisoft\Html\Tag\Input\Radio as RadioTag;
 
 /**
@@ -14,7 +15,7 @@ use Yiisoft\Html\Tag\Input\Radio as RadioTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html
  */
-final class Radio extends AbstractWidget
+final class Radio extends ChoiceAttributes
 {
     private bool $checked = false;
     private bool $enclosedByLabel = true;
@@ -106,36 +107,37 @@ final class Radio extends AbstractWidget
      */
     protected function run(): string
     {
-        $new = clone $this;
-        $radio = RadioTag::tag();
-
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html#input.radio.attrs.value */
-        $value = $new->getAttributeValue();
+        $value = $this->getAttributeValue();
 
         if (is_iterable($value) || is_object($value)) {
             throw new InvalidArgumentException('Radio widget value can not be an iterable or an object.');
         }
 
-        /** @var scalar|Stringable|null */
-        $valueDefault = array_key_exists('value', $new->attributes) ? $new->attributes['value'] : null;
+        $attributes = $this->attributes;
+        $attributes = $this->build($attributes);
 
-        if ($new->enclosedByLabel === true) {
-            $new->label = empty($new->label) ? $new->getAttributeLabel() : $new->label;
-            $radio = $radio->label($new->label, $new->labelAttributes);
+        /** @var scalar|Stringable|null */
+        $valueDefault = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+
+        $radio = RadioTag::tag();
+
+        if ($this->enclosedByLabel === true) {
+            $radio = $radio->label(
+                empty($this->label) ? $this->getAttributeLabel() : $this->label,
+                $this->labelAttributes,
+            );
         }
 
         if (empty($value)) {
-            $radio = $radio->checked($new->checked);
+            $radio = $radio->checked($this->checked);
         } else {
             $radio = $radio->checked("$value" === "$valueDefault");
         }
 
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
-
         return $radio
-            ->attributes($new->attributes)
-            ->uncheckValue($new->uncheckValue)
+            ->attributes($attributes)
+            ->uncheckValue($this->uncheckValue)
             ->value(is_bool($valueDefault) ? (int) $valueDefault : $valueDefault)
             ->render();
     }

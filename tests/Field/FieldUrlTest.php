@@ -242,7 +242,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->readonly()->url(new TypeForm(), 'string')->render(),
+            Field::widget()->attribute('readonly', true)->url(new TypeForm(), 'string')->render(),
         );
     }
 

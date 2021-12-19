@@ -223,7 +223,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->readonly()->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->attribute('readonly', true)->textArea(new TypeForm(), 'string')->render(),
         );
     }
 

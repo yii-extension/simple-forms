@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms\Attribute;
 
-use Yiisoft\Widget\Widget;
+use Yii\Extension\Simple\Forms\Validator\FieldValidator;
+use Yii\Extension\Simple\Model\FormModelInterface;
+use Yii\Extension\Simple\Model\Helper\HtmlForm;
+use Yiisoft\Html\Html;
 
-abstract class GlobalAttributes extends Widget
+abstract class ChoiceAttributes extends WidgetAttributes
 {
-    protected array $attributes = [];
-    protected bool $encode = false;
-
     /**
      * Focus on the control (put cursor into it) when the page loads.
      * Only one form element could be in focus at the same time.
@@ -23,22 +23,6 @@ abstract class GlobalAttributes extends Widget
     {
         $new = clone $this;
         $new->attributes['autofocus'] = true;
-        return $new;
-    }
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $values): self
-    {
-        $new = clone $this;
-        $new->attributes = array_merge($new->attributes, $values);
         return $new;
     }
 
@@ -59,37 +43,6 @@ abstract class GlobalAttributes extends Widget
     {
         $new = clone $this;
         $new->attributes['disabled'] = true;
-        return $new;
-    }
-
-    /**
-     * Whether content should be HTML-encoded.
-     *
-     * @param bool $value
-     *
-     * @return static
-     */
-    public function encode(bool $value): self
-    {
-        $new = clone $this;
-        $new->encode = $value;
-        return $new;
-    }
-
-    /**
-     * Specifies the form element the tag input element belongs to. The value of this attribute must be the id
-     * attribute of a {@see Form} element in the same document.
-     *
-     * @param string $value
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fae-form
-     */
-    public function form(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['form'] = $value;
         return $new;
     }
 
@@ -122,24 +75,6 @@ abstract class GlobalAttributes extends Widget
     {
         $new = clone $this;
         $new->attributes['name'] = $value;
-        return $new;
-    }
-
-    /**
-     * A Boolean attribute which, if present, means this field cannot be edited by the user.
-     * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
-     * property.
-     *
-     * @param bool $value
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/input.html#the-readonly-attribute
-     */
-    public function readonly(bool $value = true): self
-    {
-        $new = clone $this;
-        $new->attributes['readonly'] = $value;
         return $new;
     }
 
@@ -185,22 +120,6 @@ abstract class GlobalAttributes extends Widget
     }
 
     /**
-     * The title global attribute contains text representing advisory information related to the element it belongs to.
-     *
-     * @param string $value
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/dom.html#attr-title
-     */
-    public function title(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['title'] = $value;
-        return $new;
-    }
-
-    /**
      * The value obtained by the form model
      *
      * @param array|object|string|bool|int|float|null $value
@@ -217,52 +136,31 @@ abstract class GlobalAttributes extends Widget
     }
 
     /**
-     * Set id of the widget.
+     * Set build attributes for the widget.
      *
-     * @return static
+     * @param array $attributes $value
+     *
+     * @return array
      */
-    protected function setId(string $value): self
+    protected function build(array $attributes): array
     {
-        $new = clone $this;
-
-        if (!array_key_exists('id', $new->attributes)) {
-            $new = $new->id($value);
+        if (!array_key_exists('id', $attributes)) {
+            $attributes['id'] = $this->getInputId();
         }
 
-        return $new;
-    }
-
-    /**
-     * Set the name of the widget.
-     *
-     * @return static
-     */
-    protected function setName(string $value): self
-    {
-        $new = clone $this;
-
-        if (!array_key_exists('name', $new->attributes)) {
-            $new = $new->name($value);
+        if (!array_key_exists('name', $attributes)) {
+            $attributes['name'] = $this->getInputName();
         }
 
-        return $new;
-    }
+        $fieldValidator = new FieldValidator();
 
-    /**
-     * Set value of the field widget.
-     *
-     * @param array|object|string|bool|int|float|null $value
-     *
-     * @return static
-     */
-    protected function setValue($value): self
-    {
-        $new = clone $this;
+        $attributes = $fieldValidator->getValidatorAttributes(
+            $this,
+            $this->getFormModel(),
+            $this->getAttribute(),
+            $attributes,
+        );
 
-        if (!array_key_exists('value', $new->attributes)) {
-            $new = $new->value($value === '' ? null : $value);
-        }
-
-        return $new;
+        return $attributes;
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
 use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
 use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
@@ -15,7 +16,7 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text
  */
-final class Text extends AbstractWidget implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
+final class Text extends InputAttributes implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
 {
     /**
      * Enables submission of a value for the directionality of the element, and gives the name of the field that
@@ -79,24 +80,6 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
     }
 
     /**
-     * A Boolean attribute which, if present, means this field cannot be edited by the user.
-     * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
-     * property.
-     *
-     * @param bool $value
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.readonly
-     */
-    public function readonly(bool $value = true): self
-    {
-        $new = clone $this;
-        $new->attributes['readonly'] = $value;
-        return $new;
-    }
-
-    /**
      * The height of the input with multiple is true.
      *
      * @param int $value
@@ -117,17 +100,21 @@ final class Text extends AbstractWidget implements HasLengthInterface, MatchRegu
      */
     protected function run(): string
     {
-        $new = clone $this;
-
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
-        $value = $new->getAttributeValue();
+        $value = $this->getAttributeValue();
 
         if (null !== $value && !is_string($value)) {
             throw new InvalidArgumentException('Text widget must be a string or null value.');
         }
 
-        $new = $new->build($value);
+        $attributes = $this->attributes;
 
-        return Input::tag()->type('text')->attributes($new->attributes)->render();
+        if (!array_key_exists('value', $attributes)) {
+            $attributes['value'] = $value === '' ? null : $value;
+        }
+
+        $attributes = $this->build($attributes);
+
+        return Input::tag()->type('text')->attributes($attributes)->render();
     }
 }

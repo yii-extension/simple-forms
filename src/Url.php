@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
 use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
 use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
-use Yii\Extension\Simple\Forms\Validator\FieldValidator;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -17,7 +17,7 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html
  */
-final class Url extends AbstractWidget implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
+final class Url extends InputAttributes implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
 {
     /**
      * @return static
@@ -80,17 +80,21 @@ final class Url extends AbstractWidget implements HasLengthInterface, MatchRegul
      */
     protected function run(): string
     {
-        $new = clone $this;
-
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.value */
-        $value = $new->getAttributeValue();
+        $value = $this->getAttributeValue();
 
         if (null !== $value && !is_string($value)) {
             throw new InvalidArgumentException('Url widget must be a string or null value.');
         }
 
-        $new = $new->build($value);
+        $attributes = $this->attributes;
 
-        return Input::tag()->type('url')->attributes($new->attributes)->render();
+        if (!array_key_exists('value', $attributes)) {
+            $attributes['value'] = $value === '' ? null : $value;
+        }
+
+        $attributes = $this->build($attributes);
+
+        return Input::tag()->type('url')->attributes($attributes)->render();
     }
 }

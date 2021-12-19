@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
 use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
 use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
 use Yii\Extension\Simple\Forms\Validator\FieldValidator;
@@ -15,7 +16,7 @@ use Yiisoft\Html\Tag\Textarea as TextAreaTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html
  */
-final class TextArea extends AbstractWidget implements HasLengthInterface, PlaceholderInterface
+final class TextArea extends InputAttributes implements HasLengthInterface, PlaceholderInterface
 {
     /**
      * The expected maximum number of characters per line of text for the UA to show.
@@ -85,24 +86,6 @@ final class TextArea extends AbstractWidget implements HasLengthInterface, Place
     }
 
     /**
-     * A Boolean attribute which, if present, means this field cannot be edited by the user.
-     * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
-     * property.
-     *
-     * @param bool $value
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.readonly
-     */
-    public function readonly(bool $value = true): self
-    {
-        $new = clone $this;
-        $new->attributes['readonly'] = $value;
-        return $new;
-    }
-
-    /**
      * The number of lines of text for the UA to show.
      *
      * @param int $value
@@ -145,22 +128,23 @@ final class TextArea extends AbstractWidget implements HasLengthInterface, Place
      */
     protected function run(): string
     {
-        $new = clone $this;
-
         /** @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value */
-        $value = $new->attributes['value'] ?? $new->getAttributeValue();
-        unset($new->attributes['value']);
+        $value = $this->getAttributeValue();
+
+        $attributes = $this->attributes;
+
+        if (array_key_exists('value', $attributes)) {
+            /** @var array|object|string|bool|int|float|null */
+            $value = $attributes['value'];
+            unset($attributes['value']);
+        }
 
         if (!is_string($value) && null !== $value) {
             throw new InvalidArgumentException('TextArea widget must be a string or null value.');
         }
 
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
+        $attributes = $this->build($attributes);
 
-        $fieldValidator = new FieldValidator();
-        $new = $fieldValidator->getValidatorAttributes($new);
-
-        return TextAreaTag::tag()->attributes($new->attributes)->content($value ?? '')->render();
+        return TextAreaTag::tag()->attributes($attributes)->content((string)$value)->render();
     }
 }

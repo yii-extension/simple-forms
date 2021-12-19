@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Simple\Forms;
 
-use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
-use Yiisoft\Html\Html;
+use Yii\Extension\Simple\Forms\Attribute\ButtonAttributes;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -13,17 +12,16 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.reset.html#input.reset
  */
-final class ResetButton extends GlobalAttributes
+final class ResetButton extends ButtonAttributes
 {
     /**
      * @return string the generated input tag.
      */
     protected function run(): string
     {
-        $new = clone $this;
-        $id = Html::generateId('w') . '-reset';
-        $new = $new->setId($id);
-        $new = $new->setName($id);
-        return Input::tag()->type('reset')->attributes($new->attributes)->render();
+        $attributes = $this->attributes;
+        $attributes = $this->build($attributes, '-reset');
+
+        return Input::tag()->type('reset')->attributes($attributes)->render();
     }
 }

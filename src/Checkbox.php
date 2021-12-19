@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Stringable;
+use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
 use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
 
 /**
@@ -15,7 +16,7 @@ use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox
  */
-final class Checkbox extends AbstractWidget
+final class Checkbox extends ChoiceAttributes
 {
     private bool $checked = false;
     private bool $enclosedByLabel = true;
@@ -109,36 +110,37 @@ final class Checkbox extends AbstractWidget
      */
     protected function run(): string
     {
-        $new = clone $this;
-        $checkbox = CheckboxTag::tag();
-
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox.attrs.value */
-        $value = $new->getAttributeValue();
+        $value = $this->getAttributeValue();
 
         if (is_iterable($value) || is_object($value)) {
             throw new InvalidArgumentException('Checkbox widget value can not be an iterable or an object.');
         }
 
-        /** @var scalar|Stringable|null */
-        $valueDefault = array_key_exists('value', $new->attributes) ? $new->attributes['value'] : null;
+        $attributes = $this->attributes;
+        $attributes = $this->build($attributes);
 
-        if ($new->enclosedByLabel === true) {
-            $new->label = empty($new->label) ? $new->getAttributeLabel() : $new->label;
-            $checkbox = $checkbox->label($new->label, $new->labelAttributes);
+        /** @var scalar|Stringable|null */
+        $valueDefault = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+
+        $checkbox = CheckboxTag::tag();
+
+        if ($this->enclosedByLabel === true) {
+            $checkbox = $checkbox->label(
+                empty($this->label) ? $this->getAttributeLabel() : $this->label,
+                $this->labelAttributes,
+            );
         }
 
         if (empty($value)) {
-            $checkbox = $checkbox->checked($new->checked);
+            $checkbox = $checkbox->checked($this->checked);
         } else {
             $checkbox = $checkbox->checked("$value" === "$valueDefault");
         }
 
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
-
         return $checkbox
-            ->attributes($new->attributes)
-            ->uncheckValue($new->uncheckValue)
+            ->attributes($attributes)
+            ->uncheckValue($this->uncheckValue)
             ->value(is_bool($valueDefault) ? (int) $valueDefault : $valueDefault)
             ->render();
     }

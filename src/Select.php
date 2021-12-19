@@ -6,6 +6,7 @@ namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
 use Stringable;
+use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select as SelectTag;
@@ -17,7 +18,7 @@ use Yiisoft\Html\Tag\Select as SelectTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/select.html
  */
-final class Select extends AbstractWidget
+final class Select extends ChoiceAttributes
 {
     private array $items = [];
     private array $itemsAttributes = [];
@@ -250,15 +251,13 @@ final class Select extends AbstractWidget
      */
     protected function run(): string
     {
-        $new = clone $this;
-
         /**
          * @psalm-var iterable<int, Stringable|scalar>|scalar|null $value
          *
          * @link https://www.w3.org/TR/2011/WD-html5-20110525/association-of-controls-and-forms.html#concept-fe-value
          */
-        $value = $new->attributes['value'] ?? $new->getAttributeValue();
-        unset($new->attributes['value']);
+        $value = $this->attributes['value'] ?? $this->getAttributeValue();
+        unset($this->attributes['value']);
 
         if (is_object($value)) {
             throw new InvalidArgumentException('Select widget value can not be an object.');
@@ -266,22 +265,25 @@ final class Select extends AbstractWidget
 
         $select = SelectTag::tag();
 
-        if (array_key_exists('multiple', $new->attributes) && !array_key_exists('size', $new->attributes)) {
-            $new->attributes['size'] = 4;
+        $attributes = $this->attributes;
+        $attributes = $this->build($attributes);
+
+        if (array_key_exists('multiple', $attributes) && !array_key_exists('size', $attributes)) {
+            $attributes['size'] = 4;
         }
 
-        if ($new->prompt !== '') {
-            $select = $select->prompt($new->prompt);
+        if ($this->prompt !== '') {
+            $select = $select->prompt($this->prompt);
         }
 
-        if ($new->promptTag !== null) {
-            $select = $select->promptOption($new->promptTag);
+        if ($this->promptTag !== null) {
+            $select = $select->promptOption($this->promptTag);
         }
 
-        if ($new->items !== []) {
-            $select = $select->items(...$new->renderItems($new->items));
-        } elseif ($new->optionsData !== []) {
-            $select = $select->optionsData($new->optionsData, $new->encode);
+        if ($this->items !== []) {
+            $select = $select->items(...$this->renderItems($this->items));
+        } elseif ($this->optionsData !== []) {
+            $select = $select->optionsData($this->optionsData, $this->encode);
         }
 
         if (is_iterable($value)) {
@@ -290,12 +292,6 @@ final class Select extends AbstractWidget
             $select = $select->value($value);
         }
 
-        $new = $new->setId($new->getInputId());
-        $new = $new->setName($new->getInputName());
-
-        return $select
-            ->attributes($new->attributes)
-            ->unselectValue($new->unselectValue)
-            ->render();
+        return $select->attributes($attributes)->unselectValue($this->unselectValue)->render();
     }
 }

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms;
 
 use Stringable;
+use Yii\Extension\Simple\Forms\Attribute\ButtonAttributes;
 use Yii\Extension\Simple\Forms\Attribute\FieldAttributes;
-use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
+use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
+use Yii\Extension\Simple\Forms\Attribute\WidgetAttributes;
 use Yii\Extension\Simple\Forms\Field\Error;
 use Yii\Extension\Simple\Forms\Field\Hint;
 use Yii\Extension\Simple\Forms\Field\Label;
@@ -28,11 +30,11 @@ use function strtr;
  */
 final class Field extends FieldAttributes
 {
-    /** @psalm-var GlobalAttributes[] */
+    /** @psalm-var ButtonAttributes[] */
     private array $buttons = [];
     private array $parts = [];
     private string $template = "{label}\n{input}\n{hint}\n{error}";
-    private AbstractWidget $widget;
+    private WidgetAttributes $widget;
 
     /**
      * Set after input html.
@@ -320,13 +322,8 @@ final class Field extends FieldAttributes
         $new = clone $this;
 
         // Set ariadescribedby.
-        if ($new->ariaDescribedBy === true) {
+        if ($new->ariaDescribedBy === true && $new->widget instanceof InputAttributes) {
             $new->widget = $new->widget->ariaDescribedBy($new->widget->getAttribute() . 'Help');
-        }
-
-        // Set arialabel.
-        if ($new->ariaLabel !== '') {
-            $new->widget = $new->widget->ariaLabel($new->ariaLabel);
         }
 
         // Set encode.
@@ -346,7 +343,6 @@ final class Field extends FieldAttributes
         $new->placeHolder ??= $new->widget->getAttributePlaceHolder();
 
         if (!empty($new->placeHolder) && $new->widget instanceof PlaceholderInterface) {
-            /** @var AbstractWidget */
             $new->widget = $new->widget->placeHolder($new->placeHolder);
         }
 
@@ -418,7 +414,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $hint = Hint::widget()->attributes($new->hintAttributes)->encode($new->encode)->tag($new->hintTag);
 
-        if ($new->ariaDescribedBy === true) {
+        if ($new->ariaDescribedBy === true && $new->widget instanceof InputAttributes) {
             $hint = $hint->id($new->widget->getAriaDescribedBy());
         }
 
