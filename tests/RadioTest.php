@@ -252,6 +252,7 @@ final class RadioTest extends TestCase
 
         // Value `null`.
         $formModel->setAttribute('int', 'null');
+
         $this->assertSame(
             '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>',
             Radio::widget()->for($formModel, 'int')->value(1)->render(),

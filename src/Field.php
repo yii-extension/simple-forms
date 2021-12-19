@@ -59,11 +59,46 @@ final class Field extends FieldAttributes
     }
 
     /**
+     * Renders a checkbox.
+     *
+     * This method will generate the `checked` tag attribute according to the model attribute value.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget.
+     * Available methods:
+     * [
+     *     'enclosedByLabel()' => [false],
+     *     'label()' => ['test-text-label']],
+     *     'labelAttributes()' => [['class' => 'test-class']],
+     *     'uncheckValue()' => ['0'],
+     * ]
+     *
+     * @return static the field widget instance.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotInstantiableException|NotFoundException
+     */
+    public function checkbox(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+
+        /** @var array */
+        $enclosedByLabel = $config['enclosedByLabel()'] ?? [true];
+
+        if ($enclosedByLabel !== [false]) {
+            $new->parts['{label}'] = '';
+        }
+
+        $new->widget = Checkbox::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
      * Renders a password widget.
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      *
      * @return static the field object itself.
      *
@@ -81,7 +116,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      * Available methods:
      * [
      *     'enclosedByLabel()' => [false],
@@ -112,7 +147,7 @@ final class Field extends FieldAttributes
     /**
      * Renders a reset button widget.
      *
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      *
      * @return static The field object itself.
      *
@@ -157,7 +192,7 @@ final class Field extends FieldAttributes
     /**
      * Renders a submit button widget.
      *
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      *
      * @return static The field object itself.
      *
@@ -175,7 +210,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      *
      * @return static The field widget instance.
      *
@@ -195,7 +230,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      *
      * @return static the field object itself.
      *
@@ -227,7 +262,7 @@ final class Field extends FieldAttributes
      *
      * @param FormModelInterface $formModel The model object.
      * @param string $attribute The attribute name or expression.
-     * @param array $config The config array definition for the factory widget
+     * @param array $config The config array definition for the factory widget.
      *
      * @return static The field widget instance.
      *
@@ -303,7 +338,7 @@ final class Field extends FieldAttributes
         }
 
         // Set label settings for the radio and checkbox fields.
-        if ($new->widget instanceof Radio) {
+        if ($new->widget instanceof Radio || $new->widget instanceof Checkbox) {
             $new->widget = $new->widget->label($new->label)->labelAttributes($new->labelAttributes);
         }
 

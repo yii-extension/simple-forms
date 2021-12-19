@@ -313,7 +313,7 @@ final class FieldRadioTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'bool', ['checked()' => []])->value(true)->render(),
+            Field::widget()->radio(new TypeForm(), 'bool', ['checked()' => [true]])->value(true)->render(),
         );
 
         // Value int `0`.
@@ -335,7 +335,7 @@ final class FieldRadioTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'int', ['checked()' => []])->value(1)->render(),
+            Field::widget()->radio(new TypeForm(), 'int', ['checked()' => [true]])->value(1)->render(),
         );
 
         // Value string `inactive`.
@@ -357,7 +357,7 @@ final class FieldRadioTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'string', ['checked()' => []])->value('active')->render(),
+            Field::widget()->radio(new TypeForm(), 'string', ['checked()' => [true]])->value('active')->render(),
         );
 
         // Value `null`.
