@@ -33,7 +33,7 @@ final class CheckboxListTest extends TestCase
         <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
         </div>
         HTML;
-        $this->assertSame(
+        $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()->autofocus()->for(new TypeForm(), 'array')->items($this->sex)->render(),
         );
@@ -50,7 +50,7 @@ final class CheckboxListTest extends TestCase
         <label><input type="checkbox" name="TypeForm[array][]" value="2" disabled> Male</label>
         </div>
         HTML;
-        $this->assertSame(
+        $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()->disabled()->for(new TypeForm(), 'array')->items($this->sex)->render(),
         );
@@ -128,7 +128,7 @@ final class CheckboxListTest extends TestCase
         <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
         </div>
         HTML;
-        $this->assertSame(
+        $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()->for(new TypeForm(), 'array')->id('id-test')->items($this->sex)->render(),
         );
@@ -263,7 +263,7 @@ final class CheckboxListTest extends TestCase
         <label><input type="checkbox" name="name-test[]" value="2"> Male</label>
         </div>
         HTML;
-        $this->assertSame(
+        $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()->for(new TypeForm(), 'array')->name('name-test')->items($this->sex)->render(),
         );
