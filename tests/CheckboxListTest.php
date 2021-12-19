@@ -25,6 +25,40 @@ final class CheckboxListTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
+    public function testAutofocus(): void
+    {
+        $expected = <<<HTML
+        <div id="typeform-array" autofocus>
+        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        </div>
+        HTML;
+        $this->assertSame(
+            $expected,
+            CheckboxList::widget()->autofocus()->for(new TypeForm(), 'array')->items($this->sex)->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testDisabled(): void
+    {
+        $expected = <<<HTML
+        <div id="typeform-array">
+        <label><input type="checkbox" name="TypeForm[array][]" value="1" disabled> Female</label>
+        <label><input type="checkbox" name="TypeForm[array][]" value="2" disabled> Male</label>
+        </div>
+        HTML;
+        $this->assertSame(
+            $expected,
+            CheckboxList::widget()->disabled()->for(new TypeForm(), 'array')->items($this->sex)->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testContainerAttributes(): void
     {
         $expected = <<<HTML
@@ -80,6 +114,23 @@ final class CheckboxListTest extends TestCase
                 ->containerTag(null)
                 ->items($this->sex)
                 ->render()
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testId(): void
+    {
+        $expected = <<<HTML
+        <div id="id-test">
+        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        </div>
+        HTML;
+        $this->assertSame(
+            $expected,
+            CheckboxList::widget()->for(new TypeForm(), 'array')->id('id-test')->items($this->sex)->render(),
         );
     }
 
@@ -204,6 +255,23 @@ final class CheckboxListTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
+    public function testName(): void
+    {
+        $expected = <<<HTML
+        <div id="typeform-array">
+        <label><input type="checkbox" name="name-test[]" value="1"> Female</label>
+        <label><input type="checkbox" name="name-test[]" value="2"> Male</label>
+        </div>
+        HTML;
+        $this->assertSame(
+            $expected,
+            CheckboxList::widget()->for(new TypeForm(), 'array')->name('name-test')->items($this->sex)->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testRender(): void
     {
         $expected = <<<HTML
@@ -252,6 +320,9 @@ final class CheckboxListTest extends TestCase
         );
     }
 
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValue(): void
     {
         // Value iterable `[2]`.
@@ -279,7 +350,9 @@ final class CheckboxListTest extends TestCase
         );
     }
 
-
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testValueException(): void
     {
         $formModel = new TypeForm();

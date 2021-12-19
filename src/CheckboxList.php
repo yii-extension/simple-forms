@@ -34,6 +34,21 @@ final class CheckboxList extends ChoiceAttributes
     private string $separator = "\n";
 
     /**
+     * Focus on the control (put cursor into it) when the page loads.
+     * Only one form element could be in focus at the same time.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute
+     */
+    public function autofocus(): self
+    {
+        $new = clone $this;
+        $new->containerAttributes['autofocus'] = true;
+        return $new;
+    }
+
+    /**
      * The container attributes for generating the list of checkboxes tag using {@see CheckBoxList}.
      *
      * @param array $attributes
