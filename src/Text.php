@@ -100,21 +100,16 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     protected function run(): string
     {
+        $attributes = $this->build($this->attributes);
+
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
-        $value = $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getAttributeValue();
+        unset($attributes['value']);
 
         if (null !== $value && !is_string($value)) {
             throw new InvalidArgumentException('Text widget must be a string or null value.');
         }
 
-        $attributes = $this->attributes;
-
-        if (!array_key_exists('value', $attributes)) {
-            $attributes['value'] = $value === '' ? null : $value;
-        }
-
-        $attributes = $this->build($attributes);
-
-        return Input::tag()->type('text')->attributes($attributes)->render();
+        return Input::tag()->type('text')->attributes($attributes)->value($value === '' ? null : $value)->render();
     }
 }

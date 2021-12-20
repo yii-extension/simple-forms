@@ -80,21 +80,16 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     protected function run(): string
     {
+        $attributes = $this->build($this->attributes);
+
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.value */
-        $value = $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getAttributeValue();
+        unset($attributes['value']);
 
         if (null !== $value && !is_string($value)) {
             throw new InvalidArgumentException('Url widget must be a string or null value.');
         }
 
-        $attributes = $this->attributes;
-
-        if (!array_key_exists('value', $attributes)) {
-            $attributes['value'] = $value === '' ? null : $value;
-        }
-
-        $attributes = $this->build($attributes);
-
-        return Input::tag()->type('url')->attributes($attributes)->render();
+        return Input::tag()->type('url')->attributes($attributes)->value($value === '' ? null : $value)->render();
     }
 }

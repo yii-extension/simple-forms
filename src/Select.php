@@ -251,22 +251,21 @@ final class Select extends ChoiceAttributes
      */
     protected function run(): string
     {
+        $attributes = $this->build($this->attributes);
+
         /**
          * @psalm-var iterable<int, Stringable|scalar>|scalar|null $value
          *
          * @link https://www.w3.org/TR/2011/WD-html5-20110525/association-of-controls-and-forms.html#concept-fe-value
          */
-        $value = $this->attributes['value'] ?? $this->getAttributeValue();
-        unset($this->attributes['value']);
+        $value = $attributes['value'] ?? $this->getAttributeValue();
+        unset($attributes['value']);
 
         if (is_object($value)) {
             throw new InvalidArgumentException('Select widget value can not be an object.');
         }
 
         $select = SelectTag::tag();
-
-        $attributes = $this->attributes;
-        $attributes = $this->build($attributes);
 
         if (array_key_exists('multiple', $attributes) && !array_key_exists('size', $attributes)) {
             $attributes['size'] = 4;

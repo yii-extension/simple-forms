@@ -242,12 +242,16 @@ final class RadioList extends ChoiceAttributes
      */
     protected function run(): string
     {
+        /** @psalm-var array[] */
+        [$attributes, $containerAttributes] = $this->buildList($this->attributes, $this->containerAttributes);
+
         /**
          * @var iterable<int, scalar|Stringable>|scalar|Stringable|null
          *
          * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
          */
-        $value = $this->attributes['value'] ?? $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getAttributeValue();
+        unset($attributes['value']);
 
         if (is_iterable($value) || is_object($value)) {
             throw new InvalidArgumentException('RadioList widget value can not be an iterable or an object.');
@@ -256,12 +260,9 @@ final class RadioList extends ChoiceAttributes
         $name = $this->getInputName();
 
         /** @var string */
-        if (!empty($this->attributes['name']) && is_string($this->attributes['name'])) {
-            $name = $this->attributes['name'];
+        if (!empty($attributes['name']) && is_string($attributes['name'])) {
+            $name = $attributes['name'];
         }
-
-        /** @psalm-var array[] */
-        [$attributes, $containerAttributes] = $this->buildList($this->attributes, $this->containerAttributes);
 
         $radioList = RadioListTag::create($name);
 

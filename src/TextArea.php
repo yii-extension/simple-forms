@@ -128,22 +128,15 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     protected function run(): string
     {
+        $attributes = $this->build($this->attributes);
+
         /** @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value */
-        $value = $this->getAttributeValue();
-
-        $attributes = $this->attributes;
-
-        if (array_key_exists('value', $attributes)) {
-            /** @var array|object|string|bool|int|float|null */
-            $value = $attributes['value'];
-            unset($attributes['value']);
-        }
+        $value = $attributes['value'] ?? $this->getAttributeValue();
+        unset($attributes['value']);
 
         if (!is_string($value) && null !== $value) {
             throw new InvalidArgumentException('TextArea widget must be a string or null value.');
         }
-
-        $attributes = $this->build($attributes);
 
         return TextAreaTag::tag()->attributes($attributes)->content((string)$value)->render();
     }

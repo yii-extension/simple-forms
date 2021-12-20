@@ -100,21 +100,16 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     protected function run(): string
     {
+        $attributes = $this->build($this->attributes);
+
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
-        $value = $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getAttributeValue();
+        unset($attributes['value']);
 
         if (null !== $value && !is_string($value)) {
             throw new InvalidArgumentException('Password widget must be a string or null value.');
         }
 
-        $attributes = $this->attributes;
-
-        if (!array_key_exists('value', $attributes)) {
-            $attributes['value'] = $value === '' ? null : $value;
-        }
-
-        $attributes = $this->build($attributes);
-
-        return Input::tag()->type('password')->attributes($attributes)->render();
+        return Input::tag()->type('password')->attributes($attributes)->value($value === '' ? null : $value)->render();
     }
 }
