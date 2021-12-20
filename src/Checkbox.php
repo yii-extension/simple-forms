@@ -113,15 +113,15 @@ final class Checkbox extends ChoiceAttributes
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox.attrs.value */
         $value = $this->getAttributeValue();
 
-        if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('Checkbox widget value can not be an iterable or an object.');
-        }
-
         $attributes = $this->attributes;
         $attributes = $this->build($attributes);
 
-        /** @var scalar|Stringable|null */
+        /** @var iterable<int, scalar|Stringable>|scalar|Stringable|null */
         $valueDefault = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+
+        if (is_iterable($value) || is_object($value) || is_iterable($valueDefault) || is_object($valueDefault)) {
+            throw new InvalidArgumentException('Checkbox widget value can not be an iterable or an object.');
+        }
 
         $checkbox = CheckboxTag::tag();
 

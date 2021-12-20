@@ -52,7 +52,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testAutofocus(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]" autofocus>
@@ -74,7 +74,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testDisabled(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]" disabled>
@@ -96,7 +96,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testGroups(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -127,7 +127,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testGroupsItemsAttributes(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -166,7 +166,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testId(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="id-test">Int</label>
         <select id="id-test" name="TypeForm[int]">
@@ -188,7 +188,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testMultiple(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-array">Array</label>
         <input type="hidden" name="TypeForm[array]" value="0">
@@ -217,7 +217,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testName(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="name-test">
@@ -246,7 +246,7 @@ final class FieldSelectTest extends TestCase
             '4' => 'Ekaterinburgo',
         ];
 
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -268,7 +268,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testPrompt(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -293,7 +293,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testPromptTag(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -325,7 +325,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testRequired(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]" required>
@@ -347,7 +347,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testRender(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -369,7 +369,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testSizeWithMultiple(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <input type="hidden" name="TypeForm[int]" value>
@@ -394,7 +394,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testTabIndex(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]" tabindex="1">
@@ -416,7 +416,7 @@ final class FieldSelectTest extends TestCase
      */
     public function testUnselectValueWithMultiple(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-array">Array</label>
         <input type="hidden" name="TypeForm[array]" value="0">
@@ -446,7 +446,7 @@ final class FieldSelectTest extends TestCase
     public function testValue(): void
     {
         // Value int `1`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -463,7 +463,7 @@ final class FieldSelectTest extends TestCase
         );
 
         // Value int `2`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -480,7 +480,7 @@ final class FieldSelectTest extends TestCase
         );
 
         // Value iterable `[2, 3]`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-array">Array</label>
         <select id="typeform-array" name="TypeForm[array]">
@@ -497,7 +497,7 @@ final class FieldSelectTest extends TestCase
         );
 
         // Value string `1`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <select id="typeform-string" name="TypeForm[string]">
@@ -514,7 +514,7 @@ final class FieldSelectTest extends TestCase
         );
 
         // Value string `2`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <select id="typeform-string" name="TypeForm[string]">
@@ -531,7 +531,7 @@ final class FieldSelectTest extends TestCase
         );
 
         // Value `null`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -569,7 +569,7 @@ final class FieldSelectTest extends TestCase
 
         // Value int `1`.
         $formModel->setAttribute('int', 1);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -587,7 +587,7 @@ final class FieldSelectTest extends TestCase
 
         // Value int `2`.
         $formModel->setAttribute('int', 2);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">
@@ -605,7 +605,7 @@ final class FieldSelectTest extends TestCase
 
         // Value iterable `[2, 3]`.
         $formModel->setAttribute('array', [2, 3]);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-array">Array</label>
         <select id="typeform-array" name="TypeForm[array]">
@@ -623,7 +623,7 @@ final class FieldSelectTest extends TestCase
 
         // Value string `1`.
         $formModel->setAttribute('string', '1');
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <select id="typeform-string" name="TypeForm[string]">
@@ -641,7 +641,7 @@ final class FieldSelectTest extends TestCase
 
         // value string '2'
         $formModel->setAttribute('string', '2');
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <select id="typeform-string" name="TypeForm[string]">
@@ -659,7 +659,7 @@ final class FieldSelectTest extends TestCase
 
         // value null
         $formModel->setAttribute('int', null);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-int">Int</label>
         <select id="typeform-int" name="TypeForm[int]">

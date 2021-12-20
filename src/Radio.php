@@ -110,15 +110,15 @@ final class Radio extends ChoiceAttributes
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html#input.radio.attrs.value */
         $value = $this->getAttributeValue();
 
-        if (is_iterable($value) || is_object($value)) {
-            throw new InvalidArgumentException('Radio widget value can not be an iterable or an object.');
-        }
-
         $attributes = $this->attributes;
         $attributes = $this->build($attributes);
 
-        /** @var scalar|Stringable|null */
+        /** @var iterable<int, scalar|Stringable>|scalar|Stringable|null */
         $valueDefault = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+
+        if (is_iterable($value) || is_object($value) || is_iterable($valueDefault) || is_object($valueDefault)) {
+            throw new InvalidArgumentException('Radio widget value can not be an iterable or an object.');
+        }
 
         $radio = RadioTag::tag();
 

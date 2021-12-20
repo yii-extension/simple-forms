@@ -73,7 +73,7 @@ final class RadioTest extends TestCase
      */
     public function testLabelWithLabelAttributes(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <label class="test-class"><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Label:</label>
         HTML;
         $this->assertSame(
@@ -136,7 +136,7 @@ final class RadioTest extends TestCase
      */
     public function testUncheckValue(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>
         HTML;
         $this->assertSame(
@@ -181,7 +181,7 @@ final class RadioTest extends TestCase
         );
 
         // Value string `active`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
         HTML;
         $this->assertSame(
@@ -245,7 +245,7 @@ final class RadioTest extends TestCase
             Radio::widget()->for($formModel, 'string')->value('inactive')->render()
         );
 
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
         HTML;
         $this->assertSame($expected, Radio::widget()->for($formModel, 'string')->value('active')->render());

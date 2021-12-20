@@ -41,7 +41,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testCols(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" cols="20"></textarea>
@@ -58,7 +58,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testDirname(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" dirname="test.dir"></textarea>
@@ -147,7 +147,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testMaxLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" maxlength="100"></textarea>
@@ -164,7 +164,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testMinLength(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" minlength="20"></textarea>
@@ -198,7 +198,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testPlaceholder(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text"></textarea>
@@ -249,7 +249,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testRender(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]"></textarea>
@@ -301,7 +301,7 @@ final class FieldTextAreaTest extends TestCase
     public function testValue(): void
     {
         // Value `null`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]"></textarea>
@@ -313,7 +313,7 @@ final class FieldTextAreaTest extends TestCase
         );
 
         // Value string `hello`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]">hello</textarea>
@@ -344,7 +344,7 @@ final class FieldTextAreaTest extends TestCase
 
         // Value `null`.
         $formModel->setAttribute('string', null);
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]"></textarea>
@@ -357,7 +357,7 @@ final class FieldTextAreaTest extends TestCase
 
         // Value string `hello`.
         $formModel->setAttribute('string', 'hello');
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]">hello</textarea>
@@ -375,7 +375,7 @@ final class FieldTextAreaTest extends TestCase
     public function testWrap(): void
     {
         /** hard value */
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" wrap="hard"></textarea>
@@ -387,7 +387,7 @@ final class FieldTextAreaTest extends TestCase
         );
 
         /** soft value */
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <textarea id="typeform-string" name="TypeForm[string]" wrap="soft"></textarea>

@@ -292,29 +292,29 @@ final class Field extends FieldAttributes
      */
     protected function run(): string
     {
-        $new = clone $this;
-        $div = Div::tag();
         $content = '';
 
-        if ($new->containerClass !== '') {
-            $div = $div->class($new->containerClass);
+        $div = Div::tag();
+
+        if ($this->containerClass !== '') {
+            $div = $div->class($this->containerClass);
         }
 
-        if ($new->containerAttributes !== []) {
-            $div = $div->attributes($new->containerAttributes);
+        if ($this->containerAttributes !== []) {
+            $div = $div->attributes($this->containerAttributes);
         }
 
-        if (!empty($new->widget)) {
-            $content .= $new->renderField();
+        if (!empty($this->widget)) {
+            $content .= $this->renderField();
         }
 
-        $renderButtons = $new->renderButtons();
+        $renderButtons = $this->renderButtons();
 
         if ($renderButtons !== '') {
             $content .= $renderButtons;
         }
 
-        return $new->container ? $content : $div->content(PHP_EOL . $content . PHP_EOL)->encode(false)->render();
+        return $this->container ? $content : $div->content(PHP_EOL . $content . PHP_EOL)->encode(false)->render();
     }
 
     private function buildField(): self
@@ -358,12 +358,11 @@ final class Field extends FieldAttributes
 
     private function renderButtons(): string
     {
-        $new = clone $this;
         $buttons = '';
 
-        foreach ($new->buttons as $key => $button) {
+        foreach ($this->buttons as $key => $button) {
             /** @var array */
-            $buttonsAttributes = $new->buttonsIndividualAttributes[$key] ?? $new->attributes;
+            $buttonsAttributes = $this->buttonsIndividualAttributes[$key] ?? $this->attributes;
             $buttons .= $button->attributes($buttonsAttributes)->render();
         }
 
@@ -375,17 +374,18 @@ final class Field extends FieldAttributes
      */
     private function renderError(): string
     {
-        $new = clone $this;
 
-        if ($new->error === '') {
-            $new->error = $new->widget->getFirstError();
+        $firstError = $this->error;
+
+        if ($firstError === '') {
+            $firstError = $this->widget->getFirstError();
         }
 
         return Error::widget()
-            ->attributes($new->errorAttributes)
-            ->encode($new->encode)
-            ->message($new->error)
-            ->tag($new->errorTag)
+            ->attributes($this->errorAttributes)
+            ->encode($this->encode)
+            ->message($firstError)
+            ->tag($this->errorTag)
             ->render();
     }
 
@@ -411,18 +411,19 @@ final class Field extends FieldAttributes
      */
     private function renderHint(): string
     {
-        $new = clone $this;
-        $hint = Hint::widget()->attributes($new->hintAttributes)->encode($new->encode)->tag($new->hintTag);
+        $hint = Hint::widget()->attributes($this->hintAttributes)->encode($this->encode)->tag($this->hintTag);
 
-        if ($new->ariaDescribedBy === true && $new->widget instanceof InputAttributes) {
-            $hint = $hint->id($new->widget->getAriaDescribedBy());
+        if ($this->ariaDescribedBy === true && $this->widget instanceof InputAttributes) {
+            $hint = $hint->id($this->widget->getAriaDescribedBy());
         }
 
-        if ($new->hint === '') {
-            $new->hint = $new->widget->getAttributeHint();
+        $attributeHint = $this->hint;
+
+        if ($attributeHint === '') {
+            $attributeHint = $this->widget->getAttributeHint();
         }
 
-        return $hint->hint($new->hint === '' ? null : $new->hint)->render();
+        return $hint->hint($attributeHint === '' ? null : $attributeHint)->render();
     }
 
     /**
@@ -430,21 +431,21 @@ final class Field extends FieldAttributes
      */
     private function renderLabel(): string
     {
-        $new = clone $this;
+        $label = Label::widget()->attributes($this->labelAttributes)->encode($this->encode);
 
-        $label = Label::widget()->attributes($new->labelAttributes)->encode($new->encode);
+        $attributeLabel = $this->label;
 
-        if ($new->label === '') {
-            $new->label = $new->widget->getAttributeLabel();
+        if ($attributeLabel === '') {
+            $attributeLabel = $this->widget->getAttributeLabel();
         }
 
-        if (!array_key_exists('for', $new->labelAttributes)) {
+        if (!array_key_exists('for', $this->labelAttributes)) {
             /** @var string */
-            $for = ArrayHelper::getValue($new->attributes, 'id', $new->widget->getInputId());
+            $for = ArrayHelper::getValue($this->attributes, 'id', $this->widget->getInputId());
             $label = $label->forId($for);
         }
 
-        return $label->label($new->label)->render();
+        return $label->label($attributeLabel)->render();
     }
 
     private function setGlobalAttributesField(): self

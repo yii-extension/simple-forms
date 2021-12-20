@@ -227,50 +227,50 @@ final class CheckboxList extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $new = clone $this;
-
         /**
          *  @var iterable<int, scalar|Stringable>|scalar|Stringable|null
          *
          *  @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
          */
-        $value = $new->attributes['value'] ?? $new->getAttributeValue();
-        unset($new->attributes['value']);
+        $value = $this->attributes['value'] ?? $this->getAttributeValue();
+        unset($this->attributes['value']);
 
         if (!is_iterable($value) && null !== $value) {
             throw new InvalidArgumentException('CheckboxList widget must be a array or null value.');
         }
 
-        $name = $new->getInputName();
+        $name = $this->getInputName();
 
         /** @var string */
-        if (!empty($new->attributes['name']) && is_string($new->attributes['name'])) {
-            $name = $new->attributes['name'];
+        if (!empty($this->attributes['name']) && is_string($this->attributes['name'])) {
+            $name = $this->attributes['name'];
         }
 
         $checkboxList = CheckboxListTag::create($name);
 
-        if (!array_key_exists('id', $new->containerAttributes)) {
-            $new->containerAttributes['id'] = $new->getInputId();
+        $containerAttributes = $this->containerAttributes;
+
+        if (!array_key_exists('id', $containerAttributes)) {
+            $containerAttributes['id'] = $this->getInputId();
         }
 
-        if ($new->items !== []) {
-            $checkboxList = $checkboxList->items($new->items, $new->encode);
-        } elseif ($new->itemsFromValues !== []) {
-            $checkboxList = $checkboxList->itemsFromValues($new->itemsFromValues, $new->encode);
+        if ($this->items !== []) {
+            $checkboxList = $checkboxList->items($this->items, $this->encode);
+        } elseif ($this->itemsFromValues !== []) {
+            $checkboxList = $checkboxList->itemsFromValues($this->itemsFromValues, $this->encode);
         }
 
-        if ($new->itemsAttributes !== []) {
-            $checkboxList = $checkboxList->replaceCheckboxAttributes($new->itemsAttributes);
+        if ($this->itemsAttributes !== []) {
+            $checkboxList = $checkboxList->replaceCheckboxAttributes($this->itemsAttributes);
         }
 
         return $checkboxList
-            ->checkboxAttributes($new->attributes)
-            ->containerAttributes($new->containerAttributes)
-            ->containerTag($new->containerTag)
-            ->individualInputAttributes($new->individualItemsAttributes)
-            ->itemFormatter($new->itemsFormatter)
-            ->separator($new->separator)
+            ->checkboxAttributes($this->attributes)
+            ->containerAttributes($containerAttributes)
+            ->containerTag($this->containerTag)
+            ->individualInputAttributes($this->individualItemsAttributes)
+            ->itemFormatter($this->itemsFormatter)
+            ->separator($this->separator)
             ->values($value ?? [])
             ->render();
     }

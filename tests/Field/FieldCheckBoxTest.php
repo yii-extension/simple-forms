@@ -23,7 +23,7 @@ final class FieldCheckBoxTest extends TestCase
      */
     public function testAnyLabel(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1">
         </div>
@@ -76,7 +76,7 @@ final class FieldCheckBoxTest extends TestCase
     public function testEnclosedByLabel(): void
     {
         // Enclosed by label `false`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-bool">Bool</label>
         <input type="hidden" name="TypeForm[bool]" value="0"><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1">
@@ -88,7 +88,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Enclosed by label `true`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
         </div>
@@ -105,7 +105,7 @@ final class FieldCheckBoxTest extends TestCase
     public function testEnclosedByLabelWithLabelAttributes(): void
     {
         // Enclosed by label `false` with label attributes.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label class="test-class" for="typeform-bool">Bool</label>
         <input type="hidden" name="TypeForm[bool]" value="0"><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1">
@@ -121,7 +121,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Enclosed by label `true` with label attributes.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label class="test-class"><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
         </div>
@@ -138,7 +138,7 @@ final class FieldCheckBoxTest extends TestCase
     public function testEnclosedByLabelCustomText(): void
     {
         // Enclosed by label `false` with custom text.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <label for="typeform-bool">test-text-label</label>
         <input type="hidden" name="TypeForm[bool]" value="0"><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1">
@@ -154,7 +154,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Enclosed by label `true` with custom text.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1"> test-text-label</label>
         </div>
@@ -240,7 +240,7 @@ final class FieldCheckBoxTest extends TestCase
      */
     public function testRender(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
         </div>
@@ -256,7 +256,7 @@ final class FieldCheckBoxTest extends TestCase
      */
     public function testTabIndex(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1" tabindex="1"> Bool</label>
         </div>
@@ -272,7 +272,7 @@ final class FieldCheckBoxTest extends TestCase
      */
     public function testUncheckValue(): void
     {
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
         </div>
@@ -289,7 +289,7 @@ final class FieldCheckBoxTest extends TestCase
     public function testValue(): void
     {
         // Value bool `false`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="0"> Bool</label>
         </div>
@@ -300,7 +300,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value bool `true`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1" checked> Bool</label>
         </div>
@@ -311,7 +311,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value int `0`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="checkbox" id="typeform-int" name="TypeForm[int]" value="0"> Int</label>
         </div>
@@ -322,7 +322,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value int `1`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="checkbox" id="typeform-int" name="TypeForm[int]" value="1" checked> Int</label>
         </div>
@@ -333,7 +333,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value string `inactive`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[string]" value="0"><label><input type="checkbox" id="typeform-string" name="TypeForm[string]" value="inactive"> String</label>
         </div>
@@ -344,7 +344,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value string `active`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[string]" value="0"><label><input type="checkbox" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
         </div>
@@ -355,7 +355,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value `null`.
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="checkbox" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>
         </div>
@@ -386,13 +386,13 @@ final class FieldCheckBoxTest extends TestCase
         // Value bool `true`.
         $formModel->setAttribute('bool', true);
 
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="0"> Bool</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'bool')->value(false)->render());
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="checkbox" id="typeform-bool" name="TypeForm[bool]" value="1" checked> Bool</label>
         </div>
@@ -402,13 +402,13 @@ final class FieldCheckBoxTest extends TestCase
         // Value int `1`.
         $formModel->setAttribute('int', 1);
 
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="checkbox" id="typeform-int" name="TypeForm[int]" value="0"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'int')->value(0)->render());
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="checkbox" id="typeform-int" name="TypeForm[int]" value="1" checked> Int</label>
         </div>
@@ -418,7 +418,7 @@ final class FieldCheckBoxTest extends TestCase
         // Value string `active`.
         $formModel->setAttribute('string', 'active');
 
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[string]" value="0"><label><input type="checkbox" id="typeform-string" name="TypeForm[string]" value="inactive"> String</label>
         </div>
@@ -427,7 +427,7 @@ final class FieldCheckBoxTest extends TestCase
             $expected,
             Field::widget()->checkbox($formModel, 'string')->value('inactive')->render(),
         );
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[string]" value="0"><label><input type="checkbox" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
         </div>
@@ -440,7 +440,7 @@ final class FieldCheckBoxTest extends TestCase
         // Value `null`.
         $formModel->setAttribute('int', 'null');
 
-        $expected = <<<'HTML'
+        $expected = <<<HTML
         <div>
         <input type="hidden" name="TypeForm[int]" value="0"><label><input type="checkbox" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>
         </div>
