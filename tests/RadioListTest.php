@@ -44,25 +44,6 @@ final class RadioListTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testDisabled(): void
-    {
-        $expected = <<<HTML
-        <div id="typeform-string">
-        <label><input type="radio" name="TypeForm[string]" value="1" disabled> Moscu</label>
-        <label><input type="radio" name="TypeForm[string]" value="2" disabled> San Petersburgo</label>
-        <label><input type="radio" name="TypeForm[string]" value="3" disabled> Novosibirsk</label>
-        <label><input type="radio" name="TypeForm[string]" value="4" disabled> Ekaterinburgo</label>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            RadioList::widget()->disabled()->for(new TypeForm(), 'string')->items($this->cities)->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
     public function testContainerAttributes(): void
     {
         $expected = <<<HTML
@@ -122,6 +103,25 @@ final class RadioListTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
+    public function testDisabled(): void
+    {
+        $expected = <<<HTML
+        <div id="typeform-string">
+        <label><input type="radio" name="TypeForm[string]" value="1" disabled> Moscu</label>
+        <label><input type="radio" name="TypeForm[string]" value="2" disabled> San Petersburgo</label>
+        <label><input type="radio" name="TypeForm[string]" value="3" disabled> Novosibirsk</label>
+        <label><input type="radio" name="TypeForm[string]" value="4" disabled> Ekaterinburgo</label>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            RadioList::widget()->disabled()->for(new TypeForm(), 'string')->items($this->cities)->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
     public function testId(): void
     {
         $expected = <<<HTML
@@ -143,6 +143,7 @@ final class RadioListTest extends TestCase
      */
     public function testIndividualItemsAttributes(): void
     {
+        // Set disabled `[1 => ['disabled' => 'true']]`, `[2 => ['class' => 'test-class']]`.
         $expected = <<<HTML
         <div id="typeform-int">
         <label><input type="radio" name="TypeForm[int]" value="1" disabled> Moscu</label>
@@ -446,7 +447,7 @@ final class RadioListTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testValuesWithForm(): void
+    public function testValueWithForm(): void
     {
         $formModel = new TypeForm();
 

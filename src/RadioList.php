@@ -260,11 +260,8 @@ final class RadioList extends ChoiceAttributes
             $name = $this->attributes['name'];
         }
 
-        $containerAttributes = $this->containerAttributes;
-
-        if (!array_key_exists('id', $containerAttributes)) {
-            $containerAttributes['id'] = $this->getInputId();
-        }
+        /** @psalm-var array[] */
+        [$attributes, $containerAttributes] = $this->buildList($this->attributes, $this->containerAttributes);
 
         $radioList = RadioListTag::create($name);
 
@@ -287,7 +284,7 @@ final class RadioList extends ChoiceAttributes
             ->containerTag($this->containerTag)
             ->individualInputAttributes($this->individualItemsAttributes)
             ->itemFormatter($this->itemsFormatter)
-            ->radioAttributes($this->attributes)
+            ->radioAttributes($attributes)
             ->uncheckValue($this->uncheckValue)
             ->value(is_bool($value) ? (int) $value : $value)
             ->render();

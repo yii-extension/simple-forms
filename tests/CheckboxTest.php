@@ -236,7 +236,7 @@ final class CheckboxTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testValuesWithFormModel(): void
+    public function testValueWithFormModel(): void
     {
         $formModel = new TypeForm();
 

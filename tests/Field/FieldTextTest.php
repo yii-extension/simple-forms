@@ -326,18 +326,6 @@ final class FieldTextTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $expected = <<<HTML
-        <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new LoginForm(), 'login')->value(null)->render(),
-        );
-
         // Value string `joe`.
         $expected = <<<HTML
         <div>
@@ -348,6 +336,18 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->text(new LoginForm(), 'login')->value('joe')->render(),
+        );
+
+        // Value `null`.
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="LoginForm[login]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new LoginForm(), 'login')->value(null)->render(),
         );
     }
 
@@ -368,22 +368,22 @@ final class FieldTextTest extends TestCase
     {
         $formModel = new LoginForm();
 
-        // Value `null`.
-        $formModel->setAttribute('login', null);
-        $expected = <<<HTML
-        <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
-
         // Value string `joe`.
         $formModel->setAttribute('login', 'joe');
         $expected = <<<HTML
         <div>
         <label for="loginform-login">Login</label>
         <input type="text" id="loginform-login" name="LoginForm[login]" value="joe">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
+
+        // Value `null`.
+        $formModel->setAttribute('login', null);
+        $expected = <<<HTML
+        <div>
+        <label for="loginform-login">Login</label>
+        <input type="text" id="loginform-login" name="LoginForm[login]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());

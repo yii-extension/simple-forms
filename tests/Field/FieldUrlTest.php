@@ -313,18 +313,6 @@ final class FieldUrlTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->url(new TypeForm(), 'string')->value(null)->render(),
-        );
-
         // Value string `'https://yiiframework.com'`.
         $expected = <<<HTML
         <div>
@@ -335,6 +323,18 @@ final class FieldUrlTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->url(new TypeForm(), 'string')->value('https://yiiframework.com')->render(),
+        );
+
+        // Value `null`.
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->url(new TypeForm(), 'string')->value(null)->render(),
         );
     }
 
@@ -355,22 +355,22 @@ final class FieldUrlTest extends TestCase
     {
         $formModel = new TypeForm();
 
-        // Value `null`.
-        $formModel->setAttribute('string', null);
-        $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="url" id="typeform-string" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
-
         // Value string `'https://yiiframework.com'`.
         $formModel->setAttribute('string', 'https://yiiframework.com');
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
         <input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+
+        // Value `null`.
+        $formModel->setAttribute('string', null);
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="url" id="typeform-string" name="TypeForm[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());

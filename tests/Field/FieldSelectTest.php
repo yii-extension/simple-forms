@@ -554,7 +554,10 @@ final class FieldSelectTest extends TestCase
     public function testValueException(): void
     {
         $formModel = new TypeForm();
+
+        // Value object `stdClass`.
         $formModel->setAttribute('object', new StdClass());
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Select widget value can not be an object.');
         Field::widget()->select($formModel, 'object')->render();
@@ -563,7 +566,7 @@ final class FieldSelectTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testValuesWithFormModel(): void
+    public function testValueWithFormModel(): void
     {
         $formModel = new TypeForm();
 
@@ -639,7 +642,7 @@ final class FieldSelectTest extends TestCase
             Field::widget()->select($formModel, 'string', ['items()' => [$this->cities]])->render(),
         );
 
-        // value string '2'
+        // Value string '2'.
         $formModel->setAttribute('string', '2');
         $expected = <<<HTML
         <div>
@@ -657,7 +660,7 @@ final class FieldSelectTest extends TestCase
             Field::widget()->select($formModel, 'string', ['items()' => [$this->cities]])->render(),
         );
 
-        // value null
+        // Value `null`.
         $formModel->setAttribute('int', null);
         $expected = <<<HTML
         <div>

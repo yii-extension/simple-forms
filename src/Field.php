@@ -96,6 +96,45 @@ final class Field extends FieldAttributes
     }
 
     /**
+     * Renders a list of checkboxes.
+     *
+     * A checkbox list allows multiple selection, As a result, the corresponding submitted value is an array.
+     * The selection of the checkbox list is taken from the value of the model attribute.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget.
+     * Available methods:
+     * [
+     *     'containerAttributes()' => [['class' => 'test-class']],
+     *     'containerTag()' => ['span'],
+     *     'individualItemsAttributes()' => [[1 => ['disabled' => true], 2 => ['class' => 'test-class']],
+     *     'items()' => [[1 => 'Female', 2 => 'Male']],
+     *     'itemsAttributes()' => [['disabled' => true],
+     *     'itemsFormatter()' => [
+     *         static function (CheckboxItem $item) {
+     *             return $item->checked
+     *                 ? "<label><input type='checkbox' name='$item->name' value='$item->value' checked> $item->label</label>"
+     *                 : "<label><input type='checkbox' name='$item->name' value='$item->value'> $item->label</label>";
+     *         },
+     *     ],
+     *     'itemsFromValues()' => [[1 => 'Female', 2 => 'Male']],
+     *     'separator()' => ['&#9866;'],
+     * ]
+     * @param array $attributes the HTML attributes for the widget.
+     *
+     * @return static the field widget instance.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotInstantiableException|NotFoundException
+     */
+    public function checkboxList(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+        $new->widget = CheckboxList::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
      * Renders a password widget.
      *
      * @param FormModelInterface $formModel The model object.
@@ -143,6 +182,43 @@ final class Field extends FieldAttributes
         }
 
         $new->widget = Radio::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
+     * Renders a radio list widget.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget.
+     * Available methods:
+     * [
+     *     'containerAttributes()' => [['class' => 'test-class']],
+     *     'containerTag()' => ['span'],
+     *     'items()' => [[1 => 'Female', 2 => 'Male']],
+     *     'itemsAttributes()' => [['class' => 'test-class']],
+     *     'individualItemsAttributes()' => [[1 => ['disabled' => true], 2 => ['class' => 'test-class']]],
+     *     'itemsFormatter()' => [
+     *         static function (RadioItem $item) {
+     *             return $item->checked
+     *                 ? "<label><input type='checkbox' name='$item->name' value='$item->value' checked> $item->label</label>"
+     *                 : "<label><input type='checkbox' name='$item->name' value='$item->value'> $item->label</label>";
+     *         },
+     *     ],
+     *     'itemsFromValues()' => [[1 => 'Female', 2 => 'Male']],
+     *     'separator()' => [PHP_EOL],
+     *     'uncheckValue()' => ['0'],
+     * ]
+     * @param array $attributes the HTML attributes for the widget.
+     *
+     * @return static the field object itself.
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotInstantiableException|NotFoundException
+     */
+    public function radiolist(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+        $new->widget = RadioList::widget($config)->for($formModel, $attribute);
         return $new;
     }
 

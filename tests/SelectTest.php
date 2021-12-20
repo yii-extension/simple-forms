@@ -500,7 +500,10 @@ final class SelectTest extends TestCase
     public function testValueException(): void
     {
         $formModel = new TypeForm();
+
+        // Value object `stdClass`.
         $formModel->setAttribute('object', new stdClass());
+
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Select widget value can not be an object.');
         Select::widget()->for($formModel, 'object')->render();

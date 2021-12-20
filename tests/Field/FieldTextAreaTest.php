@@ -374,7 +374,7 @@ final class FieldTextAreaTest extends TestCase
      */
     public function testWrap(): void
     {
-        /** hard value */
+        /** value `hard`. */
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>
@@ -386,7 +386,7 @@ final class FieldTextAreaTest extends TestCase
             Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['hard']])->render(),
         );
 
-        /** soft value */
+        /** value `soft`. */
         $expected = <<<HTML
         <div>
         <label for="typeform-string">String</label>

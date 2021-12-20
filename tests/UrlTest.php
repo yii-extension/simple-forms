@@ -239,16 +239,16 @@ final class UrlTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]">',
-            Url::widget()->for(new TypeForm(), 'string')->value(null)->render(),
-        );
-
         // Value string `https://yiiframework.com`
         $this->assertSame(
             '<input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">',
             Url::widget()->for(new TypeForm(), 'string')->value('https://yiiframework.com')->render(),
+        );
+
+        // Value `null`.
+        $this->assertSame(
+            '<input type="url" id="typeform-string" name="TypeForm[string]">',
+            Url::widget()->for(new TypeForm(), 'string')->value(null)->render(),
         );
     }
 
@@ -269,17 +269,17 @@ final class UrlTest extends TestCase
     {
         $formModel = new TypeForm();
 
-        // Value `null`.
-        $formModel->setAttribute('string', null);
-        $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]">',
-            Url::widget()->for($formModel, 'string')->render(),
-        );
-
         // Value string `https://yiiframework.com`.
         $formModel->setAttribute('string', 'https://yiiframework.com');
         $this->assertSame(
             '<input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">',
+            Url::widget()->for($formModel, 'string')->render(),
+        );
+
+        // Value `null`.
+        $formModel->setAttribute('string', null);
+        $this->assertSame(
+            '<input type="url" id="typeform-string" name="TypeForm[string]">',
             Url::widget()->for($formModel, 'string')->render(),
         );
     }

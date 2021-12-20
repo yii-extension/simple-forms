@@ -129,6 +129,7 @@ final class FieldSubmitButtonTest extends TestCase
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
+        // Value string `Save`.
         $expected = <<<HTML
         <div>
         <input type="submit" id="w1-submit" name="w1-submit" value="Save">

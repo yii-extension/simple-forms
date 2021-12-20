@@ -136,7 +136,7 @@ abstract class ChoiceAttributes extends WidgetAttributes
     }
 
     /**
-     * Set build attributes for the widget.
+     * Set build attributes for the ChoiceWidget.
      *
      * @param array $attributes $value
      *
@@ -162,5 +162,40 @@ abstract class ChoiceAttributes extends WidgetAttributes
         );
 
         return $attributes;
+    }
+
+    /**
+     * Set build container attributes for the ChoiceListWidget.
+     *
+     * @param array $attributes $value
+     * @param array $containerAttributes
+     *
+     * @return array
+     */
+    protected function buildList(array $attributes, array $containerAttributes): array
+    {
+        if (array_key_exists('autofocus', $attributes)) {
+            /** @var string */
+            $containerAttributes['autofocus'] = $attributes['autofocus'];
+            unset($attributes['autofocus']);
+        }
+
+        if (array_key_exists('id', $attributes)) {
+            /** @var string */
+            $containerAttributes['id'] = $attributes['id'];
+            unset($attributes['id']);
+        }
+
+        if (!array_key_exists('id', $containerAttributes)) {
+            $containerAttributes['id'] = $this->getInputId();
+        }
+
+        if (array_key_exists('tabindex', $attributes)) {
+            /** @var string */
+            $containerAttributes['tabindex'] = $attributes['tabindex'];
+            unset($attributes['tabindex']);
+        }
+
+        return [$attributes, $containerAttributes];
     }
 }

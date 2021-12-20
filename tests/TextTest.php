@@ -247,16 +247,16 @@ final class TextTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for(new LoginForm(), 'login')->value(null)->render(),
-        );
-
         // Value string `hello`.
         $this->assertSame(
             '<input type="text" id="loginform-login" name="LoginForm[login]" value="hello">',
             Text::widget()->for(new LoginForm(), 'login')->value('hello')->render(),
+        );
+
+        // Value `null`.
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="LoginForm[login]">',
+            Text::widget()->for(new LoginForm(), 'login')->value(null)->render(),
         );
     }
 
@@ -277,17 +277,17 @@ final class TextTest extends TestCase
     {
         $formModel = new LoginForm();
 
-        // Value `null`.
-        $formModel->setAttribute('login', null);
-        $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for($formModel, 'login')->render(),
-        );
-
         // Value string `hello`.
         $formModel->setAttribute('login', 'hello');
         $this->assertSame(
             '<input type="text" id="loginform-login" name="LoginForm[login]" value="hello">',
+            Text::widget()->for($formModel, 'login')->render(),
+        );
+
+        // Value `null`.
+        $formModel->setAttribute('login', null);
+        $this->assertSame(
+            '<input type="text" id="loginform-login" name="LoginForm[login]">',
             Text::widget()->for($formModel, 'login')->render(),
         );
     }

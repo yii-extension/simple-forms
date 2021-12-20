@@ -203,16 +203,16 @@ final class TextAreaTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $this->assertSame(
-            '<textarea id="typeform-string" name="TypeForm[string]"></textarea>',
-            TextArea::widget()->for(new TypeForm(), 'string')->value(null)->render(),
-        );
-
         // Value string `hello`.
         $this->assertSame(
             '<textarea id="typeform-string" name="TypeForm[string]">hello</textarea>',
             TextArea::widget()->for(new TypeForm(), 'string')->value('hello')->render(),
+        );
+
+        // Value `null`.
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]"></textarea>',
+            TextArea::widget()->for(new TypeForm(), 'string')->value(null)->render(),
         );
     }
 
@@ -233,17 +233,17 @@ final class TextAreaTest extends TestCase
     {
         $formModel = new TypeForm();
 
-        // Value `null`.
-        $formModel->setAttribute('string', null);
-        $this->assertSame(
-            '<textarea id="typeform-string" name="TypeForm[string]"></textarea>',
-            TextArea::widget()->for($formModel, 'string')->render(),
-        );
-
         // Value string `hello`.
         $formModel->setAttribute('string', 'hello');
         $this->assertSame(
             '<textarea id="typeform-string" name="TypeForm[string]">hello</textarea>',
+            TextArea::widget()->for($formModel, 'string')->render(),
+        );
+
+        // Value `null`.
+        $formModel->setAttribute('string', null);
+        $this->assertSame(
+            '<textarea id="typeform-string" name="TypeForm[string]"></textarea>',
             TextArea::widget()->for($formModel, 'string')->render(),
         );
     }
@@ -253,13 +253,13 @@ final class TextAreaTest extends TestCase
      */
     public function testWrap(): void
     {
-        /** hard value */
+        /** Value `hard`. */
         $this->assertSame(
             '<textarea id="typeform-string" name="TypeForm[string]" wrap="hard"></textarea>',
             TextArea::widget()->for(new TypeForm(), 'string')->wrap()->render(),
         );
 
-        /** soft value */
+        /** Value `soft`. */
         $this->assertSame(
             '<textarea id="typeform-string" name="TypeForm[string]" wrap="soft"></textarea>',
             TextArea::widget()->for(new TypeForm(), 'string')->wrap('soft')->render(),

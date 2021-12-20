@@ -232,16 +232,16 @@ final class PasswordTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]">',
-            Password::widget()->for(new LoginForm(), 'password')->value(null)->render(),
-        );
-
         // Value string `1234??`.
         $this->assertSame(
             '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
             Password::widget()->for(new LoginForm(), 'password')->value('1234??')->render(),
+        );
+
+        // Value `null`.
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="LoginForm[password]">',
+            Password::widget()->for(new LoginForm(), 'password')->value(null)->render(),
         );
     }
 
@@ -262,16 +262,17 @@ final class PasswordTest extends TestCase
     {
         $formModel = new LoginForm();
 
-        // Value `null`.
-        $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]">',
-            Password::widget()->for($formModel, 'password')->render(),
-        );
-
         // Value string `1234??`.
         $formModel->setAttribute('password', '1234??');
         $this->assertSame(
             '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
+            Password::widget()->for($formModel, 'password')->render(),
+        );
+
+        // Value `null`.
+        $formModel->setAttribute('password', null);
+        $this->assertSame(
+            '<input type="password" id="loginform-password" name="LoginForm[password]">',
             Password::widget()->for($formModel, 'password')->render(),
         );
     }

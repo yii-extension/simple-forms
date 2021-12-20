@@ -110,23 +110,6 @@ final class FieldTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testWithoutHint(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="typewithhintform-login">Login</label>
-        <input type="text" id="typewithhintform-login" name="TypeWithHintForm[login]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new TypeWithHintForm(), 'login')->withoutHint()->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
     public function testLabelCustom(): void
     {
         $expected = <<<HTML
@@ -170,6 +153,23 @@ final class FieldTest extends TestCase
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()->text(new TypeForm(), 'string')->withoutContainer()->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testWithoutHint(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="typewithhintform-login">Login</label>
+        <input type="text" id="typewithhintform-login" name="TypeWithHintForm[login]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->text(new TypeWithHintForm(), 'login')->withoutHint()->render(),
         );
     }
 

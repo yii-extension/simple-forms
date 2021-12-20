@@ -246,13 +246,10 @@ final class CheckboxList extends ChoiceAttributes
             $name = $this->attributes['name'];
         }
 
+        /** @psalm-var array[] */
+        [$attributes, $containerAttributes] = $this->buildList($this->attributes, $this->containerAttributes);
+
         $checkboxList = CheckboxListTag::create($name);
-
-        $containerAttributes = $this->containerAttributes;
-
-        if (!array_key_exists('id', $containerAttributes)) {
-            $containerAttributes['id'] = $this->getInputId();
-        }
 
         if ($this->items !== []) {
             $checkboxList = $checkboxList->items($this->items, $this->encode);
@@ -265,7 +262,7 @@ final class CheckboxList extends ChoiceAttributes
         }
 
         return $checkboxList
-            ->checkboxAttributes($this->attributes)
+            ->checkboxAttributes($attributes)
             ->containerAttributes($containerAttributes)
             ->containerTag($this->containerTag)
             ->individualInputAttributes($this->individualItemsAttributes)

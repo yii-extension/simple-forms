@@ -127,6 +127,7 @@ final class FieldResetButtonTest extends TestCase
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
+        // Value string `Reseteable`.
         $expected = <<<HTML
         <div>
         <input type="reset" id="w1-reset" name="w1-reset" value="Reseteable">
