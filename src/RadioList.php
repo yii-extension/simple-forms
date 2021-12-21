@@ -31,32 +31,19 @@ final class RadioList extends ChoiceAttributes
     private ?string $uncheckValue = null;
 
     /**
-     * Set attribute value for container.
-     *
-     * @param string $name Name of the attribute.
-     * @param mixed $value Value of the attribute.
-     *
-     * @return static
-     */
-    public function addContainerAttribute(string $name, $value): self
-    {
-        $new = clone $this;
-        $new->containerAttributes[$name] = $value;
-        return $new;
-    }
-
-    /**
      * Focus on the control (put cursor into it) when the page loads.
      * Only one form element could be in focus at the same time.
      *
      * @return static
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function autofocus(): self
     {
         $new = clone $this;
-        $new->containerAttributes['autofocus'] = $value;
+        $new->containerAttributes['autofocus'] = true;
         return $new;
     }
 
@@ -98,11 +85,13 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function id(?string $id): self
     {
         $new = clone $this;
-        $new->containerAttributes['id'] = $value;
+        $new->containerAttributes['id'] = $id;
         return $new;
     }
 
@@ -228,6 +217,8 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function tabIndex(int $value): self
     {

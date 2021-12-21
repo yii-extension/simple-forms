@@ -8,7 +8,7 @@ use Yiisoft\Html\Html;
 
 trait GlobalAttributes
 {
-    private array $attributes = [];
+    protected array $attributes = [];
 
     /**
      * Set attribute value.

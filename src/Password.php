@@ -71,7 +71,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
     public function size(int $size): self
     {
         $new = clone $this;
-        $new->attributes['size'] = $value;
+        $new->attributes['size'] = $size;
         return $new;
     }
 
