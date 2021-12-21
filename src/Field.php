@@ -223,6 +223,27 @@ final class Field extends FieldAttributes
     }
 
     /**
+     * Renders a range widget.
+     *
+     * @param FormModelInterface $formModel The model object.
+     * @param string $attribute The attribute name or expression.
+     * @param array $config The config array definition for the factory widget.
+     * Available methods:
+     * [
+     *     'outputTag()' => ['p'],
+     *     'outputAttributes()' => [['class' => 'test-class']],
+     * ]
+     *
+     * @return static the field object itself.
+     */
+    public function range(FormModelInterface $formModel, string $attribute, array $config = []): self
+    {
+        $new = clone $this;
+        $new->widget = Range::widget($config)->for($formModel, $attribute);
+        return $new;
+    }
+
+    /**
      * Renders a reset button widget.
      *
      * @param array $config The config array definition for the factory widget.

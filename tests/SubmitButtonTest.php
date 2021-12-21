@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Form\Tests\Widget;
+namespace Yii\Extension\Simple\Forms\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Simple\Forms\SubmitButton;
