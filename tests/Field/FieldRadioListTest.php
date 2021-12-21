@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Simple\Forms\Tests\Field;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
