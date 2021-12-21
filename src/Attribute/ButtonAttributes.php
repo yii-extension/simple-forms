@@ -27,7 +27,9 @@ abstract class ButtonAttributes extends Widget
      */
     public function disabled(): self
     {
-        return $this->addAttribute('disabled', true);
+        $new = clone $this;
+        $new->attributes['disabled'] = true;
+        return $new;
     }
 
     /**
@@ -42,7 +44,9 @@ abstract class ButtonAttributes extends Widget
      */
     public function form(string $value): self
     {
-        return $this->addAttribute('form', $value);
+        $new = clone $this;
+        $new->attributes['form'] = $value;
+        return $new;
     }
 
     /**

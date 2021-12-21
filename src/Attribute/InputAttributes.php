@@ -21,7 +21,9 @@ abstract class InputAttributes extends Widget
      */
     public function ariaDescribedBy(string $value): self
     {
-        return $this->addAttribute('aria-describedby', $value);
+        $new = clone $this;
+        $new->attributes['aria-describedby'] = $value;
+        return $new;
     }
 
     /**
@@ -33,7 +35,9 @@ abstract class InputAttributes extends Widget
      */
     public function ariaLabel(string $value): self
     {
-        return $this->addAttribute('aria-label', $value);
+        $new = clone $this;
+        $new->attributes['aria-label'] = $value;
+        return $new;
     }
 
     /**
@@ -51,7 +55,9 @@ abstract class InputAttributes extends Widget
      */
     public function disabled(): self
     {
-        return $this->addAttribute('disabled', true);
+        $new = clone $this;
+        $new->attributes['disabled'] = true;
+        return $new;
     }
 
     /**
@@ -66,7 +72,9 @@ abstract class InputAttributes extends Widget
      */
     public function form(string $value): self
     {
-        return $this->addAttribute('form', $value);
+        $new = clone $this;
+        $new->attributes['form'] = $value;
+        return $new;
     }
 
     /**
@@ -93,7 +101,9 @@ abstract class InputAttributes extends Widget
      */
     public function readonly(bool $value = true): self
     {
-        return $this->addAttribute('readonly', $value);
+        $new = clone $this;
+        $new->attributes['readonly'] = $value;
+        return $new;
     }
 
     /**
@@ -105,7 +115,9 @@ abstract class InputAttributes extends Widget
      */
     public function required(): self
     {
-        return $this->addAttribute('required', true);
+        $new = clone $this;
+        $new->attributes['required'] = true;
+        return $new;
     }
 
     /**

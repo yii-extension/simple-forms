@@ -27,7 +27,9 @@ abstract class ChoiceAttributes extends Widget
      */
     public function disabled(): self
     {
-        return $this->addAttribute('disabled', true);
+        $new = clone $this;
+        $new->attributes['disabled'] = true;
+        return $new;
     }
 
     /**
@@ -39,7 +41,9 @@ abstract class ChoiceAttributes extends Widget
      */
     public function required(): self
     {
-        return $this->addAttribute('required', true);
+        $new = clone $this;
+        $new->attributes['required'] = true;
+        return $new;
     }
 
     /**

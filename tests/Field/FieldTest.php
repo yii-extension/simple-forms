@@ -14,11 +14,51 @@ use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
+use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Span;
 
 final class FieldTest extends TestCase
 {
     use TestTrait;
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testAttributes(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]" required>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->attributes(['required' => true])->text(new TypeForm(), 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testButtonsIndividualAttributes(): void
+    {
+        $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
+
+        $expected = <<<HTML
+        <div>
+        <input type="submit" id="w1-submit" name="w1-submit" value="Submit"><input type="reset" id="w2-reset" name="w2-reset" value="Reseteable">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()
+                ->buttonsIndividualAttributes(['0' => ['value' => 'Submit'], '1' => ['value' => 'Reseteable'],])
+                ->submitButton()
+                ->resetButton()
+                ->render(),
+        );
+    }
 
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
@@ -74,7 +114,29 @@ final class FieldTest extends TestCase
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testHintCustom(): void
+    public function testHintAttributes(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <div class="help-block">Custom hint</div>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()
+                ->hint('Custom hint')
+                ->hintAttributes(['class' => 'help-block'])
+                ->text(new TypeForm(), 'string')
+                ->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testHint(): void
     {
         $expected = <<<HTML
         <div>
@@ -85,14 +147,32 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->hint('Custom hint')->render(),
+            Field::widget()->hint('Custom hint')->text(new TypeForm(), 'string')->render(),
         );
     }
 
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testHintCustomWithClassCustom(): void
+    public function testHintTag(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="typeform-string">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <span>Custom hint</span>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->hint('Custom hint')->hintTag('span')->text(new TypeForm(), 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testHintWithClass(): void
     {
         $expected = <<<HTML
         <div>
@@ -103,14 +183,14 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->hint('Custom hint')->hintClass('text-success')->render(),
+            Field::widget()->hint('Custom hint')->hintClass('text-success')->text(new TypeForm(), 'string')->render(),
         );
     }
 
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testLabelCustom(): void
+    public function testLabel(): void
     {
         $expected = <<<HTML
         <div>
@@ -120,14 +200,31 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->label('Custom label')->render(),
+            Field::widget()->label('Custom label')->text(new TypeForm(), 'string')->render(),
         );
     }
 
     /**
      * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
      */
-    public function testLabelCustomWithLabelClass(): void
+    public function testLabelFor(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label for="id-test">String</label>
+        <input type="text" id="typeform-string" name="TypeForm[string]">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->labelFor('id-test')->text(new TypeForm(), 'string')->render(),
+        );
+    }
+
+    /**
+     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     */
+    public function testLabelWithLabelClass(): void
     {
         $expected = <<<HTML
         <div>
@@ -137,7 +234,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeForm(), 'string')->label('Custom label')->labelClass('required')->render(),
+            Field::widget()->label('Custom label')->labelClass('required')->text(new TypeForm(), 'string')->render(),
         );
     }
 

@@ -34,7 +34,9 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
             throw new InvalidArgumentException('The value cannot be empty.');
         }
 
-        return $this->addAttribute('dirname', $value);
+        $new = clone $this;
+        $new->attributes['dirname'] = $value;
+        return $new;
     }
 
     /**
@@ -42,7 +44,9 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function maxlength(int $value): self
     {
-        return $this->addAttribute('maxlength', $value);
+        $new = clone $this;
+        $new->attributes['maxlength'] = $value;
+        return $new;
     }
 
     /**
@@ -50,7 +54,9 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function minlength(int $value): self
     {
-        return $this->addAttribute('minlength', $value);
+        $new = clone $this;
+        $new->attributes['minlength'] = $value;
+        return $new;
     }
 
     /**
@@ -58,7 +64,9 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function pattern(string $value): self
     {
-        return $this->addAttribute('pattern', $value);
+        $new = clone $this;
+        $new->attributes['pattern'] = $value;
+        return $new;
     }
 
     /**
@@ -66,7 +74,9 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function placeholder(string $value): self
     {
-        return $this->addAttribute('placeholder', $value);
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
+        return $new;
     }
 
     /**
@@ -80,7 +90,9 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function size(int $value): self
     {
-        return $this->addAttribute('size', $value);
+        $new = clone $this;
+        $new->attributes['size'] = $value;
+        return $new;
     }
 
     /**

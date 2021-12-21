@@ -35,7 +35,9 @@ trait GlobalAttributes
      */
     public function autofocus(): self
     {
-        return $this->addAttribute('autofocus', true);
+        $new = clone $this;
+        $new->attributes['autofocus'] = true;
+        return $new;
     }
 
     /**
@@ -84,7 +86,9 @@ trait GlobalAttributes
      */
     public function id(?string $id): self
     {
-        return $this->addAttribute('id', $id);
+        $new = clone $this;
+        $new->attributes['id'] = $id;
+        return $new;
     }
 
     /**
@@ -98,7 +102,9 @@ trait GlobalAttributes
      */
     public function name(?string $value): self
     {
-        return $this->addAttribute('name', $value);
+        $new = clone $this;
+        $new->attributes['name'] = $value;
+        return $new;
     }
 
     /**
@@ -123,7 +129,9 @@ trait GlobalAttributes
      */
     public function tabIndex(int $value): self
     {
-        return $this->addAttribute('tabindex', $value);
+        $new = clone $this;
+        $new->attributes['tabindex'] = $value;
+        return $new;
     }
 
     /**
@@ -137,7 +145,9 @@ trait GlobalAttributes
      */
     public function title(string $value): self
     {
-        return $this->addAttribute('title', $value);
+        $new = clone $this;
+        $new->attributes['title'] = $value;
+        return $new;
     }
 
     /**
@@ -151,6 +161,8 @@ trait GlobalAttributes
      */
     public function value($value): self
     {
-        return $this->addAttribute('value', $value);
+        $new = clone $this;
+        $new->attributes['value'] = $value;
+        return $new;
     }
 }

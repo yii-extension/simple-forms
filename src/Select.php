@@ -136,7 +136,9 @@ final class Select extends ChoiceAttributes
      */
     public function multiple(bool $value = true): self
     {
-        return $this->addAttribute('multiple', $value);
+        $new = clone $this;
+        $new->attributes['multiple'] = $value;
+        return $new;
     }
 
     /**
@@ -192,7 +194,9 @@ final class Select extends ChoiceAttributes
      */
     public function size(int $value): self
     {
-        return $this->addAttribute('size', $value);
+        $new = clone $this;
+        $new->attributes['size'] = $value;
+        return $new;
     }
 
     /**

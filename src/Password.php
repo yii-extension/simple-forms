@@ -24,7 +24,9 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function maxlength(int $value): self
     {
-        return $this->addAttribute('maxlength', $value);
+        $new = clone $this;
+        $new->attributes['maxlength'] = $value;
+        return $new;
     }
 
     /**
@@ -32,7 +34,9 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function minlength(int $value): self
     {
-        return $this->addAttribute('minlength', $value);
+        $new = clone $this;
+        $new->attributes['minlength'] = $value;
+        return $new;
     }
 
     /**
@@ -40,7 +44,9 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function pattern(string $value): self
     {
-        return $this->addAttribute('pattern', $value);
+        $new = clone $this;
+        $new->attributes['pattern'] = $value;
+        return $new;
     }
 
     /**
@@ -48,7 +54,9 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function placeholder(string $value): self
     {
-        return $this->addAttribute('placeholder', $value);
+        $new = clone $this;
+        $new->attributes['placeholder'] = $value;
+        return $new;
     }
 
     /**
@@ -62,7 +70,9 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function size(int $size): self
     {
-        return $this->addAttribute('size', $size);
+        $new = clone $this;
+        $new->attributes['size'] = $value;
+        return $new;
     }
 
     /**

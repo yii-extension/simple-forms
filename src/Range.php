@@ -33,7 +33,9 @@ final class Range extends InputAttributes implements NumberInterface
      */
     public function max(int $value): self
     {
-        return $this->addAttribute('max', $value);
+        $new = clone $this;
+        $new->attributes['max'] = $value;
+        return $new;
     }
 
     /**
@@ -47,7 +49,9 @@ final class Range extends InputAttributes implements NumberInterface
      */
     public function min(int $value): self
     {
-        return $this->addAttribute('min', $value);
+        $new = clone $this;
+        $new->attributes['min'] = $value;
+        return $new;
     }
 
     /**

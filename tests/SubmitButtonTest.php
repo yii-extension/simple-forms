@@ -23,6 +23,7 @@ final class SubmitButtonTest extends TestCase
     public function testRender(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
+
         $this->assertSame('<input type="submit" id="w1-submit" name="w1-submit">', SubmitButton::widget()->render());
     }
 }

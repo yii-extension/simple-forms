@@ -52,12 +52,12 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute
-     *
-     * @psalm-suppress MethodSignatureMismatch
      */
     public function autofocus(): self
     {
-        return $this->addContainerAttribute('autofocus', true);
+        $new = clone $this;
+        $new->containerAttributes['autofocus'] = $value;
+        return $new;
     }
 
     /**
@@ -98,12 +98,12 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
-     *
-     * @psalm-suppress MethodSignatureMismatch
      */
     public function id(?string $id): self
     {
-        return $this->addContainerAttribute('id', $id);
+        $new = clone $this;
+        $new->containerAttributes['id'] = $value;
+        return $new;
     }
 
     /**
@@ -228,12 +228,12 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex
-     *
-     * @psalm-suppress MethodSignatureMismatch
      */
     public function tabIndex(int $value): self
     {
-        return $this->addContainerAttribute('tabindex', $value);
+        $new = clone $this;
+        $new->containerAttributes['tabindex'] = $value;
+        return $new;
     }
 
     /**

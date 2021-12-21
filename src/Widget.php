@@ -134,9 +134,19 @@ abstract class Widget extends BaseWidget
     }
 
     /**
+     * Return value of attribute.
+     *
+     * @return array|object|string|bool|int|float|null
+     */
+    protected function getAttributeValue()
+    {
+        return HtmlForm::getAttributeValue($this->getFormModel(), $this->getAttribute());
+    }
+
+    /**
      * Return if there is a validation error in the attribute.
      */
-    public function hasError(): bool
+    protected function hasError(): bool
     {
         return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
     }
@@ -146,18 +156,8 @@ abstract class Widget extends BaseWidget
      *
      * @return bool
      */
-    public function isValidated(): bool
+    protected function isValidated(): bool
     {
         return $this->getFormModel()->isValidated();
-    }
-
-    /**
-     * Return value of attribute.
-     *
-     * @return array|object|string|bool|int|float|null
-     */
-    protected function getAttributeValue()
-    {
-        return HtmlForm::getAttributeValue($this->getFormModel(), $this->getAttribute());
     }
 }

@@ -14,6 +14,7 @@ use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
+use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Span;
 
 final class FieldBootstrap5Test extends TestCase
@@ -112,6 +113,8 @@ final class FieldBootstrap5Test extends TestCase
      */
     public function testOverview(): void
     {
+        $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
+
         $expected = <<<HTML
         <div class="mb-3">
         <label for="loginform-login">Email address</label>

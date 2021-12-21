@@ -57,7 +57,9 @@ abstract class AbstractField extends Widget
      */
     public function ariaLabel(string $value): self
     {
-        return $this->addAttribute('aria-label', $value);
+        $new = clone $this;
+        $new->attributes['aria-label'] = $value;
+        return $new;
     }
 
     /**
@@ -151,7 +153,9 @@ abstract class AbstractField extends Widget
      */
     public function disabled(): self
     {
-        return $this->addAttribute('disabled', true);
+        $new = clone $this;
+        $new->attributes['disabled'] = true;
+        return $new;
     }
 
     /**
@@ -220,7 +224,9 @@ abstract class AbstractField extends Widget
      */
     public function form(string $value): self
     {
-        return $this->addAttribute('form', $value);
+        $new = clone $this;
+        $new->attributes['form'] = $value;
+        return $new;
     }
 
     /**
@@ -418,7 +424,9 @@ abstract class AbstractField extends Widget
      */
     public function required(): self
     {
-        return $this->addAttribute('required', true);
+        $new = clone $this;
+        $new->attributes['required'] = true;
+        return $new;
     }
 
     /**
@@ -429,7 +437,7 @@ abstract class AbstractField extends Widget
      *
      * @link https://www.w3.org/TR/WCAG20-TECHS/ARIA1.html
      */
-    public function setAriaDescribedBy(bool $value = true): self
+    public function setAriaDescribedBy(bool $value): self
     {
         $new = clone $this;
         $new->ariaDescribedBy = $value;

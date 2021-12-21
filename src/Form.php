@@ -30,7 +30,7 @@ final class Form extends Widget
     private string $csrfToken = '';
     private bool $fieldset = false;
     private array $fieldsetAttributes = [];
-    private bool $legend = false;
+    private ?string $legend = null;
     private array $legendAttributes = [];
     private string $id = '';
     private string $method = Method::POST;
@@ -88,11 +88,14 @@ final class Form extends Widget
         $form = Html::openTag('form', $attributes);
 
         if ($this->fieldset) {
-            $form .= PHP_EOL . Html::openTag('fieldset', $this->fieldsetAttributes) . PHP_EOL;
+            $form .= PHP_EOL . Html::openTag('fieldset', $this->fieldsetAttributes);
         }
 
-        if ($this->legend) {
-            $form .= PHP_EOL . CustomTag::name('legend')->attributes($this->legendAttributes)->render()  . PHP_EOL;
+        if ($this->legend !== null) {
+            $form .= PHP_EOL . CustomTag::name('legend')
+                ->attributes($this->legendAttributes)
+                ->content($this->legend)
+                ->render();
         }
 
         if (!empty($hiddenInputs)) {
@@ -258,13 +261,13 @@ final class Form extends Widget
     /**
      * The <legend> HTML element represents a caption for the content of its parent <fieldset>.
      *
-     * @param bool $value whether the legend is enabled or disabled.
+     * @param string|null $value whether the legend is enabled or disabled.
      *
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/form-elements.html#the-legend-element
      */
-    public function legend(bool $value): self
+    public function legend(?string $value): self
     {
         $new = clone $this;
         $new->legend = $value;
@@ -344,10 +347,12 @@ final class Form extends Widget
      */
     protected function run(): string
     {
+        $html = '';
+
         if ($this->fieldset) {
-            Html::closeTag('fieldset');
+            $html .= Html::closeTag('fieldset') . PHP_EOL;
         }
 
-        return Html::closeTag('form');
+        return $html . Html::closeTag('form');
     }
 }
