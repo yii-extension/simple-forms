@@ -110,7 +110,7 @@ final class Checkbox extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox.attrs.value */
         $value = $this->getAttributeValue();

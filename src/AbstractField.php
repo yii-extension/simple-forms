@@ -2,15 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Attribute;
+namespace Yii\Extension\Simple\Forms;
 
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yiisoft\Html\Html;
+use Yiisoft\Widget\Widget;
 
-abstract class FieldAttributes extends InputAttributes
+abstract class AbstractField extends Widget
 {
+    use GlobalAttributes;
+
     protected bool $ariaDescribedBy = false;
+    protected bool $encode = false;
     protected array $buttonsIndividualAttributes = [];
     protected bool $container = false;
     protected array $containerAttributes = [];
@@ -27,6 +32,49 @@ abstract class FieldAttributes extends InputAttributes
     protected array $labelAttributes = [];
     protected string|null $placeHolder = null;
     protected string $validClass = '';
+
+    /**
+     * Set attribute value.
+     *
+     * @param string $name Name of the attribute.
+     * @param mixed $value Value of the attribute.
+     *
+     * @return static
+     */
+    public function addAttribute(string $name, $value): self
+    {
+        $new = clone $this;
+        $new->attributes[$name] = $value;
+        return $new;
+    }
+
+    /**
+     * Set aria-label attribute.
+     *
+     * @param string $value
+     *
+     * @return static
+     */
+    public function ariaLabel(string $value): self
+    {
+        return $this->addAttribute('aria-label', $value);
+    }
+
+    /**
+     * The HTML attributes. The following special options are recognized.
+     *
+     * @param array $values Attribute values indexed by attribute names.
+     *
+     * @return static
+     *
+     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
+     */
+    public function attributes(array $values): self
+    {
+        $new = clone $this;
+        $new->attributes = array_merge($new->attributes, $values);
+        return $new;
+    }
 
     /**
      * Set individual attributes for the buttons widgets.
@@ -89,6 +137,38 @@ abstract class FieldAttributes extends InputAttributes
     }
 
     /**
+     * Set whether the element is disabled or not.
+     *
+     * If this attribute is set to `true`, the element is disabled. Disabled elements are usually drawn with grayed-out
+     * text.
+     * If the element is disabled, it does not respond to user actions, it cannot be focused, and the command event
+     * will not fire. In the case of form elements, it will not be submitted. Do not set the attribute to true, as
+     * this will suggest you can set it to `false` to enable the element again, which is not the case.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-disabledformelements-disabled
+     */
+    public function disabled(): self
+    {
+        return $this->addAttribute('disabled', true);
+    }
+
+    /**
+     * Whether content should be HTML-encoded.
+     *
+     * @param bool $value
+     *
+     * @return static
+     */
+    public function encode(bool $value): self
+    {
+        $new = clone $this;
+        $new->encode = $value;
+        return $new;
+    }
+
+    /**
      * @return static
      */
     public function error(string $value): self
@@ -126,6 +206,21 @@ abstract class FieldAttributes extends InputAttributes
         $new = clone $this;
         $new->errorTag = $value;
         return $new;
+    }
+
+    /**
+     * Specifies the form element the tag input element belongs to. The value of this attribute must be the id
+     * attribute of a {@see Form} element in the same document.
+     *
+     * @param string $value
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fae-form
+     */
+    public function form(string $value): self
+    {
+        return $this->addAttribute('form', $value);
     }
 
     /**
@@ -183,6 +278,22 @@ abstract class FieldAttributes extends InputAttributes
     }
 
     /**
+     * Set the ID of the widget.
+     *
+     * @param string|null $id
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
+     */
+    public function id(?string $id): self
+    {
+        $new = clone $this;
+        $new->attributes['id'] = $id;
+        return $new;
+    }
+
+    /**
      * Set CSS class names to widget for invalid field.
      *
      * @param string $value CSS class names.
@@ -193,6 +304,20 @@ abstract class FieldAttributes extends InputAttributes
     {
         $new = clone $this;
         $new->invalidClass = $value;
+        return $new;
+    }
+
+    /**
+     * Set CSS class of the field widget.
+     *
+     * @param string $class
+     *
+     * @return static
+     */
+    public function inputClass(string $class): self
+    {
+        $new = clone $this;
+        $new->inputClass = $class;
         return $new;
     }
 
@@ -255,6 +380,22 @@ abstract class FieldAttributes extends InputAttributes
     }
 
     /**
+     * The name part of the name/value pair associated with this element for the purposes of form submission.
+     *
+     * @param string|null The name of the widget.
+     *
+     * @return static
+     *
+     * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-name
+     */
+    public function name(?string $value): self
+    {
+        $new = clone $this;
+        $new->attributes['name'] = $value;
+        return $new;
+    }
+
+    /**
      * Set placeholder attribute for the field.
      *
      * @param string|null $value The placeholder.
@@ -266,6 +407,18 @@ abstract class FieldAttributes extends InputAttributes
         $new = clone $this;
         $new->placeHolder = $value;
         return $new;
+    }
+
+    /**
+     * If it is required to fill in a value in order to submit the form.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#the-required-attribute
+     */
+    public function required(): self
+    {
+        return $this->addAttribute('required', true);
     }
 
     /**

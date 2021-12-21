@@ -34,9 +34,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
             throw new InvalidArgumentException('The value cannot be empty.');
         }
 
-        $new = clone $this;
-        $new->attributes['dirname'] = $value;
-        return $new;
+        return $this->addAttribute('dirname', $value);
     }
 
     /**
@@ -44,9 +42,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function maxlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['maxlength'] = $value;
-        return $new;
+        return $this->addAttribute('maxlength', $value);
     }
 
     /**
@@ -54,9 +50,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function minlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['minlength'] = $value;
-        return $new;
+        return $this->addAttribute('minlength', $value);
     }
 
     /**
@@ -64,9 +58,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function pattern(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['pattern'] = $value;
-        return $new;
+        return $this->addAttribute('pattern', $value);
     }
 
     /**
@@ -74,9 +66,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function placeholder(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
+        return $this->addAttribute('placeholder', $value);
     }
 
     /**
@@ -90,9 +80,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     public function size(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['size'] = $value;
-        return $new;
+        return $this->addAttribute('size', $value);
     }
 
     /**
@@ -100,7 +88,7 @@ final class Text extends InputAttributes implements HasLengthInterface, MatchReg
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
         $value = $attributes['value'] ?? $this->getAttributeValue();

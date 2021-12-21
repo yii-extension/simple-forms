@@ -221,7 +221,7 @@ final class FieldPasswordTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->attribute('readonly', true)->password(new LoginForm(), 'password')->render(),
+            Field::widget()->addAttribute('readonly', true)->password(new LoginForm(), 'password')->render(),
         );
     }
 

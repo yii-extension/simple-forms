@@ -24,9 +24,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function maxlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['maxlength'] = $value;
-        return $new;
+        return $this->addAttribute('maxlength', $value);
     }
 
     /**
@@ -34,9 +32,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function minlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['minlength'] = $value;
-        return $new;
+        return $this->addAttribute('minlength', $value);
     }
 
     /**
@@ -44,9 +40,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function pattern(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['pattern'] = $value;
-        return $new;
+        return $this->addAttribute('pattern', $value);
     }
 
     /**
@@ -54,27 +48,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function placeholder(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
-    /**
-     * A Boolean attribute which, if present, means this field cannot be edited by the user.
-     * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
-     * property.
-     *
-     * @param bool $value
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.password.html#input.password.attrs.readonly
-     */
-    public function readOnly(bool $value = true): self
-    {
-        $new = clone $this;
-        $new->attributes['readonly'] = $value;
-        return $new;
+        return $this->addAttribute('placeholder', $value);
     }
 
     /**
@@ -88,9 +62,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     public function size(int $size): self
     {
-        $new = clone $this;
-        $new->attributes['size'] = $size;
-        return $new;
+        return $this->addAttribute('size', $size);
     }
 
     /**
@@ -100,7 +72,7 @@ final class Password extends InputAttributes implements HasLengthInterface, Matc
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.value */
         $value = $attributes['value'] ?? $this->getAttributeValue();

@@ -24,9 +24,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     public function maxlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['maxlength'] = $value;
-        return $new;
+        return $this->addAttribute('maxlength', $value);
     }
 
     /**
@@ -34,9 +32,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     public function minlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['minlength'] = $value;
-        return $new;
+        return $this->addAttribute('minlength', $value);
     }
 
     /**
@@ -44,9 +40,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     public function pattern(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['pattern'] = $value;
-        return $new;
+        return $this->addAttribute('pattern', $value);
     }
 
     /**
@@ -54,9 +48,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     public function placeholder(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
+        return $this->addAttribute('placeholder', $value);
     }
 
     /**
@@ -70,9 +62,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     public function size(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['size'] = $value;
-        return $new;
+        return $this->addAttribute('size', $value);
     }
 
     /**
@@ -80,7 +70,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.value */
         $value = $attributes['value'] ?? $this->getAttributeValue();

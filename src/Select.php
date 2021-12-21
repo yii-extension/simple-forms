@@ -136,9 +136,7 @@ final class Select extends ChoiceAttributes
      */
     public function multiple(bool $value = true): self
     {
-        $new = clone $this;
-        $new->attributes['multiple'] = $value;
-        return $new;
+        return $this->addAttribute('multiple', $value);
     }
 
     /**
@@ -194,9 +192,7 @@ final class Select extends ChoiceAttributes
      */
     public function size(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['size'] = $value;
-        return $new;
+        return $this->addAttribute('size', $value);
     }
 
     /**
@@ -218,28 +214,28 @@ final class Select extends ChoiceAttributes
      */
     private function renderItems(array $values = []): array
     {
-        $new = clone $this;
         $items = [];
+        $itemsAttributes = $this->itemsAttributes;
 
         /** @var array|string $content */
         foreach ($values as $value => $content) {
             if (is_array($content)) {
                 /** @var array */
-                $groupAttrs = $new->groups[$value] ?? [];
+                $groupAttrs = $this->groups[$value] ?? [];
                 $options = [];
 
                 /** @var string $c */
                 foreach ($content as $v => $c) {
                     /** @var array */
-                    $new->itemsAttributes[$v] ??= [];
-                    $options[] = Option::tag()->attributes($new->itemsAttributes[$v])->content($c)->value($v);
+                    $itemsAttributes[$v] ??= [];
+                    $options[] = Option::tag()->attributes($itemsAttributes[$v])->content($c)->value($v);
                 }
 
                 $items[] = Optgroup::tag()->attributes($groupAttrs)->options(...$options);
             } else {
                 /** @var array */
-                $new->itemsAttributes[$value] ??= [];
-                $items[] = Option::tag()->attributes($new->itemsAttributes[$value])->content($content)->value($value);
+                $itemsAttributes[$value] ??= [];
+                $items[] = Option::tag()->attributes($itemsAttributes[$value])->content($content)->value($value);
             }
         }
 
@@ -251,7 +247,7 @@ final class Select extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /**
          * @psalm-var iterable<int, Stringable|scalar>|scalar|null $value

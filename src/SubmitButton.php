@@ -19,7 +19,7 @@ final class SubmitButton extends ButtonAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes, '-submit');
+        $attributes = $this->build($this->getAttributes(), '-submit');
 
         return Input::tag()->type('submit')->attributes($attributes)->render();
     }

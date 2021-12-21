@@ -6,12 +6,10 @@ namespace Yii\Extension\Simple\Forms;
 
 use Stringable;
 use Yii\Extension\Simple\Forms\Attribute\ButtonAttributes;
-use Yii\Extension\Simple\Forms\Attribute\FieldAttributes;
 use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
-use Yii\Extension\Simple\Forms\Attribute\WidgetAttributes;
-use Yii\Extension\Simple\Forms\Field\Error;
-use Yii\Extension\Simple\Forms\Field\Hint;
-use Yii\Extension\Simple\Forms\Field\Label;
+use Yii\Extension\Simple\Forms\FieldPart\Error;
+use Yii\Extension\Simple\Forms\FieldPart\Hint;
+use Yii\Extension\Simple\Forms\FieldPart\Label;
 use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yiisoft\Arrays\ArrayHelper;
@@ -28,13 +26,13 @@ use function strtr;
 /**
  * Renders the field widget along with label and hint tag (if any) according to template.
  */
-final class Field extends FieldAttributes
+final class Field extends AbstractField
 {
     /** @psalm-var ButtonAttributes[] */
     private array $buttons = [];
     private array $parts = [];
     private string $template = "{label}\n{input}\n{hint}\n{error}";
-    private WidgetAttributes $widget;
+    private Widget $widget;
 
     /**
      * Set after input html.
@@ -427,8 +425,8 @@ final class Field extends FieldAttributes
         $new->widget = $new->widget->encode($new->encode);
 
         // Set input class.
-        if ($new->inputClass !== '' && !array_key_exists('class', $new->widget->getAttributes())) {
-            $new->widget = $new->widget->inputClass($new->inputClass);
+        if ($new->inputClass !== '') {
+            $new->widget = $new->widget->class($new->inputClass);
         }
 
         // Set label settings for the radio and checkbox fields.
@@ -445,9 +443,9 @@ final class Field extends FieldAttributes
 
         // Set valid class and invalid class.
         if ($new->invalidClass !== '' && $new->widget->hasError()) {
-            $new->widget = $new->widget->inputClass($new->invalidClass);
+            $new->widget = $new->widget->class($new->invalidClass);
         } elseif ($new->validClass !== '' && $new->widget->isValidated()) {
-            $new->widget = $new->widget->inputClass($new->validClass);
+            $new->widget = $new->widget->class($new->validClass);
         }
 
         return $new;
@@ -459,7 +457,13 @@ final class Field extends FieldAttributes
 
         foreach ($this->buttons as $key => $button) {
             /** @var array */
-            $buttonsAttributes = $this->buttonsIndividualAttributes[$key] ?? $this->attributes;
+            $buttonsAttributes = $this->buttonsIndividualAttributes[$key] ?? $this->getAttributes();
+
+            // Set input class.
+            if ($this->inputClass !== '') {
+                $button = $button->class($this->inputClass);
+            }
+
             $buttons .= $button->attributes($buttonsAttributes)->render();
         }
 
@@ -538,7 +542,7 @@ final class Field extends FieldAttributes
 
         if (!array_key_exists('for', $this->labelAttributes)) {
             /** @var string */
-            $for = ArrayHelper::getValue($this->attributes, 'id', $this->widget->getInputId());
+            $for = ArrayHelper::getValue($this->getAttributes(), 'id', $this->widget->getInputId());
             $label = $label->forId($for);
         }
 
@@ -550,8 +554,8 @@ final class Field extends FieldAttributes
         $new = clone $this;
 
         // set global attributes to widget.
-        if ($new->attributes !== []) {
-            $attributes = array_merge($new->widget->getAttributes(), $new->attributes);
+        if ($new->getAttributes() !== []) {
+            $attributes = array_merge($new->widget->getAttributes(), $new->getAttributes());
             $new->widget = $new->widget->attributes($attributes);
         }
 

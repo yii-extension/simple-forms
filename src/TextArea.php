@@ -29,9 +29,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     public function cols(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['cols'] = $value;
-        return $new;
+        return $this->addAttribute('cols', $value);
     }
 
     /**
@@ -50,9 +48,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
             throw new InvalidArgumentException('The value cannot be empty.');
         }
 
-        $new = clone $this;
-        $new->attributes['dirname'] = $value;
-        return $new;
+        return $this->addAttribute('dirname', $value);
     }
 
     /**
@@ -60,9 +56,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     public function maxlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['maxlength'] = $value;
-        return $new;
+        return $this->addAttribute('maxlength', $value);
     }
 
     /**
@@ -70,9 +64,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     public function minlength(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['minlength'] = $value;
-        return $new;
+        return $this->addAttribute('minlength', $value);
     }
 
     /**
@@ -80,9 +72,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     public function placeholder(string $value): self
     {
-        $new = clone $this;
-        $new->attributes['placeholder'] = $value;
-        return $new;
+        return $this->addAttribute('placeholder', $value);
     }
 
     /**
@@ -96,9 +86,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     public function rows(int $value): self
     {
-        $new = clone $this;
-        $new->attributes['rows'] = $value;
-        return $new;
+        return $this->addAttribute('rows', $value);
     }
 
     /**
@@ -118,9 +106,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
             throw new InvalidArgumentException('Invalid wrap value. Valid values are: hard, soft.');
         }
 
-        $new = clone $this;
-        $new->attributes['wrap'] = $value;
-        return $new;
+        return $this->addAttribute('wrap', $value);
     }
 
     /**
@@ -128,7 +114,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /** @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value */
         $value = $attributes['value'] ?? $this->getAttributeValue();

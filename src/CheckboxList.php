@@ -34,18 +34,33 @@ final class CheckboxList extends ChoiceAttributes
     private string $separator = "\n";
 
     /**
+     * Set attribute value for container.
+     *
+     * @param string $name Name of the attribute.
+     * @param mixed $value Value of the attribute.
+     *
+     * @return static
+     */
+    public function addContainerAttribute(string $name, $value): self
+    {
+        $new = clone $this;
+        $new->containerAttributes[$name] = $value;
+        return $new;
+    }
+
+    /**
      * Focus on the control (put cursor into it) when the page loads.
      * Only one form element could be in focus at the same time.
      *
      * @return static
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function autofocus(): self
     {
-        $new = clone $this;
-        $new->containerAttributes['autofocus'] = true;
-        return $new;
+        return $this->addContainerAttribute('autofocus', true);
     }
 
     /**
@@ -86,12 +101,12 @@ final class CheckboxList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function id(?string $id): self
     {
-        $new = clone $this;
-        $new->containerAttributes['id'] = $id;
-        return $new;
+        return $this->addContainerAttribute('id', $id);
     }
 
     /**
@@ -214,12 +229,12 @@ final class CheckboxList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex
+     *
+     * @psalm-suppress MethodSignatureMismatch
      */
     public function tabIndex(int $value): self
     {
-        $new = clone $this;
-        $new->containerAttributes['tabindex'] = $value;
-        return $new;
+        return $this->addContainerAttribute('tabindex', $value);
     }
 
     /**
@@ -228,7 +243,7 @@ final class CheckboxList extends ChoiceAttributes
     protected function run(): string
     {
         /** @psalm-var array[] */
-        [$attributes, $containerAttributes] = $this->buildList($this->attributes, $this->containerAttributes);
+        [$attributes, $containerAttributes] = $this->buildList($this->getAttributes(), $this->containerAttributes);
 
         /**
          *  @var iterable<int, scalar|Stringable>|scalar|Stringable|null

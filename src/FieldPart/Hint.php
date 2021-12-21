@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Field;
+namespace Yii\Extension\Simple\Forms\FieldPart;
 
 use InvalidArgumentException;
 use Yiisoft\Html\Tag\CustomTag;

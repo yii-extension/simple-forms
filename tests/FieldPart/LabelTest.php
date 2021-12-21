@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Simple\Forms\Tests\FieldPart;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field\Label;
+use Yii\Extension\Simple\Forms\FieldPart\Label;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;

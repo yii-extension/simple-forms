@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Simple\Forms\Tests\FieldPart;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field\Hint;
+use Yii\Extension\Simple\Forms\FieldPart\Hint;
 use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;

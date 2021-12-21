@@ -107,7 +107,7 @@ final class Radio extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->attributes);
+        $attributes = $this->build($this->getAttributes());
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html#input.radio.attrs.value */
         $value = $this->getAttributeValue();

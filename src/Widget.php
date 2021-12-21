@@ -2,37 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Attribute;
+namespace Yii\Extension\Simple\Forms;
 
 use InvalidArgumentException;
+use Yii\Extension\Simple\Forms\Attribute\GlobalAttributes;
 use Yii\Extension\Simple\Model\FormModelInterface;
 use Yii\Extension\Simple\Model\Helper\HtmlForm;
 use Yii\Extension\Simple\Model\Helper\HtmlFormErrors;
 use Yiisoft\Html\Html;
-use Yiisoft\Widget\Widget;
+use Yiisoft\Widget\Widget as BaseWidget;
 
-abstract class WidgetAttributes extends Widget
+abstract class Widget extends BaseWidget
 {
-    protected array $attributes = [];
+    use GlobalAttributes;
+
     protected bool $encode = false;
     private string $attribute = '';
     private ?FormModelInterface $formModel = null;
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $values): self
-    {
-        $new = clone $this;
-        $new->attributes = array_merge($new->attributes, $values);
-        return $new;
-    }
 
     /**
      * Whether content should be HTML-encoded.
@@ -73,16 +59,6 @@ abstract class WidgetAttributes extends Widget
         }
 
         return $this->attribute;
-    }
-
-    /**
-     * Return attributes for the widget.
-     *
-     * @return array
-     */
-    public function getAttributes(): array
-    {
-        return $this->attributes;
     }
 
     /**
@@ -155,20 +131,6 @@ abstract class WidgetAttributes extends Widget
     public function getInputName(): string
     {
         return HtmlForm::getInputName($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Set CSS class of the field widget.
-     *
-     * @param string $class
-     *
-     * @return static
-     */
-    public function inputClass(string $class): self
-    {
-        $new = clone $this;
-        Html::addCssClass($new->attributes, $class);
-        return $new;
     }
 
     /**
