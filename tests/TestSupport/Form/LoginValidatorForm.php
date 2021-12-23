@@ -32,10 +32,12 @@ final class LoginValidatorForm extends FormModel
             Required::rule(),
             static function () use ($formErrors, $login, $password, $users): Result {
                 $result = new Result();
+
                 if (!in_array($login, $users, true) || $password !== $users[$login]) {
-                    $result->addError('invalid login password');
                     $formErrors->addError('login', '');
+                    $result->addError('invalid login password');
                 }
+
                 return $result;
             },
         ];

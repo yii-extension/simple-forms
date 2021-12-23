@@ -74,7 +74,7 @@ final class ValidationTest extends TestCase
         );
     }
 
-    public function testLoginAndPasswordValidatorInvaliWithErrorSummary(): void
+    public function testLoginAndPasswordValidatorInvalidWithErrorSummary(): void
     {
         $loginValidatorForm = new loginValidatorForm();
         $validator = $this->createValidatorMock();

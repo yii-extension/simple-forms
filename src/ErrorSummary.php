@@ -176,24 +176,23 @@ final class ErrorSummary extends Widget
     {
         $attributes = $this->attributes;
         $content = '';
-        $header = $this->header;
 
         if ($this->tag === '') {
             throw new InvalidArgumentException('Tag name cannot be empty.');
         }
 
-        if ($header === '') {
+        if ($this->header === '') {
             $content .= P::tag()->content('Please fix the following errors:')->render() . PHP_EOL;
+        } else {
+            $content .= $this->header . PHP_EOL;
         }
 
         /** @var array<string, string> */
         $lines = $this->collectErrors();
         $content .= Ul::tag()->strings($lines)->render();
 
-        $content .= $header;
-
         if ($this->footer !== '') {
-            $content .= $this->footer;
+            $content .= PHP_EOL . $this->footer;
         }
 
         return $lines !== []
