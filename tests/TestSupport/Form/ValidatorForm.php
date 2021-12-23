@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Simple\Forms\Tests\TestSupport\Form;
 
 use Yii\Extension\Simple\Model\FormModel;
+use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\HasLength;
 use Yiisoft\Validator\Rule\MatchRegularExpression;
 use Yiisoft\Validator\Rule\Number;
@@ -13,10 +14,12 @@ use Yiisoft\Validator\Rule\Url;
 
 final class ValidatorForm extends FormModel
 {
+    private ?string $login = '';
+    private ?string $password = '';
+    private int $number = 0;
     private string $matchregular = '';
     private string $maxlength = '';
     private string $minlength = '';
-    private int $number = 0;
     private string $required = '';
     private string $url = '';
 

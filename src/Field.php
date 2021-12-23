@@ -476,7 +476,7 @@ final class Field extends AbstractField
     private function renderError(): string
     {
 
-        $firstError = $this->error;
+        $firstError = $this->error ?? '';
 
         if ($firstError === '') {
             $firstError = $this->widget->getFirstError();
@@ -497,7 +497,7 @@ final class Field extends AbstractField
         $new = $new->setGlobalAttributesField();
         $new = $new->buildField();
         $new->parts['{input}'] = $new->widget->render();
-        $new->parts['{error}'] = $new->renderError();
+        $new->parts['{error}'] = $new->error !== null ? $new->renderError() : '';
         $new->parts['{hint}'] = $new->renderHint();
 
         if (!array_key_exists('{label}', $new->parts)) {
@@ -518,13 +518,13 @@ final class Field extends AbstractField
             $hint = $hint->id($this->widget->getAriaDescribedBy());
         }
 
-        $attributeHint = $this->hint;
+        $hintText = $this->hint;
 
-        if ($attributeHint === '') {
-            $attributeHint = $this->widget->getAttributeHint();
+        if ($hintText === '') {
+            $hintText = $this->widget->getAttributeHint();
         }
 
-        return $hint->hint($attributeHint === '' ? null : $attributeHint)->render();
+        return $hint->hint($hintText === '' ? null : $hintText)->render();
     }
 
     /**

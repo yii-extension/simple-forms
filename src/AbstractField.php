@@ -20,7 +20,7 @@ abstract class AbstractField extends Widget
     protected bool $container = false;
     protected array $containerAttributes = [];
     protected string $containerClass = '';
-    protected string $error = '';
+    protected ?string $error = '';
     protected array $errorAttributes = [];
     protected string $errorTag = 'div';
     protected string|null $hint = '';
@@ -471,6 +471,20 @@ abstract class AbstractField extends Widget
     }
 
     /**
+     * Disabled error field part.
+     *
+     * @return static
+     */
+    public function withoutError(): self
+    {
+        $new = clone $this;
+        $new->error = null;
+        return $new;
+    }
+
+    /**
+     * Disabled hint field part.
+     *
      * @return static
      */
     public function withoutHint(): self
@@ -481,6 +495,8 @@ abstract class AbstractField extends Widget
     }
 
     /**
+     * Disabled label field part.
+     *
      * @return static
      */
     public function withoutLabel(): self
@@ -491,6 +507,7 @@ abstract class AbstractField extends Widget
     }
 
     /**
+     * Disabled label for attribute.
      * @return static
      */
     public function withoutLabelFor(): self
