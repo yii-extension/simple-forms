@@ -2,36 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Attribute;
+namespace Yii\Extension\Form\Attribute;
 
-use Yii\Extension\Simple\Forms\Validator\FieldValidator;
-use Yii\Extension\Simple\Forms\Widget;
-use Yii\Extension\Simple\Model\FormModelInterface;
-use Yii\Extension\Simple\Model\Helper\HtmlForm;
-use Yiisoft\Html\Html;
+use Yii\Extension\Form\Validator\FieldValidator;
 
-abstract class ChoiceAttributes extends Widget
+abstract class ChoiceAttributes extends WidgetAttributes
 {
-    /**
-     * Set whether the element is disabled or not.
-     *
-     * If this attribute is set to `true`, the element is disabled. Disabled elements are usually drawn with grayed-out
-     * text.
-     * If the element is disabled, it does not respond to user actions, it cannot be focused, and the command event
-     * will not fire. In the case of form elements, it will not be submitted. Do not set the attribute to true, as
-     * this will suggest you can set it to `false` to enable the element again, which is not the case.
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-disabledformelements-disabled
-     */
-    public function disabled(): self
-    {
-        $new = clone $this;
-        $new->attributes['disabled'] = true;
-        return $new;
-    }
-
     /**
      * If it is required to fill in a value in order to submit the form.
      *
@@ -39,7 +15,7 @@ abstract class ChoiceAttributes extends Widget
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#the-required-attribute
      */
-    public function required(): self
+    public function required(): static
     {
         $new = clone $this;
         $new->attributes['required'] = true;
@@ -63,16 +39,12 @@ abstract class ChoiceAttributes extends Widget
             $attributes['name'] = $this->getInputName();
         }
 
-        $fieldValidator = new FieldValidator();
-
-        $attributes = $fieldValidator->getValidatorAttributes(
+        return (new FieldValidator())->getValidatorAttributes(
             $this,
             $this->getFormModel(),
             $this->getAttribute(),
             $attributes,
         );
-
-        return $attributes;
     }
 
     /**

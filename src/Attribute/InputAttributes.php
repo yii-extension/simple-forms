@@ -2,24 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Attribute;
+namespace Yii\Extension\Form\Attribute;
 
-use Yii\Extension\Simple\Forms\Validator\FieldValidator;
-use Yii\Extension\Simple\Forms\Widget;
-use Yiisoft\Html\Html;
+use Yii\Extension\Form\Validator\FieldValidator;
 
-abstract class InputAttributes extends Widget
+abstract class InputAttributes extends WidgetAttributes
 {
     /**
-     * Set aria-describedby attribute.
+     * Identifies the element (or elements) that describes the element on which the attribute is set.
      *
      * @param string $value
      *
      * @return static
      *
-     * @link https://www.w3.org/TR/WCAG20-TECHS/ARIA1.html
+     * @link https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
      */
-    public function ariaDescribedBy(string $value): self
+    public function ariaDescribedBy(string $value): static
     {
         $new = clone $this;
         $new->attributes['aria-describedby'] = $value;
@@ -27,36 +25,18 @@ abstract class InputAttributes extends Widget
     }
 
     /**
-     * Set aria-label attribute.
+     * Defines a string value that labels an interactive element.
      *
      * @param string $value
      *
      * @return static
+     *
+     * @link https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label
      */
-    public function ariaLabel(string $value): self
+    public function ariaLabel(string $value): static
     {
         $new = clone $this;
         $new->attributes['aria-label'] = $value;
-        return $new;
-    }
-
-    /**
-     * Set whether the element is disabled or not.
-     *
-     * If this attribute is set to `true`, the element is disabled. Disabled elements are usually drawn with grayed-out
-     * text.
-     * If the element is disabled, it does not respond to user actions, it cannot be focused, and the command event
-     * will not fire. In the case of form elements, it will not be submitted. Do not set the attribute to true, as
-     * this will suggest you can set it to `false` to enable the element again, which is not the case.
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-disabledformelements-disabled
-     */
-    public function disabled(): self
-    {
-        $new = clone $this;
-        $new->attributes['disabled'] = true;
         return $new;
     }
 
@@ -70,22 +50,11 @@ abstract class InputAttributes extends Widget
      *
      * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fae-form
      */
-    public function form(string $value): self
+    public function form(string $value): static
     {
         $new = clone $this;
         $new->attributes['form'] = $value;
         return $new;
-    }
-
-    /**
-     * Return aria-describedby attribute.
-     *
-     * @return string
-     */
-    public function getAriaDescribedBy(): string
-    {
-        /** @var string */
-        return $this->getAttributes()['aria-describedby'] ?? '';
     }
 
     /**
@@ -99,7 +68,7 @@ abstract class InputAttributes extends Widget
      *
      * @link https://html.spec.whatwg.org/multipage/input.html#the-readonly-attribute
      */
-    public function readonly(bool $value = true): self
+    public function readonly(bool $value = true): static
     {
         $new = clone $this;
         $new->attributes['readonly'] = $value;
@@ -113,7 +82,7 @@ abstract class InputAttributes extends Widget
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#the-required-attribute
      */
-    public function required(): self
+    public function required(): static
     {
         $new = clone $this;
         $new->attributes['required'] = true;
@@ -139,13 +108,11 @@ abstract class InputAttributes extends Widget
 
         $fieldValidator = new FieldValidator();
 
-        $attributes = $fieldValidator->getValidatorAttributes(
+        return $fieldValidator->getValidatorAttributes(
             $this,
             $this->getFormModel(),
             $this->getAttribute(),
             $attributes,
         );
-
-        return $attributes;
     }
 }
