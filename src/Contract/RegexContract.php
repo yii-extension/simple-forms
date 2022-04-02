@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Contract;
 
-interface RegexInterface
+interface RegexContract
 {
     /**
      * The pattern attribute, when specified, is a regular expression that the input's value must match in order for

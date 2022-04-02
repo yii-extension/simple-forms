@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Contract;
 
-interface PlaceholderInterface
+interface PlaceholderContract
 {
     /**
      * It allows defining placeholder.

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Contract;
 
-interface NumberInterface
+interface NumberContract
 {
     /**
      * The expected upper bound for the element’s value.

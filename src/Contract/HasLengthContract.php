@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Contract;
 
-interface HasLengthInterface
+interface HasLengthContract
 {
     /**
      * The maxlength attribute defines the maximum number of characters (as UTF-16 code units) the user can enter into
