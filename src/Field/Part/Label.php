@@ -2,8 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\FieldPart;
+namespace Yii\Extension\Form\Field\Part;
 
+use Yii\Extension\Form\Exception\AttributeNotSetException;
+use Yii\Extension\Form\Exception\FormModelNotSetException;
+use Yii\Extension\FormModel\FormModelInterface;
+use Yii\Extension\FormModel\Helper\HtmlForm;
 use Yiisoft\Html\Tag\Label as LabelTag;
 use Yiisoft\Widget\Widget;
 
@@ -14,9 +18,11 @@ use Yiisoft\Widget\Widget;
  */
 final class Label extends Widget
 {
+    private string $attribute = '';
     private array $attributes = [];
     private bool $encode = false;
     private ?string $label = '';
+    private ?FormModelInterface $formModel = null;
 
     /**
      * The HTML attributes. The following special options are recognized.
@@ -49,12 +55,23 @@ final class Label extends Widget
     }
 
     /**
-     * The id of a labeled form-related element in the same document as the tag label element.
+     * @return static
+     */
+    public function for(FormModelInterface $formModel, string $attribute): self
+    {
+        $new = clone $this;
+        $new->formModel = $formModel;
+        $new->attribute = $attribute;
+        return $new;
+    }
+
+    /**
+     * The id of a labelable form-related element in the same document as the tag label element.
      *
      * The first element in the document with an id matching the value of the for attribute is the labeled control for
-     * this label element, if it is a labeled element.
+     * this label element, if it is a labelable element.
      *
-     * @param string|null $value The id of a labeled form-related element in the same document as the tag label
+     * @param string|null $value The id of a labelable form-related element in the same document as the tag label
      * element. If null, the attribute will be removed.
      *
      * @return static
@@ -76,8 +93,8 @@ final class Label extends Widget
      * @return static
      *
      * Note that this will NOT be encoded.
-     * - If this is not set, {@see \Yii\Extension\Simple\Model\FormModel::getAttributeLabel() will be called to get the
-     * label for display (after encoding).
+     * - If this is not set, {@see \Yiisoft\Form\FormModel::getAttributeLabel() will be called to get the label for
+     * display (after encoding).
      */
     public function label(?string $value): self
     {
@@ -91,10 +108,41 @@ final class Label extends Widget
      */
     protected function run(): string
     {
-        $new = clone $this;
+        $attributes = $this->attributes;
+        $label = $this->label;
 
-        return $new->label !== null ?
-            LabelTag::tag()->attributes($new->attributes)->content($new->label)->encode($new->encode)->render()
+        if ($label === '') {
+            $label = HtmlForm::getAttributeLabel($this->getFormModel(), $this->getAttribute());
+        }
+
+        /** @var string */
+        if (!array_key_exists('for', $attributes)) {
+            $attributes['for'] = HtmlForm::getInputId($this->getFormModel(), $this->getAttribute());
+        }
+
+        return $label !== null ?
+            LabelTag::tag()->attributes($attributes)->content($label)->encode($this->encode)->render()
             : '';
+    }
+
+    private function getAttribute(): string
+    {
+        return match (empty($this->attribute)) {
+            true => throw new AttributeNotSetException(),
+            false => $this->attribute,
+        };
+    }
+
+    /**
+     * Return FormModelInterface object.
+     *
+     * @return FormModelInterface
+     */
+    private function getFormModel(): FormModelInterface
+    {
+        return match (empty($this->formModel)) {
+            true => throw new FormModelNotSetException(),
+            false => $this->formModel,
+        };
     }
 }

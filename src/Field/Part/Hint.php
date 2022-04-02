@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\FieldPart;
+namespace Yii\Extension\Form\Field\Part;
 
 use InvalidArgumentException;
+use Yii\Extension\Form\Exception\AttributeNotSetException;
+use Yii\Extension\Form\Exception\FormModelNotSetException;
+use Yii\Extension\FormModel\FormModelInterface;
+use Yii\Extension\FormModel\Helper\HtmlForm;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Widget\Widget;
 
@@ -13,10 +17,12 @@ use Yiisoft\Widget\Widget;
  */
 final class Hint extends Widget
 {
+    private string $attribute = '';
     private array $attributes = [];
     private bool $encode = false;
     private ?string $hint = '';
     private string $tag = 'div';
+    private ?FormModelInterface $formModel = null;
 
     /**
      * The HTML attributes. The following special options are recognized.
@@ -35,6 +41,31 @@ final class Hint extends Widget
     }
 
     /**
+     * Whether content should be HTML-encoded.
+     *
+     * @param bool $value
+     *
+     * @return static
+     */
+    public function encode(bool $value): self
+    {
+        $new = clone $this;
+        $new->encode = $value;
+        return $new;
+    }
+
+    /**
+     * @return static
+     */
+    public function for(FormModelInterface $formModel, string $attribute): self
+    {
+        $new = clone $this;
+        $new->formModel = $formModel;
+        $new->attribute = $attribute;
+        return $new;
+    }
+
+    /**
      * Set the ID of the widget.
      *
      * @param string|null $id
@@ -47,20 +78,6 @@ final class Hint extends Widget
     {
         $new = clone $this;
         $new->attributes['id'] = $id;
-        return $new;
-    }
-
-    /**
-     * Whether content should be HTML-encoded.
-     *
-     * @param bool $value
-     *
-     * @return static
-     */
-    public function encode(bool $value): self
-    {
-        $new = clone $this;
-        $new->encode = $value;
         return $new;
     }
 
@@ -99,18 +116,39 @@ final class Hint extends Widget
      */
     protected function run(): string
     {
-        $new = clone $this;
+        $hint = $this->hint;
 
-        if ($new->tag === '') {
+        if ($this->tag === '') {
             throw new InvalidArgumentException('Tag name cannot be empty.');
         }
 
-        return $new->hint !== null
-            ? CustomTag::name($new->tag)
-                ->attributes($new->attributes)
-                ->content($new->hint)
-                ->encode($new->encode)
-                ->render()
-            : '';
+        if ($hint === '') {
+            $hint = HtmlForm::getAttributeHint($this->getFormModel(), $this->getAttribute());
+        }
+
+        return match ($hint !== null && $hint !== '') {
+            true => CustomTag::name($this->tag)
+                ->attributes($this->attributes)
+                ->content($hint)
+                ->encode($this->encode)
+                ->render(),
+            false => '',
+        };
+    }
+
+    private function getAttribute(): string
+    {
+        return match (empty($this->attribute)) {
+            true => throw new AttributeNotSetException(),
+            false => $this->attribute,
+        };
+    }
+
+    private function getFormModel(): FormModelInterface
+    {
+        return match (empty($this->formModel)) {
+            true => throw new FormModelNotSetException(),
+            false => $this->formModel,
+        };
     }
 }
