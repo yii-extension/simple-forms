@@ -9,7 +9,7 @@ use Yii\Extension\Form\Contract\HasLengthContract;
 use Yii\Extension\Form\Contract\NumberContract;
 use Yii\Extension\Form\Contract\RegexContract;
 use Yii\Extension\Form\Url;
-use Yii\Extension\FormModel\FormModelInterface;
+use Yii\Extension\FormModel\Contract\FormModelContract;
 use Yiisoft\Html\Html;
 use Yiisoft\Validator\Rule;
 use Yiisoft\Validator\Rule\HasLength;
@@ -22,7 +22,7 @@ use Yiisoft\Validator\Rule\Url as UrlValidator;
  * FieldValidator is a base class for validators that can be applied to a field.
  *
  * @param WidgetAttributes $widget The field widget.
- * @param FormModelInterface $formModel The form model instance.
+ * @param FormModelContract $formModel The form model instance.
  * @param string $attribute The attribute name or expression.
  * @param array $attributes The HTML attributes for the field widget.
  *
@@ -32,7 +32,7 @@ final class FieldValidator
 {
     public function getValidatorAttributes(
         WidgetAttributes $widget,
-        FormModelInterface $formModel,
+        FormModelContract $formModel,
         string $attribute,
         array $attributes
     ): array {

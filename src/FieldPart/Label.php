@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\Field\Part;
+namespace Yii\Extension\Form\FieldPart;
 
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\FormModelInterface;
-use Yii\Extension\FormModel\Helper\HtmlForm;
+use Yii\Extension\FormModel\Attribute\FormModelAttributes;
+use Yii\Extension\FormModel\Contract\FormModelContract;
 use Yiisoft\Html\Tag\Label as LabelTag;
 use Yiisoft\Widget\Widget;
 
@@ -22,7 +22,7 @@ final class Label extends Widget
     private array $attributes = [];
     private bool $encode = false;
     private ?string $label = '';
-    private ?FormModelInterface $formModel = null;
+    private ?FormModelContract $formModel = null;
 
     /**
      * The HTML attributes. The following special options are recognized.
@@ -57,11 +57,14 @@ final class Label extends Widget
     /**
      * @return static
      */
-    public function for(FormModelInterface $formModel, string $attribute): self
+    public function for(FormModelContract $formModel, string $attribute): self
     {
         $new = clone $this;
         $new->formModel = $formModel;
-        $new->attribute = $attribute;
+        $new->attribute = match ($new->getFormModel()->has($attribute)) {
+            true => $attribute,
+            false => throw new AttributeNotSetException($attribute),
+        };
         return $new;
     }
 
@@ -112,33 +115,31 @@ final class Label extends Widget
         $label = $this->label;
 
         if ($label === '') {
-            $label = HtmlForm::getAttributeLabel($this->getFormModel(), $this->getAttribute());
+            $label = $this->getFormModel()->getLabel($this->getAttribute());
         }
 
         /** @var string */
         if (!array_key_exists('for', $attributes)) {
-            $attributes['for'] = HtmlForm::getInputId($this->getFormModel(), $this->getAttribute());
+            $attributes['for'] = FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
         }
 
-        return $label !== null ?
-            LabelTag::tag()->attributes($attributes)->content($label)->encode($this->encode)->render()
-            : '';
+        return match (empty($label)) {
+            true => '',
+            false => LabelTag::tag()->attributes($attributes)->content($label)->encode($this->encode)->render(),
+        };
     }
 
     private function getAttribute(): string
     {
-        return match (empty($this->attribute)) {
-            true => throw new AttributeNotSetException(),
-            false => $this->attribute,
-        };
+        return $this->attribute;
     }
 
     /**
-     * Return FormModelInterface object.
+     * Return FormModelContract object.
      *
-     * @return FormModelInterface
+     * @return FormModelContract
      */
-    private function getFormModel(): FormModelInterface
+    private function getFormModel(): FormModelContract
     {
         return match (empty($this->formModel)) {
             true => throw new FormModelNotSetException(),

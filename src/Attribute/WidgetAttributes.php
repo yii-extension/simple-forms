@@ -6,111 +6,39 @@ namespace Yii\Extension\Form\Attribute;
 
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\FormModelInterface;
-use Yii\Extension\FormModel\Helper\HtmlForm;
-use Yii\Extension\FormModel\Helper\HtmlFormErrors;
+use Yii\Extension\FormModel\Contract\FormModelContract;
 
 abstract class WidgetAttributes extends GlobalAttributes
 {
     private string $attribute = '';
-    private ?FormModelInterface $formModel = null;
+    private ?FormModelContract $formModel = null;
 
-    public function for(FormModelInterface $formModel, string $attribute): static
+    public function for(FormModelContract $formModel, string $attribute): static
     {
         $new = clone $this;
         $new->formModel = $formModel;
-        $new->attribute = $attribute;
+        $new->attribute = match ($new->getFormModel()->has($attribute)) {
+            true => $attribute,
+            false => throw new AttributeNotSetException($attribute),
+        };
         return $new;
     }
 
     protected function getAttribute(): string
     {
-        return match (empty($this->attribute)) {
-            true => throw new AttributeNotSetException(),
-            false => $this->attribute,
-        };
+        return $this->attribute;
     }
 
     /**
-     * Generate label attribute.
+     * Return FormModelContract object.
      *
-     * @return string
+     * @return FormModelContract
      */
-    protected function getAttributeLabel(): string
-    {
-        return HtmlForm::getAttributeLabel($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Generate placeholder attribute.
-     *
-     * @return string
-     */
-    protected function getAttributePlaceHolder(): string
-    {
-        return HtmlForm::getAttributePlaceHolder($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Return value of attribute.
-     *
-     * @return mixed
-     */
-    protected function getAttributeValue(): mixed
-    {
-        return HtmlForm::getAttributeValue($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Return FormModelInterface object.
-     *
-     * @return FormModelInterface
-     */
-    protected function getFormModel(): FormModelInterface
+    protected function getFormModel(): FormModelContract
     {
         return match (empty($this->formModel)) {
             true => throw new FormModelNotSetException(),
             false => $this->formModel,
         };
-    }
-
-    /**
-     * Generate input id attribute.
-     *
-     * @return string
-     */
-    protected function getInputId(): string
-    {
-        return HtmlForm::getInputId($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Generate input name attribute.
-     *
-     * @return string
-     */
-    protected function getInputName(): string
-    {
-        return HtmlForm::getInputName($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Return if there is a validation error in the attribute.
-     *
-     * @return bool
-     */
-    protected function hasError(): bool
-    {
-        return HtmlFormErrors::hasErrors($this->getFormModel(), $this->getAttribute());
-    }
-
-    /**
-     * Return if the field was validated.
-     *
-     * @return bool
-     */
-    protected function isValidated(): bool
-    {
-        return $this->getFormModel()->isValidated();
     }
 }

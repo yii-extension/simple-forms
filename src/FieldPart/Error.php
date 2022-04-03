@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\Field\Part;
+namespace Yii\Extension\Form\FieldPart;
 
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\FormModelInterface;
-use Yii\Extension\FormModel\Helper\HtmlFormErrors;
+use Yii\Extension\FormModel\Contract\FormModelContract;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Widget\Widget;
 
@@ -22,7 +21,7 @@ final class Error extends Widget
     private string $message = '';
     private array $messageCallback = [];
     private string $tag = 'div';
-    private ?FormModelInterface $formModel = null;
+    private ?FormModelContract $formModel = null;
 
     /**
      * The HTML attributes. The following special options are recognized.
@@ -57,11 +56,14 @@ final class Error extends Widget
     /**
      * @return static
      */
-    public function for(FormModelInterface $formModel, string $attribute): self
+    public function for(FormModelContract $formModel, string $attribute): self
     {
         $new = clone $this;
         $new->formModel = $formModel;
-        $new->attribute = $attribute;
+        $new->attribute = match ($new->getFormModel()->has($attribute)) {
+            true => $attribute,
+            false => throw new AttributeNotSetException($attribute),
+        };
         return $new;
     }
 
@@ -120,7 +122,7 @@ final class Error extends Widget
      */
     protected function run(): string
     {
-        $error = HtmlFormErrors::getFirstError($this->getFormModel(), $this->getAttribute());
+        $error = $this->getFormModel()->error()->getFirst($this->getAttribute());
 
         if ($error !== '' && $this->message !== '') {
             $error = $this->message;
@@ -143,18 +145,15 @@ final class Error extends Widget
 
     private function getAttribute(): string
     {
-        return match (empty($this->attribute)) {
-            true => throw new AttributeNotSetException(),
-            false => $this->attribute,
-        };
+        return $this->attribute;
     }
 
     /**
-     * Return FormModelInterface object.
+     * Return FormModelContract object.
      *
-     * @return FormModelInterface
+     * @return FormModelContract
      */
-    private function getFormModel(): FormModelInterface
+    private function getFormModel(): FormModelContract
     {
         return match (empty($this->formModel)) {
             true => throw new FormModelNotSetException(),
