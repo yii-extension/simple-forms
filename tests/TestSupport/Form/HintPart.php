@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Tests\TestSupport\Form;
 
-use Yii\Extension\FormModel\FormModel;
+use Yii\Extension\Model\FormModel;
 
 final class HintPart extends FormModel
 {

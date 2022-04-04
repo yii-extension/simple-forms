@@ -8,8 +8,8 @@ use InvalidArgumentException;
 use UnexpectedValueException;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\Attribute\FormModelAttributes;
-use Yii\Extension\FormModel\Contract\FormModelContract;
+use Yii\Extension\Model\Attribute\FormModelAttributes;
+use Yii\Extension\Model\Contract\FormModelContract;
 
 use function mb_strtolower;
 use function str_replace;
@@ -58,7 +58,7 @@ abstract class WidgetAttributes extends GlobalAttributes
 
     protected function getInputId(): string
     {
-        return FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
+        return FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute(), $this->charset);
     }
 
     protected function getInputName(): string
@@ -120,34 +120,5 @@ abstract class WidgetAttributes extends GlobalAttributes
     private function isEmpty(): bool
     {
         return $this->getFormModel()->isEmpty();
-    }
-
-    /**
-     * This method parses an attribute expression and returns an associative array containing
-     * real attribute name, prefix and suffix.
-     * For example: `['name' => 'content', 'prefix' => '', 'suffix' => '[0]']`
-     *
-     * An attribute expression is an attribute name prefixed and/or suffixed with array indexes. It is mainly used in
-     * tabular data input and/or input of array type. Below are some examples:
-     *
-     * - `[0]content` is used in tabular data input to represent the "content" attribute for the first model in tabular
-     *    input;
-     * - `dates[0]` represents the first array element of the "dates" attribute;
-     * - `[0]dates[0]` represents the first array element of the "dates" attribute for the first model in tabular
-     *    input.
-     *
-     * @param string $attribute the attribute name or expression
-     *
-     * @throws InvalidArgumentException if the attribute name contains non-word characters.
-     *
-     * @return string[] the attribute name, prefix and suffix.
-     */
-    private function parseAttribute(string $attribute): array
-    {
-        if (!preg_match('/(^|.*\])([\w\.\+\-_]+)(\[.*|$)/u', $attribute, $matches)) {
-            throw new InvalidArgumentException('Attribute name must contain word characters only.');
-        }
-
-        return ['name' => $matches[2], 'prefix' => $matches[1], 'suffix' => $matches[3]];
     }
 }

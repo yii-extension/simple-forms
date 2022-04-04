@@ -99,7 +99,7 @@ final class FieldInputTest extends TestCase
     {
         $formModel = new CustomError();
         $formModel->load(['CustomError' => ['login' => '']]);
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $expected = <<<HTML
         <div>
         <label for="customerror-login">Login</label>
@@ -129,7 +129,7 @@ final class FieldInputTest extends TestCase
     {
         $formModel = new CustomError();
         $formModel->load(['CustomError' => ['login' => '']]);
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $expected = <<<HTML
         <div>
         <label for="customerror-login">Login</label>
@@ -203,7 +203,7 @@ final class FieldInputTest extends TestCase
     {
         $formModel = new CustomError();
         $formModel->load(['CustomError' => ['login' => '']]);
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $expected = <<<HTML
         <div>
         <label for="customerror-login">Login</label>
@@ -285,7 +285,7 @@ final class FieldInputTest extends TestCase
     {
         $formModel = new CustomError();
         $formModel->load(['CustomError' => ['login' => 'samdark']]);
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $expected = <<<HTML
         <div>
         <label for="customerror-login">Login</label>

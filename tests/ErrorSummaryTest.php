@@ -181,7 +181,7 @@ final class ErrorSummaryTest extends TestCase
         ];
 
         $formModel->load($record);
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $errorSummary = ErrorSummary::widget()
             ->attributes($attributes)
             ->onlyAttributes(...$onlyAttributes)
