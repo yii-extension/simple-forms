@@ -713,6 +713,24 @@ abstract class FieldAttributes extends WidgetAttributes
     }
 
     /**
+     * Return label for field.
+     *
+     * if label is empty string, and label default value is not empty string, then return label default value.
+     *
+     * @return string|null
+     */
+    protected function getFieldLabel(): string|null
+    {
+        $label = $this->label;
+        $labelDefault = $this->getDefaultValue($this->type, 'label') ?? '';
+
+        return match (is_string($labelDefault) && $labelDefault !== '') {
+            true => $labelDefault,
+            false => $label,
+        };
+    }
+
+    /**
      * Return hint for field.
      *
      * if hint is empty string, and hint default value is not empty string, then return hint default value.
@@ -819,24 +837,6 @@ abstract class FieldAttributes extends WidgetAttributes
         return match (is_string($invalidClassDefault) && $invalidClassDefault !== '') {
             true => $invalidClassDefault,
             false => $invalidClass,
-        };
-    }
-
-    /**
-     * Return label for field.
-     *
-     * if label is empty string, and label default value is not empty string, then return label default value.
-     *
-     * @return string
-     */
-    protected function getLabel(): string
-    {
-        $label = $this->label;
-        $labelDefault = $this->getDefaultValue($this->type, 'label') ?? '';
-
-        return match (is_string($labelDefault) && $labelDefault !== '') {
-            true => $labelDefault,
-            false => $label,
         };
     }
 

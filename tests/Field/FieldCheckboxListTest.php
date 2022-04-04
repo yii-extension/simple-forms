@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget\Field;
+namespace Yii\Extension\Tests\Field;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
