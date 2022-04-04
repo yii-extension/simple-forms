@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
-use InvalidArgumentException;
 use Stringable;
 use Yiisoft\Html\Html;
-use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Http\Method;
 use Yiisoft\Widget\Widget;
 
 use function explode;
 use function implode;
 use function strpos;
+use function strtoupper;
 use function substr;
 use function urldecode;
 
@@ -28,11 +27,6 @@ final class Form extends Widget
     private array $attributes = [];
     private string $csrfName = '';
     private string $csrfToken = '';
-    private bool $fieldset = false;
-    private array $fieldsetAttributes = [];
-    private ?string $legend = null;
-    private array $legendAttributes = [];
-    private string $id = '';
     private string $method = Method::POST;
 
     /**
@@ -47,10 +41,6 @@ final class Form extends Widget
         $attributes = $this->attributes;
         $action = $this->action;
         $hiddenInputs = [];
-
-        if (!array_key_exists('id', $attributes) && $this->id !== '') {
-            $attributes['id'] = $this->id;
-        }
 
         if ($this->csrfToken !== '' && $this->method === Method::POST) {
             $hiddenInputs[] = Html::hiddenInput($this->csrfName, $this->csrfToken);
@@ -87,17 +77,6 @@ final class Form extends Widget
 
         $form = Html::openTag('form', $attributes);
 
-        if ($this->fieldset) {
-            $form .= PHP_EOL . Html::openTag('fieldset', $this->fieldsetAttributes);
-        }
-
-        if ($this->legend !== null) {
-            $form .= PHP_EOL . CustomTag::name('legend')
-                ->attributes($this->legendAttributes)
-                ->content($this->legend)
-                ->render();
-        }
-
         if (!empty($hiddenInputs)) {
             $form .= PHP_EOL . implode(PHP_EOL, $hiddenInputs);
         }
@@ -112,7 +91,7 @@ final class Form extends Widget
      *
      * @param string $value the accept-charset attribute value.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-accept-charset
      */
@@ -124,12 +103,12 @@ final class Form extends Widget
     }
 
     /**
-     * The action and formaction content attributes, if specified, must have a value that is a valid non-empty URL
+     * The action and form-action content attributes, if specified, must have a value that is a valid non-empty URL
      * potentially surrounded by spaces.
      *
      * @param string $value the action attribute value.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-action
      */
@@ -145,7 +124,7 @@ final class Form extends Widget
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
@@ -162,7 +141,7 @@ final class Form extends Widget
      *
      * @param bool $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-autocompleteelements-autocomplete
      */
@@ -176,117 +155,62 @@ final class Form extends Widget
     /**
      * The CSRF-token content attribute token that are known to be safe to use for.
      *
-     * @param mixed|string|Stringable $csrfToken the CSRF-token attribute value.
+     * @param string|Stringable $csrfToken the CSRF-token attribute value.
      * @param string $csrfName the CSRF-token attribute name.
      *
-     * @return static
+     * @return self
      */
-    public function csrf($csrfToken, string $csrfName = '_csrf'): self
+    public function csrf(string|Stringable $csrfToken, string $csrfName = '_csrf'): self
     {
         $new = clone $this;
-
-        if (is_string($csrfToken) || (is_object($csrfToken) && method_exists($csrfToken, '__toString'))) {
-            $new->csrfToken = (string) $csrfToken;
-        } else {
-            throw new InvalidArgumentException('CsrfToken must be a string or Stringable object.');
-        }
-
-        $new->csrfToken = (string)$csrfToken;
+        $new->csrfToken = (string) $csrfToken;
         $new->csrfName = $csrfName;
         return $new;
     }
 
     /**
-     * The formenctype content attribute specifies the content type of the form submission.
+     * Set CSS class of the field widget.
      *
-     * @param string $value the formenctype attribute value.
+     * @param string $class
      *
-     * @return static
+     * @return self
+     */
+    public function class(string $class): self
+    {
+        $new = clone $this;
+        Html::addCssClass($new->attributes, $class);
+        return $new;
+    }
+
+    /**
+     * The form-enctype content attribute specifies the content type of the form submission.
+     *
+     * @param string $value the form-enctype attribute value.
+     *
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-enctype
      */
     public function enctype(string $value): self
     {
         $new = clone $this;
-        $new->id = $value;
+        $new->attributes['id'] = $value;
         return $new;
     }
 
     /**
-     * The <fieldset> HTML element is used to group several controls as well as labels (<label>) within a web form.
+     * Set the ID of the widget.
      *
-     * @param bool $value whether the fieldset is enabled or disabled.
+     * @param string|null $id
      *
-     * @return static
+     * @return self
      *
-     * @link https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element
+     * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
      */
-    public function fieldset(bool $value): self
+    public function id(?string $id): self
     {
         $new = clone $this;
-        $new->fieldset = $value;
-        return $new;
-    }
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function fieldsetAttributes(array $values): self
-    {
-        $new = clone $this;
-        $new->fieldsetAttributes = $values;
-        return $new;
-    }
-
-    /**
-     * The id content attribute is a unique identifier for the element.
-     *
-     * @param string $value the id attribute value.
-     *
-     * @return static
-     */
-    public function id(string $value): self
-    {
-        $new = clone $this;
-        $new->id = $value;
-        return $new;
-    }
-
-    /**
-     * The <legend> HTML element represents a caption for the content of its parent <fieldset>.
-     *
-     * @param string|null $value whether the legend is enabled or disabled.
-     *
-     * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/form-elements.html#the-legend-element
-     */
-    public function legend(?string $value): self
-    {
-        $new = clone $this;
-        $new->legend = $value;
-        return $new;
-    }
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function legendAttributes(array $values): self
-    {
-        $new = clone $this;
-        $new->legendAttributes = $values;
+        $new->attributes['id'] = $id;
         return $new;
     }
 
@@ -295,7 +219,7 @@ final class Form extends Widget
      *
      * @param string $value the method attribute value.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-method
      */
@@ -307,10 +231,10 @@ final class Form extends Widget
     }
 
     /**
-     * The novalidate and formnovalidate content attributes are boolean attributes. If present, they indicate that the
+     * The novalidate and form-novalidate content attributes are boolean attributes. If present, they indicate that the
      * form is not to be validated during submission.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-novalidate
      */
@@ -322,12 +246,12 @@ final class Form extends Widget
     }
 
     /**
-     * The target and formtarget content attributes, if specified, must have values that are valid browsing context
+     * The target and form-target content attributes, if specified, must have values that are valid browsing context
      * names or keywords.
      *
      * @param string $value the target attribute value, for default its `_blank`.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-form-target
      */
@@ -347,12 +271,6 @@ final class Form extends Widget
      */
     protected function run(): string
     {
-        $html = '';
-
-        if ($this->fieldset) {
-            $html .= Html::closeTag('fieldset') . PHP_EOL;
-        }
-
-        return $html . Html::closeTag('form');
+        return Html::closeTag('form');
     }
 }
