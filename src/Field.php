@@ -8,8 +8,8 @@ use Yii\Extension\Form\Attribute\ButtonAttributes;
 use Yii\Extension\Form\Attribute\FieldAttributes;
 use Yii\Extension\Form\Attribute\GlobalAttributes;
 use Yii\Extension\Form\Attribute\InputAttributes;
-use Yii\Extension\Form\Attribute\PlaceholderInterface;
 use Yii\Extension\Form\Attribute\WidgetAttributes;
+use Yii\Extension\Form\Contract\PlaceholderContract;
 use Yii\Extension\Form\FieldPart\Error;
 use Yii\Extension\Form\FieldPart\Hint;
 use Yii\Extension\Form\FieldPart\Label;
@@ -651,7 +651,7 @@ final class Field extends FieldAttributes
         // Set placeholder.
         $placeholder = $new->getPlaceholder() ?? $new->inputWidget->getPlaceHolder();
 
-        if ($new->inputWidget instanceof PlaceholderInterface && $placeholder !== '') {
+        if ($new->inputWidget instanceof PlaceholderContract && $placeholder !== '') {
             $new->inputWidget = $new->inputWidget->attributes(['placeholder' => $placeholder]);
         }
 
@@ -775,7 +775,7 @@ final class Field extends FieldAttributes
             ->attributes($labelAttributes)
             ->encode($this->getEncode())
             ->for($this->inputWidget->getFormModel(), $this->inputWidget->getAttribute())
-            ->label($this->getLabel())
+            ->label($this->getFieldLabel())
             ->render();
     }
 }

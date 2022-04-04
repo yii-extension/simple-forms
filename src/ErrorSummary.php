@@ -2,32 +2,35 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Model\FormModelInterface;
-use Yii\Extension\Simple\Model\Helper\HtmlFormErrors;
+use Yii\Extension\Form\Exception\FormModelNotSetException;
+use Yii\Extension\FormModel\Contract\FormModelContract;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\P;
 use Yiisoft\Html\Tag\Ul;
 use Yiisoft\Widget\Widget;
 
+use function array_flip;
+use function array_intersect_key;
 use function array_unique;
 use function array_values;
 
 /**
  * The error summary widget displays a summary of the errors in a form.
- *
- * @psalm-suppress MissingConstructor
  */
 final class ErrorSummary extends Widget
 {
     private array $attributes = [];
     private bool $encode = true;
-    private FormModelInterface $formModel;
+    private array $onlyAttributes = [];
+    private ?FormModelContract $formModel = null;
     private string $footer = '';
-    private string $header = '';
+    private array $footerAttributes = [];
+    private string $header = 'Please fix the following errors:';
+    private array $headerAttributes = [];
     private bool $showAllErrors = false;
     /** @psalm-param non-empty-string */
     private string $tag = 'div';
@@ -35,16 +38,16 @@ final class ErrorSummary extends Widget
     /**
      * The HTML attributes. The following special options are recognized.
      *
-     * @param array $values Attribute values indexed by attribute names.
+     * @param array $value
      *
-     * @return static
+     * @return self
      *
      * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
-    public function attributes(array $values): self
+    public function attributes(array $value): self
     {
         $new = clone $this;
-        $new->attributes = $values;
+        $new->attributes = $value;
         return $new;
     }
 
@@ -53,7 +56,7 @@ final class ErrorSummary extends Widget
      *
      * @param bool $value
      *
-     * @return static
+     * @return self
      */
     public function encode(bool $value): self
     {
@@ -67,7 +70,7 @@ final class ErrorSummary extends Widget
      *
      * @param string $value
      *
-     * return static
+     * @return self
      */
     public function footer(string $value): self
     {
@@ -77,11 +80,27 @@ final class ErrorSummary extends Widget
     }
 
     /**
+     * Set footer attributes for the error summary.
+     *
+     * @param array $values Attribute values indexed by attribute names.
+     *
+     * @return self
+     *
+     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
+     */
+    public function footerAttributes(array $values): self
+    {
+        $new = clone $this;
+        $new->footerAttributes = $values;
+        return $new;
+    }
+
+    /**
      * Set the header text for the error summary
      *
      * @param string $value
      *
-     * return static
+     * @return self
      */
     public function header(string $value): self
     {
@@ -91,13 +110,29 @@ final class ErrorSummary extends Widget
     }
 
     /**
+     * Set header attributes for the error summary.
+     *
+     * @param array $values Attribute values indexed by attribute names.
+     *
+     * @return self
+     *
+     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
+     */
+    public function headerAttributes(array $values): self
+    {
+        $new = clone $this;
+        $new->headerAttributes = $values;
+        return $new;
+    }
+
+    /**
      * Set the model for the error summary.
      *
-     * @param FormModelInterface $formModel
+     * @param FormModelContract $formModel
      *
-     * @return static
+     * @return self
      */
-    public function model(FormModelInterface $formModel): self
+    public function model(FormModelContract $formModel): self
     {
         $new = clone $this;
         $new->formModel = $formModel;
@@ -109,12 +144,26 @@ final class ErrorSummary extends Widget
      *
      * @param bool $value
      *
-     * @return static
+     * @return self
      */
     public function showAllErrors(bool $value): self
     {
         $new = clone $this;
         $new->showAllErrors = $value;
+        return $new;
+    }
+
+    /**
+     * Specific attributes to be filtered out when rendering the error summary.
+     *
+     * @param array $values The attributes to be included in error summary.
+     *
+     * @return self
+     */
+    public function onlyAttributes(string ...$values): self
+    {
+        $new = clone $this;
+        $new->onlyAttributes = $values;
         return $new;
     }
 
@@ -125,7 +174,7 @@ final class ErrorSummary extends Widget
      *
      * @param string $value
      *
-     * @return static
+     * @return self
      */
     public function tag(string $value): self
     {
@@ -141,12 +190,14 @@ final class ErrorSummary extends Widget
      */
     private function collectErrors(): array
     {
-        $new = clone $this;
-        $errors = HtmlFormErrors::getErrorSummaryFirstErrors($new->formModel);
+        $formErrors = $this->getFormModel()->error();
+        $errors = $formErrors->getSummaryFirst();
         $errorMessages = [];
 
-        if ($new->showAllErrors) {
-            $errors = HtmlFormErrors::getErrorSummary($new->formModel);
+        if ($this->showAllErrors) {
+            $errors = $formErrors->getSummary($this->onlyAttributes);
+        } elseif ($this->onlyAttributes !== []) {
+            $errors = array_intersect_key($errors, array_flip($this->onlyAttributes));
         }
 
         /**
@@ -155,7 +206,7 @@ final class ErrorSummary extends Widget
          */
         $lines = array_values(array_unique($errors));
 
-        if ($new->encode) {
+        if ($this->encode) {
             /** @var string $line */
             foreach ($lines as $line) {
                 if (!empty($line)) {
@@ -181,26 +232,36 @@ final class ErrorSummary extends Widget
             throw new InvalidArgumentException('Tag name cannot be empty.');
         }
 
-        if ($this->header === '') {
-            $content .= P::tag()->content('Please fix the following errors:')->render() . PHP_EOL;
-        } else {
-            $content .= $this->header . PHP_EOL;
-        }
+        $content .=  P::tag()->attributes($this->headerAttributes)->content($this->header)->render() . PHP_EOL;
 
         /** @var array<string, string> */
         $lines = $this->collectErrors();
         $content .= Ul::tag()->strings($lines)->render();
 
         if ($this->footer !== '') {
-            $content .= PHP_EOL . $this->footer;
+            $content .= PHP_EOL . P::tag()->attributes($this->footerAttributes)->content($this->footer)->render();
         }
 
-        return $lines !== []
-            ? CustomTag::name($this->tag)
-            ->attributes($attributes)
-            ->encode(false)
-            ->content(PHP_EOL . $content . PHP_EOL)
-            ->render()
-            : '';
+        return match (empty($lines)) {
+            true => '',
+            false => CustomTag::name($this->tag)
+                ->attributes($attributes)
+                ->encode(false)
+                ->content(PHP_EOL . $content . PHP_EOL)
+                ->render(),
+        };
+    }
+
+    /**
+     * Return FormModelContract object.
+     *
+     * @return FormModelContract
+     */
+    private function getFormModel(): FormModelContract
+    {
+        return match (empty($this->formModel)) {
+            true => throw new FormModelNotSetException(),
+            false => $this->formModel,
+        };
     }
 }
