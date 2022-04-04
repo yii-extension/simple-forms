@@ -8,7 +8,7 @@ use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\Form\FieldPart\Hint;
+use Yii\Extension\Form\Part\Hint;
 use Yii\Extension\Form\Tests\TestSupport\Form\HintPart;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;

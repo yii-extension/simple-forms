@@ -2,25 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\FieldPart;
+namespace Yii\Extension\Form\Part;
 
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
+use Yii\Extension\FormModel\Attribute\FormModelAttributes;
 use Yii\Extension\FormModel\Contract\FormModelContract;
-use Yiisoft\Html\Tag\CustomTag;
+use Yiisoft\Html\Tag\Label as LabelTag;
 use Yiisoft\Widget\Widget;
 
 /**
- * The Error widget displays an error message.
+ * Generates a label tag for the given form attribute.
+ *
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
  */
-final class Error extends Widget
+final class Label extends Widget
 {
     private string $attribute = '';
     private array $attributes = [];
     private bool $encode = false;
-    private string $message = '';
-    private array $messageCallback = [];
-    private string $tag = 'div';
+    private ?string $label = '';
     private ?FormModelContract $formModel = null;
 
     /**
@@ -35,7 +36,7 @@ final class Error extends Widget
     public function attributes(array $values): self
     {
         $new = clone $this;
-        $new->attributes = $values;
+        $new->attributes = array_merge($new->attributes, $values);
         return $new;
     }
 
@@ -68,78 +69,63 @@ final class Error extends Widget
     }
 
     /**
-     * Error message to display.
+     * The id of a labelable form-related element in the same document as the tag label element.
+     *
+     * The first element in the document with an id matching the value of the for attribute is the labeled control for
+     * this label element, if it is a labelable element.
+     *
+     * @param string|null $value The id of a labelable form-related element in the same document as the tag label
+     * element. If null, the attribute will be removed.
      *
      * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html#label.attrs.for
      */
-    public function message(string $value): self
+    public function forId(?string $value): self
     {
         $new = clone $this;
-        $new->message = $value;
+        $new->attributes['for'] = $value;
         return $new;
     }
 
     /**
-     * Callback that will be called to obtain an error message.
+     * This specifies the label to be displayed.
      *
-     * The signature of the callback must be:
-     *
-     * ```php
-     * [$FormModel, function()]
-     * ```
-     *
-     * @param array $value
+     * @param string|null $value The label to be displayed.
      *
      * @return static
+     *
+     * Note that this will NOT be encoded.
+     * - If this is not set, {@see \Yiisoft\Form\FormModel::getAttributeLabel() will be called to get the label for
+     * display (after encoding).
      */
-    public function messageCallback(array $value): self
+    public function label(?string $value): self
     {
         $new = clone $this;
-        $new->messageCallback = $value;
+        $new->label = $value;
         return $new;
     }
 
     /**
-     * The tag name of the container element.
-     *
-     * Empty to render error messages without container {@see Html::tag()}.
-     *
-     * @param string $value
-     *
-     * @return static
-     */
-    public function tag(string $value): self
-    {
-        $new = clone $this;
-        $new->tag = $value;
-        return $new;
-    }
-
-    /**
-     * Generates a tag that contains the first validation error of the specified form attribute.
-     *
-     * @return string the generated label tag
+     * @return string the generated label tag.
      */
     protected function run(): string
     {
-        $error = $this->getFormModel()->error()->getFirst($this->getAttribute());
+        $attributes = $this->attributes;
+        $label = $this->label;
 
-        if ($error !== '' && $this->message !== '') {
-            $error = $this->message;
+        if ($label === '') {
+            $label = $this->getFormModel()->getLabel($this->getAttribute());
         }
 
-        if ($error !== '' && $this->messageCallback !== []) {
-            /** @var string */
-            $error = call_user_func($this->messageCallback, $this->getFormModel(), $this->getAttribute());
+        /** @var string */
+        if (!array_key_exists('for', $attributes)) {
+            $attributes['for'] = FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
         }
 
-        return match ($this->tag !== '' && $error !== '') {
-            true => CustomTag::name($this->tag)
-                ->attributes($this->attributes)
-                ->content($error)
-                ->encode($this->encode)
-                ->render(),
-            false => $error,
+        return match (empty($label)) {
+            true => '',
+            false => LabelTag::tag()->attributes($attributes)->content($label)->encode($this->encode)->render(),
         };
     }
 

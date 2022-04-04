@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\FieldPart;
+namespace Yii\Extension\Form\Part;
 
-use InvalidArgumentException;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\FormModel\Contract\FormModelContract;
@@ -12,14 +11,15 @@ use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Widget\Widget;
 
 /**
- * The widget for hint form.
+ * The Error widget displays an error message.
  */
-final class Hint extends Widget
+final class Error extends Widget
 {
     private string $attribute = '';
     private array $attributes = [];
     private bool $encode = false;
-    private ?string $hint = '';
+    private string $message = '';
+    private array $messageCallback = [];
     private string $tag = 'div';
     private ?FormModelContract $formModel = null;
 
@@ -35,7 +35,7 @@ final class Hint extends Widget
     public function attributes(array $values): self
     {
         $new = clone $this;
-        $new->attributes = array_merge($new->attributes, $values);
+        $new->attributes = $values;
         return $new;
     }
 
@@ -68,39 +68,43 @@ final class Hint extends Widget
     }
 
     /**
-     * Set the ID of the widget.
-     *
-     * @param string|null $id
+     * Error message to display.
      *
      * @return static
-     *
-     * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
      */
-    public function id(?string $id): self
+    public function message(string $value): self
     {
         $new = clone $this;
-        $new->attributes['id'] = $id;
+        $new->message = $value;
         return $new;
     }
 
     /**
-     * Set hint text.
+     * Callback that will be called to obtain an error message.
      *
-     * @param string|null $value
+     * The signature of the callback must be:
+     *
+     * ```php
+     * [$FormModel, function()]
+     * ```
+     *
+     * @param array $value
      *
      * @return static
      */
-    public function hint(?string $value): self
+    public function messageCallback(array $value): self
     {
         $new = clone $this;
-        $new->hint = $value;
+        $new->messageCallback = $value;
         return $new;
     }
 
     /**
-     * Set the container tag name for the hint.
+     * The tag name of the container element.
      *
-     * @param string $value Container tag name. Set to empty value to render error messages without container tag.
+     * Empty to render error messages without container {@see Html::tag()}.
+     *
+     * @param string $value
      *
      * @return static
      */
@@ -112,29 +116,30 @@ final class Hint extends Widget
     }
 
     /**
-     * Generates a hint tag for the given form attribute.
+     * Generates a tag that contains the first validation error of the specified form attribute.
      *
-     * @return string the generated hint tag.
+     * @return string the generated label tag
      */
     protected function run(): string
     {
-        $hint = $this->hint;
+        $error = $this->getFormModel()->error()->getFirst($this->getAttribute());
 
-        if ($this->tag === '') {
-            throw new InvalidArgumentException('Tag name cannot be empty.');
+        if ($error !== '' && $this->message !== '') {
+            $error = $this->message;
         }
 
-        if ($hint === '') {
-            $hint = $this->getFormModel()->getHint($this->getAttribute());
+        if ($error !== '' && $this->messageCallback !== []) {
+            /** @var string */
+            $error = call_user_func($this->messageCallback, $this->getFormModel(), $this->getAttribute());
         }
 
-        return match ($hint !== null && $hint !== '') {
+        return match ($this->tag !== '' && $error !== '') {
             true => CustomTag::name($this->tag)
                 ->attributes($this->attributes)
-                ->content($hint)
+                ->content($error)
                 ->encode($this->encode)
                 ->render(),
-            false => '',
+            false => $error,
         };
     }
 
@@ -143,6 +148,11 @@ final class Hint extends Widget
         return $this->attribute;
     }
 
+    /**
+     * Return FormModelContract object.
+     *
+     * @return FormModelContract
+     */
     private function getFormModel(): FormModelContract
     {
         return match (empty($this->formModel)) {

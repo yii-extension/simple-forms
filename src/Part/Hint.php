@@ -2,26 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\FieldPart;
+namespace Yii\Extension\Form\Part;
 
+use InvalidArgumentException;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\Attribute\FormModelAttributes;
 use Yii\Extension\FormModel\Contract\FormModelContract;
-use Yiisoft\Html\Tag\Label as LabelTag;
+use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Widget\Widget;
 
 /**
- * Generates a label tag for the given form attribute.
- *
- * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html
+ * The widget for hint form.
  */
-final class Label extends Widget
+final class Hint extends Widget
 {
     private string $attribute = '';
     private array $attributes = [];
     private bool $encode = false;
-    private ?string $label = '';
+    private ?string $hint = '';
+    private string $tag = 'div';
     private ?FormModelContract $formModel = null;
 
     /**
@@ -69,63 +68,73 @@ final class Label extends Widget
     }
 
     /**
-     * The id of a labelable form-related element in the same document as the tag label element.
+     * Set the ID of the widget.
      *
-     * The first element in the document with an id matching the value of the for attribute is the labeled control for
-     * this label element, if it is a labelable element.
-     *
-     * @param string|null $value The id of a labelable form-related element in the same document as the tag label
-     * element. If null, the attribute will be removed.
+     * @param string|null $id
      *
      * @return static
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/label.html#label.attrs.for
+     * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
      */
-    public function forId(?string $value): self
+    public function id(?string $id): self
     {
         $new = clone $this;
-        $new->attributes['for'] = $value;
+        $new->attributes['id'] = $id;
         return $new;
     }
 
     /**
-     * This specifies the label to be displayed.
+     * Set hint text.
      *
-     * @param string|null $value The label to be displayed.
+     * @param string|null $value
      *
      * @return static
-     *
-     * Note that this will NOT be encoded.
-     * - If this is not set, {@see \Yiisoft\Form\FormModel::getAttributeLabel() will be called to get the label for
-     * display (after encoding).
      */
-    public function label(?string $value): self
+    public function hint(?string $value): self
     {
         $new = clone $this;
-        $new->label = $value;
+        $new->hint = $value;
         return $new;
     }
 
     /**
-     * @return string the generated label tag.
+     * Set the container tag name for the hint.
+     *
+     * @param string $value Container tag name. Set to empty value to render error messages without container tag.
+     *
+     * @return static
+     */
+    public function tag(string $value): self
+    {
+        $new = clone $this;
+        $new->tag = $value;
+        return $new;
+    }
+
+    /**
+     * Generates a hint tag for the given form attribute.
+     *
+     * @return string the generated hint tag.
      */
     protected function run(): string
     {
-        $attributes = $this->attributes;
-        $label = $this->label;
+        $hint = $this->hint;
 
-        if ($label === '') {
-            $label = $this->getFormModel()->getLabel($this->getAttribute());
+        if ($this->tag === '') {
+            throw new InvalidArgumentException('Tag name cannot be empty.');
         }
 
-        /** @var string */
-        if (!array_key_exists('for', $attributes)) {
-            $attributes['for'] = FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
+        if ($hint === '') {
+            $hint = $this->getFormModel()->getHint($this->getAttribute());
         }
 
-        return match (empty($label)) {
-            true => '',
-            false => LabelTag::tag()->attributes($attributes)->content($label)->encode($this->encode)->render(),
+        return match ($hint !== null && $hint !== '') {
+            true => CustomTag::name($this->tag)
+                ->attributes($this->attributes)
+                ->content($hint)
+                ->encode($this->encode)
+                ->render(),
+            false => '',
         };
     }
 
@@ -134,11 +143,6 @@ final class Label extends Widget
         return $this->attribute;
     }
 
-    /**
-     * Return FormModelContract object.
-     *
-     * @return FormModelContract
-     */
     private function getFormModel(): FormModelContract
     {
         return match (empty($this->formModel)) {

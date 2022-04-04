@@ -7,7 +7,7 @@ namespace Yii\Extension\Form\Tests\Field\Part;
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\Form\FieldPart\Error;
+use Yii\Extension\Form\Part\Error;
 use Yii\Extension\Form\Tests\TestSupport\Form\CustomError;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
