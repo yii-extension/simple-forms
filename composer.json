@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yii\\Extension\\Simple\\Forms\\": "src"
+            "Yii\\Extension\\Form\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yii\\Extension\\Simple\\Forms\\Tests\\": "tests"
+            "Yii\\Extension\\Form\\Tests\\": "tests"
         }
     },
     "extra": {
