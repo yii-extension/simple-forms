@@ -147,6 +147,32 @@ abstract class WidgetAttributes extends GlobalAttributes
     }
 
     /**
+     * Return if there is a validation error in the attribute.
+     *
+     * @return bool
+     */
+    protected function hasError(): bool
+    {
+        return $this->getFormModel()->error()->has($this->getAttribute());
+    }
+
+    /**
+     * Return if the form is empty.
+     */
+    protected function isEmpty(): bool
+    {
+        return $this->getFormModel()->isEmpty();
+    }
+
+    /**
+     * Return if the form is empty.
+     */
+    protected function isValidated(): bool
+    {
+        return !$this->isEmpty() && !$this->hasError();
+    }
+
+    /**
      * This method parses an attribute expression and returns an associative array containing
      * real attribute name, prefix and suffix.
      * For example: `['name' => 'content', 'prefix' => '', 'suffix' => '[0]']`

@@ -15,7 +15,7 @@ use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
 
-final class FieldUrlTest extends TestCase
+final class FieldTelephoneTest extends TestCase
 {
     use TestTrait;
 
@@ -27,12 +27,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" autofocus>
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" autofocus>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->url(new PropertyType(), 'string')->render(),
+            Field::widget()->autofocus()->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -44,29 +44,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" disabled>
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" disabled>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->url(new PropertyType(), 'string')->render(),
-        );
-    }
-
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
-    public function testId(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="id-test">String</label>
-        <input type="url" id="id-test" name="PropertyType[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->id('id-test')->url(new PropertyType(), 'string')->render()
+            Field::widget()->disabled()->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -78,10 +61,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="validatorrules-regex">Regex</label>
-        <input type="url" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">
+        <input type="tel" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'regex')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->telephone(new ValidatorRules(), 'regex')->render(),
+        );
     }
 
     /**
@@ -92,10 +78,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="validatorrules-maxlength">Maxlength</label>
-        <input type="url" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">
+        <input type="tel" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'maxlength')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->telephone(new ValidatorRules(), 'maxlength')->render()
+        );
     }
 
     /**
@@ -106,10 +95,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="validatorrules-minlength">Minlength</label>
-        <input type="url" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">
+        <input type="tel" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'minlength')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->telephone(new ValidatorRules(), 'minlength')->render()
+        );
     }
 
     /**
@@ -120,24 +112,27 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="validatorrules-required">Required</label>
-        <input type="url" id="validatorrules-required" name="ValidatorRules[required]" required>
+        <input type="tel" id="validatorrules-required" name="ValidatorRules[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'required')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone(new ValidatorRules(), 'required')->render());
     }
 
     /**
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testGetValidatorAttributeUrlValidator(): void
+    public function testId(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorrules-url">Url</label>
-        <input type="url" id="validatorrules-url" name="ValidatorRules[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
+        <label for="id-test">String</label>
+        <input type="tel" id="id-test" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'url')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->id('id-test')->telephone(new PropertyType(), 'string')->render(),
+        );
     }
 
     /**
@@ -148,12 +143,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" maxlength="10">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" maxlength="10">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
+            Field::widget()->telephone(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
         );
     }
 
@@ -165,12 +160,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" minlength="4">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" minlength="4">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
+            Field::widget()->telephone(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
         );
     }
 
@@ -182,12 +177,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="name-test">
+        <input type="tel" id="propertytype-string" name="name-test">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->url(new PropertyType(), 'string')->render(),
+            Field::widget()->name('name-test')->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -199,13 +194,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" pattern="[789][0-9]{9}">
         </div>
         HTML;
-        $html = Field::widget()
-            ->url(new PropertyType(), 'string', ['pattern()' => ["^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"]])
-            ->render();
-        $this->assertEqualsWithoutLE($expected, $html);
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->telephone(new PropertyType(), 'string', ['pattern()' => ['[789][0-9]{9}']])->render(),
+        );
     }
 
     /**
@@ -216,12 +211,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeholder('PlaceHolder Text')->url(new PropertyType(), 'string')->render(),
+            Field::widget()->placeholder('PlaceHolder Text')->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -230,15 +225,15 @@ final class FieldUrlTest extends TestCase
      */
     public function testReadonly(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" readonly>
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" readonly>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->readonly()->url(new PropertyType(), 'string')->render(),
+            Field::widget()->telephone(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -250,12 +245,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" required>
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" required>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->required()->url(new PropertyType(), 'string')->render(),
+            Field::widget()->required()->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -267,27 +262,10 @@ final class FieldUrlTest extends TestCase
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new PropertyType(), 'string')->render());
-    }
-
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
-    public function testSize(): void
-    {
-        $expected = <<<'HTML'
-        <div>
-        <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" size="20">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->url(new PropertyType(), 'string', ['size()' => [20]])->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone(new PropertyType(), 'string')->render());
     }
 
     /**
@@ -298,10 +276,13 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" tabindex="1">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new PropertyType(), 'string')->tabIndex(1)->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->tabIndex(1)->telephone(new PropertyType(), 'string')->render(),
+        );
     }
 
     /**
@@ -309,28 +290,52 @@ final class FieldUrlTest extends TestCase
      */
     public function testValue(): void
     {
-        // Value string `https://yiiframework.com`.
+        // Value string `+71234567890`.
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" value="https://yiiframework.com">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" value="+71234567890">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string')->value('https://yiiframework.com')->render(),
+            Field::widget()->telephone(new PropertyType(), 'string')->value('+71234567890')->render(),
+        );
+
+        // Value numeric string `71234567890`.
+        $expected = <<<'HTML'
+        <div>
+        <label for="propertytype-string">String</label>
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" value="71234567890">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->telephone(new PropertyType(), 'string')->value('71234567890')->render(),
+        );
+
+        // Value integer `71234567890`.
+        $expected = <<<'HTML'
+        <div>
+        <label for="propertytype-int">Int</label>
+        <input type="tel" id="propertytype-int" name="PropertyType[int]" value="71234567890">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->telephone(new PropertyType(), 'int')->value(71234567890)->render(),
         );
 
         // Value `null`.
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string')->value(null)->render(),
+            Field::widget()->telephone(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -340,36 +345,56 @@ final class FieldUrlTest extends TestCase
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Url widget must be a string or null value.');
-        Field::widget()->url(new PropertyType(), 'int')->render();
+        $this->expectExceptionMessage('Telephone widget must be a string, numeric or null.');
+        Field::widget()->telephone(new PropertyType(), 'array')->render();
     }
 
     /**
      * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testValueWithForm(): void
+    public function testValueWithFormModel(): void
     {
         $formModel = new PropertyType();
 
-        // Value string `'https://yiiframework.com'`.
-        $formModel->set('string', 'https://yiiframework.com');
-        $expected = <<<HTML
+        // Value string `+71234567890`.
+        $formModel->set('string', '+71234567890');
+        $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]" value="https://yiiframework.com">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" value="+71234567890">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
+
+        // Value numeric string `71234567890`.
+        $formModel->set('string', '71234567890');
+        $expected = <<<'HTML'
+        <div>
+        <label for="propertytype-string">String</label>
+        <input type="tel" id="propertytype-string" name="PropertyType[string]" value="71234567890">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
+
+        // Value integer `71234567890`.
+        $formModel->set('int', 71234567890);
+        $expected = <<<'HTML'
+        <div>
+        <label for="propertytype-int">Int</label>
+        <input type="tel" id="propertytype-int" name="PropertyType[int]" value="71234567890">
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'int')->render());
 
         // Value `null`.
         $formModel->set('string', null);
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string" name="PropertyType[string]">
+        <input type="tel" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
     }
 
     /**
@@ -380,12 +405,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label>String</label>
-        <input type="url" name="PropertyType[string]">
+        <input type="tel" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->url(new PropertyType(), 'string')->render(),
+            Field::widget()->id(null)->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -397,12 +422,12 @@ final class FieldUrlTest extends TestCase
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
-        <input type="url" id="propertytype-string">
+        <input type="tel" id="propertytype-string">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->url(new PropertyType(), 'string')->render(),
+            Field::widget()->name(null)->telephone(new PropertyType(), 'string')->render(),
         );
     }
 }

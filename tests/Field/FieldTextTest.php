@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Tests\Widget\Field;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Field;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -21,405 +20,394 @@ final class FieldTextTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]" autofocus>
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" autofocus>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->text(new TypeForm(), 'string')->render(),
+            Field::widget()->autofocus()->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDirname(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" dirname="test.dir">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" dirname="test.dir">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['dirname()' => ['test.dir']])->render(),
+            Field::widget()->text(new PropertyType(), 'string', ['dirname()' => ['test.dir']])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDirnameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
-        Field::widget()->text(new LoginForm(), 'login', ['dirname()' => ['']])->render();
+        Field::widget()->text(new PropertyType(), 'string', ['dirname()' => ['']])->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]" disabled>
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" disabled>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->text(new TypeForm(), 'string')->render(),
+            Field::widget()->disabled()->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testGetValidatorMatchRegularExpression(): void
+    public function testGetValidatorAttributeMatchRegulRegex(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-matchregular">Matchregular</label>
-        <input type="text" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">
+        <label for="validatorrules-regex">Regex</label>
+        <input type="text" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'matchregular')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorRules(), 'regex')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-maxlength">Maxlength</label>
-        <input type="text" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">
+        <label for="validatorrules-maxlength">Maxlength</label>
+        <input type="text" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'maxlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorRules(), 'maxlength')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMinLength(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-minlength">Minlength</label>
-        <input type="text" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">
+        <label for="validatorrules-minlength">Minlength</label>
+        <input type="text" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'minlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorRules(), 'minlength')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeRequired(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-required">Required</label>
-        <input type="text" id="validatorform-required" name="ValidatorForm[required]" required>
+        <label for="validatorrules-required">Required</label>
+        <input type="text" id="validatorrules-required" name="ValidatorRules[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorForm(), 'required')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new ValidatorRules(), 'required')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $expected = <<<HTML
         <div>
         <label for="id-test">String</label>
-        <input type="text" id="id-test" name="TypeForm[string]">
+        <input type="text" id="id-test" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->text(new TypeForm(), 'string')->render(),
+            Field::widget()->id('id-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMaxLength(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" maxlength="10">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" maxlength="10">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['maxlength()' => [10]])->render(),
+            Field::widget()->text(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMinLength(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" minlength="4">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" minlength="4">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['minlength()' => [4]])->render(),
+            Field::widget()->text(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="name-test">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="name-test">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->text(new LoginForm(), 'login')->render(),
+            Field::widget()->name('name-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPattern(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" title="Only accepts uppercase and lowercase letters." pattern="[A-Za-z]">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" title="Only accepts uppercase and lowercase letters." pattern="[A-Za-z]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()
-                ->text(new LoginForm(), 'login', ['pattern()' => ['[A-Za-z]']])
-                ->title('Only accepts uppercase and lowercase letters.')
-                ->render()
-        );
+        $html = Field::widget()
+            ->text(new PropertyType(), 'string', ['pattern()' => ['[A-Za-z]']])
+            ->title('Only accepts uppercase and lowercase letters.')
+            ->render();
+        $this->assertEqualsWithoutLE($expected, $html);
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPlaceholder(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" placeholder="PlaceHolder Text">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeHolder('PlaceHolder Text')->text(new LoginForm(), 'login')->render(),
+            Field::widget()->placeholder('PlaceHolder Text')->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testReadOnly(): void
+    public function testReadonly(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" readonly>
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" readonly>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->addAttribute('readonly', true)->text(new LoginForm(), 'login')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->readonly()->text(new PropertyType(), 'string')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]" required>
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->required()->text(new TypeForm(), 'string')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->required()->text(new PropertyType(), 'string')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new LoginForm(), 'login')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text(new PropertyType(), 'string')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testSize(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" size="10">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" size="10">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login', ['size()' => [10]])->render(),
+            Field::widget()->text(new PropertyType(), 'string', ['size()' => [10]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabIndex(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" tabindex="1">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->tabIndex(1)->text(new LoginForm(), 'login')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->tabIndex(1)->text(new PropertyType(), 'string')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         // Value string `joe`.
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" value="joe">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" value="joe">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login')->value('joe')->render(),
+            Field::widget()->text(new PropertyType(), 'string')->value('joe')->render(),
         );
 
         // Value `null`.
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new LoginForm(), 'login')->value(null)->render(),
+            Field::widget()->text(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Text widget must be a string or null value.');
-        Field::widget()->text(new TypeForm(), 'array')->render();
+        Field::widget()->text(new PropertyType(), 'array')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithForm(): void
     {
-        $formModel = new LoginForm();
+        $formModel = new PropertyType();
 
         // Value string `joe`.
-        $formModel->setAttribute('login', 'joe');
+        $formModel->set('string', 'joe');
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]" value="joe">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]" value="joe">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->setAttribute('login', null);
+        $formModel->set('string', null);
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login" name="LoginForm[login]">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'login')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'string')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $expected = <<<HTML
         <div>
-        <label>Login</label>
-        <input type="text" name="LoginForm[login]">
+        <label>String</label>
+        <input type="text" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->text(new LoginForm(), 'login')->render(),
+            Field::widget()->id(null)->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="loginform-login">Login</label>
-        <input type="text" id="loginform-login">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->name(null)->text(new LoginForm(), 'login')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->name(null)->text(new PropertyType(), 'string')->render());
     }
 }

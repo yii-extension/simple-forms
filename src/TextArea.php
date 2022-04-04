@@ -2,28 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
-use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
-use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
-use Yii\Extension\Simple\Forms\Validator\FieldValidator;
+use Yii\Extension\Form\Attribute\InputAttributes;
+use Yii\Extension\Form\Contract\HasLengthContract;
+use Yii\Extension\Form\Contract\PlaceholderContract;
 use Yiisoft\Html\Tag\Textarea as TextAreaTag;
+
+use function in_array;
+use function is_string;
 
 /**
  * Generates a textarea tag for the given form attribute.
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html
  */
-final class TextArea extends InputAttributes implements HasLengthInterface, PlaceholderInterface
+final class TextArea extends InputAttributes implements HasLengthContract, PlaceholderContract
 {
     /**
      * The expected maximum number of characters per line of text for the UA to show.
      *
      * @param int $value Positive integer.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.cols
      */
@@ -40,7 +42,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      *
      * @param string $value Any string that is not empty.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.dirname
      */
@@ -55,9 +57,6 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
         return $new;
     }
 
-    /**
-     * @return static
-     */
     public function maxlength(int $value): self
     {
         $new = clone $this;
@@ -65,9 +64,6 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
         return $new;
     }
 
-    /**
-     * @return static
-     */
     public function minlength(int $value): self
     {
         $new = clone $this;
@@ -76,7 +72,13 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
     }
 
     /**
-     * @return static
+     * It allows defining placeholder.
+     *
+     * @param string $value
+     *
+     * @return self
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.placeholder
      */
     public function placeholder(string $value): self
     {
@@ -86,11 +88,29 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
     }
 
     /**
+     * A Boolean attribute which, if present, means this field cannot be edited by the user.
+     * Its value can, however, still be changed by JavaScript code directly setting the HTMLInputElement.value
+     * property.
+     *
+     * @param bool $value
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.readonly
+     */
+    public function readonly(bool $value = true): static
+    {
+        $new = clone $this;
+        $new->attributes['readonly'] = $value;
+        return $new;
+    }
+
+    /**
      * The number of lines of text for the UA to show.
      *
      * @param int $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.rows
      */
@@ -107,7 +127,7 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      *  more characters than the value specified by the cols attribute.
      * `soft` Instructs the UA to add no line breaks to the submitted value of the textarea.
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.wrap.hard
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/textarea.html#textarea.attrs.wrap.soft
@@ -128,10 +148,10 @@ final class TextArea extends InputAttributes implements HasLengthInterface, Plac
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes());
+        $attributes = $this->build($this->attributes);
 
         /** @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value */
-        $value = $attributes['value'] ?? $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getValue();
         unset($attributes['value']);
 
         if (!is_string($value) && null !== $value) {

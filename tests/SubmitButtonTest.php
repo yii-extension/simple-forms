@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget\Field;
+namespace Yii\Extension\Tests\Widget;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Form\Field;
+use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
@@ -13,7 +13,7 @@ use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 
-final class FieldSubmitButtonTest extends TestCase
+final class SubmitButtonTest extends TestCase
 {
     use TestTrait;
 
@@ -23,12 +23,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testAutofocus(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit" autofocus>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->autofocus()->submitButton()->render());
+        $this->assertSame(
+            '<input type="submit" id="w1-submit" name="w1-submit" autofocus>',
+            SubmitButton::widget()->autofocus()->render(),
+        );
     }
 
     /**
@@ -37,12 +35,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testDisabled(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit" disabled>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->disabled()->submitButton()->render());
+        $this->assertSame(
+            '<input type="submit" id="w1-submit" name="w1-submit" disabled>',
+            SubmitButton::widget()->disabled()->render(),
+        );
     }
 
     /**
@@ -51,14 +47,9 @@ final class FieldSubmitButtonTest extends TestCase
     public function testForm(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit" form="form-register">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->submitButton(['form()' => ['form-register']])->render(),
+        $this->assertSame(
+            '<input type="submit" id="w1-submit" name="w1-submit" form="form-register">',
+            SubmitButton::widget()->form('form-register')->render(),
         );
     }
 
@@ -68,12 +59,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="test-id" name="w1-submit">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id('test-id')->submitButton()->render());
+        $this->assertSame(
+            '<input type="submit" id="test-id" name="w1-submit">',
+            SubmitButton::widget()->id('test-id')->render(),
+        );
     }
 
     /**
@@ -82,12 +71,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="test-name">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->name('test-name')->submitButton()->render());
+        $this->assertSame(
+            '<input type="submit" id="w1-submit" name="test-name">',
+            SubmitButton::widget()->name('test-name')->render(),
+        );
     }
 
     /**
@@ -96,12 +83,7 @@ final class FieldSubmitButtonTest extends TestCase
     public function testRender(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->render());
+        $this->assertSame('<input type="submit" id="w1-submit" name="w1-submit">', SubmitButton::widget()->render());
     }
 
     /**
@@ -110,12 +92,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testTabindex(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit" tabindex="1">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->tabindex(1)->render());
+        $this->assertSame(
+            '<input type="submit" id="w1-submit" name="w1-submit" tabindex="1">',
+            SubmitButton::widget()->tabindex(1)->render(),
+        );
     }
 
     /**
@@ -124,12 +104,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testValue(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit" value="Save">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->value('Save')->render());
+        $this->assertSame(
+            '<input type="submit" id="w1-submit" name="w1-submit" value="Save">',
+            SubmitButton::widget()->value('Save')->render(),
+        );
     }
 
     /**
@@ -138,12 +116,10 @@ final class FieldSubmitButtonTest extends TestCase
     public function testWithoutId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" name="w1-submit">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->submitButton()->render());
+        $this->assertSame(
+            '<input type="submit" name="w1-submit">',
+            SubmitButton::widget()->id(null)->render(),
+        );
     }
 
     /**
@@ -152,11 +128,9 @@ final class FieldSubmitButtonTest extends TestCase
     public function testWithoutName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $expected = <<<'HTML'
-        <div>
-        <input type="submit" id="w1-submit">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->name(null)->submitButton()->render());
+        $this->assertSame(
+            '<input type="submit" id="w1-submit">',
+            SubmitButton::widget()->name(null)->render(),
+        );
     }
 }

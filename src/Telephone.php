@@ -11,15 +11,16 @@ use Yii\Extension\Form\Contract\PlaceholderContract;
 use Yii\Extension\Form\Contract\RegexContract;
 use Yiisoft\Html\Tag\Input;
 
+use function is_int;
 use function is_string;
 
 /**
- * The input element with a type attribute whose value is "url" represents a control for editing an absolute URL given
- * in the element’s value.
+ * The input element with a type attribute whose value is "tel" represents a one-line plain-text edit control for
+ * entering a telephone number.
  *
- * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html
+ * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.tel.html#input.tel
  */
-final class Url extends InputAttributes implements HasLengthContract, PlaceholderContract, RegexContract
+final class Telephone extends InputAttributes implements HasLengthContract, PlaceholderContract, RegexContract
 {
     public function maxlength(int $value): self
     {
@@ -42,6 +43,15 @@ final class Url extends InputAttributes implements HasLengthContract, Placeholde
         return $new;
     }
 
+    /**
+     * It allows defining placeholder.
+     *
+     * @param string $value
+     *
+     * @return self
+     *
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.tel.html#input.tel.attrs.placeholder
+     */
     public function placeholder(string $value): self
     {
         $new = clone $this;
@@ -50,13 +60,13 @@ final class Url extends InputAttributes implements HasLengthContract, Placeholde
     }
 
     /**
-     * The height of the input with multiple is true.
+     * The height of the text input.
      *
      * @param int $value
      *
      * @return self
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.size
+     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.tel.html#input.tel.attrs.size
      */
     public function size(int $value): self
     {
@@ -72,14 +82,14 @@ final class Url extends InputAttributes implements HasLengthContract, Placeholde
     {
         $attributes = $this->build($this->attributes);
 
-        /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.value */
+        /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.tel.html#input.tel.attrs.value */
         $value = $attributes['value'] ?? $this->getValue();
         unset($attributes['value']);
 
-        if (null !== $value && !is_string($value)) {
-            throw new InvalidArgumentException('Url widget must be a string or null value.');
+        if (!is_string($value) && !is_int($value) && null !== $value) {
+            throw new InvalidArgumentException('Telephone widget must be a string, numeric or null.');
         }
 
-        return Input::tag()->type('url')->attributes($attributes)->value($value === '' ? null : $value)->render();
+        return Input::tag()->type('tel')->attributes($attributes)->value($value === '' ? null : $value)->render();
     }
 }

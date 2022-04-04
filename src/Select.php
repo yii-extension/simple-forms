@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
 use Stringable;
-use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
+use Yii\Extension\Form\Attribute\ChoiceAttributes;
 use Yiisoft\Html\Tag\Optgroup;
 use Yiisoft\Html\Tag\Option;
 use Yiisoft\Html\Tag\Select as SelectTag;
+
+use function array_key_exists;
+use function is_array;
+use function is_iterable;
+use function is_object;
 
 /**
  * Generates a drop-down list for the given form attribute.
@@ -46,7 +51,7 @@ final class Select extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/optgroup.html#optgroup
      */
@@ -72,7 +77,7 @@ final class Select extends ChoiceAttributes
      *     '2' => 'Concepcion',
      *     '3' => 'Chillan',
      *     '4' => 'Moscu'
-     *     '5' => 'San Petersburgo',
+     *     '5' => 'San Petersburg',
      *     '6' => 'Novosibirsk',
      *     '7' => 'Ekaterinburgo'
      * ];
@@ -88,7 +93,7 @@ final class Select extends ChoiceAttributes
      *     ],
      *     '2' => [
      *         '4' => 'Moscu',
-     *         '5' => 'San Petersburgo',
+     *         '5' => 'San Petersburg',
      *         '6' => 'Novosibirsk',
      *         '7' => 'Ekaterinburgo'
      *     ],
@@ -97,7 +102,7 @@ final class Select extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      */
     public function items(array $value = []): self
     {
@@ -111,7 +116,7 @@ final class Select extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
@@ -130,7 +135,7 @@ final class Select extends ChoiceAttributes
      *
      * @param bool $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-select-multiple
      */
@@ -144,7 +149,7 @@ final class Select extends ChoiceAttributes
     /**
      * @param string[] $data
      *
-     * @return static
+     * @return self
      */
     public function optionsData(array $data): self
     {
@@ -159,7 +164,7 @@ final class Select extends ChoiceAttributes
      *
      * @param string $value
      *
-     * @return static
+     * @return self
      */
     public function prompt(string $value): self
     {
@@ -169,12 +174,12 @@ final class Select extends ChoiceAttributes
     }
 
     /**
-     * The prompt option tag can be used to define a object Stringable that will be displayed on the first line of the
+     * The prompt option tag can be used to define an object Stringable that will be displayed on the first line of the
      * drop-down list widget.
      *
      * @param Option|null $value
      *
-     * @return static
+     * @return self
      */
     public function promptTag(?Option $value): self
     {
@@ -188,7 +193,7 @@ final class Select extends ChoiceAttributes
      *
      * @param int $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-select-size
      */
@@ -199,13 +204,6 @@ final class Select extends ChoiceAttributes
         return $new;
     }
 
-    /**
-     * The value of default when no option is selected.
-     *
-     * @param string|null $value
-     *
-     * @return static
-     */
     public function unselectValue(?string $value): self
     {
         $new = clone $this;
@@ -214,7 +212,7 @@ final class Select extends ChoiceAttributes
     }
 
     /**
-     * @return Optgroup[]|Option[]
+     * @psalm-return Optgroup[]|Option[]
      */
     private function renderItems(array $values = []): array
     {
@@ -251,14 +249,14 @@ final class Select extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes());
+        $attributes = $this->build($this->attributes);
 
         /**
          * @psalm-var iterable<int, Stringable|scalar>|scalar|null $value
          *
          * @link https://www.w3.org/TR/2011/WD-html5-20110525/association-of-controls-and-forms.html#concept-fe-value
          */
-        $value = $attributes['value'] ?? $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getValue();
         unset($attributes['value']);
 
         if (is_object($value)) {
@@ -282,7 +280,7 @@ final class Select extends ChoiceAttributes
         if ($this->items !== []) {
             $select = $select->items(...$this->renderItems($this->items));
         } elseif ($this->optionsData !== []) {
-            $select = $select->optionsData($this->optionsData, $this->encode);
+            $select = $select->optionsData($this->optionsData, $this->getEncode());
         }
 
         if (is_iterable($value)) {

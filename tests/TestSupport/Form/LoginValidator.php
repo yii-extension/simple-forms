@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\TestSupport\Form;
+namespace Yii\Extension\form\Tests\TestSupport\Form;
 
-use Yii\Extension\Simple\Model\FormModel;
+use Yii\Extension\FormModel\FormModel;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Required;
 
-final class LoginValidatorForm extends FormModel
+final class LoginValidator extends FormModel
 {
     private ?string $login = '';
     private ?string $password = '';
@@ -17,24 +17,25 @@ final class LoginValidatorForm extends FormModel
     public function getRules(): array
     {
         return [
-            'login' => [Required::rule()],
+            'login' => [new Required()],
             'password' => $this->passwordRules(),
         ];
     }
 
     private function passwordRules(): array
     {
-        $formErrors = $this->getFormErrors();
+        $formErrors = $this->error();
         $login = $this->login;
         $password = $this->password;
         $users = $this->users;
+
         return [
-            Required::rule(),
+            new Required(),
             static function () use ($formErrors, $login, $password, $users): Result {
                 $result = new Result();
 
                 if (!in_array($login, $users, true) || $password !== $users[$login]) {
-                    $formErrors->addError('login', '');
+                    $formErrors->add('login', '');
                     $result->addError('invalid login password');
                 }
 

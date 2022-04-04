@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
-use Yii\Extension\Simple\Forms\Attribute\ButtonAttributes;
+use Yii\Extension\Form\Attribute\ButtonAttributes;
 use Yiisoft\Html\Tag\Input;
 
 /**
@@ -19,7 +19,7 @@ final class SubmitButton extends ButtonAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes(), '-submit');
+        $attributes = $this->build($this->attributes, '-submit');
 
         return Input::tag()->type('submit')->attributes($attributes)->render();
     }

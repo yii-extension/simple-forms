@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget\Definition;
+namespace Yii\Extension\Form\Tests\Field\Definition;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Form\Field;

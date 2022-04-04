@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Tests\Widget\Field;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Field;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -20,334 +20,331 @@ final class FieldTextAreaTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" autofocus></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" autofocus></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->autofocus()->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testCols(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" cols="20"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" cols="20"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['cols()' => [20]])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['cols()' => [20]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDirname(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" dirname="test.dir"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" dirname="test.dir"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['dirname()' => ['test.dir']])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['dirname()' => ['test.dir']])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDirnameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
-        Field::widget()->textArea(new TypeForm(), 'string', ['dirname()' => ['']])->render();
+        Field::widget()->textArea(new PropertyType(), 'string', ['dirname()' => ['']])->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" disabled></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" disabled></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->disabled()->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-maxlength">Maxlength</label>
-        <textarea id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50"></textarea>
+        <label for="validatorrules-maxlength">Maxlength</label>
+        <textarea id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorForm(), 'maxlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorRules(), 'maxlength')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMinLength(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="validatorform-minlength">Minlength</label>
-        <textarea id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15"></textarea>
+        <label for="validatorrules-minlength">Minlength</label>
+        <textarea id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorForm(), 'minlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorRules(), 'minlength')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $expected = <<<HTML
         <div>
         <label for="id-test">String</label>
-        <textarea id="id-test" name="TypeForm[string]"></textarea>
+        <textarea id="id-test" name="PropertyType[string]"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->id('id-test')->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMaxLength(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" maxlength="100"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" maxlength="100"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['maxLength()' => [100]])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['maxLength()' => [100]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMinLength(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" minlength="20"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" minlength="20"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['minLength()' => [20]])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['minLength()' => [20]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="name-test"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="name-test"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->name('name-test')->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPlaceholder(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeholder('PlaceHolder Text')->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->placeholder('PlaceHolder Text')->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testReadOnly(): void
+    public function testReadonly(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" readonly></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" readonly></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->addAttribute('readonly', true)->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->textArea(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" required></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" required></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->required()->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->required()->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->textArea(new TypeForm(), 'string')->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new PropertyType(), 'string')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRows(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" rows="4"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" rows="4"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['rows()' => [4]])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['rows()' => [4]])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabIndex(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" tabindex="1"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" tabindex="1"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->tabIndex(1)->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->tabIndex(1)->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
-        // Value `null`.
-        $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]"></textarea>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->textArea(new TypeForm(), 'string')->value(null)->render(),
-        );
-
         // Value string `hello`.
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]">hello</textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]">hello</textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string')->value('hello')->render(),
+            Field::widget()->textArea(new PropertyType(), 'string')->value('hello')->render(),
+        );
+
+        // Value `null`.
+        $expected = <<<HTML
+        <div>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]"></textarea>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->textArea(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('TextArea widget must be a string or null value.');
-        Field::widget()->textArea(new TypeForm(), 'array')->render();
+        Field::widget()->textArea(new PropertyType(), 'array')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithForm(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
-        // Value `null`.
-        $formModel->setAttribute('string', null);
+        // Value string `hello`.
+        $formModel->set('string', 'hello');
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]">hello</textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
@@ -355,12 +352,12 @@ final class FieldTextAreaTest extends TestCase
             Field::widget()->textArea($formModel, 'string')->render(),
         );
 
-        // Value string `hello`.
-        $formModel->setAttribute('string', 'hello');
+        // Value `null`.
+        $formModel->set('string', null);
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]">hello</textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
@@ -370,76 +367,76 @@ final class FieldTextAreaTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWrap(): void
     {
-        /** value `hard`. */
-        $expected = <<<HTML
+        /** hard value */
+        $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" wrap="hard"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" wrap="hard"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['hard']])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['wrap()' => ['hard']])->render(),
         );
 
-        /** value `soft`. */
-        $expected = <<<HTML
+        /** soft value */
+        $expected = <<<'HTML'
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string" name="TypeForm[string]" wrap="soft"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string" name="PropertyType[string]" wrap="soft"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['soft']])->render(),
+            Field::widget()->textArea(new PropertyType(), 'string', ['wrap()' => ['soft']])->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWrapException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
-        Field::widget()->textArea(new TypeForm(), 'string', ['wrap()' => ['exception']]);
+        Field::widget()->textArea(new PropertyType(), 'string', ['wrap()' => ['exception']]);
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $expected = <<<HTML
         <div>
         <label>String</label>
-        <textarea name="TypeForm[string]"></textarea>
+        <textarea name="PropertyType[string]"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->id(null)->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <textarea id="typeform-string"></textarea>
+        <label for="propertytype-string">String</label>
+        <textarea id="propertytype-string"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->textArea(new TypeForm(), 'string')->render(),
+            Field::widget()->name(null)->textArea(new PropertyType(), 'string')->render(),
         );
     }
 }
