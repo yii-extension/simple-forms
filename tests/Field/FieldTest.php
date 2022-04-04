@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Tests\Widget\Field;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeWithHintForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Field;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
-use Yiisoft\Html\Html;
+use Yiisoft\Html\Tag\Input;
 use Yiisoft\Html\Tag\Span;
 
 final class FieldTest extends TestCase
@@ -22,284 +20,251 @@ final class FieldTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testAttributes(): void
+    public function testContainerAttributes(): void
     {
         $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]" required>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->attributes(['required' => true])->text(new TypeForm(), 'string')->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testButtonsIndividualAttributes(): void
-    {
-        $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
-        <div>
-        <input type="submit" id="w1-submit" name="w1-submit" value="Submit"><input type="reset" id="w2-reset" name="w2-reset" value="Reseteable">
+        <div id="id-test" class="test-class">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->buttonsIndividualAttributes(['0' => ['value' => 'Submit'], '1' => ['value' => 'Reseteable'],])
-                ->submitButton()
-                ->resetButton()
+                ->containerId('id-test')
+                ->containerAttributes(['class' => 'test-class'])
+                ->text(new PropertyType(), 'string')
                 ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testContainerAttributes(): void
-    {
-        $expected = <<<HTML
-        <div class="text-danger">
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->containerAttributes(['class' => 'text-danger'])->text(new TypeForm(), 'string')->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testContainerId(): void
     {
         $expected = <<<HTML
         <div id="id-test">
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->containerId('id-test')->text(new TypeForm(), 'string')->render(),
+            Field::widget()->containerId('id-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testContainerName(): void
     {
         $expected = <<<HTML
         <div name="name-test">
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <label for="propertytype-string">String</label>
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->containerName('name-test')->text(new TypeForm(), 'string')->render(),
+            Field::widget()->containerName('name-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @link https://getbootstrap.com/docs/5.0/forms/input-group/
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testHintAttributes(): void
+    public function testDefaultTokens(): void
     {
         $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        <div class="help-block">Custom hint</div>
+        <div class="input-group mb-3">
+        <span class="input-group-text">.00</span>
+        <input type="text" id="propertytype-string" class="form-control" name="PropertyType[string]" aria-describedby="propertytype-string-help" aria-label="Amount (to the nearest dollar)">
+        <span class="input-group-text">$</span>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->hint('Custom hint')
-                ->hintAttributes(['class' => 'help-block'])
-                ->text(new TypeForm(), 'string')
+                ->ariaDescribedBy(true)
+                ->ariaLabel('Amount (to the nearest dollar)')
+                ->containerClass('input-group mb-3')
+                ->defaultTokens(
+                    [
+                        '{after}' => Span::tag()->class('input-group-text')->content('$'),
+                        '{before}' => Span::tag()->class('input-group-text')->content('.00'),
+                    ]
+                )
+                ->inputClass('form-control')
+                ->template("{before}\n{input}\n{after}\n{hint}\n{error}")
+                ->text(new PropertyType(), 'string')
                 ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testHint(): void
+    public function testDefaultTokensWithOverrideToken(): void
     {
         $expected = <<<HTML
         <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        <div>Custom hint</div>
+        <label for="propertytype-string">String</label>
+        <input type="color" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hint('Custom hint')->text(new TypeForm(), 'string')->render(),
+            Field::widget()
+                ->defaultTokens(
+                    [
+                        '{input}' => Input::tag()->id('propertytype-string')->name('PropertyType[string]')->type('color'),
+                    ]
+                )
+                ->template("{label}\n{input}\n{hint}\n{error}")
+                ->text(new PropertyType(), 'string')
+                ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @link https://getbootstrap.com/docs/5.0/forms/input-group/
+     *
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testHintTag(): void
+    public function testDefaultTokensWithDefaultValues(): void
     {
+        $factoryConfig = [
+            'defaultValues()' => [
+                [
+                    'text' => [
+                        'defaultTokens' => [
+                            '{after}' => Span::tag()->class('input-group-text')->content('$'),
+                            '{before}' => Span::tag()->class('input-group-text')->content('.00'),
+                        ],
+                        'template' => "{before}\n{input}\n{after}\n{error}",
+                    ],
+                    'textArea' => [
+                        'defaultTokens' => [
+                            '{before}' => Span::tag()->class('input-group-text')->content('With textarea'),
+                        ],
+                        'template' => "{before}\n{input}\n{error}",
+                    ],
+                ],
+            ],
+        ];
+
+        $field = Field::widget($factoryConfig);
+
         $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        <span>Custom hint</span>
+        <div class="input-group mb-3">
+        <span class="input-group-text">.00</span>
+        <input type="text" id="propertytype-string" class="form-control" name="PropertyType[string]" aria-describedby="propertytype-string-help" aria-label="Amount (to the nearest dollar)">
+        <span class="input-group-text">$</span>
+        </div>
+        <div class="input-group">
+        <span class="input-group-text">With textarea</span>
+        <textarea id="propertytype-string" name="PropertyType[string]"></textarea>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hint('Custom hint')->hintTag('span')->text(new TypeForm(), 'string')->render(),
+            $field
+                ->ariaDescribedBy(true)
+                ->ariaLabel('Amount (to the nearest dollar)')
+                ->containerClass('input-group mb-3')
+                ->inputClass('form-control')
+                ->text(new PropertyType(), 'string')
+                ->render() . PHP_EOL .
+            $field
+                ->containerClass('input-group')
+                ->textArea(new PropertyType(), 'string')
+                ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testHintWithClass(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        <div class="text-success">Custom hint</div>
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->hint('Custom hint')->hintClass('text-success')->text(new TypeForm(), 'string')->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testLabel(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="typeform-string">Custom label</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->label('Custom label')->text(new TypeForm(), 'string')->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testLabelFor(): void
     {
         $expected = <<<HTML
         <div>
         <label for="id-test">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <input type="text" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->labelFor('id-test')->text(new TypeForm(), 'string')->render(),
+            Field::widget()->labelFor('id-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testLabelWithLabelClass(): void
+    public function testReplaceIndividualToken(): void
     {
+        $factoryConfig = [
+            'defaultTokens()' => [
+                [
+                    '{after}' => Span::tag()->class('input-group-text')->content('$'),
+                    '{before}' => Span::tag()->class('input-group-text')->content('.00'),
+                ],
+            ],
+        ];
+
         $expected = <<<HTML
-        <div>
-        <label class="required" for="typeform-string">Custom label</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
+        <div class="input-group mb-3">
+        <span class="input-group-text">.00</span>
+        <input type="text" id="propertytype-string" class="form-control" name="PropertyType[string]" aria-describedby="propertytype-string-help" aria-label="Amount (to the nearest dollar)">
+        <span class="input-group-text">€</span>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->label('Custom label')->labelClass('required')->text(new TypeForm(), 'string')->render(),
+            Field::widget($factoryConfig)
+                ->ariaDescribedBy(true)
+                ->ariaLabel('Amount (to the nearest dollar)')
+                ->containerClass('input-group mb-3')
+                ->inputClass('form-control')
+                ->replaceIndividualToken('{after}', '<span class="input-group-text">€</span>')
+                ->template("{before}\n{input}\n{after}\n{hint}\n{error}")
+                ->text(new PropertyType(), 'string')
+                ->render(),
         );
-    }
 
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testWithoutContainer(): void
-    {
         $expected = <<<HTML
-        <label for="typeform-string">String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new TypeForm(), 'string')->withoutContainer()->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testWithoutHint(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label for="typewithhintform-login">Login</label>
-        <input type="text" id="typewithhintform-login" name="TypeWithHintForm[login]">
+        <div class="input-group mb-3">
+        <span class="input-group-text">.00</span>
+        <input type="text" id="propertytype-string" class="form-control" name="PropertyType[string]" aria-describedby="propertytype-string-help" aria-label="Amount (to the nearest dollar)">
+        <span class="input-group-text">€</span>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->text(new TypeWithHintForm(), 'login')->withoutHint()->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testWithoutLabel(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new TypeForm(), 'string')->withoutLabel()->render(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testWithoutLabelFor(): void
-    {
-        $expected = <<<HTML
-        <div>
-        <label>String</label>
-        <input type="text" id="typeform-string" name="TypeForm[string]">
-        </div>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->text(new TypeForm(), 'string')->WithoutLabelFor()->render(),
+            Field::widget($factoryConfig)
+                ->ariaDescribedBy(true)
+                ->ariaLabel('Amount (to the nearest dollar)')
+                ->containerClass('input-group mb-3')
+                ->inputClass('form-control')
+                ->replaceIndividualToken(
+                    '{after}',
+                    new class () {
+                        public function __toString(): string
+                        {
+                            return '<span class="input-group-text">€</span>';
+                        }
+                    }
+                )
+                ->template("{before}\n{input}\n{after}\n{hint}\n{error}")
+                ->text(new PropertyType(), 'string')
+                ->render(),
         );
     }
 }

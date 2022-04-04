@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Password;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Password;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -21,84 +20,84 @@ final class PasswordTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" autofocus>',
-            Password::widget()->autofocus()->for(new LoginForm(), 'password')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" autofocus>',
+            Password::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $this->assertEqualsWithoutLE(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" disabled>',
-            Password::widget()->disabled()->for(new LoginForm(), 'password')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" disabled>',
+            Password::widget()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testGetValidatorMatchRegularExpression(): void
+    public function testGetValidatorAttributeRegex(): void
     {
         $this->assertSame(
-            '<input type="password" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">',
-            Password::widget()->for(new ValidatorForm(), 'matchregular')->render(),
+            '<input type="password" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">',
+            Password::widget()->for(new ValidatorRules(), 'regex')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
-            '<input type="password" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">',
-            Password::widget()->for(new ValidatorForm(), 'maxlength')->render(),
+            '<input type="password" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">',
+            Password::widget()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
-            '<input type="password" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">',
-            Password::widget()->for(new ValidatorForm(), 'minlength')->render(),
+            '<input type="password" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">',
+            Password::widget()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeRequired(): void
     {
         $this->assertSame(
-            '<input type="password" id="validatorform-required" name="ValidatorForm[required]" required>',
-            Password::widget()->for(new ValidatorForm(), 'required')->render(),
+            '<input type="password" id="validatorrules-required" name="ValidatorRules[required]" required>',
+            Password::widget()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $this->assertSame(
-            '<input type="password" id="id-test" name="LoginForm[password]">',
-            Password::widget()->for(new LoginForm(), 'password')->id('id-test')->render(),
+            '<input type="password" id="id-test" name="PropertyType[string]">',
+            Password::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testImmutability(): void
     {
@@ -112,190 +111,190 @@ final class PasswordTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMaxLength(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" maxlength="16">',
-            Password::widget()->for(new LoginForm(), 'password')->maxlength(16)->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" maxlength="16">',
+            Password::widget()->for(new PropertyType(), 'string')->maxlength(16)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMinLength(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" minlength="8">',
-            Password::widget()->for(new LoginForm(), 'password')->minlength(8)->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" minlength="8">',
+            Password::widget()->for(new PropertyType(), 'string')->minlength(8)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="name-test">',
-            Password::widget()->for(new LoginForm(), 'password')->name('name-test')->render(),
+            '<input type="password" id="propertytype-string" name="name-test">',
+            Password::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPattern(): void
     {
         $expected = <<<HTML
-        <input type="password" id="loginform-password" name="LoginForm[password]" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+        <input type="password" id="propertytype-string" name="PropertyType[string]" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
         HTML;
         $this->assertSame(
             $expected,
             Password::widget()
-                ->for(new LoginForm(), 'password')
+                ->for(new PropertyType(), 'string')
                 ->pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
                 ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPlaceholder(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" placeholder="PlaceHolder Text">',
-            Password::widget()->for(new LoginForm(), 'password')->placeholder('PlaceHolder Text')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">',
+            Password::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testReadOnly(): void
+    public function testReadonly(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" readonly>',
-            Password::widget()->for(new LoginForm(), 'password')->readonly()->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" readonly>',
+            Password::widget()->for(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" required>',
-            Password::widget()->for(new LoginForm(), 'password')->required()->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" required>',
+            Password::widget()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]">',
-            Password::widget()->for(new LoginForm(), 'password')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]">',
+            Password::widget()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testSize(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" size="3">',
-            Password::widget()->for(new LoginForm(), 'password')->size(3)->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" size="3">',
+            Password::widget()->for(new PropertyType(), 'string')->size(3)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabIndex(): void
     {
         $this->assertEqualsWithoutLE(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" tabindex="1">',
-            Password::widget()->for(new LoginForm(), 'password')->tabIndex(1)->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
+            Password::widget()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         // Value string `1234??`.
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
-            Password::widget()->for(new LoginForm(), 'password')->value('1234??')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" value="1234??">',
+            Password::widget()->for(new PropertyType(), 'string')->value('1234??')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]">',
-            Password::widget()->for(new LoginForm(), 'password')->value(null)->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]">',
+            Password::widget()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Password widget must be a string or null value.');
-        Password::widget()->for(new TypeForm(), 'array')->render();
+        Password::widget()->for(new PropertyType(), 'array')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithForm(): void
     {
-        $formModel = new LoginForm();
+        $formModel = new PropertyType();
 
         // Value string `1234??`.
-        $formModel->setAttribute('password', '1234??');
+        $formModel->set('string', '1234??');
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]" value="1234??">',
-            Password::widget()->for($formModel, 'password')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]" value="1234??">',
+            Password::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->setAttribute('password', null);
+        $formModel->set('string', null);
         $this->assertSame(
-            '<input type="password" id="loginform-password" name="LoginForm[password]">',
-            Password::widget()->for($formModel, 'password')->render(),
+            '<input type="password" id="propertytype-string" name="PropertyType[string]">',
+            Password::widget()->for($formModel, 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $this->assertSame(
-            '<input type="password" name="LoginForm[password]">',
-            Password::widget()->for(new LoginForm(), 'password')->id(null)->render(),
+            '<input type="password" name="PropertyType[string]">',
+            Password::widget()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $this->assertSame(
-            '<input type="password" id="loginform-password">',
-            Password::widget()->for(new LoginForm(), 'password')->name(null)->render(),
+            '<input type="password" id="propertytype-string">',
+            Password::widget()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

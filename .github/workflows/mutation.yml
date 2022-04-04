@@ -19,6 +19,7 @@ jobs:
 
         php:
           - 8.0
+          - 8.1
 
     steps:
       - name: Checkout
@@ -35,7 +36,7 @@ jobs:
         uses: ./.github/actions/composer-cache-linux
 
       - name: Cache dependencies installed with composer
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
@@ -51,6 +52,6 @@ jobs:
       - name: Run infection
         run: |
           git fetch --depth=1 origin $GITHUB_BASE_REF
-          vendor/bin/roave-infection-static-analysis-plugin -j2 --git-diff-filter=A --git-diff-base=origin/$GITHUB_BASE_REF --logger-github --ignore-msi-with-no-mutations --only-covered
+          vendor/bin/roave-infection-static-analysis-plugin -j2 --ignore-msi-with-no-mutations --only-covered
         env:
           STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}

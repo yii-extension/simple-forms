@@ -6,13 +6,11 @@
     },
     "logs": {
         "text": "php:\/\/stderr",
-        "badge": {
-            "branch": "master"
+        "stryker": {
+            "report": "master"
         }
     },
     "mutators": {
-        "@default": true,
-        "CloneRemoval": false,
-        "MBString": false
+        "@default": true
     }
 }

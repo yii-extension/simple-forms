@@ -2,15 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\LoginForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
-use Yii\Extension\Simple\Forms\Text;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Text;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -21,111 +20,112 @@ final class TextTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" autofocus>',
-            Text::widget()->autofocus()->for(new LoginForm(), 'login')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" autofocus>',
+            Text::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDirname(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" dirname="test.dir">',
-            Text::widget()->for(new LoginForm(), 'login')->dirname('test.dir')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" dirname="test.dir">',
+            Text::widget()->for(new PropertyType(), 'string')->dirname('test.dir')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDirnameException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
-        Text::widget()->for(new LoginForm(), 'login')->dirname('')->render();
+        Text::widget()->for(new PropertyType(), 'string')->dirname('')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" disabled>',
-            Text::widget()->disabled()->for(new LoginForm(), 'login')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" disabled>',
+            Text::widget()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testGetValidatorMatchRegularExpression(): void
+    public function testGetValidatorAttributeRegex(): void
     {
         $this->assertSame(
-            '<input type="text" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">',
-            Text::widget()->for(new ValidatorForm(), 'matchregular')->render(),
+            '<input type="text" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">',
+            Text::widget()->for(new ValidatorRules(), 'regex')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
-            '<input type="text" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">',
-            Text::widget()->for(new ValidatorForm(), 'maxlength')->render(),
+            '<input type="text" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">',
+            Text::widget()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
-            '<input type="text" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">',
-            Text::widget()->for(new ValidatorForm(), 'minlength')->render(),
+            '<input type="text" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">',
+            Text::widget()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeRequired(): void
     {
         $this->assertSame(
-            '<input type="text" id="validatorform-required" name="ValidatorForm[required]" required>',
-            Text::widget()->for(new ValidatorForm(), 'required')->render(),
+            '<input type="text" id="validatorrules-required" name="ValidatorRules[required]" required>',
+            Text::widget()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $this->assertSame(
-            '<input type="text" id="id-test" name="LoginForm[login]">',
-            Text::widget()->for(new LoginForm(), 'login')->id('id-test')->render(),
+            '<input type="text" id="id-test" name="PropertyType[string]">',
+            Text::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testImmutability(): void
     {
         $text = Text::widget();
         $this->assertNotSame($text, $text->dirname('test.dir'));
         $this->assertNotSame($text, $text->maxlength(0));
+        $this->assertNotSame($text, $text->minlength(0));
         $this->assertNotSame($text, $text->placeholder(''));
         $this->assertNotSame($text, $text->pattern(''));
         $this->assertNotSame($text, $text->readOnly());
@@ -133,184 +133,189 @@ final class TextTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMaxLength(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" maxlength="10">',
-            Text::widget()->for(new LoginForm(), 'login')->maxlength(10)->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" maxlength="10">',
+            Text::widget()->for(new PropertyType(), 'string')->maxlength(10)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMinLength(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" minlength="4">',
-            Text::widget()->for(new LoginForm(), 'login')->minlength(4)->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" minlength="4">',
+            Text::widget()->for(new PropertyType(), 'string')->minlength(4)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="name-test">',
-            Text::widget()->for(new LoginForm(), 'login')->name('name-test')->render(),
+            '<input type="text" id="propertytype-string" name="name-test">',
+            Text::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPattern(): void
     {
-        $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" pattern="[A-Za-z]">',
-            Text::widget()->for(new LoginForm(), 'login')->pattern('[A-Za-z]')->render(),
-        );
+        $expected = <<<'HTML'
+        <input type="text" id="propertytype-string" name="PropertyType[string]" title="Only accepts uppercase and lowercase letters." pattern="[A-Za-z]">
+        HTML;
+        $html = Text::widget()
+            ->for(new PropertyType(), 'string')
+            ->pattern('[A-Za-z]')
+            ->title('Only accepts uppercase and lowercase letters.')
+            ->render();
+        $this->assertSame($expected, $html);
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPlaceholder(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" placeholder="PlaceHolder Text">',
-            Text::widget()->for(new LoginForm(), 'login')->placeholder('PlaceHolder Text')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">',
+            Text::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testReadOnly(): void
+    public function testReadonly(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" readonly>',
-            Text::widget()->for(new LoginForm(), 'login')->readOnly()->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" readonly>',
+            Text::widget()->for(new PropertyType(), 'string')->readOnly()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" required>',
-            Text::widget()->for(new LoginForm(), 'login')->required()->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" required>',
+            Text::widget()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for(new LoginForm(), 'login')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]">',
+            Text::widget()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testSize(): void
     {
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" size="10">',
-            Text::widget()->for(new LoginForm(), 'login')->size(10)->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" size="10">',
+            Text::widget()->for(new PropertyType(), 'string')->size(10)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabIndex(): void
     {
         $this->assertSame(
-            '<input type="text" id="typeform-string" name="TypeForm[string]" tabindex="1">',
-            Text::widget()->for(new TypeForm(), 'string')->tabIndex(1)->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
+            Text::widget()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         // Value string `hello`.
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" value="hello">',
-            Text::widget()->for(new LoginForm(), 'login')->value('hello')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" value="hello">',
+            Text::widget()->for(new PropertyType(), 'string')->value('hello')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for(new LoginForm(), 'login')->value(null)->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]">',
+            Text::widget()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Text widget must be a string or null value.');
-        Text::widget()->for(new TypeForm(), 'array')->render();
+        Text::widget()->for(new PropertyType(), 'array')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithFormModel(): void
     {
-        $formModel = new LoginForm();
+        $formModel = new PropertyType();
 
         // Value string `hello`.
-        $formModel->setAttribute('login', 'hello');
+        $formModel->set('string', 'hello');
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]" value="hello">',
-            Text::widget()->for($formModel, 'login')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]" value="hello">',
+            Text::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->setAttribute('login', null);
+        $formModel->set('string', null);
         $this->assertSame(
-            '<input type="text" id="loginform-login" name="LoginForm[login]">',
-            Text::widget()->for($formModel, 'login')->render(),
+            '<input type="text" id="propertytype-string" name="PropertyType[string]">',
+            Text::widget()->for($formModel, 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $this->assertSame(
-            '<input type="text" name="TypeForm[string]">',
-            Text::widget()->for(new TypeForm(), 'string')->id(null)->render(),
+            '<input type="text" name="PropertyType[string]">',
+            Text::widget()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $this->assertSame(
-            '<input type="text" id="typeform-string">',
-            Text::widget()->for(new TypeForm(), 'string')->name(null)->render(),
+            '<input type="text" id="propertytype-string">',
+            Text::widget()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

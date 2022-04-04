@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Tests\Widget\Field;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Field;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -18,88 +18,85 @@ final class FieldResetButtonTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" id="w1-reset" name="w1-reset" autofocus>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->autofocus()->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->autofocus()->resetButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" id="w1-reset" name="w1-reset" disabled>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->disabled()->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->disabled()->resetButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testform(): void
+    public function testForm(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" id="w1-reset" name="w1-reset" form="form-register">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->form('form-register')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->resetButton(['form()' => ['form-register']])->render(),
+        );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <input type="reset" id="id-test" name="w1-reset">
+        <input type="reset" id="test-id" name="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->id('id-test')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->id('test-id')->resetButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
-        <input type="reset" id="w1-reset" name="name-test">
+        <input type="reset" id="w1-reset" name="test-name">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->name('name-test')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->name('test-name')->resetButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" id="w1-reset" name="w1-reset">
         </div>
@@ -108,27 +105,26 @@ final class FieldResetButtonTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testTabIndex(): void
+    public function testTabindex(): void
     {
-        $expected = <<<HTML
+        $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
+        $expected = <<<'HTML'
         <div>
-        <input type="reset" id="w2-reset" name="w2-reset" tabindex="1">
+        <input type="submit" id="w1-submit" name="w1-submit" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->tabIndex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->tabindex(1)->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        // Value string `Reseteable`.
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" id="w1-reset" name="w1-reset" value="Reseteable">
         </div>
@@ -137,38 +133,30 @@ final class FieldResetButtonTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" name="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->resetButton()->id(null)->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->resetButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="reset" id="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->resetButton()->name(null)->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->name(null)->resetButton()->render());
     }
 }

@@ -17,6 +17,7 @@ jobs:
 
         php:
           - 8.0
+          - 8.1
 
     steps:
       - name: Checkout
@@ -33,7 +34,7 @@ jobs:
         uses: ./.github/actions/composer-cache-linux
 
       - name: Cache dependencies installed with composer
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.COMPOSER_CACHE_DIR }}
           key: php${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}

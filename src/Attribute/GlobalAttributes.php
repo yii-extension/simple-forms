@@ -2,28 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Attribute;
+namespace Yii\Extension\Form\Attribute;
 
 use Yiisoft\Html\Html;
+use Yiisoft\Widget\Widget;
 
-trait GlobalAttributes
+abstract class GlobalAttributes extends Widget
 {
     protected array $attributes = [];
-
-    /**
-     * Set attribute value.
-     *
-     * @param string $name Name of the attribute.
-     * @param mixed $value Value of the attribute.
-     *
-     * @return static
-     */
-    public function addAttribute(string $name, $value): self
-    {
-        $new = clone $this;
-        $new->attributes[$name] = $value;
-        return $new;
-    }
+    private bool $encode = true;
 
     /**
      * Focus on the control (put cursor into it) when the page loads.
@@ -33,7 +20,7 @@ trait GlobalAttributes
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute
      */
-    public function autofocus(): self
+    public function autofocus(): static
     {
         $new = clone $this;
         $new->attributes['autofocus'] = true;
@@ -49,7 +36,7 @@ trait GlobalAttributes
      *
      * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
-    public function attributes(array $values): self
+    public function attributes(array $values): static
     {
         $new = clone $this;
         $new->attributes = array_merge($new->attributes, $values);
@@ -63,16 +50,45 @@ trait GlobalAttributes
      *
      * @return static
      */
-    public function class(string $class): self
+    public function class(string $class): static
     {
         $new = clone $this;
         Html::addCssClass($new->attributes, $class);
         return $new;
     }
 
-    public function getAttributes(): array
+    /**
+     * Set whether the element is disabled or not.
+     *
+     * If this attribute is set to `true`, the element is disabled. Disabled elements are usually drawn with grayed-out
+     * text.
+     * If the element is disabled, it does not respond to user actions, it cannot be focused, and the command event
+     * will not fire. In the case of form elements, it will not be submitted. Do not set the attribute to true, as
+     * this will suggest you can set it to `false` to enable the element again, which is not the case.
+     *
+     * @return static
+     *
+     * @link https://www.w3.org/TR/html52/sec-forms.html#element-attrdef-disabledformelements-disabled
+     */
+    public function disabled(): static
     {
-        return $this->attributes;
+        $new = clone $this;
+        $new->attributes['disabled'] = true;
+        return $new;
+    }
+
+    /**
+     * Whether content should be HTML-encoded.
+     *
+     * @param bool $value
+     *
+     * @return static
+     */
+    public function encode(bool $value): static
+    {
+        $new = clone $this;
+        $new->encode = $value;
+        return $new;
     }
 
     /**
@@ -84,7 +100,7 @@ trait GlobalAttributes
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
      */
-    public function id(?string $id): self
+    public function id(?string $id): static
     {
         $new = clone $this;
         $new->attributes['id'] = $id;
@@ -100,7 +116,7 @@ trait GlobalAttributes
      *
      * @link https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#attr-fe-name
      */
-    public function name(?string $value): self
+    public function name(?string $value): static
     {
         $new = clone $this;
         $new->attributes['name'] = $value;
@@ -127,7 +143,7 @@ trait GlobalAttributes
      *
      * @link https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex
      */
-    public function tabIndex(int $value): self
+    public function tabIndex(int $value): static
     {
         $new = clone $this;
         $new->attributes['tabindex'] = $value;
@@ -143,7 +159,7 @@ trait GlobalAttributes
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#attr-title
      */
-    public function title(string $value): self
+    public function title(string $value): static
     {
         $new = clone $this;
         $new->attributes['title'] = $value;
@@ -151,18 +167,23 @@ trait GlobalAttributes
     }
 
     /**
-     * The value obtained by the form model
+     * The value content attribute gives the default value of the field.
      *
-     * @param array|object|string|bool|int|float|null $value
+     * @param mixed $value
      *
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
      */
-    public function value($value): self
+    public function value(mixed $value): static
     {
         $new = clone $this;
         $new->attributes['value'] = $value;
         return $new;
+    }
+
+    protected function getEncode(): bool
+    {
+        return $this->encode;
     }
 }

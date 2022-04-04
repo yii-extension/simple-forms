@@ -2,29 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Validator;
+namespace Yii\Extension\Form\Validator;
 
-use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
-use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
-use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
-use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
-use Yii\Extension\Simple\Forms\Interface\NumberInterface;
-use Yii\Extension\Simple\Forms\Url;
-use Yii\Extension\Simple\Forms\Validator\FieldValidator;
-use Yii\Extension\Simple\Model\FormModelInterface;
+use Yii\Extension\Form\Attribute\WidgetAttributes;
+use Yii\Extension\Form\Contract\HasLengthContract;
+use Yii\Extension\Form\Contract\NumberContract;
+use Yii\Extension\Form\Contract\RegexContract;
+use Yii\Extension\Form\Url;
+use Yii\Extension\FormModel\Contract\FormModelContract;
 use Yiisoft\Html\Html;
 use Yiisoft\Validator\Rule;
 use Yiisoft\Validator\Rule\HasLength;
-use Yiisoft\Validator\Rule\MatchRegularExpression;
 use Yiisoft\Validator\Rule\Number;
+use Yiisoft\Validator\Rule\Regex;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\Rule\Url as UrlValidator;
 
 /**
- * Renders the field widget along with label and hint tag (if any) according to template.
+ * FieldValidator is a base class for validators that can be applied to a field.
  *
- * @param ChoiceAttributes|InputAttributes $widget The field widget.
- * @param FormModelInterface $formModel The form model instance.
+ * @param WidgetAttributes $widget The field widget.
+ * @param FormModelContract $formModel The form model instance.
  * @param string $attribute The attribute name or expression.
  * @param array $attributes The HTML attributes for the field widget.
  *
@@ -33,8 +31,8 @@ use Yiisoft\Validator\Rule\Url as UrlValidator;
 final class FieldValidator
 {
     public function getValidatorAttributes(
-        ChoiceAttributes|InputAttributes $widget,
-        FormModelInterface $formModel,
+        WidgetAttributes $widget,
+        FormModelContract $formModel,
         string $attribute,
         array $attributes
     ): array {
@@ -46,24 +44,24 @@ final class FieldValidator
                 $attributes['required'] = true;
             }
 
-            if ($rule instanceof HasLength && $widget instanceof HasLengthInterface) {
+            if ($rule instanceof HasLength && $widget instanceof HasLengthContract) {
                 /** @var int|null */
-                $attributes['maxlength'] = $rule->getOptions()['max'] !== 0 ? $rule->getOptions()['max'] : null;
+                $attributes['maxlength'] = $rule->getOptions()['max'] !== null ? $rule->getOptions()['max'] : null;
                 /** @var int|null */
-                $attributes['minlength'] = $rule->getOptions()['min'] !== 0 ? $rule->getOptions()['min'] : null;
+                $attributes['minlength'] = $rule->getOptions()['min'] !== null ? $rule->getOptions()['min'] : null;
             }
 
-            if ($rule instanceof MatchRegularExpression && $widget instanceof MatchRegularInterface) {
+            if ($rule instanceof Regex && $widget instanceof RegexContract) {
                 /** @var string */
                 $pattern = $rule->getOptions()['pattern'];
                 $attributes['pattern'] = Html::normalizeRegexpPattern($pattern);
             }
 
-            if ($rule instanceof Number && $widget instanceof NumberInterface) {
+            if ($rule instanceof Number && $widget instanceof NumberContract) {
                 /** @var int|null */
-                $attributes['max'] = $rule->getOptions()['max'] !== 0 ? $rule->getOptions()['max'] : null;
+                $attributes['max'] = $rule->getOptions()['max'] !== null ? $rule->getOptions()['max'] : null;
                 /** @var int|null */
-                $attributes['min'] = $rule->getOptions()['min'] !== 0 ? $rule->getOptions()['min'] : null;
+                $attributes['min'] = $rule->getOptions()['min'] !== null ? $rule->getOptions()['min'] : null;
             }
 
             if ($rule instanceof UrlValidator && $widget instanceof Url) {
@@ -90,11 +88,10 @@ final class FieldValidator
     {
         $result = '';
 
-        for ($i = 0, $length = mb_strlen($scheme); $i < $length; $i++) {
-            $result .= '[' . mb_strtolower($scheme[$i]) . mb_strtoupper($scheme[$i]) . ']';
+        for ($i = 0, $length = strlen($scheme); $i < $length; $i++) {
+            $result .= '[' . strtolower($scheme[$i]) . strtoupper($scheme[$i]) . ']';
         }
 
         return $result;
     }
-
 }

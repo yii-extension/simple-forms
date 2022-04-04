@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use Closure;
 use InvalidArgumentException;
 use Stringable;
-use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
+use Yii\Extension\Form\Attribute\ChoiceAttributes;
 use Yiisoft\Html\Widget\RadioList\RadioItem;
 use Yiisoft\Html\Widget\RadioList\RadioList as RadioListTag;
+
+use function is_bool;
+use function is_iterable;
+use function is_object;
+use function is_string;
 
 /**
  * Generates a list of radio.
@@ -37,10 +42,8 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#autofocusing-a-form-control-the-autofocus-attribute
-     *
-     * @psalm-suppress MethodSignatureMismatch
      */
-    public function autofocus(): self
+    public function autofocus(): static
     {
         $new = clone $this;
         $new->containerAttributes['autofocus'] = true;
@@ -52,7 +55,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
@@ -68,7 +71,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param string|null $name tag name. if `null` disabled rendering.
      *
-     * @return static
+     * @return self
      */
     public function containerTag(?string $name = null): self
     {
@@ -85,10 +88,8 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute
-     *
-     * @psalm-suppress MethodSignatureMismatch
      */
-    public function id(?string $id): self
+    public function id(?string $id): static
     {
         $new = clone $this;
         $new->containerAttributes['id'] = $id;
@@ -100,7 +101,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * @psalm-param array[] $value
      */
@@ -120,7 +121,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * @psalm-param array<array-key, string> $value
      */
@@ -136,7 +137,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      */
     public function itemsAttributes(array $value = []): self
     {
@@ -157,7 +158,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param Closure|null $value
      *
-     * @return static
+     * @return self
      *
      * @psalm-param Closure(RadioItem):string|null $value
      */
@@ -175,7 +176,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param bool[]|float[]|int[]|string[]|Stringable[] $itemsFromValues
      *
-     * @return static
+     * @return self
      */
     public function itemsFromValues(array $itemsFromValues = []): self
     {
@@ -189,7 +190,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @param string $value
      *
-     * @return static
+     * @return self
      */
     public function separator(string $value = ''): self
     {
@@ -217,10 +218,8 @@ final class RadioList extends ChoiceAttributes
      * @return static
      *
      * @link https://html.spec.whatwg.org/multipage/interaction.html#attr-tabindex
-     *
-     * @psalm-suppress MethodSignatureMismatch
      */
-    public function tabIndex(int $value): self
+    public function tabIndex(int $value): static
     {
         $new = clone $this;
         $new->containerAttributes['tabindex'] = $value;
@@ -232,7 +231,7 @@ final class RadioList extends ChoiceAttributes
      *
      * @return static
      */
-    public function uncheckValue($value): self
+    public function uncheckValue(float|Stringable|bool|int|string|null $value): self
     {
         $new = clone $this;
         $new->uncheckValue = $value === null ? null : (string) $value;
@@ -249,14 +248,14 @@ final class RadioList extends ChoiceAttributes
     protected function run(): string
     {
         /** @psalm-var array[] */
-        [$attributes, $containerAttributes] = $this->buildList($this->getAttributes(), $this->containerAttributes);
+        [$attributes, $containerAttributes] = $this->buildList($this->attributes, $this->containerAttributes);
 
         /**
          * @var iterable<int, scalar|Stringable>|scalar|Stringable|null
          *
          * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-value
          */
-        $value = $attributes['value'] ?? $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getValue();
         unset($attributes['value']);
 
         if (is_iterable($value) || is_object($value)) {
@@ -273,9 +272,9 @@ final class RadioList extends ChoiceAttributes
         $radioList = RadioListTag::create($name);
 
         if ($this->items !== []) {
-            $radioList = $radioList->items($this->items, $this->encode);
+            $radioList = $radioList->items($this->items, $this->getEncode());
         } elseif ($this->itemsFromValues !== []) {
-            $radioList = $radioList->itemsFromValues($this->itemsFromValues, $this->encode);
+            $radioList = $radioList->itemsFromValues($this->itemsFromValues, $this->getEncode());
         }
 
         if ($this->separator !== '') {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\CheckboxList;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\CheckboxList;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -23,54 +23,54 @@ final class CheckboxListTest extends TestCase
     private array $sex = [1 => 'Female', 2 => 'Male'];
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array" autofocus>
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array" autofocus>
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->autofocus()->for(new TypeForm(), 'array')->items($this->sex)->render(),
+            CheckboxList::widget()->autofocus()->for(new PropertyType(), 'array')->items($this->sex)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1" disabled> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2" disabled> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1" disabled> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2" disabled> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->disabled()->for(new TypeForm(), 'array')->items($this->sex)->render(),
+            CheckboxList::widget()->disabled()->for(new PropertyType(), 'array')->items($this->sex)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testContainerAttributes(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array" class="test-class">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array" class="test-class">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()
-                ->for(new TypeForm(), 'array')
+                ->for(new PropertyType(), 'array')
                 ->containerAttributes(['class' => 'test-class'])
                 ->items($this->sex)
                 ->render(),
@@ -78,20 +78,20 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testContainerTag(): void
     {
         $expected = <<<HTML
-        <span id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <span id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </span>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()
-                ->for(new TypeForm(), 'array')
+                ->for(new PropertyType(), 'array')
                 ->containerTag('span')
                 ->items($this->sex)
                 ->render(),
@@ -99,18 +99,18 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testContainerTagWithNull(): void
     {
         $expected = <<<HTML
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()
-                ->for(new TypeForm(), 'array')
+                ->for(new PropertyType(), 'array')
                 ->containerTag(null)
                 ->items($this->sex)
                 ->render()
@@ -118,38 +118,38 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $expected = <<<HTML
         <div id="id-test">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->id('id-test')->items($this->sex)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->id('id-test')->items($this->sex)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testIndividualItemsAttributes(): void
     {
         // Set disabled `[1 => ['disabled' => 'true']]`, `[2 => ['class' => 'test-class']]`.
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1" disabled> Female</label>
-        <label><input type="checkbox" class="test-class" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1" disabled> Female</label>
+        <label><input type="checkbox" class="test-class" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()
-                ->for(new TypeForm(), 'array')
+                ->for(new PropertyType(), 'array')
                 ->individualItemsAttributes([1 => ['disabled' => true], 2 => ['class' => 'test-class']])
                 ->items($this->sex)
                 ->render(),
@@ -157,15 +157,15 @@ final class CheckboxListTest extends TestCase
 
         // Set required `[1 => ['required' => 'true']]`, and `[2 => ['disabled' => 'true']]`.
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1" required> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2" disabled> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1" required> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2" disabled> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             CheckboxList::widget()
-                ->for(new TypeForm(), 'array')
+                ->for(new PropertyType(), 'array')
                 ->items($this->sex)
                 ->individualItemsAttributes([1 => ['required' => true], 2 => ['disabled' => true]])
                 ->render(),
@@ -173,18 +173,18 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testItemsAttributes(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" class="test-class" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" class="test-class" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" class="test-class" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" class="test-class" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $html = CheckboxList::widget()
-            ->for(new TypeForm(), 'array')
+            ->for(new PropertyType(), 'array')
             ->items($this->sex)
             ->itemsAttributes(['class' => 'test-class'])
             ->render();
@@ -192,18 +192,18 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testItemFormater(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type='checkbox' name='TypeForm[array][]' value='1'> Female</label>
-        <label><input type='checkbox' name='TypeForm[array][]' value='2'> Male</label>
+        <div id="propertytype-array">
+        <label><input type='checkbox' name='PropertyType[array][]' value='1'> Female</label>
+        <label><input type='checkbox' name='PropertyType[array][]' value='2'> Male</label>
         </div>
         HTML;
         $html = CheckboxList::widget()
-            ->for(new TypeForm(), 'array')
+            ->for(new PropertyType(), 'array')
             ->itemsFormatter(
                 static function (CheckboxItem $item) {
                     return $item->checked
@@ -217,35 +217,38 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testImmutability(): void
     {
         $checkboxList = CheckboxList::widget();
+        $this->assertNotSame($checkboxList, $checkboxList->autofocus());
         $this->assertNotSame($checkboxList, $checkboxList->containerAttributes([]));
         $this->assertNotSame($checkboxList, $checkboxList->containerTag());
+        $this->assertNotSame($checkboxList, $checkboxList->id(null));
         $this->assertNotSame($checkboxList, $checkboxList->individualItemsAttributes());
         $this->assertNotSame($checkboxList, $checkboxList->items());
         $this->assertNotSame($checkboxList, $checkboxList->itemsAttributes());
         $this->assertNotSame($checkboxList, $checkboxList->itemsFormatter(null));
         $this->assertNotSame($checkboxList, $checkboxList->itemsFromValues());
         $this->assertNotSame($checkboxList, $checkboxList->separator(''));
+        $this->assertNotSame($checkboxList, $checkboxList->tabindex(1));
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testItemsFromValues(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
         // Value string `Male`.
-        $formModel->setAttribute('array', ['Male']);
+        $formModel->set('array', ['Male']);
 
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="Female"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="Male" checked> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="Female"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="Male" checked> Male</label>
         </div>
         HTML;
         $html = CheckboxList::widget()
@@ -256,112 +259,112 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
+        <div id="propertytype-array">
         <label><input type="checkbox" name="name-test[]" value="1"> Female</label>
         <label><input type="checkbox" name="name-test[]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->name('name-test')->items($this->sex)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->name('name-test')->items($this->sex)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->items($this->sex)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->items($this->sex)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testSeparator(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->items($this->sex)->separator(PHP_EOL)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->items($this->sex)->separator(PHP_EOL)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabindex(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array" tabindex="1">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array" tabindex="1">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->items($this->sex)->tabindex(1)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->items($this->sex)->tabindex(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         // Value iterable `[2]`.
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2" checked> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2" checked> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->items($this->sex)->value([2])->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->items($this->sex)->value([2])->render(),
         );
 
         // Value `null`.
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->items($this->sex)->value(null)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->items($this->sex)->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
         // Value int `1`.
-        $formModel->setAttribute('int', 1);
+        $formModel->set('int', 1);
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('CheckboxList widget must be a array or null value.');
@@ -369,18 +372,18 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithForm(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
         // Value iterable `[2]`.
-        $formModel->setAttribute('array', [2]);
+        $formModel->set('array', [2]);
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2" checked> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2" checked> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
@@ -389,11 +392,11 @@ final class CheckboxListTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->setAttribute('array', null);
+        $formModel->set('array', null);
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
@@ -403,36 +406,36 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="checkbox" name="TypeForm[int][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[int][]" value="2"> Male</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'int')->id(null)->items($this->sex)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->id(null)->items($this->sex)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $expected = <<<HTML
-        <div id="typeform-array">
-        <label><input type="checkbox" name="TypeForm[array][]" value="1"> Female</label>
-        <label><input type="checkbox" name="TypeForm[array][]" value="2"> Male</label>
+        <div id="propertytype-array">
+        <label><input type="checkbox" name="PropertyType[array][]" value="1"> Female</label>
+        <label><input type="checkbox" name="PropertyType[array][]" value="2"> Male</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            CheckboxList::widget()->for(new TypeForm(), 'array')->items($this->sex)->name(null)->render(),
+            CheckboxList::widget()->for(new PropertyType(), 'array')->items($this->sex)->name(null)->render(),
         );
     }
 }

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\ValidatorForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
-use Yii\Extension\Simple\Forms\Url;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Url;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -20,95 +20,95 @@ final class UrlTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" autofocus>',
-            Url::widget()->autofocus()->for(new TypeForm(), 'string')->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" autofocus>',
+            Url::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $this->assertEqualsWithoutLE(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" disabled>',
-            Url::widget()->disabled()->for(new TypeForm(), 'string')->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" disabled>',
+            Url::widget()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testGetValidatorMatchRegularExpression(): void
+    public function testGetValidatorAttributeRegex(): void
     {
         $this->assertSame(
-            '<input type="url" id="validatorform-matchregular" name="ValidatorForm[matchregular]" pattern="\w+">',
-            Url::widget()->for(new ValidatorForm(), 'matchregular')->render(),
+            '<input type="url" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">',
+            Url::widget()->for(new ValidatorRules(), 'regex')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMaxLength(): void
     {
         $this->assertSame(
-            '<input type="url" id="validatorform-maxlength" name="ValidatorForm[maxlength]" maxlength="50">',
-            Url::widget()->for(new ValidatorForm(), 'maxlength')->render(),
+            '<input type="url" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">',
+            Url::widget()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeMinLength(): void
     {
         $this->assertSame(
-            '<input type="url" id="validatorform-minlength" name="ValidatorForm[minlength]" minlength="15">',
-            Url::widget()->for(new ValidatorForm(), 'minlength')->render(),
+            '<input type="url" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">',
+            Url::widget()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeRequired(): void
     {
         $this->assertSame(
-            '<input type="url" id="validatorform-required" name="ValidatorForm[required]" required>',
-            Url::widget()->for(new ValidatorForm(), 'required')->render(),
+            '<input type="url" id="validatorrules-required" name="ValidatorRules[required]" required>',
+            Url::widget()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testGetValidatorAttributeUrlValidator(): void
     {
         $expected = <<<HTML
-        <input type="url" id="validatorform-url" name="ValidatorForm[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
+        <input type="url" id="validatorrules-url" name="ValidatorRules[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
         HTML;
-        $this->assertSame($expected, Url::widget()->for(new ValidatorForm(), 'url')->render());
+        $this->assertSame($expected, Url::widget()->for(new ValidatorRules(), 'url')->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $this->assertSame(
-            '<input type="url" id="id-test" name="TypeForm[string]">',
-            Url::widget()->for(new TypeForm(), 'string')->id('id-test')->render(),
+            '<input type="url" id="id-test" name="PropertyType[string]">',
+            Url::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testImmutability(): void
     {
@@ -121,188 +121,188 @@ final class UrlTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMaxLength(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" maxlength="10">',
-            Url::widget()->for(new TypeForm(), 'string')->maxlength(10)->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" maxlength="10">',
+            Url::widget()->for(new PropertyType(), 'string')->maxlength(10)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMinLength(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" minlength="4">',
-            Url::widget()->for(new TypeForm(), 'string')->minlength(4)->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" minlength="4">',
+            Url::widget()->for(new PropertyType(), 'string')->minlength(4)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="name-test">',
-            Url::widget()->for(new TypeForm(), 'string')->name('name-test')->render(),
+            '<input type="url" id="propertytype-string" name="name-test">',
+            Url::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPattern(): void
     {
-        $expected = <<<HTML
-        <input type="url" id="typeform-string" name="TypeForm[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
+        $expected = <<<'HTML'
+        <input type="url" id="propertytype-string" name="PropertyType[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
         HTML;
         $html = Url::widget()
-            ->for(new TypeForm(), 'string')
+            ->for(new PropertyType(), 'string')
             ->pattern("^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$")
             ->render();
         $this->assertSame($expected, $html);
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testPlaceholder(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" placeholder="PlaceHolder Text">',
-            Url::widget()->for(new TypeForm(), 'string')->placeholder('PlaceHolder Text')->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">',
+            Url::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testReadOnly(): void
+    public function testReadonly(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" readonly>',
-            Url::widget()->for(new TypeForm(), 'string')->readOnly()->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" readonly>',
+            Url::widget()->for(new PropertyType(), 'string')->readOnly()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" required>',
-            Url::widget()->for(new TypeForm(), 'string')->required()->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" required>',
+            Url::widget()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]">',
-            Url::widget()->for(new TypeForm(), 'string')->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]">',
+            Url::widget()->for(new PropertyType(), 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testSize(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" size="20">',
-            Url::widget()->for(new TypeForm(), 'string')->size(20)->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" size="20">',
+            Url::widget()->for(new PropertyType(), 'string')->size(20)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabIndex(): void
     {
         $this->assertEqualsWithoutLE(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" tabindex="1">',
-            Url::widget()->for(new TypeForm(), 'string')->tabIndex(1)->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
+            Url::widget()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
-        // Value string `https://yiiframework.com`
+        // Value string `https://yiiframework.com`.
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">',
-            Url::widget()->for(new TypeForm(), 'string')->value('https://yiiframework.com')->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" value="https://yiiframework.com">',
+            Url::widget()->for(new PropertyType(), 'string')->value('https://yiiframework.com')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]">',
-            Url::widget()->for(new TypeForm(), 'string')->value(null)->render(),
+            '<input type="url" id="propertytype-string" name="PropertyType[string]">',
+            Url::widget()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Url widget must be a string or null value.');
-        Url::widget()->for(new TypeForm(), 'array')->render();
+        Url::widget()->for(new PropertyType(), 'int')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithFormModel(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
         // Value string `https://yiiframework.com`.
-        $formModel->setAttribute('string', 'https://yiiframework.com');
+        $formModel->set('string', 'https://yiiframework.com');
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]" value="https://yiiframework.com">',
+            '<input type="url" id="propertytype-string" name="PropertyType[string]" value="https://yiiframework.com">',
             Url::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->setAttribute('string', null);
+        $formModel->set('string', null);
         $this->assertSame(
-            '<input type="url" id="typeform-string" name="TypeForm[string]">',
+            '<input type="url" id="propertytype-string" name="PropertyType[string]">',
             Url::widget()->for($formModel, 'string')->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $this->assertSame(
-            '<input type="url" name="TypeForm[string]">',
-            Url::widget()->for(new TypeForm(), 'string')->id(null)->render(),
+            '<input type="url" name="PropertyType[string]">',
+            Url::widget()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $this->assertSame(
-            '<input type="url" id="typeform-string">',
-            Url::widget()->for(new TypeForm(), 'string')->name(null)->render(),
+            '<input type="url" id="propertytype-string">',
+            Url::widget()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

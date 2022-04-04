@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
-use Yii\Extension\Simple\Forms\Interface\HasLengthInterface;
-use Yii\Extension\Simple\Forms\Interface\MatchRegularInterface;
-use Yii\Extension\Simple\Forms\Interface\PlaceholderInterface;
+use Yii\Extension\Form\Attribute\InputAttributes;
+use Yii\Extension\Form\Contract\HasLengthContract;
+use Yii\Extension\Form\Contract\PlaceholderContract;
+use Yii\Extension\Form\Contract\RegexContract;
 use Yiisoft\Html\Tag\Input;
+
+use function is_string;
 
 /**
  * The input element with a type attribute whose value is "url" represents a control for editing an absolute URL given
@@ -17,11 +19,8 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html
  */
-final class Url extends InputAttributes implements HasLengthInterface, MatchRegularInterface, PlaceholderInterface
+final class Url extends InputAttributes implements HasLengthContract, PlaceholderContract, RegexContract
 {
-    /**
-     * @return static
-     */
     public function maxlength(int $value): self
     {
         $new = clone $this;
@@ -29,9 +28,6 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
         return $new;
     }
 
-    /**
-     * @return static
-     */
     public function minlength(int $value): self
     {
         $new = clone $this;
@@ -39,9 +35,6 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
         return $new;
     }
 
-    /**
-     * @return static
-     */
     public function pattern(string $value): self
     {
         $new = clone $this;
@@ -49,9 +42,6 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
         return $new;
     }
 
-    /**
-     * @return static
-     */
     public function placeholder(string $value): self
     {
         $new = clone $this;
@@ -64,7 +54,7 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      *
      * @param int $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.size
      */
@@ -80,10 +70,10 @@ final class Url extends InputAttributes implements HasLengthInterface, MatchRegu
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes());
+        $attributes = $this->build($this->attributes);
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.url.html#input.url.attrs.value */
-        $value = $attributes['value'] ?? $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getValue();
         unset($attributes['value']);
 
         if (null !== $value && !is_string($value)) {

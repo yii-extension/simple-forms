@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Tests\Widget;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use StdClass;
 use Stringable;
-use Yii\Extension\Simple\Forms\Form;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Form;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -20,7 +18,7 @@ final class FormTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAcceptCharset(): void
     {
@@ -31,7 +29,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAction(): void
     {
@@ -39,7 +37,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAttributes(): void
     {
@@ -50,7 +48,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutocomplete(): void
     {
@@ -67,7 +65,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testBegin(): void
     {
@@ -94,6 +92,20 @@ final class FormTest extends TestCase
     public function dataProviderCsrf(): array
     {
         return [
+            // empty csrf name and token
+            ['<form action="/foo" method="POST">', 'POST', '', ''],
+            // empty csrf token
+            ['<form action="/foo" method="POST">', 'POST', '', 'myToken'],
+            // only csrf token value
+            ['<form action="/foo" method="GET" _csrf="tokenCsrf">', 'GET', 'tokenCsrf', ''],
+            // only csrf custom name
+            [
+                '<form action="/foo" method="POST" myToken="tokenCsrf">' . PHP_EOL .
+                '<input type="hidden" name="myToken" value="tokenCsrf">',
+                'POST',
+                'tokenCsrf',
+                'myToken',
+            ],
             // object stringable
             [
                 '<form action="/foo" method="POST" myToken="tokenCsrf">' . PHP_EOL .
@@ -118,7 +130,7 @@ final class FormTest extends TestCase
      * @param string|Stringable $csrfToken
      * @param string $csrfName
      *
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testCsrf(string $expected, string $method, $csrfToken, string $csrfName): void
     {
@@ -129,27 +141,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testCsrfExceptionNotString(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('CsrfToken must be a string or Stringable object.');
-        Form::widget()->action('/foo')->csrf(1)->begin();
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testCsrfExceptionNotStringable(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('CsrfToken must be a string or Stringable object.');
-        Form::widget()->action('/foo')->csrf(new StdClass())->begin();
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testEnd(): void
     {
@@ -158,7 +150,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testEnctype(): void
     {
@@ -169,24 +161,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testFieldset(): void
-    {
-        $expected = <<<'HTML'
-        <form method="POST">
-        <fieldset>
-        </fieldset>
-        </form>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Form::widget()->fieldset(true)->begin() . PHP_EOL . Form::widget()->end(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
@@ -198,7 +173,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testImmutability(): void
     {
@@ -208,10 +183,8 @@ final class FormTest extends TestCase
         $this->assertNotSame($form, $form->attributes([]));
         $this->assertNotSame($form, $form->autocomplete());
         $this->assertNotSame($form, $form->csrf(''));
+        $this->assertNotSame($form, $form->class(''));
         $this->assertNotSame($form, $form->enctype(''));
-        $this->assertNotSame($form, $form->fieldset(true));
-        $this->assertNotSame($form, $form->fieldsetAttributes([]));
-        $this->assertNotSame($form, $form->legend(''));
         $this->assertNotSame($form, $form->id(''));
         $this->assertNotSame($form, $form->method(''));
         $this->assertNotSame($form, $form->noHtmlValidation());
@@ -219,25 +192,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
-     */
-    public function testLegend(): void
-    {
-        $expected = <<<'HTML'
-        <form method="POST">
-        <fieldset>
-        <legend>This is a test form.</legend>
-        </fieldset>
-        </form>
-        HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Form::widget()->fieldset(true)->legend('This is a test form.')->begin() . PHP_EOL . Form::widget()->end(),
-        );
-    }
-
-    /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testMethod(): void
     {
@@ -246,7 +201,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testNoHtmlValidatation(): void
     {
@@ -254,7 +209,7 @@ final class FormTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTarget(): void
     {

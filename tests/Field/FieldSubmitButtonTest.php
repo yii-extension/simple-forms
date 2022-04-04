@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Tests\Widget\Field;
 
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Field;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -18,88 +18,85 @@ final class FieldSubmitButtonTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="w1-submit" autofocus>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->autofocus()->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->autofocus()->submitButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="w1-submit" disabled>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->disabled()->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->disabled()->submitButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testform(): void
+    public function testForm(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="w1-submit" form="form-register">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->form('form-register')->render());
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->submitButton(['form()' => ['form-register']])->render(),
+        );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="test-id" name="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->id('test-id')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->id('test-id')->submitButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="test-name">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->name('test-name')->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->name('test-name')->submitButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="w1-submit">
         </div>
@@ -108,29 +105,26 @@ final class FieldSubmitButtonTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
-    public function testTabIndex(): void
+    public function testTabindex(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="w1-submit" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->tabIndex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->tabindex(1)->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        // Value string `Save`.
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit" name="w1-submit" value="Save">
         </div>
@@ -139,38 +133,30 @@ final class FieldSubmitButtonTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" name="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->submitButton()->id(null)->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->submitButton()->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-
-        $expected = <<<HTML
+        $expected = <<<'HTML'
         <div>
         <input type="submit" id="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE(
-            $expected,
-            Field::widget()->submitButton()->name(null)->render(),
-        );
+        $this->assertEqualsWithoutLE($expected, Field::widget()->name(null)->submitButton()->render());
     }
 }

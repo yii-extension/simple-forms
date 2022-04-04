@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests;
+namespace Yii\Extension\Tests\Widget;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Radio;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Radio;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -19,49 +20,75 @@ final class RadioTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" autofocus> Int</label>',
-            Radio::widget()->autofocus()->for(new TypeForm(), 'int')->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" autofocus> Int</label>',
+            Radio::widget()->autofocus()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     */
+    public function testChecked(): void
+    {
+        $this->assertSame(
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>',
+            Radio::widget()->checked()->for(new PropertyType(), 'int')->value(1)->render(),
+        );
+    }
+
+    /**
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" disabled> Int</label>',
-            Radio::widget()->disabled()->for(new TypeForm(), 'int')->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" disabled> Int</label>',
+            Radio::widget()->disabled()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     public function testEnClosedByLabelWithFalse(): void
     {
         $this->assertSame(
-            '<input type="radio" id="typeform-int" name="TypeForm[int]" value="1">',
-            Radio::widget()->for(new TypeForm(), 'int')->enclosedByLabel(false)->value(1)->render(),
+            '<input type="radio" id="propertytype-int" name="PropertyType[int]" value="1">',
+            Radio::widget()->for(new PropertyType(), 'int')->enclosedByLabel(false)->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     */
+    public function testGetValidatorAttributeRequired(): void
+    {
+        $expected = <<<HTML
+        <label><input type="radio" id="validatorrules-required" name="ValidatorRules[required]" required> Required</label>
+        HTML;
+        $this->assertSame(
+            $expected,
+            Radio::widget()->for(new ValidatorRules(), 'required')->render(),
+        );
+    }
+
+    /**
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="id-test" name="TypeForm[int]" value="1"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->id('id-test')->value(1)->render(),
+            '<label><input type="radio" id="id-test" name="PropertyType[int]" value="1"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->id('id-test')->value(1)->render(),
         );
     }
 
     public function testImmutability(): void
     {
         $radio = Radio::widget();
+        $this->assertNotSame($radio, $radio->checked(false));
         $this->assertNotSame($radio, $radio->enclosedByLabel(false));
         $this->assertNotSame($radio, $radio->label(''));
         $this->assertNotSame($radio, $radio->labelAttributes());
@@ -69,17 +96,17 @@ final class RadioTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testLabelWithLabelAttributes(): void
     {
         $expected = <<<HTML
-        <label class="test-class"><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Label:</label>
+        <label class="test-class"><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Label:</label>
         HTML;
         $this->assertSame(
             $expected,
             Radio::widget()
-                ->for(new TypeForm(), 'int')
+                ->for(new PropertyType(), 'int')
                 ->label('Label:')
                 ->labelAttributes(['class' => 'test-class'])
                 ->value(1)
@@ -88,196 +115,196 @@ final class RadioTest extends TestCase
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="name-test" value="1"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->name('name-test')->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="name-test" value="1"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->name('name-test')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" required> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->required()->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" required> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->required()->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabIndex(): void
     {
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" tabindex="1"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->tabindex(1)->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" tabindex="1"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->tabindex(1)->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testUncheckValue(): void
     {
         $expected = <<<HTML
-        <input type="hidden" name="TypeForm[int]" value="0"><label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>
+        <input type="hidden" name="PropertyType[int]" value="0"><label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>
         HTML;
         $this->assertSame(
             $expected,
-            Radio::widget()->for(new TypeForm(), 'int')->uncheckValue(0)->value(1)->render(),
+            Radio::widget()->for(new PropertyType(), 'int')->uncheckValue(0)->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         // Value bool `false`.
         $this->assertSame(
-            '<label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="0"> Bool</label>',
-            Radio::widget()->for(new TypeForm(), 'bool')->value(false)->render(),
+            '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>',
+            Radio::widget()->for(new PropertyType(), 'bool')->value(false)->render(),
         );
 
         // Value bool `true`.
         $this->assertSame(
-            '<label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1" checked> Bool</label>',
-            Radio::widget()->checked()->for(new TypeForm(), 'bool')->value(true)->render(),
+            '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>',
+            Radio::widget()->checked()->for(new PropertyType(), 'bool')->value(true)->render(),
         );
 
         // Value int `0`.
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="0"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->value(0)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->value(0)->render(),
         );
 
         // Value int `1`.
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" checked> Int</label>',
-            Radio::widget()->checked()->for(new TypeForm(), 'int')->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>',
+            Radio::widget()->checked()->for(new PropertyType(), 'int')->value(1)->render(),
         );
 
         // Value string `inactive`.
         $this->assertSame(
-            '<label><input type="radio" id="typeform-string" name="TypeForm[string]" value="inactive"> String</label>',
-            Radio::widget()->for(new TypeForm(), 'string')->value('inactive')->render(),
+            '<label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>',
+            Radio::widget()->for(new PropertyType(), 'string')->value('inactive')->render(),
         );
 
         // Value string `active`.
         $expected = <<<HTML
-        <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
+        <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="active" checked> String</label>
         HTML;
         $this->assertSame(
             $expected,
-            Radio::widget()->checked()->for(new TypeForm(), 'string')->value('active')->render(),
+            Radio::widget()->checked()->for(new PropertyType(), 'string')->value('active')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->value(null)->render(),
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->value(null)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Radio widget value can not be an iterable or an object.');
-        Radio::widget()->for(new TypeForm(), 'array')->render();
+        Radio::widget()->for(new PropertyType(), 'array')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithFormModel(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
         // Value bool `true`.
-        $formModel->setAttribute('bool', true);
+        $formModel->set('bool', true);
 
         $this->assertSame(
-            '<label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="0"> Bool</label>',
+            '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>',
             Radio::widget()->for($formModel, 'bool')->value(false)->render(),
         );
         $this->assertSame(
-            '<label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1" checked> Bool</label>',
+            '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>',
             Radio::widget()->for($formModel, 'bool')->value(true)->render(),
         );
 
         // Value int `1`.
-        $formModel->setAttribute('int', 1);
+        $formModel->set('int', 1);
 
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="0"> Int</label>',
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>',
             Radio::widget()->for($formModel, 'int')->value(0)->render(),
         );
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" checked> Int</label>',
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>',
             Radio::widget()->for($formModel, 'int')->value(1)->render(),
         );
 
         // Value string `active`.
-        $formModel->setAttribute('string', 'active');
+        $formModel->set('string', 'active');
 
         $this->assertSame(
-            '<label><input type="radio" id="typeform-string" name="TypeForm[string]" value="inactive"> String</label>',
+            '<label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>',
             Radio::widget()->for($formModel, 'string')->value('inactive')->render()
         );
 
         $expected = <<<HTML
-        <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
+        <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="active" checked> String</label>
         HTML;
         $this->assertSame($expected, Radio::widget()->for($formModel, 'string')->value('active')->render());
 
         // Value `null`.
-        $formModel->setAttribute('int', 'null');
+        $formModel->set('int', 'null');
 
         $this->assertSame(
-            '<label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>',
+            '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>',
             Radio::widget()->for($formModel, 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $this->assertEqualsWithoutLE(
-            '<label><input type="radio" name="TypeForm[int]" value="1"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->id(null)->value(1)->render(),
+            '<label><input type="radio" name="PropertyType[int]" value="1"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->id(null)->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $this->assertEqualsWithoutLE(
-            '<label><input type="radio" id="typeform-int" value="1"> Int</label>',
-            Radio::widget()->for(new TypeForm(), 'int')->name(null)->value(1)->render(),
+            '<label><input type="radio" id="propertytype-int" value="1"> Int</label>',
+            Radio::widget()->for(new PropertyType(), 'int')->name(null)->value(1)->render(),
         );
     }
 }
