@@ -58,7 +58,7 @@ abstract class WidgetAttributes extends GlobalAttributes
 
     protected function getInputId(): string
     {
-        return FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
+        return FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute(), $this->charset);
     }
 
     protected function getInputName(): string
