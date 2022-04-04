@@ -29,7 +29,7 @@ abstract class FieldAttributes extends WidgetAttributes
     private string $labelClass = '';
     private string $invalidClass = '';
     private string $validClass = '';
-    private string $placeholder = '';
+    private ?string $placeholder = null;
     private string $template = '';
     private string $type = '';
 
@@ -731,6 +731,25 @@ abstract class FieldAttributes extends WidgetAttributes
     }
 
     /**
+     * Return placeholder for field.
+     *
+     * if placeholder is empty string, and placeholder default value is not empty string, then return placeholder
+     * default value.
+     *
+     * @return string|null
+     */
+    protected function getFieldPlaceholder(): string|null
+    {
+        $placeholder = $this->placeholder;
+        $placeholderDefault = $this->getDefaultValue($this->type, 'placeholder') ?? '';
+
+        return match (is_string($placeholderDefault) && $placeholderDefault !== '') {
+            true => $placeholderDefault,
+            false => $placeholder,
+        };
+    }
+
+    /**
      * Return hint for field.
      *
      * if hint is empty string, and hint default value is not empty string, then return hint default value.
@@ -875,25 +894,6 @@ abstract class FieldAttributes extends WidgetAttributes
         return match (is_string($labelClassDefault) && $labelClassDefault !== '') {
             true => $labelClassDefault,
             false => $labelClass,
-        };
-    }
-
-    /**
-     * Return placeholder for field.
-     *
-     * if placeholder is empty string, and placeholder default value is not empty string, then return placeholder
-     * default value.
-     *
-     * @return string
-     */
-    protected function getPlaceholder(): string
-    {
-        $placeholder = $this->placeholder;
-        $placeholderDefault = $this->getDefaultValue($this->type, 'placeholder') ?? '';
-
-        return match (is_string($placeholderDefault) && $placeholderDefault !== '') {
-            true => $placeholderDefault,
-            false => $placeholder,
         };
     }
 

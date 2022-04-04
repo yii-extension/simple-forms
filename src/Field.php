@@ -649,7 +649,7 @@ final class Field extends FieldAttributes
         }
 
         // Set placeholder.
-        $placeholder = $new->getPlaceholder() ?? $new->inputWidget->getPlaceHolder();
+        $placeholder = $new->getFieldPlaceholder() ?? $new->inputWidget->getPlaceHolder();
 
         if ($new->inputWidget instanceof PlaceholderContract && $placeholder !== '') {
             $new->inputWidget = $new->inputWidget->attributes(['placeholder' => $placeholder]);

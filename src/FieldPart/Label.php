@@ -63,7 +63,7 @@ final class Label extends Widget
         $new->formModel = $formModel;
         $new->attribute = match ($new->getFormModel()->has($attribute)) {
             true => $attribute,
-            false => throw new AttributeNotSetException($attribute),
+            false => throw new AttributeNotSetException(),
         };
         return $new;
     }

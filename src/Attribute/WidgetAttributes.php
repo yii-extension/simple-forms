@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Form\Attribute;
 
 use InvalidArgumentException;
+use UnexpectedValueException;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\FormModel\Attribute\FormModelAttributes;
@@ -22,7 +23,7 @@ abstract class WidgetAttributes extends GlobalAttributes
     public function charset(string $value): self
     {
         $new = clone $this;
-        $new->charset = $charset;
+        $new->charset = $value;
         return $new;
     }
 
@@ -32,7 +33,7 @@ abstract class WidgetAttributes extends GlobalAttributes
         $new->formModel = $formModel;
         $new->attribute = match ($new->getFormModel()->has($attribute)) {
             true => $attribute,
-            false => throw new AttributeNotSetException($attribute),
+            false => throw new AttributeNotSetException(),
         };
         return $new;
     }
@@ -55,65 +56,14 @@ abstract class WidgetAttributes extends GlobalAttributes
         };
     }
 
-    /**
-     * Generates an appropriate input ID for the specified attribute name or expression.
-     *
-     * This method converts the result {@see getInputName()} into a valid input ID.
-     *
-     * For example, if {@see getInputName()} returns `Post[content]`, this method will return `post-content`.
-     *
-     * @param FormModelContract $formModel the form object
-     * @param string $attribute the attribute name or expression. See {@see getAttributeName()} for explanation of
-     * attribute expression.
-     * @param string $charset default `UTF-8`.
-     *
-     * @throws InvalidArgumentException if the attribute name contains non-word characters.
-     * @throws UnexpectedValueException if charset is unknown
-     *
-     * @return string the generated input ID.
-     */
     protected function getInputId(): string
     {
-        $attribute = $this->getAttribute();
-        $formModel = $this->getFormModel();
-        $name = mb_strtolower($this->getInputName($formModel, $attribute), $this->charset);
-        return str_replace(['[]', '][', '[', ']', ' ', '.'], ['', '-', '-', '', '-', '-'], $name);
+        return FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
     }
 
-    /**
-     * Generates an appropriate input name for the specified attribute name or expression.
-     *
-     * This method generates a name that can be used as the input name to collect user input for the specified
-     * attribute. The name is generated according to the of the form and the given attribute name. For example, if the
-     * form name of the `Post` form is `Post`, then the input name generated for the `content` attribute would be
-     * `Post[content]`.
-     *
-     * See {@see getAttributeName()} for explanation of attribute expression.
-     *
-     * @param FormModelContract $formModel the form object.
-     * @param string $attribute the attribute name or expression.
-     *
-     * @throws InvalidArgumentException if the attribute name contains non-word characters
-     * or empty form name for tabular inputs
-     *
-     * @return string the generated input name.
-     */
     protected function getInputName(): string
     {
-        $attribute = $this->getAttribute();
-        $data = $this->parseAttribute($attribute);
-        $formModel = $this->getFormModel();
-        $formName = $formModel->getFormName();
-
-        if ($formName === '' && $data['prefix'] === '') {
-            return $attribute;
-        }
-
-        if ($formName !== '') {
-            return "$formName{$data['prefix']}[{$data['name']}]{$data['suffix']}";
-        }
-
-        throw new InvalidArgumentException('formName() cannot be empty for tabular inputs.');
+        return FormModelAttributes::getInputName($this->getFormModel(), $this->getAttribute());
     }
 
     /**
@@ -159,17 +109,17 @@ abstract class WidgetAttributes extends GlobalAttributes
     /**
      * Return if the form is empty.
      */
-    protected function isEmpty(): bool
+    protected function isValidated(): bool
     {
-        return $this->getFormModel()->isEmpty();
+        return !$this->isEmpty() && !$this->hasError();
     }
 
     /**
      * Return if the form is empty.
      */
-    protected function isValidated(): bool
+    private function isEmpty(): bool
     {
-        return !$this->isEmpty() && !$this->hasError();
+        return $this->getFormModel()->isEmpty();
     }
 
     /**
