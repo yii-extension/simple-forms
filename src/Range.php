@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Simple\Forms\Attribute\InputAttributes;
-use Yii\Extension\Simple\Forms\Interface\NumberInterface;
+use Yii\Extension\Form\Attribute\InputAttributes;
+use Yii\Extension\Form\Contract\NumberContract;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\Input;
+
+use function is_numeric;
 
 /**
  * The input element with a type attribute whose value is "range" represents an imprecise control for setting the
@@ -17,20 +19,11 @@ use Yiisoft\Html\Tag\Input;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.range.html
  */
-final class Range extends InputAttributes implements NumberInterface
+final class Range extends InputAttributes implements NumberContract
 {
     private array $outputAttributes = [];
     private string $outputTag = 'output';
 
-    /**
-     * The expected upper bound for the element’s value.
-     *
-     * @param int $value
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.range.html#input.range.attrs.max
-     */
     public function max(int $value): self
     {
         $new = clone $this;
@@ -38,15 +31,6 @@ final class Range extends InputAttributes implements NumberInterface
         return $new;
     }
 
-    /**
-     * The expected lower bound for the element’s value.
-     *
-     * @param int $value
-     *
-     * @return static
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.range.html#input.range.attrs.min
-     */
     public function min(int $value): self
     {
         $new = clone $this;
@@ -59,7 +43,7 @@ final class Range extends InputAttributes implements NumberInterface
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      *
      * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
@@ -77,7 +61,7 @@ final class Range extends InputAttributes implements NumberInterface
      *
      * @param string $value
      *
-     * @return static
+     * @return self
      */
     public function outputTag(string $value): self
     {
@@ -91,7 +75,7 @@ final class Range extends InputAttributes implements NumberInterface
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes());
+        $attributes = $this->build($this->attributes);
         $outputAttributes = $this->outputAttributes;
 
         if (empty($this->outputTag)) {
@@ -99,10 +83,10 @@ final class Range extends InputAttributes implements NumberInterface
         }
 
         /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.range.html#input.range.attrs.value */
-        $value = $attributes['value'] ?? $this->getAttributeValue();
+        $value = $attributes['value'] ?? $this->getValue();
         unset($attributes['value']);
 
-        if (!is_numeric($value) && null !== $value) {
+        if (!is_numeric($value) && null !== $value && '' !== $value) {
             throw new InvalidArgumentException('Range widget must be a numeric or null value.');
         }
 

@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
 use Stringable;
-use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
+use Yii\Extension\Form\Attribute\ChoiceAttributes;
 use Yiisoft\Html\Tag\Input\Radio as RadioTag;
+
+use function is_bool;
+use function is_iterable;
+use function is_object;
 
 /**
  * The input element with a type attribute whose value is "radio" represents a selection of one item from a list of
@@ -26,9 +30,9 @@ final class Radio extends ChoiceAttributes
     /**
      * Check the radio button.
      *
-     * @param bool $checked Whether the radio button is checked.
+     * @param bool $value Whether the radio button is checked.
      *
-     * @return static
+     * @return self
      */
     public function checked(bool $value = true): self
     {
@@ -42,7 +46,7 @@ final class Radio extends ChoiceAttributes
      *
      * @param bool $value If the widget should be en closed by label.
      *
-     * @return static
+     * @return self
      */
     public function enclosedByLabel(bool $value): self
     {
@@ -61,7 +65,7 @@ final class Radio extends ChoiceAttributes
      *
      * @param string|null $value
      *
-     * @return static
+     * @return self
      */
     public function label(?string $value): self
     {
@@ -77,7 +81,7 @@ final class Radio extends ChoiceAttributes
      *
      * @param array $value
      *
-     * @return static
+     * @return self
      */
     public function labelAttributes(array $value = []): self
     {
@@ -87,13 +91,11 @@ final class Radio extends ChoiceAttributes
     }
 
     /**
-     * The value of the input element if the radio is not checked.
-     *
      * @param bool|float|int|string|Stringable|null $value Value that corresponds to "unchecked" state of the input.
      *
-     * @return static
+     * @return self
      */
-    public function uncheckValue($value): self
+    public function uncheckValue(float|Stringable|bool|int|string|null $value): self
     {
         $new = clone $this;
         $new->uncheckValue = $value === null ? null : (string) $value;
@@ -107,13 +109,17 @@ final class Radio extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes());
+        $attributes = $this->build($this->attributes);
 
-        /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html#input.radio.attrs.value */
-        $value = $this->getAttributeValue();
+        /**
+         * @var mixed
+         *
+         * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.radio.html#input.radio.attrs.value
+         */
+        $value = $this->getValue();
 
         /** @var iterable<int, scalar|Stringable>|scalar|Stringable|null */
-        $valueDefault = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+        $valueDefault = $attributes['value'] ?? null;
 
         if (is_iterable($value) || is_object($value) || is_iterable($valueDefault) || is_object($valueDefault)) {
             throw new InvalidArgumentException('Radio widget value can not be an iterable or an object.');
@@ -121,9 +127,9 @@ final class Radio extends ChoiceAttributes
 
         $radio = RadioTag::tag();
 
-        if ($this->enclosedByLabel === true) {
+        if ($this->enclosedByLabel) {
             $radio = $radio->label(
-                empty($this->label) ? $this->getAttributeLabel() : $this->label,
+                empty($this->label) ? $this->getLabel() : $this->label,
                 $this->labelAttributes,
             );
         }

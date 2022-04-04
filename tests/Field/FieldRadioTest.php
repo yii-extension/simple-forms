@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms\Tests\Field;
+namespace Yii\Extension\Tests\Widget\Field;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Yii\Extension\Simple\Forms\Field;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\Form\TypeForm;
-use Yii\Extension\Simple\Forms\Tests\TestSupport\TestTrait;
+use Yii\Extension\Form\Field;
+use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
+use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
+use Yii\Extension\Form\Tests\TestSupport\TestTrait;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Definitions\Exception\NotInstantiableException;
@@ -19,100 +20,116 @@ final class FieldRadioTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAnyLabel(): void
     {
         $expected = <<<HTML
         <div>
-        <input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1">
+        <input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->radio(new TypeForm(), 'bool', ['enclosedByLabel()' => [false]])
+                ->radio(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])
                 ->value(true)
-                ->withoutLabel()
+                ->label(null)
                 ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testAutofocus(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" autofocus> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" autofocus> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()->autofocus()->radio(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     */
+    public function testChecked(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->radio(new PropertyType(), 'int', ['checked()' => []])->value(1)->render(),
+        );
+    }
+
+    /**
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testDisabled(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" disabled> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" disabled> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()->disabled()->radio(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testEnclosedByLabel(): void
     {
         // Enclosed by label `false`.
         $expected = <<<HTML
         <div>
-        <label for="typeform-bool">Bool</label>
-        <input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1">
+        <label for="propertytype-bool">Bool</label>
+        <input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'bool', ['enclosedByLabel()' => [false]])->value(true)->render(),
+            Field::widget()->radio(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])->value(true)->render(),
         );
 
         // Enclosed by label `true`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
+        <label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1"> Bool</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new TypeForm(), 'bool')->value(true)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new PropertyType(), 'bool')->value(true)->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testEnclosedByLabelWithLabelAttributes(): void
     {
         // Enclosed by label `false` with label attributes.
         $expected = <<<HTML
         <div>
-        <label class="test-class" for="typeform-bool">Bool</label>
-        <input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1">
+        <label class="test-class" for="propertytype-bool">Bool</label>
+        <input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
                 ->labelClass('test-class')
-                ->radio(new TypeForm(), 'bool', ['enclosedByLabel()' => [false]])
+                ->radio(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])
                 ->value(true)
                 ->render(),
         );
@@ -120,32 +137,35 @@ final class FieldRadioTest extends TestCase
         // Enclosed by label `true` with label attributes.
         $expected = <<<HTML
         <div>
-        <label class="test-class"><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
+        <label class="test-class"><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1"> Bool</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->labelClass('test-class')->radio(new TypeForm(), 'bool')->value(true)->render(),
+            Field::widget()
+                ->radio(new PropertyType(), 'bool', ['labelAttributes()' => [['class' => 'test-class']]])
+                ->value(true)
+                ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testEnclosedByLabelCustomText(): void
     {
         // Enclosed by label `false` with custom text.
         $expected = <<<HTML
         <div>
-        <label for="typeform-bool">test-text-label</label>
-        <input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1">
+        <label for="propertytype-bool">test-text-label</label>
+        <input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1">
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
                 ->label('test-text-label')
-                ->radio(new TypeForm(), 'bool', ['enclosedByLabel()' => [false]])
+                ->radio(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])
                 ->value(true)
                 ->render(),
         );
@@ -153,277 +173,298 @@ final class FieldRadioTest extends TestCase
         // Enclosed by label `true` with custom text
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1"> test-text-label</label>
+        <label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1"> test-text-label</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->label('test-text-label')->radio(new TypeForm(), 'bool')->value(true)->render(),
+            Field::widget()->radio(new PropertyType(), 'bool', ['label()' => ['test-text-label']])->value(true)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     */
+    public function testGetValidatorAttributeRequired(): void
+    {
+        $expected = <<<HTML
+        <div>
+        <label><input type="radio" id="validatorrules-required" name="ValidatorRules[required]" required> Required</label>
+        </div>
+        HTML;
+        $this->assertEqualsWithoutLE(
+            $expected,
+            Field::widget()->radio(new ValidatorRules(), 'required')->render(),
+        );
+    }
+
+    /**
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testId(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="id-test" name="TypeForm[int]" value="1"> Int</label>
+        <label><input type="radio" id="id-test" name="PropertyType[int]" value="1"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()->id('id-test')->radio(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testLabelWithLabelAttributes(): void
     {
         $expected = <<<HTML
         <div>
-        <label class="test-class"><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Label:</label>
+        <label class="test-class"><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Label:</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
             Field::widget()
-                ->radio(new TypeForm(), 'int')
-                ->label('Label:')
-                ->labelAttributes(['class' => 'test-class'])
+                ->radio(
+                    new PropertyType(),
+                    'int',
+                    ['label()' => ['Label:'], 'labelAttributes()' => [['class' => 'test-class']]]
+                )
                 ->value(1)
                 ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testLabelClass(): void
     {
         $expected = <<<HTML
         <div>
-        <label class="test-class"><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>
+        <label class="test-class"><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->labelClass('test-class')->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()
+                ->radio(new PropertyType(), 'int', ['labelAttributes()' => [['class' => 'test-class']]])
+                ->value(1)
+                ->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testName(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="name-test" value="1"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="name-test" value="1"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()->name('name-test')->radio(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRequired(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" required> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" required> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'int')->required()->value(1)->render(),
+            Field::widget()->radio(new PropertyType(), 'int')->required()->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testRender(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new TypeForm(), 'int')->value(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new PropertyType(), 'int')->value(1)->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testTabindex(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" tabindex="1"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" tabindex="1"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'int')->tabindex(1)->value(1)->render(),
+            Field::widget()->radio(new PropertyType(), 'int')->tabindex(1)->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testUncheckValue(): void
     {
         $expected = <<<HTML
         <div>
-        <input type="hidden" name="TypeForm[bool]" value="0"><label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1"> Bool</label>
+        <input type="hidden" name="PropertyType[bool]" value="0"><label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1"> Bool</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'bool', ['uncheckValue()' => ['0']])->value(true)->render(),
+            Field::widget()->radio(new PropertyType(), 'bool', ['uncheckValue()' => ['0']])->value(true)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValue(): void
     {
         // Value bool `false`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="0"> Bool</label>
+        <label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new TypeForm(), 'bool')->value(false)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new PropertyType(), 'bool')->value(false)->render());
 
         // Value bool `true`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1" checked> Bool</label>
+        <label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'bool', ['checked()' => [true]])->value(true)->render(),
+            Field::widget()->radio(new PropertyType(), 'bool', ['checked()' => [true]])->value(true)->render(),
         );
 
         // Value int `0`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="0"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'int')->value(0)->render()
+            Field::widget()->radio(new PropertyType(), 'int')->value(0)->render()
         );
 
         // Value int `1`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" checked> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'int', ['checked()' => [true]])->value(1)->render(),
+            Field::widget()->radio(new PropertyType(), 'int', ['checked()' => [true]])->value(1)->render(),
         );
 
         // Value string `inactive`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="inactive"> String</label>
+        <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'string')->value('inactive')->render(),
+            Field::widget()->radio(new PropertyType(), 'string')->value('inactive')->render(),
         );
 
         // Value string `active`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
+        <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="active" checked> String</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radio(new TypeForm(), 'string', ['checked()' => [true]])->value('active')->render(),
+            Field::widget()->radio(new PropertyType(), 'string', ['checked()' => [true]])->value('active')->render(),
         );
 
         // Value `null`.
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]"> Int</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new TypeForm(), 'int')->value(null)->render());
+        $this->assertEqualsWithoutLE($expected, Field::widget()->radio(new PropertyType(), 'int')->value(null)->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueException(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Radio widget value can not be an iterable or an object.');
-        Field::widget()->radio(new TypeForm(), 'array')->render();
+        Field::widget()->radio(new PropertyType(), 'array')->render();
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testValueWithFormModel(): void
     {
-        $formModel = new TypeForm();
+        $formModel = new PropertyType();
 
         // Value bool `true`.
-        $formModel->setAttribute('bool', true);
+        $formModel->set('bool', true);
 
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="0"> Bool</label>
+        <label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'bool')->value(false)->render());
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-bool" name="TypeForm[bool]" value="1" checked> Bool</label>
+        <label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'bool')->value(true)->render());
 
         // Value int `1`.
-        $formModel->setAttribute('int', 1);
+        $formModel->set('int', 1);
 
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="0"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'int')->value(0)->render());
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]" value="1" checked> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'int')->value(1)->render());
 
         // Value string `inactive`.
-        $formModel->setAttribute('string', 'active');
+        $formModel->set('string', 'active');
 
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="inactive"> String</label>
+        <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
@@ -432,7 +473,7 @@ final class FieldRadioTest extends TestCase
         );
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-string" name="TypeForm[string]" value="active" checked> String</label>
+        <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="active" checked> String</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
@@ -441,44 +482,44 @@ final class FieldRadioTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->setAttribute('int', null);
+        $formModel->set('int', null);
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" name="TypeForm[int]"> Int</label>
+        <label><input type="radio" id="propertytype-int" name="PropertyType[int]"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'int')->value(null)->render());
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutId(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" name="TypeForm[int]" value="1"> Int</label>
+        <label><input type="radio" name="PropertyType[int]" value="1"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()->id(null)->radio(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
     /**
-     * @throws InvalidConfigException|NotFoundException|NotInstantiableException|CircularReferenceException
+     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      */
     public function testWithoutName(): void
     {
         $expected = <<<HTML
         <div>
-        <label><input type="radio" id="typeform-int" value="1"> Int</label>
+        <label><input type="radio" id="propertytype-int" value="1"> Int</label>
         </div>
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->radio(new TypeForm(), 'int')->value(1)->render(),
+            Field::widget()->name(null)->radio(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 }
