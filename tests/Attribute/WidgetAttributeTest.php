@@ -48,6 +48,7 @@ final class WidgetAttributeTest extends TestCase
     {
         $widgetAttributes = $this->createWidget();
         $this->assertNotSame($widgetAttributes, $widgetAttributes->for(new PropertyType(), 'string'));
+        $this->assertNotSame($widgetAttributes, $widgetAttributes->charset(''));
     }
 
     private function createWidget(): WidgetAttributes
