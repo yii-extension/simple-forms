@@ -29,7 +29,7 @@ abstract class FieldAttributes extends WidgetAttributes
     private string $labelClass = '';
     private string $invalidClass = '';
     private string $validClass = '';
-    private ?string $placeholder = null;
+    private string $placeholder = '';
     private string $template = '';
     private string $type = '';
 
@@ -827,9 +827,9 @@ abstract class FieldAttributes extends WidgetAttributes
      *
      * if label is empty string, and label default value is not empty string, then return label default value.
      *
-     * @return string|null
+     * @return string
      */
-    protected function getLabel(): ?string
+    protected function getLabel(): string
     {
         $label = $this->label;
         $labelDefault = $this->getDefaultValue($this->type, 'label') ?? '';
@@ -884,9 +884,9 @@ abstract class FieldAttributes extends WidgetAttributes
      * if placeholder is empty string, and placeholder default value is not empty string, then return placeholder
      * default value.
      *
-     * @return string|null
+     * @return string
      */
-    protected function getPlaceholder(): ?string
+    protected function getPlaceholder(): string
     {
         $placeholder = $this->placeholder;
         $placeholderDefault = $this->getDefaultValue($this->type, 'placeholder') ?? '';

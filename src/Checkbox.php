@@ -2,12 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Simple\Forms;
+namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
 use Stringable;
-use Yii\Extension\Simple\Forms\Attribute\ChoiceAttributes;
+use Yii\Extension\Form\Attribute\InputAttributes;
 use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
+
+use function is_bool;
+use function is_iterable;
+use function is_object;
 
 /**
  * The input element with a type attribute whose value is "checkbox" represents a state or option that can be toggled.
@@ -16,20 +20,20 @@ use Yiisoft\Html\Tag\Input\Checkbox as CheckboxTag;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox
  */
-final class Checkbox extends ChoiceAttributes
+final class Checkbox extends InputAttributes
 {
     private bool $checked = false;
     private bool $enclosedByLabel = true;
     private ?string $label = '';
     private array $labelAttributes = [];
-    private ?string $uncheckValue = '0';
+    private string|int|bool|Stringable|null|float $uncheckValue = '0';
 
     /**
      * Check the checkbox button.
      *
-     * @param bool $checked Whether the checkbox button is checked.
+     * @param bool $value Whether the checkbox button is checked.
      *
-     * @return static
+     * @return self
      */
     public function checked(bool $value = true): self
     {
@@ -43,7 +47,7 @@ final class Checkbox extends ChoiceAttributes
      *
      * @param bool $value If the widget should be en closed by label.
      *
-     * @return static
+     * @return self
      */
     public function enclosedByLabel(bool $value): self
     {
@@ -62,7 +66,7 @@ final class Checkbox extends ChoiceAttributes
      *
      * @param string|null $value
      *
-     * @return static
+     * @return self
      *
      * @link https://www.w3.org/TR/html52/sec-forms.html#the-label-element
      */
@@ -80,7 +84,7 @@ final class Checkbox extends ChoiceAttributes
      *
      * @param array $attributes
      *
-     * @return static
+     * @return self
      *
      * {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
      */
@@ -92,16 +96,14 @@ final class Checkbox extends ChoiceAttributes
     }
 
     /**
-     * The value of the input element if the checkbox is not checked.
-     *
      * @param bool|float|int|string|Stringable|null $value Value that corresponds to "unchecked" state of the input.
      *
-     * @return static
+     * @return self
      */
-    public function uncheckValue($value): self
+    public function uncheckValue(float|Stringable|bool|int|string|null $value): self
     {
         $new = clone $this;
-        $new->uncheckValue = $value === null ? null : (string) $value;
+        $new->uncheckValue = is_bool($value) ? (int) $value : $value;
         return $new;
     }
 
@@ -110,13 +112,17 @@ final class Checkbox extends ChoiceAttributes
      */
     protected function run(): string
     {
-        $attributes = $this->build($this->getAttributes());
+        $attributes = $this->build($this->attributes);
 
-        /** @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox.attrs.value */
-        $value = $this->getAttributeValue();
+        /**
+         * @var mixed $value
+         *
+         * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox.attrs.value\
+         */
+        $value = $this->getValue();
 
         /** @var iterable<int, scalar|Stringable>|scalar|Stringable|null */
-        $valueDefault = array_key_exists('value', $attributes) ? $attributes['value'] : null;
+        $valueDefault = $attributes['value'] ?? null;
 
         if (is_iterable($value) || is_object($value) || is_iterable($valueDefault) || is_object($valueDefault)) {
             throw new InvalidArgumentException('Checkbox widget value can not be an iterable or an object.');
@@ -124,9 +130,9 @@ final class Checkbox extends ChoiceAttributes
 
         $checkbox = CheckboxTag::tag();
 
-        if ($this->enclosedByLabel === true) {
+        if ($this->enclosedByLabel) {
             $checkbox = $checkbox->label(
-                empty($this->label) ? $this->getAttributeLabel() : $this->label,
+                empty($this->label) ? $this->getLabel() : $this->label,
                 $this->labelAttributes,
             );
         }

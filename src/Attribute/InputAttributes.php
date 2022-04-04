@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Form\Attribute;
 
 use Yii\Extension\Form\Validator\FieldValidator;
+use Yii\Extension\FormModel\Attribute\FormModelAttributes;
 
 abstract class InputAttributes extends WidgetAttributes
 {

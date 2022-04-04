@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Form\Attribute;
 
 use Yii\Extension\Form\Validator\FieldValidator;
+use Yii\Extension\FormModel\Attribute\FormModelAttributes;
 
 abstract class ChoiceAttributes extends WidgetAttributes
 {
@@ -70,7 +71,7 @@ abstract class ChoiceAttributes extends WidgetAttributes
         }
 
         if (!array_key_exists('id', $containerAttributes)) {
-            $containerAttributes['id'] = $this->getInputId();
+            $containerAttributes['id'] = FormModelAttributes::getInputId($this->getFormModel(), $this->getAttribute());
         }
 
         if (array_key_exists('tabindex', $attributes)) {
