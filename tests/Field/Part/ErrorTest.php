@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\Tests\FieldPart;
+namespace Yii\Extension\Form\Tests\Field\Part;
 
 use PHPUnit\Framework\TestCase;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
