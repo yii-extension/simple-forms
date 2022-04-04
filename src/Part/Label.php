@@ -6,8 +6,8 @@ namespace Yii\Extension\Form\Part;
 
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\Attribute\FormModelAttributes;
-use Yii\Extension\FormModel\Contract\FormModelContract;
+use Yii\Extension\Model\Attribute\FormModelAttributes;
+use Yii\Extension\Model\Contract\FormModelContract;
 use Yiisoft\Html\Tag\Label as LabelTag;
 use Yiisoft\Widget\Widget;
 

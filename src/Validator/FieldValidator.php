@@ -9,7 +9,7 @@ use Yii\Extension\Form\Contract\HasLengthContract;
 use Yii\Extension\Form\Contract\NumberContract;
 use Yii\Extension\Form\Contract\RegexContract;
 use Yii\Extension\Form\Url;
-use Yii\Extension\FormModel\Contract\FormModelContract;
+use Yii\Extension\Model\Contract\FormModelContract;
 use Yiisoft\Html\Html;
 use Yiisoft\Validator\Rule;
 use Yiisoft\Validator\Rule\HasLength;

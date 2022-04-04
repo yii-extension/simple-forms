@@ -6,7 +6,7 @@ namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\FormModel\Contract\FormModelContract;
+use Yii\Extension\Model\Contract\FormModelContract;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\P;

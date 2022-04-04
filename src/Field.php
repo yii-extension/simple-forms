@@ -13,7 +13,7 @@ use Yii\Extension\Form\Contract\PlaceholderContract;
 use Yii\Extension\Form\Part\Error;
 use Yii\Extension\Form\Part\Hint;
 use Yii\Extension\Form\Part\Label;
-use Yii\Extension\FormModel\Contract\FormModelContract;
+use Yii\Extension\Model\Contract\FormModelContract;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Definitions\Exception\CircularReferenceException;
 use Yiisoft\Definitions\Exception\InvalidConfigException;

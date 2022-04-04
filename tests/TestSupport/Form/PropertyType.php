@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Tests\TestSupport\Form;
 
-use Yii\Extension\FormModel\FormModel;
+use Yii\Extension\Model\FormModel;
 
 /**
  * @link https://www.php.net/manual/es/language.types.declarations.php

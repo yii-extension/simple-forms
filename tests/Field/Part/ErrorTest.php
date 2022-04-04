@@ -61,7 +61,7 @@ final class ErrorTest extends TestCase
     public function testMessage(): void
     {
         $formModel = new CustomError();
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $this->assertSame(
             '<div>This is custom error message.</div>',
             Error::widget()->for($formModel, 'login')->message('This is custom error message.')->render(),
@@ -74,7 +74,7 @@ final class ErrorTest extends TestCase
     public function testMessageCallback(): void
     {
         $formModel = new CustomError();
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $this->assertSame(
             '<div>This is custom error message.</div>',
             Error::widget()
@@ -90,7 +90,7 @@ final class ErrorTest extends TestCase
     public function testMessageCallbackWithNoEncode(): void
     {
         $formModel = new CustomError();
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $this->assertSame(
             '<div>(&#10006;) This is custom error message.</div>',
             Error::widget()
@@ -107,7 +107,7 @@ final class ErrorTest extends TestCase
     public function testRender(): void
     {
         $formModel = new CustomError();
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $this->assertSame('<div>Value cannot be blank.</div>', Error::widget()->for($formModel, 'login')->render());
     }
 
@@ -117,7 +117,7 @@ final class ErrorTest extends TestCase
     public function testTag(): void
     {
         $formModel = new CustomError();
-        $formModel->validateWithAttributes();
+        $formModel->validate();
         $this->assertSame(
             'Value cannot be blank.',
             Error::widget()->for($formModel, 'login')->tag('')->render(),

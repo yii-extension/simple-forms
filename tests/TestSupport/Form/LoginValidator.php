@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Yii\Extension\form\Tests\TestSupport\Form;
 
-use Yii\Extension\FormModel\FormModel;
+use Yii\Extension\Model\FormModel;
 use Yiisoft\Validator\Result;
 use Yiisoft\Validator\Rule\Required;
 
