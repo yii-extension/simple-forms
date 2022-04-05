@@ -284,14 +284,14 @@ final class EmailTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `email1@example.com;`.
-        $formModel->set('string', 'email1@example.com;');
+        $formModel->setValue('string', 'email1@example.com;');
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" value="email1@example.com;">',
             Email::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]">',
             Email::widget()->for($formModel, 'string')->render(),

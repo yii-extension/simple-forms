@@ -428,7 +428,7 @@ final class FieldRadioTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `true`.
-        $formModel->set('bool', true);
+        $formModel->setValue('bool', true);
 
         $expected = <<<HTML
         <div>
@@ -444,7 +444,7 @@ final class FieldRadioTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'bool')->value(true)->render());
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
 
         $expected = <<<HTML
         <div>
@@ -460,7 +460,7 @@ final class FieldRadioTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->radio($formModel, 'int')->value(1)->render());
 
         // Value string `inactive`.
-        $formModel->set('string', 'active');
+        $formModel->setValue('string', 'active');
 
         $expected = <<<HTML
         <div>
@@ -482,7 +482,7 @@ final class FieldRadioTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <div>
         <label><input type="radio" id="propertytype-int" name="PropertyType[int]"> Int</label>

@@ -340,7 +340,7 @@ final class FieldTextAreaTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `hello`.
-        $formModel->set('string', 'hello');
+        $formModel->setValue('string', 'hello');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -353,7 +353,7 @@ final class FieldTextAreaTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>

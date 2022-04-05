@@ -287,7 +287,7 @@ final class CheckboxTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `true`.
-        $formModel->set('bool', true);
+        $formModel->setValue('bool', true);
 
         $expected = <<<HTML
         <input type="hidden" name="PropertyType[bool]" value="0"><label><input type="checkbox" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>
@@ -299,7 +299,7 @@ final class CheckboxTest extends TestCase
         $this->assertSame($expected, Checkbox::widget()->for($formModel, 'bool')->value(true)->render());
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
 
         $expected = <<<HTML
         <input type="hidden" name="PropertyType[int]" value="0"><label><input type="checkbox" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>
@@ -311,7 +311,7 @@ final class CheckboxTest extends TestCase
         $this->assertSame($expected, Checkbox::widget()->for($formModel, 'int')->value(1)->render());
 
         // Value string '1'.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
 
         $expected = <<<HTML
         <input type="hidden" name="PropertyType[string]" value="0"><label><input type="checkbox" id="propertytype-string" name="PropertyType[string]" value="0"> String</label>
@@ -323,7 +323,7 @@ final class CheckboxTest extends TestCase
         $this->assertSame($expected, Checkbox::widget()->for($formModel, 'string')->value('1')->render());
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
 
         $expected = <<<HTML
         <input type="hidden" name="PropertyType[int]" value="0"><label><input type="checkbox" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>

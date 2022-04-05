@@ -279,7 +279,7 @@ final class RangeTest extends TestCase
 
         // Value int `1`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="1" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">1</output>
@@ -288,7 +288,7 @@ final class RangeTest extends TestCase
 
         // Value string numeric `1`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <input type="range" id="propertytype-string" name="PropertyType[string]" value="1" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[string]">1</output>
@@ -297,7 +297,7 @@ final class RangeTest extends TestCase
 
         // Value `null`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>

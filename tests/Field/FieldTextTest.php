@@ -360,7 +360,7 @@ final class FieldTextTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `joe`.
-        $formModel->set('string', 'joe');
+        $formModel->setValue('string', 'joe');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -370,7 +370,7 @@ final class FieldTextTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->text($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>

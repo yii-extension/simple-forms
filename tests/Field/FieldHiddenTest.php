@@ -107,7 +107,7 @@ final class FieldHiddenTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <div>
         <input type="hidden" name="PropertyType[string]" value="1">
@@ -119,7 +119,7 @@ final class FieldHiddenTest extends TestCase
         );
 
         // Value integer 1.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <div>
         <input type="hidden" name="PropertyType[int]" value="1">
@@ -131,7 +131,7 @@ final class FieldHiddenTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <input type="hidden" name="PropertyType[string]">

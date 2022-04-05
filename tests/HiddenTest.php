@@ -71,21 +71,21 @@ final class HiddenTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]" value="1">',
             Hidden::widget()->for($formModel, 'string')->render(),
         );
 
         // Value integer 1.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $this->assertSame(
             '<input type="hidden" name="PropertyType[int]" value="1">',
             Hidden::widget()->for($formModel, 'int')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]">',
             Hidden::widget()->for($formModel, 'string')->render(),

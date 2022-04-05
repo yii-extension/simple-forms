@@ -258,7 +258,7 @@ final class FieldDateTimeLocalTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `2021-09-18`.
-        $formModel->set('string', '2021-09-18T23:59:00');
+        $formModel->setValue('string', '2021-09-18T23:59:00');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -268,7 +268,7 @@ final class FieldDateTimeLocalTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->dateTimeLocal($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>

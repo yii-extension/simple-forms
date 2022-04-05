@@ -283,14 +283,14 @@ final class TextTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `hello`.
-        $formModel->set('string', 'hello');
+        $formModel->setValue('string', 'hello');
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" value="hello">',
             Text::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]">',
             Text::widget()->for($formModel, 'string')->render(),

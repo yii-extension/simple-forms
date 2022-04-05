@@ -354,7 +354,7 @@ final class FieldRangeTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
         // Value int `1`.
-        $formModel->set('int', '1');
+        $formModel->setValue('int', '1');
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -367,7 +367,7 @@ final class FieldRangeTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
         // Value string numeric `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -380,7 +380,7 @@ final class FieldRangeTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>

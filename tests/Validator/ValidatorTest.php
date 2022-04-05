@@ -32,8 +32,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorInvalid(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'joe');
-        $loginValidatorForm->set('password', '123456');
+        $loginValidatorForm->setValue('login', 'joe');
+        $loginValidatorForm->setValue('password', '123456');
         $loginValidatorForm->validate();
 
         $config = array_merge(
@@ -65,8 +65,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorValid(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'admin');
-        $loginValidatorForm->set('password', 'admin');
+        $loginValidatorForm->setValue('login', 'admin');
+        $loginValidatorForm->setValue('password', 'admin');
         $loginValidatorForm->validate();
 
         $expected = <<<HTML
@@ -92,8 +92,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorInvalidWithErrorSummary(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'joe');
-        $loginValidatorForm->set('password', '123456');
+        $loginValidatorForm->setValue('login', 'joe');
+        $loginValidatorForm->setValue('password', '123456');
         $loginValidatorForm->validate();
 
         $expected = <<<HTML
@@ -132,8 +132,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorValidWithErrorSummary(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'admin');
-        $loginValidatorForm->set('password', 'admin');
+        $loginValidatorForm->setValue('login', 'admin');
+        $loginValidatorForm->setValue('password', 'admin');
         $loginValidatorForm->validate();
 
         $expected = <<<HTML
@@ -157,7 +157,7 @@ final class ValidatorTest extends TestCase
     public function testUrlValidatorPatternSchemeCaseInsensitive(): void
     {
         $validatorRules = new ValidatorRules();
-        $validatorRules->set('urlWithPattern', 'https://www.yiiframework.com/');
+        $validatorRules->setValue('urlWithPattern', 'https://www.yiiframework.com/');
         $validatorRules->validate();
 
         $expected = <<<HTML

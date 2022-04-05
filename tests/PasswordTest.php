@@ -262,14 +262,14 @@ final class PasswordTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `1234??`.
-        $formModel->set('string', '1234??');
+        $formModel->setValue('string', '1234??');
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" value="1234??">',
             Password::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]">',
             Password::widget()->for($formModel, 'string')->render(),

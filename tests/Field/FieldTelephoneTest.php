@@ -357,7 +357,7 @@ final class FieldTelephoneTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `+71234567890`.
-        $formModel->set('string', '+71234567890');
+        $formModel->setValue('string', '+71234567890');
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
@@ -367,7 +367,7 @@ final class FieldTelephoneTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
 
         // Value numeric string `71234567890`.
-        $formModel->set('string', '71234567890');
+        $formModel->setValue('string', '71234567890');
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
@@ -377,7 +377,7 @@ final class FieldTelephoneTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
 
         // Value integer `71234567890`.
-        $formModel->set('int', 71234567890);
+        $formModel->setValue('int', 71234567890);
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-int">Int</label>
@@ -387,7 +387,7 @@ final class FieldTelephoneTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'int')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>

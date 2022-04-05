@@ -427,7 +427,7 @@ final class FieldCheckBoxTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `true`.
-        $formModel->set('bool', true);
+        $formModel->setValue('bool', true);
 
         $expected = <<<HTML
         <div>
@@ -443,7 +443,7 @@ final class FieldCheckBoxTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'bool')->value('1')->render());
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
 
         $expected = <<<HTML
         <div>
@@ -459,7 +459,7 @@ final class FieldCheckBoxTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'int')->value(1)->render());
 
         // Value string `active`.
-        $formModel->set('string', 'active');
+        $formModel->setValue('string', 'active');
 
         $expected = <<<HTML
         <div>
@@ -481,7 +481,7 @@ final class FieldCheckBoxTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('int', 'null');
+        $formModel->setValue('int', 'null');
 
         $expected = <<<HTML
         <div>

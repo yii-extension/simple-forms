@@ -187,14 +187,14 @@ final class DateTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `2021-09-18`.
-        $formModel->set('string', '2021-09-18');
+        $formModel->setValue('string', '2021-09-18');
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" value="2021-09-18">',
             Date::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]">',
             Date::widget()->for($formModel, 'string')->render(),

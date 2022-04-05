@@ -260,7 +260,7 @@ final class FieldCheckboxListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `Male`.
-        $formModel->set('array', ['Male']);
+        $formModel->setValue('array', ['Male']);
 
         $expected = <<<'HTML'
         <div>
@@ -411,7 +411,7 @@ final class FieldCheckboxListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value object `stdClass`.
-        $formModel->set('object', new StdClass());
+        $formModel->setValue('object', new StdClass());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('CheckboxList widget must be a array or null value.');
@@ -426,7 +426,7 @@ final class FieldCheckboxListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value iterable `[2]`.
-        $formModel->set('array', [2]);
+        $formModel->setValue('array', [2]);
 
         $expected = <<<'HTML'
         <div>
@@ -443,7 +443,7 @@ final class FieldCheckboxListTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('array', null);
+        $formModel->setValue('array', null);
 
         $expected = <<<'HTML'
         <div>

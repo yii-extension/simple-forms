@@ -241,7 +241,7 @@ final class RadioTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `true`.
-        $formModel->set('bool', true);
+        $formModel->setValue('bool', true);
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>',
@@ -253,7 +253,7 @@ final class RadioTest extends TestCase
         );
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>',
@@ -265,7 +265,7 @@ final class RadioTest extends TestCase
         );
 
         // Value string `active`.
-        $formModel->set('string', 'active');
+        $formModel->setValue('string', 'active');
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>',
@@ -278,7 +278,7 @@ final class RadioTest extends TestCase
         $this->assertSame($expected, Radio::widget()->for($formModel, 'string')->value('active')->render());
 
         // Value `null`.
-        $formModel->set('int', 'null');
+        $formModel->setValue('int', 'null');
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>',

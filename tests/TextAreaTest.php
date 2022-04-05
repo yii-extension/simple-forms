@@ -246,14 +246,14 @@ final class TextAreaTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `hello`.
-        $formModel->set('string', 'hello');
+        $formModel->setValue('string', 'hello');
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]">hello</textarea>',
             TextArea::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]"></textarea>',
             TextArea::widget()->for($formModel, 'string')->render(),

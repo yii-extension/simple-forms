@@ -352,7 +352,7 @@ final class FieldUrlTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `'https://yiiframework.com'`.
-        $formModel->set('string', 'https://yiiframework.com');
+        $formModel->setValue('string', 'https://yiiframework.com');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -362,7 +362,7 @@ final class FieldUrlTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>

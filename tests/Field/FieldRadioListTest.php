@@ -249,7 +249,7 @@ final class FieldRadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `Male`.
-        $formModel->set('string', 'Male');
+        $formModel->setValue('string', 'Male');
 
         $expected = <<<HTML
         <div>
@@ -506,7 +506,7 @@ final class FieldRadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `false`.
-        $formModel->set('bool', false);
+        $formModel->setValue('bool', false);
         $expected = <<<HTML
         <div>
         <label for="propertytype-bool">Bool</label>
@@ -524,7 +524,7 @@ final class FieldRadioListTest extends TestCase
         );
 
         // Value bool `true`.
-        $formModel->set('bool', true);
+        $formModel->setValue('bool', true);
         $expected = <<<HTML
         <div>
         <label for="propertytype-bool">Bool</label>
@@ -542,7 +542,7 @@ final class FieldRadioListTest extends TestCase
         );
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -558,7 +558,7 @@ final class FieldRadioListTest extends TestCase
         );
 
         // Value int `2`.
-        $formModel->set('int', 2);
+        $formModel->setValue('int', 2);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -574,7 +574,7 @@ final class FieldRadioListTest extends TestCase
         );
 
         // Value string '1'
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -590,7 +590,7 @@ final class FieldRadioListTest extends TestCase
         );
 
         // Value string '2'
-        $formModel->set('string', '2');
+        $formModel->setValue('string', '2');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -606,7 +606,7 @@ final class FieldRadioListTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>

@@ -219,21 +219,21 @@ final class NumberTest extends TestCase
         $formModel = new PropertyType();
 
         // value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $this->assertSame(
             '<input type="number" id="propertytype-int" name="PropertyType[int]" value="1">',
             Number::widget()->for($formModel, 'int')->render(),
         );
 
         // Value string numeric `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $this->assertSame(
             '<input type="number" id="propertytype-string" name="PropertyType[string]" value="1">',
             Number::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $this->assertSame(
             '<input type="number" id="propertytype-int" name="PropertyType[int]" value="0">',
             Number::widget()->for($formModel, 'int')->render(),

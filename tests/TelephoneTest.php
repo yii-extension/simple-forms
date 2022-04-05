@@ -257,28 +257,28 @@ final class TelephoneTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `+71234567890`.
-        $formModel->set('string', '+71234567890');
+        $formModel->setValue('string', '+71234567890');
         $this->assertSame(
             '<input type="tel" id="propertytype-string" name="PropertyType[string]" value="+71234567890">',
             Telephone::widget()->for($formModel, 'string')->render(),
         );
 
         // Value numeric string `71234567890`.
-        $formModel->set('string', '71234567890');
+        $formModel->setValue('string', '71234567890');
         $this->assertSame(
             '<input type="tel" id="propertytype-string" name="PropertyType[string]" value="71234567890">',
             Telephone::widget()->for($formModel, 'string')->render(),
         );
 
         // Value integer `71234567890`.
-        $formModel->set('int', 71234567890);
+        $formModel->setValue('int', 71234567890);
         $this->assertSame(
             '<input type="tel" id="propertytype-int" name="PropertyType[int]" value="71234567890">',
             Telephone::widget()->for($formModel, 'int')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="tel" id="propertytype-string" name="PropertyType[string]">',
             Telephone::widget()->for($formModel, 'string')->render(),

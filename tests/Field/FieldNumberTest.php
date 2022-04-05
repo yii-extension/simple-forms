@@ -294,7 +294,7 @@ final class FieldNumberTest extends TestCase
         $formModel = new PropertyType();
 
         // Value int `1`.
-        $formModel->set('number', 1);
+        $formModel->setValue('number', 1);
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-number">Number</label>
@@ -307,7 +307,7 @@ final class FieldNumberTest extends TestCase
         );
 
         // Value numeric string `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
@@ -320,7 +320,7 @@ final class FieldNumberTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('number', null);
+        $formModel->setValue('number', null);
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-number">Number</label>

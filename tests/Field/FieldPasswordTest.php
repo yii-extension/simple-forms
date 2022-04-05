@@ -323,7 +323,7 @@ final class FieldPasswordTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `1234??`.
-        $formModel->set('string', '1234??');
+        $formModel->setValue('string', '1234??');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -333,7 +333,7 @@ final class FieldPasswordTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->password($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>

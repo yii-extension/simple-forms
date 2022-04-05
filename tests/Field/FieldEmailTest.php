@@ -363,7 +363,7 @@ final class FieldEmailTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `email1@example.com;`.
-        $formModel->set('string', 'email1@example.com;');
+        $formModel->setValue('string', 'email1@example.com;');
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>
@@ -373,7 +373,7 @@ final class FieldEmailTest extends TestCase
         $this->assertEqualsWithoutLE($expected, Field::widget()->email($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<'HTML'
         <div>
         <label for="propertytype-string">String</label>

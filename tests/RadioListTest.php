@@ -217,7 +217,7 @@ final class RadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `Novosibirsk`.
-        $formModel->set('string', 'Novosibirsk');
+        $formModel->setValue('string', 'Novosibirsk');
 
         $expected = <<<HTML
         <div id="propertytype-string">
@@ -455,7 +455,7 @@ final class RadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `false`.
-        $formModel->set('int', false);
+        $formModel->setValue('int', false);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -469,7 +469,7 @@ final class RadioListTest extends TestCase
         );
 
         // Value bool `true`.
-        $formModel->set('int', true);
+        $formModel->setValue('int', true);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -483,7 +483,7 @@ final class RadioListTest extends TestCase
         );
 
         // Value int `0`.
-        $formModel->set('int', 0);
+        $formModel->setValue('int', 0);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -499,7 +499,7 @@ final class RadioListTest extends TestCase
         );
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -515,7 +515,7 @@ final class RadioListTest extends TestCase
         );
 
         // Value string '0'.
-        $formModel->set('string', '0');
+        $formModel->setValue('string', '0');
 
         $expected = <<<HTML
         <div id="propertytype-string">
@@ -531,7 +531,7 @@ final class RadioListTest extends TestCase
         );
 
         // Value string '1'.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
 
         $expected = <<<HTML
         <div id="propertytype-string">
@@ -547,7 +547,7 @@ final class RadioListTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
 
         $expected = <<<HTML
         <div id="propertytype-int">

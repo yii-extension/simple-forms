@@ -225,7 +225,7 @@ final class SelectTest extends TestCase
     public function testMultiple(): void
     {
         $formModel = new PropertyType();
-        $formModel->set('array', [1, 4]);
+        $formModel->setValue('array', [1, 4]);
         $expected = <<<HTML
         <input type="hidden" name="PropertyType[array]" value="0">
         <select id="propertytype-array" name="PropertyType[array][]" multiple size="4">
@@ -543,7 +543,7 @@ final class SelectTest extends TestCase
         $formModel = new PropertyType();
 
         // Value object `stdClass`.
-        $formModel->set('object', new stdClass());
+        $formModel->setValue('object', new stdClass());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Select widget value can not be an object.');
@@ -558,7 +558,7 @@ final class SelectTest extends TestCase
         $formModel = new PropertyType();
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <select id="propertytype-int" name="PropertyType[int]">
         <option value="1" selected>Moscu</option>
@@ -573,7 +573,7 @@ final class SelectTest extends TestCase
         );
 
         // Value int `2`.
-        $formModel->set('int', 2);
+        $formModel->setValue('int', 2);
         $expected = <<<HTML
         <select id="propertytype-int" name="PropertyType[int]">
         <option value="1">Moscu</option>
@@ -588,7 +588,7 @@ final class SelectTest extends TestCase
         );
 
         // Value iterable `[2, 3]`.
-        $formModel->set('array', [2, 3]);
+        $formModel->setValue('array', [2, 3]);
         $expected = <<<HTML
         <select id="propertytype-array" name="PropertyType[array]">
         <option value="1">Moscu</option>
@@ -603,7 +603,7 @@ final class SelectTest extends TestCase
         );
 
         // Value string `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <select id="propertytype-string" name="PropertyType[string]">
         <option value="1" selected>Moscu</option>
@@ -618,7 +618,7 @@ final class SelectTest extends TestCase
         );
 
         // Value string `2`.
-        $formModel->set('string', 2);
+        $formModel->setValue('string', 2);
         $expected = <<<HTML
         <select id="propertytype-string" name="PropertyType[string]">
         <option value="1">Moscu</option>
@@ -633,7 +633,7 @@ final class SelectTest extends TestCase
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <select id="propertytype-int" name="PropertyType[int]">
         <option value="1">Moscu</option>

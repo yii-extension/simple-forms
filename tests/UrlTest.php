@@ -270,14 +270,14 @@ final class UrlTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `https://yiiframework.com`.
-        $formModel->set('string', 'https://yiiframework.com');
+        $formModel->setValue('string', 'https://yiiframework.com');
         $this->assertSame(
             '<input type="url" id="propertytype-string" name="PropertyType[string]" value="https://yiiframework.com">',
             Url::widget()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="url" id="propertytype-string" name="PropertyType[string]">',
             Url::widget()->for($formModel, 'string')->render(),
