@@ -26,7 +26,7 @@ final class ErrorSummaryTest extends TestCase
     {
         $this->expectException(FormModelNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because form model is not set.');
-        $this->invokeMethod(ErrorSummary::widget(), 'getFormModel');
+        $this->invokeMethod(ErrorSummary::create(), 'getFormModel');
     }
 
     public function dataProviderErrorSummary(): array
@@ -129,8 +129,7 @@ final class ErrorSummaryTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $errorSummary = ErrorSummary::widget();
-        $this->assertNotSame($errorSummary, $errorSummary->attributes([]));
+        $errorSummary = ErrorSummary::create();
         $this->assertNotSame($errorSummary, $errorSummary->encode(false));
         $this->assertNotSame($errorSummary, $errorSummary->footer(''));
         $this->assertNotSame($errorSummary, $errorSummary->header(''));
@@ -182,7 +181,7 @@ final class ErrorSummaryTest extends TestCase
 
         $formModel->load($record);
         $formModel->validate();
-        $errorSummary = ErrorSummary::widget()
+        $errorSummary = ErrorSummary::create()
             ->attributes($attributes)
             ->onlyAttributes(...$onlyAttributes)
             ->footer($footer)
@@ -203,6 +202,6 @@ final class ErrorSummaryTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Tag name cannot be empty.');
-        ErrorSummary::widget()->tag('')->render();
+        ErrorSummary::create()->tag('')->render();
     }
 }

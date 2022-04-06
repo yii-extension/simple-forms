@@ -39,7 +39,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->autofocus()
                 ->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])
                 ->render(),
@@ -62,7 +62,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(
                     new PropertyType(),
                     'array',
@@ -88,7 +88,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(new PropertyType(), 'array', ['containerTag()' => ['span'], 'items()' => [$this->sex]])
                 ->render(),
         );
@@ -108,7 +108,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(new PropertyType(), 'array', ['containerTag()' => [null], 'items()' => [$this->sex]])
                 ->render(),
         );
@@ -130,7 +130,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])
                 ->disabled()
                 ->render(),
@@ -153,7 +153,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])
                 ->id('id-test')
                 ->render(),
@@ -177,7 +177,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(
                     new PropertyType(),
                     'array',
@@ -207,7 +207,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(
                     new PropertyType(),
                     'array',
@@ -233,7 +233,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(
                     new PropertyType(),
                     'array',
@@ -260,7 +260,7 @@ final class FieldCheckboxListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `Male`.
-        $formModel->set('array', ['Male']);
+        $formModel->setValue('array', ['Male']);
 
         $expected = <<<'HTML'
         <div>
@@ -273,7 +273,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(
                     $formModel,
                     'array',
@@ -299,7 +299,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])
                 ->name('name-test')
                 ->render(),
@@ -322,7 +322,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->render(),
+            Field::create()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -341,7 +341,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex], 'separator()' => ['&#9866;']])
                 ->render(),
         );
@@ -363,7 +363,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->tabindex(1)->render(),
+            Field::create()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->tabindex(1)->render(),
         );
     }
 
@@ -384,7 +384,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->value([2])->render(),
+            Field::create()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->value([2])->render(),
         );
 
         // Value `null`.
@@ -399,7 +399,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->value(null)->render(),
+            Field::create()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->value(null)->render(),
         );
     }
 
@@ -411,11 +411,11 @@ final class FieldCheckboxListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value object `stdClass`.
-        $formModel->set('object', new StdClass());
+        $formModel->setValue('object', new StdClass());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('CheckboxList widget must be a array or null value.');
-        Field::widget()->checkboxList($formModel, 'object')->render();
+        Field::create()->checkboxList($formModel, 'object')->render();
     }
 
     /**
@@ -426,7 +426,7 @@ final class FieldCheckboxListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value iterable `[2]`.
-        $formModel->set('array', [2]);
+        $formModel->setValue('array', [2]);
 
         $expected = <<<'HTML'
         <div>
@@ -439,11 +439,11 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList($formModel, 'array', ['items()' => [$this->sex]])->render(),
+            Field::create()->checkboxList($formModel, 'array', ['items()' => [$this->sex]])->render(),
         );
 
         // Value `null`.
-        $formModel->set('array', null);
+        $formModel->setValue('array', null);
 
         $expected = <<<'HTML'
         <div>
@@ -456,7 +456,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList($formModel, 'array', ['items()' => [$this->sex]])->render(),
+            Field::create()->checkboxList($formModel, 'array', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -476,7 +476,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->id(null)->render(),
+            Field::create()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->id(null)->render(),
         );
     }
 
@@ -496,7 +496,7 @@ final class FieldCheckboxListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->name(null)->render(),
+            Field::create()->checkboxList(new PropertyType(), 'array', ['items()' => [$this->sex]])->name(null)->render(),
         );
     }
 }

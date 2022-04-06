@@ -33,7 +33,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['attributes()' => [['class' => 'btn btn-primary']]])
+            Field::create(['attributes()' => [['class' => 'btn btn-primary']]])
                 ->buttonGroup([['label' => 'Submit'], ['label' => 'Reset']])
                 ->render(),
         );
@@ -55,7 +55,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerAttributes()' => [['class' => 'container-class-definitions']]])
+            Field::create(['containerAttributes()' => [['class' => 'container-class-definitions']]])
                 ->buttonGroup([['label' => 'Submit'], ['label' => 'Reset']])
                 ->render(),
         );
@@ -78,7 +78,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerClass()' => ['container-class-definitions']])
+            Field::create(['containerClass()' => ['container-class-definitions']])
                 ->buttonGroup([['label' => 'Submit'], ['label' => 'Reset']])
                 ->render(),
         );
@@ -97,7 +97,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(
+            Field::create(
                 [
                     'container()' => [false],
                     'defaultValues()' => [
@@ -132,7 +132,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget([
+            Field::create([
                 'containerClass()' => ['row'],
                 'defaultValues()' => [
                     [

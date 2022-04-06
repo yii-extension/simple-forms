@@ -26,7 +26,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" autofocus>',
-            Password::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
+            Password::create()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" disabled>',
-            Password::widget()->disabled()->for(new PropertyType(), 'string')->render(),
+            Password::create()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">',
-            Password::widget()->for(new ValidatorRules(), 'regex')->render(),
+            Password::create()->for(new ValidatorRules(), 'regex')->render(),
         );
     }
 
@@ -59,7 +59,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">',
-            Password::widget()->for(new ValidatorRules(), 'maxlength')->render(),
+            Password::create()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
@@ -70,7 +70,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">',
-            Password::widget()->for(new ValidatorRules(), 'minlength')->render(),
+            Password::create()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
@@ -81,7 +81,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="validatorrules-required" name="ValidatorRules[required]" required>',
-            Password::widget()->for(new ValidatorRules(), 'required')->render(),
+            Password::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -92,7 +92,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="id-test" name="PropertyType[string]">',
-            Password::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
+            Password::create()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -101,7 +101,7 @@ final class PasswordTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $password = Password::widget();
+        $password = Password::create();
         $this->assertNotSame($password, $password->maxlength(0));
         $this->assertNotSame($password, $password->minlength(4));
         $this->assertNotSame($password, $password->pattern(''));
@@ -117,7 +117,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" maxlength="16">',
-            Password::widget()->for(new PropertyType(), 'string')->maxlength(16)->render(),
+            Password::create()->for(new PropertyType(), 'string')->maxlength(16)->render(),
         );
     }
 
@@ -128,7 +128,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" minlength="8">',
-            Password::widget()->for(new PropertyType(), 'string')->minlength(8)->render(),
+            Password::create()->for(new PropertyType(), 'string')->minlength(8)->render(),
         );
     }
 
@@ -139,7 +139,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="name-test">',
-            Password::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
+            Password::create()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -153,7 +153,7 @@ final class PasswordTest extends TestCase
         HTML;
         $this->assertSame(
             $expected,
-            Password::widget()
+            Password::create()
                 ->for(new PropertyType(), 'string')
                 ->pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
                 ->render(),
@@ -167,7 +167,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">',
-            Password::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
+            Password::create()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
@@ -178,7 +178,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" readonly>',
-            Password::widget()->for(new PropertyType(), 'string')->readonly()->render(),
+            Password::create()->for(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -189,7 +189,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" required>',
-            Password::widget()->for(new PropertyType(), 'string')->required()->render(),
+            Password::create()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -200,7 +200,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]">',
-            Password::widget()->for(new PropertyType(), 'string')->render(),
+            Password::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -211,7 +211,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" size="3">',
-            Password::widget()->for(new PropertyType(), 'string')->size(3)->render(),
+            Password::create()->for(new PropertyType(), 'string')->size(3)->render(),
         );
     }
 
@@ -222,7 +222,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
-            Password::widget()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
+            Password::create()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
         );
     }
 
@@ -234,13 +234,13 @@ final class PasswordTest extends TestCase
         // Value string `1234??`.
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" value="1234??">',
-            Password::widget()->for(new PropertyType(), 'string')->value('1234??')->render(),
+            Password::create()->for(new PropertyType(), 'string')->value('1234??')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]">',
-            Password::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            Password::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -251,7 +251,7 @@ final class PasswordTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Password widget must be a string or null value.');
-        Password::widget()->for(new PropertyType(), 'array')->render();
+        Password::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -262,17 +262,17 @@ final class PasswordTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `1234??`.
-        $formModel->set('string', '1234??');
+        $formModel->setValue('string', '1234??');
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]" value="1234??">',
-            Password::widget()->for($formModel, 'string')->render(),
+            Password::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="password" id="propertytype-string" name="PropertyType[string]">',
-            Password::widget()->for($formModel, 'string')->render(),
+            Password::create()->for($formModel, 'string')->render(),
         );
     }
 
@@ -283,7 +283,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" name="PropertyType[string]">',
-            Password::widget()->for(new PropertyType(), 'string')->id(null)->render(),
+            Password::create()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -294,7 +294,7 @@ final class PasswordTest extends TestCase
     {
         $this->assertSame(
             '<input type="password" id="propertytype-string">',
-            Password::widget()->for(new PropertyType(), 'string')->name(null)->render(),
+            Password::create()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

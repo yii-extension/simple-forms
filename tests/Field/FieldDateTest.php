@@ -32,7 +32,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->date(new PropertyType(), 'string')->render(),
+            Field::create()->autofocus()->date(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->disabled()->render(),
+            Field::create()->date(new PropertyType(), 'string')->disabled()->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new ValidatorRules(), 'required')->render(),
+            Field::create()->date(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -83,7 +83,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string', ['max()' => ['1996-12-19']])->render(),
+            Field::create()->date(new PropertyType(), 'string', ['max()' => ['1996-12-19']])->render(),
         );
     }
 
@@ -100,7 +100,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string', ['min()' => ['1996-12-19']])->render(),
+            Field::create()->date(new PropertyType(), 'string', ['min()' => ['1996-12-19']])->render(),
         );
     }
 
@@ -117,7 +117,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->name('name-test')->render(),
+            Field::create()->date(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -134,7 +134,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->readonly()->render(),
+            Field::create()->date(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -151,7 +151,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->required()->render(),
+            Field::create()->date(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -168,7 +168,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->render(),
+            Field::create()->date(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -185,7 +185,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->tabindex(1)->render(),
+            Field::create()->date(new PropertyType(), 'string')->tabindex(1)->render(),
         );
     }
 
@@ -203,7 +203,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->value('2021-09-18')->render(),
+            Field::create()->date(new PropertyType(), 'string')->value('2021-09-18')->render(),
         );
 
         // Value `null`.
@@ -215,7 +215,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->date(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -226,7 +226,7 @@ final class FieldDateTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Date widget requires a string or null value.');
-        Field::widget()->date(new PropertyType(), 'array')->render();
+        Field::create()->date(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -237,7 +237,7 @@ final class FieldDateTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `2021-09-18`.
-        $formModel->set('string', '2021-09-18');
+        $formModel->setValue('string', '2021-09-18');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -246,11 +246,11 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date($formModel, 'string')->render(),
+            Field::create()->date($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -259,7 +259,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date($formModel, 'string')->render(),
+            Field::create()->date($formModel, 'string')->render(),
         );
     }
 
@@ -276,7 +276,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->id(null)->render(),
+            Field::create()->date(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -293,7 +293,7 @@ final class FieldDateTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->date(new PropertyType(), 'string')->name(null)->render(),
+            Field::create()->date(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

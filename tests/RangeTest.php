@@ -30,7 +30,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" autofocus oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->autofocus()->for(new PropertyType(), 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->autofocus()->for(new PropertyType(), 'int')->render());
     }
 
     /**
@@ -43,7 +43,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" disabled oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->disabled()->for(new PropertyType(), 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->disabled()->for(new PropertyType(), 'int')->render());
     }
 
     /**
@@ -56,7 +56,7 @@ final class RangeTest extends TestCase
         <input type="range" id="validatorrules-number" name="ValidatorRules[number]" value="0" max="5" min="3" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="ValidatorRules[number]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new ValidatorRules(), 'number')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new ValidatorRules(), 'number')->render());
     }
 
     /**
@@ -71,7 +71,7 @@ final class RangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Range::widget()->for(new ValidatorRules(), 'required')->render(),
+            Range::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -87,7 +87,7 @@ final class RangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Range::widget()->for(new PropertyType(), 'int')->id('id-test')->render()
+            Range::create()->for(new PropertyType(), 'int')->id('id-test')->render()
         );
     }
 
@@ -96,7 +96,7 @@ final class RangeTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $range = Range::widget();
+        $range = Range::create();
         $this->assertNotSame($range, $range->max(0));
         $this->assertNotSame($range, $range->min(0));
         $this->assertNotSame($range, $range->outputAttributes([]));
@@ -113,7 +113,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" max="8" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->max(8)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->max(8)->render());
     }
 
     /**
@@ -126,7 +126,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" min="4" oninput="i2.value=this.value">
         <output id="i2" name="i2" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->min(4)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->min(4)->render());
     }
 
     /**
@@ -142,7 +142,7 @@ final class RangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Range::widget()->for(new PropertyType(), 'int')->name('name-test')->render(),
+            Range::create()->for(new PropertyType(), 'int')->name('name-test')->render(),
         );
     }
 
@@ -158,7 +158,7 @@ final class RangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Range::widget()->for(new PropertyType(), 'int')->outputAttributes(['class' => 'test-class'])->render(),
+            Range::create()->for(new PropertyType(), 'int')->outputAttributes(['class' => 'test-class'])->render(),
         );
     }
 
@@ -174,7 +174,7 @@ final class RangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Range::widget()->for(new PropertyType(), 'int')->outputTag('p')->render()
+            Range::create()->for(new PropertyType(), 'int')->outputTag('p')->render()
         );
     }
 
@@ -185,7 +185,7 @@ final class RangeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The output tag name it cannot be empty value.');
-        Range::widget()->for(new PropertyType(), 'int')->outputTag('')->render();
+        Range::create()->for(new PropertyType(), 'int')->outputTag('')->render();
     }
 
     /**
@@ -198,7 +198,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" required oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->required()->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->required()->render());
     }
 
     /**
@@ -211,7 +211,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->render());
     }
 
     /**
@@ -224,7 +224,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" tabindex="1" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->tabindex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->tabindex(1)->render());
     }
 
     /**
@@ -240,7 +240,7 @@ final class RangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Range::widget()->for(new PropertyType(), 'string')->value('1')->render()
+            Range::create()->for(new PropertyType(), 'string')->value('1')->render()
         );
 
         // Value int `1`.
@@ -249,7 +249,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="1" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">1</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->value(1)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->value(1)->render());
 
         // Value `null`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
@@ -257,7 +257,7 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->value(null)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->value(null)->render());
     }
 
     /**
@@ -267,7 +267,7 @@ final class RangeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Range widget must be a numeric or null value.');
-        Range::widget()->for(new PropertyType(), 'array')->render();
+        Range::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -279,30 +279,30 @@ final class RangeTest extends TestCase
 
         // Value int `1`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="1" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">1</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for($formModel, 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for($formModel, 'int')->render());
 
         // Value string numeric `1`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <input type="range" id="propertytype-string" name="PropertyType[string]" value="1" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[string]">1</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for($formModel, 'string')->render());
 
         // Value `null`.
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for($formModel, 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for($formModel, 'int')->render());
     }
 
     /**
@@ -315,7 +315,7 @@ final class RangeTest extends TestCase
         <input type="range" name="PropertyType[int]" value="0" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->id(null)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->id(null)->render());
     }
 
     /**
@@ -328,6 +328,6 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" value="0" oninput="i1.value=this.value">
         <output id="i1" name="i1">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::widget()->for(new PropertyType(), 'int')->name(null)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->name(null)->render());
     }
 }

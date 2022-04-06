@@ -26,7 +26,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" autofocus>',
-            DateTimeLocal::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
+            DateTimeLocal::create()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" disabled>',
-            DateTimeLocal::widget()->disabled()->for(new PropertyType(), 'string')->render(),
+            DateTimeLocal::create()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="validatorrules-required" name="ValidatorRules[required]" required>',
-            DateTimeLocal::widget()->for(new ValidatorRules(), 'required')->render(),
+            DateTimeLocal::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -59,7 +59,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="id-test" name="PropertyType[string]">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -68,7 +68,7 @@ final class DateTimeLocalTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $dateTimeLocal = DateTimeLocal::widget();
+        $dateTimeLocal = DateTimeLocal::create();
         $this->assertNotSame($dateTimeLocal, $dateTimeLocal->max(''));
         $this->assertNotSame($dateTimeLocal, $dateTimeLocal->min(''));
         $this->assertNotSame($dateTimeLocal, $dateTimeLocal->readonly());
@@ -81,7 +81,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" max="1985-04-12T23:20:50.52">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->max('1985-04-12T23:20:50.52')->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->max('1985-04-12T23:20:50.52')->render(),
         );
     }
 
@@ -92,7 +92,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" min="1985-04-12T23:20:50.52">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->min('1985-04-12T23:20:50.52')->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->min('1985-04-12T23:20:50.52')->render(),
         );
     }
 
@@ -103,7 +103,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="name-test">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -114,7 +114,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" readonly>',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->readonly()->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -125,7 +125,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" required>',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->required()->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -136,7 +136,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -147,7 +147,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->tabindex(1)->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->tabindex(1)->render(),
         );
     }
 
@@ -159,13 +159,13 @@ final class DateTimeLocalTest extends TestCase
         // Value string `2021-09-18`.
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" value="2021-09-18T23:59:00">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->value('2021-09-18T23:59:00')->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->value('2021-09-18T23:59:00')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -176,7 +176,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('DateTimeLocal widget requires a string or null value.');
-        DateTimeLocal::widget()->for(new PropertyType(), 'array')->render();
+        DateTimeLocal::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -187,17 +187,17 @@ final class DateTimeLocalTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `2021-09-18`.
-        $formModel->set('string', '2021-09-18T23:59:00');
+        $formModel->setValue('string', '2021-09-18T23:59:00');
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]" value="2021-09-18T23:59:00">',
-            DateTimeLocal::widget()->for($formModel, 'string')->render(),
+            DateTimeLocal::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string" name="PropertyType[string]">',
-            DateTimeLocal::widget()->for($formModel, 'string')->render(),
+            DateTimeLocal::create()->for($formModel, 'string')->render(),
         );
     }
 
@@ -208,7 +208,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" name="PropertyType[string]">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->id(null)->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -219,7 +219,7 @@ final class DateTimeLocalTest extends TestCase
     {
         $this->assertSame(
             '<input type="datetime-local" id="propertytype-string">',
-            DateTimeLocal::widget()->for(new PropertyType(), 'string')->name(null)->render(),
+            DateTimeLocal::create()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

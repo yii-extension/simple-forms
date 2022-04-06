@@ -24,7 +24,7 @@ final class FormTest extends TestCase
     {
         $this->assertSame(
             '<form method="POST" accept-charset="UTF-8">',
-            Form::widget()->acceptCharset('UTF-8')->begin(),
+            Form::create()->acceptCharset('UTF-8')->begin(),
         );
     }
 
@@ -33,7 +33,7 @@ final class FormTest extends TestCase
      */
     public function testAction(): void
     {
-        $this->assertSame('<form action="/test" method="POST">', Form::widget()->action('/test')->begin());
+        $this->assertSame('<form action="/test" method="POST">', Form::create()->action('/test')->begin());
     }
 
     /**
@@ -43,7 +43,7 @@ final class FormTest extends TestCase
     {
         $this->assertSame(
             '<form class="test-class" method="POST">',
-            Form::widget()->attributes(['class' => 'test-class'])->begin(),
+            Form::create()->attributes(['class' => 'test-class'])->begin(),
         );
     }
 
@@ -55,12 +55,12 @@ final class FormTest extends TestCase
         /** on value */
         $this->assertSame(
             '<form method="POST" autocomplete="on">',
-            Form::widget()->autocomplete()->begin(),
+            Form::create()->autocomplete()->begin(),
         );
         /** off value */
         $this->assertSame(
             '<form method="POST" autocomplete="off">',
-            Form::widget()->autocomplete(false)->begin(),
+            Form::create()->autocomplete(false)->begin(),
         );
     }
 
@@ -69,18 +69,18 @@ final class FormTest extends TestCase
      */
     public function testBegin(): void
     {
-        $this->assertSame('<form method="POST">', Form::widget()->begin());
+        $this->assertSame('<form method="POST">', Form::create()->begin());
         $hiddens = [
             '<input type="hidden" name="id" value="1">',
             '<input type="hidden" name="title" value="&lt;">',
         ];
         $this->assertSame(
             '<form action="/example" method="GET">' . PHP_EOL . implode(PHP_EOL, $hiddens),
-            Form::widget()->action('/example?id=1&title=%3C')->method('GET')->begin()
+            Form::create()->action('/example?id=1&title=%3C')->method('GET')->begin()
         );
         $this->assertStringMatchesFormat(
             '<form action="/foo" method="GET">%A<input type="hidden" name="p" value>',
-            Form::widget()->action('/foo?p')->method('GET')->begin(),
+            Form::create()->action('/foo?p')->method('GET')->begin(),
         );
     }
 
@@ -135,8 +135,8 @@ final class FormTest extends TestCase
     public function testCsrf(string $expected, string $method, $csrfToken, string $csrfName): void
     {
         $formWidget = $csrfName !== ''
-            ? Form::widget()->action('/foo')->csrf($csrfToken, $csrfName)->method($method)->begin()
-            : Form::widget()->action('/foo')->csrf($csrfToken)->method($method)->begin();
+            ? Form::create()->action('/foo')->csrf($csrfToken, $csrfName)->method($method)->begin()
+            : Form::create()->action('/foo')->csrf($csrfToken)->method($method)->begin();
         $this->assertSame($expected, $formWidget);
     }
 
@@ -145,7 +145,7 @@ final class FormTest extends TestCase
      */
     public function testEnd(): void
     {
-        Form::widget()->begin();
+        Form::create()->begin();
         $this->assertSame('</form>', Form::end());
     }
 
@@ -156,7 +156,7 @@ final class FormTest extends TestCase
     {
         $this->assertSame(
             '<form id="multipart/form-data" method="POST">',
-            Form::widget()->enctype('multipart/form-data')->begin(),
+            Form::create()->enctype('multipart/form-data')->begin(),
         );
     }
 
@@ -165,10 +165,10 @@ final class FormTest extends TestCase
      */
     public function testId(): void
     {
-        $this->assertSame('<form id="form-id" method="POST">', Form::widget()->id('form-id')->begin());
+        $this->assertSame('<form id="form-id" method="POST">', Form::create()->id('form-id')->begin());
         $this->assertSame(
             '<form id="form-id" method="POST">',
-            Form::widget()->attributes(['id' => 'form-id'])->begin(),
+            Form::create()->attributes(['id' => 'form-id'])->begin(),
         );
     }
 
@@ -177,10 +177,9 @@ final class FormTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $form = Form::widget();
+        $form = Form::create();
         $this->assertNotSame($form, $form->acceptCharset(''));
         $this->assertNotSame($form, $form->action(''));
-        $this->assertNotSame($form, $form->attributes([]));
         $this->assertNotSame($form, $form->autocomplete());
         $this->assertNotSame($form, $form->csrf(''));
         $this->assertNotSame($form, $form->class(''));
@@ -196,8 +195,8 @@ final class FormTest extends TestCase
      */
     public function testMethod(): void
     {
-        $this->assertSame('<form method="GET">', Form::widget()->method('get')->begin());
-        $this->assertSame('<form method="POST">', Form::widget()->method('post')->begin());
+        $this->assertSame('<form method="GET">', Form::create()->method('get')->begin());
+        $this->assertSame('<form method="POST">', Form::create()->method('post')->begin());
     }
 
     /**
@@ -205,7 +204,7 @@ final class FormTest extends TestCase
      */
     public function testNoHtmlValidatation(): void
     {
-        $this->assertSame('<form method="POST" novalidate>', Form::widget()->noHtmlValidation()->begin());
+        $this->assertSame('<form method="POST" novalidate>', Form::create()->noHtmlValidation()->begin());
     }
 
     /**
@@ -213,6 +212,6 @@ final class FormTest extends TestCase
      */
     public function testTarget(): void
     {
-        $this->assertSame('<form method="POST" target="_blank">', Form::widget()->target('_blank')->begin());
+        $this->assertSame('<form method="POST" target="_blank">', Form::create()->target('_blank')->begin());
     }
 }

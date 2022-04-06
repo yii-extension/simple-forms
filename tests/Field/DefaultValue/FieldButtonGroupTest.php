@@ -33,7 +33,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['attributes()' => [['class' => 'btn btn-primary']]])
+            Field::create(['attributes()' => [['class' => 'btn btn-primary']]])
                 ->defaultValues(['buttonGroup' => ['attributes' => ['class' => 'btn btn-success']]])
                 ->buttonGroup([['label' => 'Submit'], ['label' => 'Reset']])
                 ->render(),
@@ -56,7 +56,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerAttributes()' => [['class' => 'container-class-definitions']]])
+            Field::create(['containerAttributes()' => [['class' => 'container-class-definitions']]])
                 ->defaultValues(
                     [
                         'buttonGroup' => [
@@ -85,7 +85,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerClass()' => ['container-class-definitions']])
+            Field::create(['containerClass()' => ['container-class-definitions']])
                 ->defaultValues(
                     [
                         'buttonGroup' => [
@@ -110,7 +110,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->container(false)
                 ->defaultValues(['buttonGroup' => ['definitions' => ['container()' => [false]]]])
                 ->buttonGroup([['label' => 'Submit'], ['label' => 'Reset']])
@@ -134,7 +134,7 @@ final class FieldButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerClass()' => ['row']])
+            Field::create(['containerClass()' => ['row']])
                 ->defaultValues(
                     [
                         'buttonGroup' => [

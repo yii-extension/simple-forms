@@ -25,7 +25,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="w1-submit" autofocus>',
-            SubmitButton::widget()->autofocus()->render(),
+            SubmitButton::create()->autofocus()->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="w1-submit" disabled>',
-            SubmitButton::widget()->disabled()->render(),
+            SubmitButton::create()->disabled()->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="w1-submit" form="form-register">',
-            SubmitButton::widget()->form('form-register')->render(),
+            SubmitButton::create()->form('form-register')->render(),
         );
     }
 
@@ -61,7 +61,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="test-id" name="w1-submit">',
-            SubmitButton::widget()->id('test-id')->render(),
+            SubmitButton::create()->id('test-id')->render(),
         );
     }
 
@@ -73,7 +73,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="test-name">',
-            SubmitButton::widget()->name('test-name')->render(),
+            SubmitButton::create()->name('test-name')->render(),
         );
     }
 
@@ -83,7 +83,7 @@ final class SubmitButtonTest extends TestCase
     public function testRender(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $this->assertSame('<input type="submit" id="w1-submit" name="w1-submit">', SubmitButton::widget()->render());
+        $this->assertSame('<input type="submit" id="w1-submit" name="w1-submit">', SubmitButton::create()->render());
     }
 
     /**
@@ -94,7 +94,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="w1-submit" tabindex="1">',
-            SubmitButton::widget()->tabindex(1)->render(),
+            SubmitButton::create()->tabindex(1)->render(),
         );
     }
 
@@ -106,7 +106,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="w1-submit" value="Save">',
-            SubmitButton::widget()->value('Save')->render(),
+            SubmitButton::create()->value('Save')->render(),
         );
     }
 
@@ -118,7 +118,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" name="w1-submit">',
-            SubmitButton::widget()->id(null)->render(),
+            SubmitButton::create()->id(null)->render(),
         );
     }
 
@@ -130,7 +130,7 @@ final class SubmitButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit">',
-            SubmitButton::widget()->name(null)->render(),
+            SubmitButton::create()->name(null)->render(),
         );
     }
 }

@@ -32,8 +32,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorInvalid(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'joe');
-        $loginValidatorForm->set('password', '123456');
+        $loginValidatorForm->setValue('login', 'joe');
+        $loginValidatorForm->setValue('password', '123456');
         $loginValidatorForm->validate();
 
         $config = array_merge(
@@ -54,8 +54,8 @@ final class ValidatorTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($config)->text($loginValidatorForm, 'login')->render() . PHP_EOL .
-            Field::widget($config)->text($loginValidatorForm, 'password')->render()
+            Field::create($config)->text($loginValidatorForm, 'login')->render() . PHP_EOL .
+            Field::create($config)->text($loginValidatorForm, 'password')->render()
         );
     }
 
@@ -65,8 +65,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorValid(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'admin');
-        $loginValidatorForm->set('password', 'admin');
+        $loginValidatorForm->setValue('login', 'admin');
+        $loginValidatorForm->setValue('password', 'admin');
         $loginValidatorForm->validate();
 
         $expected = <<<HTML
@@ -81,8 +81,8 @@ final class ValidatorTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($this->fieldConfig)->text($loginValidatorForm, 'login')->render() . PHP_EOL .
-            Field::widget($this->fieldConfig)->text($loginValidatorForm, 'password')->render()
+            Field::create($this->fieldConfig)->text($loginValidatorForm, 'login')->render() . PHP_EOL .
+            Field::create($this->fieldConfig)->text($loginValidatorForm, 'password')->render()
         );
     }
 
@@ -92,8 +92,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorInvalidWithErrorSummary(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'joe');
-        $loginValidatorForm->set('password', '123456');
+        $loginValidatorForm->setValue('login', 'joe');
+        $loginValidatorForm->setValue('password', '123456');
         $loginValidatorForm->validate();
 
         $expected = <<<HTML
@@ -114,15 +114,15 @@ final class ValidatorTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($this->fieldConfig)
+            Field::create($this->fieldConfig)
                 ->error(null)
                 ->text($loginValidatorForm, 'login')
                 ->render() . PHP_EOL .
-            Field::widget($this->fieldConfig)
+            Field::create($this->fieldConfig)
                 ->error(null)
                 ->text($loginValidatorForm, 'password')
                 ->render() . PHP_EOL .
-            ErrorSummary::widget()->model($loginValidatorForm)->render(),
+            ErrorSummary::create()->model($loginValidatorForm)->render(),
         );
     }
 
@@ -132,8 +132,8 @@ final class ValidatorTest extends TestCase
     public function testLoginAndPasswordValidatorValidWithErrorSummary(): void
     {
         $loginValidatorForm = new LoginValidator();
-        $loginValidatorForm->set('login', 'admin');
-        $loginValidatorForm->set('password', 'admin');
+        $loginValidatorForm->setValue('login', 'admin');
+        $loginValidatorForm->setValue('password', 'admin');
         $loginValidatorForm->validate();
 
         $expected = <<<HTML
@@ -148,16 +148,16 @@ final class ValidatorTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($this->fieldConfig)->text($loginValidatorForm, 'login')->render() . PHP_EOL .
-            Field::widget($this->fieldConfig)->text($loginValidatorForm, 'password')->render() .
-            ErrorSummary::widget()->model($loginValidatorForm)->render(),
+            Field::create($this->fieldConfig)->text($loginValidatorForm, 'login')->render() . PHP_EOL .
+            Field::create($this->fieldConfig)->text($loginValidatorForm, 'password')->render() .
+            ErrorSummary::create()->model($loginValidatorForm)->render(),
         );
     }
 
     public function testUrlValidatorPatternSchemeCaseInsensitive(): void
     {
         $validatorRules = new ValidatorRules();
-        $validatorRules->set('urlWithPattern', 'https://www.yiiframework.com/');
+        $validatorRules->setValue('urlWithPattern', 'https://www.yiiframework.com/');
         $validatorRules->validate();
 
         $expected = <<<HTML
@@ -168,7 +168,7 @@ final class ValidatorTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($this->fieldConfig)->url($validatorRules, 'urlWithPattern')->render(),
+            Field::create($this->fieldConfig)->url($validatorRules, 'urlWithPattern')->render(),
         );
     }
 }

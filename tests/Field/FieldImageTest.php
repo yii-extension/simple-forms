@@ -28,7 +28,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" alt="Submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image(['alt()' => ['Submit']])->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image(['alt()' => ['Submit']])->render());
     }
 
     /**
@@ -42,7 +42,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" autofocus>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->autofocus()->image()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->autofocus()->image()->render());
     }
 
     /**
@@ -56,7 +56,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" disabled>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->disabled()->image()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->disabled()->image()->render());
     }
 
     /**
@@ -70,7 +70,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="test-id" name="w1-image">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id('test-id')->image()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id('test-id')->image()->render());
     }
 
     /**
@@ -84,7 +84,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" height="20">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image(['height()' => ['20']])->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image(['height()' => ['20']])->render());
     }
 
     /**
@@ -98,7 +98,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="test-name">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image()->name('test-name')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image()->name('test-name')->render());
     }
 
     /**
@@ -112,7 +112,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image()->render());
     }
 
     /**
@@ -126,7 +126,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" src="img_submit.gif">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image(['src()' => ['img_submit.gif']])->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image(['src()' => ['img_submit.gif']])->render());
     }
 
     /**
@@ -140,7 +140,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image()->tabindex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image()->tabindex(1)->render());
     }
 
     /**
@@ -154,7 +154,7 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image" name="w1-image" width="20px">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image(['width()' => ['20px']])->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image(['width()' => ['20px']])->render());
     }
 
     /**
@@ -168,7 +168,7 @@ final class FieldImageTest extends TestCase
         <input type="image" name="w1-image">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->image()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id(null)->image()->render());
     }
 
     /**
@@ -182,6 +182,6 @@ final class FieldImageTest extends TestCase
         <input type="image" id="w1-image">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->image()->name(null)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->image()->name(null)->render());
     }
 }

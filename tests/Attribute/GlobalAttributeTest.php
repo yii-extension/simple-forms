@@ -20,7 +20,6 @@ final class GlobalAttributeTest extends TestCase
     {
         $globalAttributes = $this->createWidget();
         $this->assertNotSame($globalAttributes, $globalAttributes->autofocus());
-        $this->assertNotSame($globalAttributes, $globalAttributes->attributes([]));
         $this->assertNotSame($globalAttributes, $globalAttributes->class(''));
         $this->assertNotSame($globalAttributes, $globalAttributes->disabled());
         $this->assertNotSame($globalAttributes, $globalAttributes->encode(true));

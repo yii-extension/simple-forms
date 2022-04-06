@@ -25,7 +25,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="w1-image" alt="Submit">',
-            Image::widget()->alt('Submit')->render(),
+            Image::create()->alt('Submit')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="w1-image" autofocus>',
-            Image::widget()->autofocus()->render(),
+            Image::create()->autofocus()->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="w1-image" disabled>',
-            Image::widget()->disabled()->render(),
+            Image::create()->disabled()->render(),
         );
     }
 
@@ -61,7 +61,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="id-test" name="w1-image">',
-            Image::widget()->id('id-test')->render(),
+            Image::create()->id('id-test')->render(),
         );
     }
 
@@ -70,7 +70,7 @@ final class ImageTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $image = Image::widget();
+        $image = Image::create();
         $this->assertNotSame($image, $image->alt(''));
         $this->assertNotSame($image, $image->height(''));
         $this->assertNotSame($image, $image->src(''));
@@ -85,7 +85,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="w1-image" height="20">',
-            Image::widget()->height('20')->render(),
+            Image::create()->height('20')->render(),
         );
     }
 
@@ -97,7 +97,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="name-test">',
-            Image::widget()->name('name-test')->render(),
+            Image::create()->name('name-test')->render(),
         );
     }
 
@@ -107,7 +107,7 @@ final class ImageTest extends TestCase
     public function testRender(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
-        $this->assertSame('<input type="image" id="w1-image" name="w1-image">', Image::widget()->render());
+        $this->assertSame('<input type="image" id="w1-image" name="w1-image">', Image::create()->render());
     }
 
     /**
@@ -118,7 +118,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="w1-image" src="img_submit.gif">',
-            Image::widget()->src('img_submit.gif')->render(),
+            Image::create()->src('img_submit.gif')->render(),
         );
     }
 
@@ -130,7 +130,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertEqualsWithoutLE(
             '<input type="image" id="w1-image" name="w1-image" tabindex="1">',
-            Image::widget()->tabIndex(1)->render(),
+            Image::create()->tabIndex(1)->render(),
         );
     }
 
@@ -142,7 +142,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image" name="w1-image" width="20%">',
-            Image::widget()->width('20%')->render(),
+            Image::create()->width('20%')->render(),
         );
     }
 
@@ -154,7 +154,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" name="w1-image">',
-            Image::widget()->id(null)->render(),
+            Image::create()->id(null)->render(),
         );
     }
 
@@ -166,7 +166,7 @@ final class ImageTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="image" id="w1-image">',
-            Image::widget()->name(null)->render(),
+            Image::create()->name(null)->render(),
         );
     }
 }

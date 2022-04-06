@@ -66,7 +66,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->autofocus()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -88,7 +88,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->disabled()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -110,7 +110,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new ValidatorRules(), 'required', ['items()' => [$this->cities]])->render(),
+            Field::create()->select(new ValidatorRules(), 'required', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -139,7 +139,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(new PropertyType(), 'int', ['items()' => [$this->citiesGroups], 'groups()' => [$this->groups]])
                 ->render(),
         );
@@ -170,7 +170,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(
                     new PropertyType(),
                     'int',
@@ -202,7 +202,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->id('id-test')->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -225,7 +225,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(
                     new PropertyType(),
                     'array',
@@ -253,7 +253,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->name('name-test')->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -282,7 +282,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->encode(true)->select(new PropertyType(), 'int', ['optionsData()' => [$cities]])->render(),
+            Field::create()->encode(true)->select(new PropertyType(), 'int', ['optionsData()' => [$cities]])->render(),
         );
     }
 
@@ -305,7 +305,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(new PropertyType(), 'int', ['items()' => [$this->cities], 'prompt()' => ['Select City Birth']])
                 ->render(),
         );
@@ -330,7 +330,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(
                     new PropertyType(),
                     'int',
@@ -361,7 +361,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->required()->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->required()->render(),
         );
     }
 
@@ -383,7 +383,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -406,7 +406,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(new PropertyType(), 'int', ['items()' => [$this->cities], 'multiple()' => [true], 'size()' => [4]])
                 ->render(),
         );
@@ -430,7 +430,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->tabindex(1)->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->tabindex(1)->render(),
         );
     }
 
@@ -453,7 +453,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->select(
                     new PropertyType(),
                     'array',
@@ -482,7 +482,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->value(1)->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->value(1)->render(),
         );
 
         // Value int `2`.
@@ -499,7 +499,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->value(2)->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->value(2)->render(),
         );
 
         // Value iterable `[2, 3]`.
@@ -516,7 +516,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'array', ['items()' => [$this->cities]])->value([2, 3])->render(),
+            Field::create()->select(new PropertyType(), 'array', ['items()' => [$this->cities]])->value([2, 3])->render(),
         );
 
         // Value string `1`.
@@ -533,7 +533,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'string', ['items()' => [$this->cities]])->value('1')->render(),
+            Field::create()->select(new PropertyType(), 'string', ['items()' => [$this->cities]])->value('1')->render(),
         );
 
         // Value string `2`.
@@ -550,7 +550,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'string', ['items()' => [$this->cities]])->value('2')->render(),
+            Field::create()->select(new PropertyType(), 'string', ['items()' => [$this->cities]])->value('2')->render(),
         );
 
         // Value `null`.
@@ -567,7 +567,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->value(null)->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->value(null)->render(),
         );
     }
 
@@ -579,11 +579,11 @@ final class FieldSelectTest extends TestCase
         $formModel = new PropertyType();
 
         // Value object `stdClass`.
-        $formModel->set('object', new StdClass());
+        $formModel->setValue('object', new StdClass());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Select widget value can not be an object.');
-        Field::widget()->select($formModel, 'object')->render();
+        Field::create()->select($formModel, 'object')->render();
     }
 
     /**
@@ -594,7 +594,7 @@ final class FieldSelectTest extends TestCase
         $formModel = new PropertyType();
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -608,11 +608,11 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select($formModel, 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->select($formModel, 'int', ['items()' => [$this->cities]])->render(),
         );
 
         // Value int `2`.
-        $formModel->set('int', 2);
+        $formModel->setValue('int', 2);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -626,11 +626,11 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select($formModel, 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->select($formModel, 'int', ['items()' => [$this->cities]])->render(),
         );
 
         // Value iterable `[2, 3]`.
-        $formModel->set('array', [2, 3]);
+        $formModel->setValue('array', [2, 3]);
         $expected = <<<HTML
         <div>
         <label for="propertytype-array">Array</label>
@@ -644,11 +644,11 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select($formModel, 'array', ['items()' => [$this->cities]])->render(),
+            Field::create()->select($formModel, 'array', ['items()' => [$this->cities]])->render(),
         );
 
         // Value string `1`.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -662,11 +662,11 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select($formModel, 'string', ['items()' => [$this->cities]])->render(),
+            Field::create()->select($formModel, 'string', ['items()' => [$this->cities]])->render(),
         );
 
         // Value string '2'.
-        $formModel->set('string', '2');
+        $formModel->setValue('string', '2');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -680,11 +680,11 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select($formModel, 'string', ['items()' => [$this->cities]])->render(),
+            Field::create()->select($formModel, 'string', ['items()' => [$this->cities]])->render(),
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -698,7 +698,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select($formModel, 'int', ['items()' => [$this->cities]])->render(),
+            Field::create()->select($formModel, 'int', ['items()' => [$this->cities]])->render(),
         );
     }
 
@@ -720,7 +720,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->id(null)->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->id(null)->render(),
         );
     }
 
@@ -742,7 +742,7 @@ final class FieldSelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->name(null)->render(),
+            Field::create()->select(new PropertyType(), 'int', ['items()' => [$this->cities]])->name(null)->render(),
         );
     }
 }

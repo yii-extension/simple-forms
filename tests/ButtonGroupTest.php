@@ -32,7 +32,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->attributes(['class' => 'btn btn-lg'])
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->render(),
@@ -53,7 +53,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->autofocus()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->render(),
@@ -71,7 +71,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->containerAttributes(['class' => 'btn-group'])
                 ->render(),
@@ -89,7 +89,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->containerClass('btn-group')
                 ->render(),
@@ -107,7 +107,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->containerId('id-test')
                 ->render(),
@@ -125,7 +125,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->containerName('name-test')
                 ->render(),
@@ -146,7 +146,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->disabled()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->render(),
@@ -167,7 +167,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->form('form-register')
                 ->render(),
@@ -188,7 +188,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->id('id-test')
                 ->render(),
@@ -200,7 +200,7 @@ final class ButtonGroupTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $buttonGroup = ButtonGroup::widget();
+        $buttonGroup = ButtonGroup::create();
         $this->assertNotSame($buttonGroup, $buttonGroup->buttons([]));
         $this->assertNotSame($buttonGroup, $buttonGroup->container(true));
         $this->assertNotSame($buttonGroup, $buttonGroup->containerAttributes([]));
@@ -224,7 +224,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->individualButtonAttributes(['0' => ['class' => 'btn btn-lg'], '1' => ['class' => 'btn btn-md']])
                 ->render(),
@@ -245,7 +245,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->name('name-test')
                 ->render(),
@@ -266,7 +266,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->render(),
         );
@@ -286,7 +286,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([Button::tag()->type('submit')->content('Send'), Button::tag()->type('reset')->content('Reset')])
                 ->render(),
         );
@@ -306,7 +306,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->tabindex(1)
                 ->render(),
@@ -327,7 +327,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->value(null)
                 ->render(),
@@ -347,7 +347,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons(
                     [
                         ['label' => 'Submit', 'type' => 'Submit', 'visible' => false],
@@ -370,7 +370,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->container(false)
                 ->render(),
@@ -391,7 +391,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->id(null)
                 ->render(),
@@ -412,7 +412,7 @@ final class ButtonGroupTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            ButtonGroup::widget()
+            ButtonGroup::create()
                 ->buttons([['label' => 'Submit', 'type' => 'Submit'], ['label' => 'Reset', 'type' => 'Reset']])
                 ->name(null)
                 ->render(),

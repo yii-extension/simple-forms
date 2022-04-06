@@ -28,7 +28,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="w1-reset" name="w1-reset" autofocus>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->autofocus()->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->autofocus()->resetButton()->render());
     }
 
     /**
@@ -42,7 +42,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="w1-reset" name="w1-reset" disabled>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->disabled()->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->disabled()->resetButton()->render());
     }
 
     /**
@@ -58,7 +58,7 @@ final class FieldResetButtonTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->resetButton(['form()' => ['form-register']])->render(),
+            Field::create()->resetButton(['form()' => ['form-register']])->render(),
         );
     }
 
@@ -73,7 +73,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="test-id" name="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id('test-id')->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id('test-id')->resetButton()->render());
     }
 
     /**
@@ -87,7 +87,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="w1-reset" name="test-name">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->name('test-name')->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->name('test-name')->resetButton()->render());
     }
 
     /**
@@ -101,7 +101,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="w1-reset" name="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->resetButton()->render());
     }
 
     /**
@@ -115,7 +115,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="w1-submit" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->tabindex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->submitButton()->tabindex(1)->render());
     }
 
     /**
@@ -129,7 +129,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="w1-reset" name="w1-reset" value="Reseteable">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->resetButton()->value('Reseteable')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->resetButton()->value('Reseteable')->render());
     }
 
     /**
@@ -143,7 +143,7 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" name="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id(null)->resetButton()->render());
     }
 
     /**
@@ -157,6 +157,6 @@ final class FieldResetButtonTest extends TestCase
         <input type="reset" id="w1-reset">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->name(null)->resetButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->name(null)->resetButton()->render());
     }
 }

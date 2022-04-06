@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Attribute;
 
+use Yii\Extension\Widget\SimpleWidget;
 use Yiisoft\Html\Html;
-use Yiisoft\Widget\Widget;
 
-abstract class GlobalAttributes extends Widget
+abstract class GlobalAttributes extends SimpleWidget
 {
-    protected array $attributes = [];
     private bool $encode = true;
 
     /**
@@ -24,22 +23,6 @@ abstract class GlobalAttributes extends Widget
     {
         $new = clone $this;
         $new->attributes['autofocus'] = true;
-        return $new;
-    }
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $values): static
-    {
-        $new = clone $this;
-        $new->attributes = array_merge($new->attributes, $values);
         return $new;
     }
 

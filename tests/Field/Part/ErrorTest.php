@@ -27,7 +27,7 @@ final class ErrorTest extends TestCase
         $formModel = new CustomError();
         $this->expectException(AttributeNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because "attribute" is not set.');
-        Error::widget()->for($formModel, 'attribute')->render();
+        Error::create()->for($formModel, 'attribute')->render();
     }
 
     /**
@@ -38,7 +38,7 @@ final class ErrorTest extends TestCase
         $formModel = new CustomError();
         $this->expectException(FormModelNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because form model is not set.');
-        $this->invokeMethod(Error::widget(), 'getFormModel');
+        $this->invokeMethod(Error::create(), 'getFormModel');
     }
 
     /**
@@ -46,8 +46,7 @@ final class ErrorTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $error = Error::widget();
-        $this->assertNotSame($error, $error->attributes([]));
+        $error = Error::create();
         $this->assertNotSame($error, $error->encode(false));
         $this->assertNotSame($error, $error->for(new CustomError(), 'login'));
         $this->assertNotSame($error, $error->message(''));
@@ -64,7 +63,7 @@ final class ErrorTest extends TestCase
         $formModel->validate();
         $this->assertSame(
             '<div>This is custom error message.</div>',
-            Error::widget()->for($formModel, 'login')->message('This is custom error message.')->render(),
+            Error::create()->for($formModel, 'login')->message('This is custom error message.')->render(),
         );
     }
 
@@ -77,7 +76,7 @@ final class ErrorTest extends TestCase
         $formModel->validate();
         $this->assertSame(
             '<div>This is custom error message.</div>',
-            Error::widget()
+            Error::create()
                 ->for($formModel, 'login')
                 ->messageCallback([$formModel, 'customError'])
                 ->render(),
@@ -93,7 +92,7 @@ final class ErrorTest extends TestCase
         $formModel->validate();
         $this->assertSame(
             '<div>(&#10006;) This is custom error message.</div>',
-            Error::widget()
+            Error::create()
                 ->for($formModel, 'login')
                 ->encode(false)
                 ->messageCallback([$formModel, 'customErrorWithIcon'])
@@ -108,7 +107,7 @@ final class ErrorTest extends TestCase
     {
         $formModel = new CustomError();
         $formModel->validate();
-        $this->assertSame('<div>Value cannot be blank.</div>', Error::widget()->for($formModel, 'login')->render());
+        $this->assertSame('<div>Value cannot be blank.</div>', Error::create()->for($formModel, 'login')->render());
     }
 
     /**
@@ -120,11 +119,11 @@ final class ErrorTest extends TestCase
         $formModel->validate();
         $this->assertSame(
             'Value cannot be blank.',
-            Error::widget()->for($formModel, 'login')->tag('')->render(),
+            Error::create()->for($formModel, 'login')->tag('')->render(),
         );
         $this->assertSame(
             '<span>Value cannot be blank.</span>',
-            Error::widget()->for($formModel, 'login')->tag('span')->render(),
+            Error::create()->for($formModel, 'login')->tag('span')->render(),
         );
     }
 }

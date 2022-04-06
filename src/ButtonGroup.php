@@ -19,7 +19,7 @@ use function is_array;
  *
  * ```php
  * // a button group with items configuration
- * echo ButtonGroup::widget()
+ * echo ButtonGroup::create()
  *     ->buttons([
  *         ['label' => 'A'],
  *         ['label' => 'B'],
@@ -27,9 +27,9 @@ use function is_array;
  *     ]);
  *
  * // button group with an item as a string
- * echo ButtonGroup::widget()
+ * echo ButtonGroup::create()
  *     ->buttons([
- *         SubmitButton::widget()->content('A')->render(),
+ *         SubmitButton::create()->content('A')->render(),
  *         ['label' => 'B'],
  *     ]);
  * ```

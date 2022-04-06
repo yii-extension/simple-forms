@@ -27,7 +27,7 @@ final class HintTest extends TestCase
     {
         $this->assertSame(
             '<div>Write&nbsp;your&nbsp;text.</div>',
-            Hint::widget()
+            Hint::create()
                 ->for(new HintPart(), 'hint')
                 ->encode(false)
                 ->hint('Write&nbsp;your&nbsp;text.')
@@ -42,7 +42,7 @@ final class HintTest extends TestCase
     {
         $this->expectException(AttributeNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because "attribute" is not set.');
-        Hint::widget()->for(new HintPart(), 'attribute')->render();
+        Hint::create()->for(new HintPart(), 'attribute')->render();
     }
 
     /**
@@ -52,7 +52,7 @@ final class HintTest extends TestCase
     {
         $this->expectException(FormModelNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because form model is not set.');
-        $this->invokeMethod(Hint::widget(), 'getFormModel');
+        $this->invokeMethod(Hint::create(), 'getFormModel');
     }
 
     /**
@@ -62,7 +62,7 @@ final class HintTest extends TestCase
     {
         $this->assertSame(
             '<div>Write your text.</div>',
-            Hint::widget()->for(new HintPart(), 'hint')->hint('Write your text.')->render(),
+            Hint::create()->for(new HintPart(), 'hint')->hint('Write your text.')->render(),
         );
     }
 
@@ -73,7 +73,7 @@ final class HintTest extends TestCase
     {
         $this->assertSame(
             '<div id="id-test" class="test-class">Please enter your hint.</div>',
-            Hint::widget()
+            Hint::create()
                 ->for(new HintPart(), 'hint')
                 ->id('id-test')
                 ->attributes(['class' => 'test-class'])
@@ -86,8 +86,7 @@ final class HintTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $hint = Hint::widget();
-        $this->assertNotSame($hint, $hint->attributes([]));
+        $hint = Hint::create();
         $this->assertNotSame($hint, $hint->encode(false));
         $this->assertNotSame($hint, $hint->for(new HintPart(), 'hint'));
         $this->assertNotSame($hint, $hint->hint(null));
@@ -100,7 +99,7 @@ final class HintTest extends TestCase
      */
     public function testRender(): void
     {
-        $this->assertSame('<div>Please enter your hint.</div>', Hint::widget()->for(new HintPart(), 'hint')->render());
+        $this->assertSame('<div>Please enter your hint.</div>', Hint::create()->for(new HintPart(), 'hint')->render());
     }
 
     /**
@@ -110,7 +109,7 @@ final class HintTest extends TestCase
     {
         $this->assertSame(
             '<span>Please enter your hint.</span>',
-            Hint::widget()->for(new HintPart(), 'hint')->tag('span')->render(),
+            Hint::create()->for(new HintPart(), 'hint')->tag('span')->render(),
         );
     }
 
@@ -121,6 +120,6 @@ final class HintTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Tag name cannot be empty.');
-        Hint::widget()->for(new HintPart(), 'hint')->tag('')->render();
+        Hint::create()->for(new HintPart(), 'hint')->tag('')->render();
     }
 }

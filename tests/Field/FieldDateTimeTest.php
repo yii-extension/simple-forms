@@ -32,7 +32,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->dateTime(new PropertyType(), 'string')->render(),
+            Field::create()->autofocus()->dateTime(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->dateTime(new PropertyType(), 'string')->render(),
+            Field::create()->disabled()->dateTime(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new ValidatorRules(), 'required')->render(),
+            Field::create()->dateTime(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -83,7 +83,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->id('id-test')->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -100,7 +100,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string', ['max()' => ['1990-12-31T23:59:60Z']])->render(),
+            Field::create()->dateTime(new PropertyType(), 'string', ['max()' => ['1990-12-31T23:59:60Z']])->render(),
         );
     }
 
@@ -117,7 +117,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string', ['min()' => ['1990-12-31T23:59:60Z']])->render(),
+            Field::create()->dateTime(new PropertyType(), 'string', ['min()' => ['1990-12-31T23:59:60Z']])->render(),
         );
     }
 
@@ -134,7 +134,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->name('name-test')->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -151,7 +151,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->readonly()->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -168,7 +168,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->required()->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -183,7 +183,7 @@ final class FieldDateTimeTest extends TestCase
         <input type="datetime" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->dateTime(new PropertyType(), 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->dateTime(new PropertyType(), 'string')->render());
     }
 
     /**
@@ -199,7 +199,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->tabindex(1)->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->tabindex(1)->render(),
         );
     }
 
@@ -217,7 +217,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->value('2021-09-18T23:59:00')->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->value('2021-09-18T23:59:00')->render(),
         );
 
         // Value `null`.
@@ -229,7 +229,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -240,7 +240,7 @@ final class FieldDateTimeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('DateTime widget requires a string or null value.');
-        Field::widget()->dateTime(new PropertyType(), 'array')->render();
+        Field::create()->dateTime(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -251,7 +251,7 @@ final class FieldDateTimeTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `2021-09-18`.
-        $formModel->set('string', '2021-09-18T23:59:00');
+        $formModel->setValue('string', '2021-09-18T23:59:00');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -260,11 +260,11 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime($formModel, 'string')->render(),
+            Field::create()->dateTime($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -273,7 +273,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime($formModel, 'string')->render(),
+            Field::create()->dateTime($formModel, 'string')->render(),
         );
     }
 
@@ -290,7 +290,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->id(null)->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -307,7 +307,7 @@ final class FieldDateTimeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTime(new PropertyType(), 'string')->name(null)->render(),
+            Field::create()->dateTime(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

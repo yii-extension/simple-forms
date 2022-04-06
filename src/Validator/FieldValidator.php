@@ -37,8 +37,14 @@ final class FieldValidator
         array $attributes
     ): array {
         /** @psalm-var array<array-key, Rule> */
-        $rules = $formModel->getRules()[$attribute] ?? [];
+        $formModelRules = $formModel->getRules();
+        $rules = [];
 
+        if (array_key_exists($attribute, $formModelRules)) {
+            $rules = $formModelRules[$attribute];
+        }
+
+        /** @psalm-var array<array-key, Rule>  $rules */
         foreach ($rules as $rule) {
             if ($rule instanceof Required) {
                 $attributes['required'] = true;

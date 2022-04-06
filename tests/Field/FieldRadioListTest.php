@@ -38,7 +38,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->autofocus()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -58,7 +58,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(
                     new PropertyType(),
                     'int',
@@ -84,7 +84,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(new PropertyType(), 'int', ['containerTag()' => ['span'], 'items()' => [$this->sex]])
                 ->render(),
         );
@@ -104,7 +104,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(new PropertyType(), 'int', ['containerTag()' => [null], 'items()' => [$this->sex]])
                 ->render(),
         );
@@ -126,7 +126,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->disabled()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -146,7 +146,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->id('id-test')->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -167,7 +167,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(
                     new PropertyType(),
                     'int',
@@ -196,7 +196,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(
                     new PropertyType(),
                     'int',
@@ -222,7 +222,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(
                     new PropertyType(),
                     'int',
@@ -249,7 +249,7 @@ final class FieldRadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `Male`.
-        $formModel->set('string', 'Male');
+        $formModel->setValue('string', 'Male');
 
         $expected = <<<HTML
         <div>
@@ -262,7 +262,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList($formModel, 'string', ['itemsFromValues()' => [$this->sex]])->render(),
+            Field::create()->radioList($formModel, 'string', ['itemsFromValues()' => [$this->sex]])->render(),
         );
     }
 
@@ -282,7 +282,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->name('name-test')->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->name('name-test')->render(),
         );
     }
 
@@ -302,7 +302,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -322,7 +322,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(new PropertyType(), 'int', ['items()' => [$this->sex], 'separator()' => [PHP_EOL]])
                 ->render(),
         );
@@ -344,7 +344,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->tabindex(1)->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->tabindex(1)->render(),
         );
     }
 
@@ -365,7 +365,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(new PropertyType(), 'int', ['items()' => [$this->sex], 'uncheckValue()' => ['0']])
                 ->render(),
         );
@@ -388,7 +388,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(new PropertyType(), 'bool', ['items()' => [[0 => 'Female', 1 => 'Male']]])
                 ->value(false)
                 ->render(),
@@ -406,7 +406,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList(new PropertyType(), 'bool', ['items()' => [[0 => 'Female', 1 => 'Male']]])
                 ->value(true)
                 ->render(),
@@ -424,7 +424,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->value(1)->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->value(1)->render(),
         );
 
         // Value int `2`.
@@ -439,7 +439,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->value(2)->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->value(2)->render(),
         );
 
         // Value string '1'
@@ -454,7 +454,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'string', ['items()' => [$this->sex]])->value('1')->render(),
+            Field::create()->radioList(new PropertyType(), 'string', ['items()' => [$this->sex]])->value('1')->render(),
         );
 
         // Value string '2'
@@ -469,7 +469,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'string', ['items()' => [$this->sex]])->value('2')->render(),
+            Field::create()->radioList(new PropertyType(), 'string', ['items()' => [$this->sex]])->value('2')->render(),
         );
 
         // Value `null`.
@@ -484,7 +484,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->value(null)->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->value(null)->render(),
         );
     }
 
@@ -495,7 +495,7 @@ final class FieldRadioListTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('RadioList widget value can not be an iterable or an object.');
-        Field::widget()->radioList(new PropertyType(), 'array')->render();
+        Field::create()->radioList(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -506,7 +506,7 @@ final class FieldRadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `false`.
-        $formModel->set('bool', false);
+        $formModel->setValue('bool', false);
         $expected = <<<HTML
         <div>
         <label for="propertytype-bool">Bool</label>
@@ -518,13 +518,13 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList($formModel, 'bool', ['items()' => [[0 => 'Female', 1 => 'Male']]])
                 ->render(),
         );
 
         // Value bool `true`.
-        $formModel->set('bool', true);
+        $formModel->setValue('bool', true);
         $expected = <<<HTML
         <div>
         <label for="propertytype-bool">Bool</label>
@@ -536,13 +536,13 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->radioList($formModel, 'bool', ['items()' => [[0 => 'Female', 1 => 'Male']]])
                 ->render(),
         );
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -554,11 +554,11 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList($formModel, 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->radioList($formModel, 'int', ['items()' => [$this->sex]])->render(),
         );
 
         // Value int `2`.
-        $formModel->set('int', 2);
+        $formModel->setValue('int', 2);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -570,11 +570,11 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList($formModel, 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->radioList($formModel, 'int', ['items()' => [$this->sex]])->render(),
         );
 
         // Value string '1'
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -586,11 +586,11 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList($formModel, 'string', ['items()' => [$this->sex]])->render(),
+            Field::create()->radioList($formModel, 'string', ['items()' => [$this->sex]])->render(),
         );
 
         // Value string '2'
-        $formModel->set('string', '2');
+        $formModel->setValue('string', '2');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -602,11 +602,11 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList($formModel, 'string', ['items()' => [$this->sex]])->render(),
+            Field::create()->radioList($formModel, 'string', ['items()' => [$this->sex]])->render(),
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-int">Int</label>
@@ -618,7 +618,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList($formModel, 'int', ['items()' => [$this->sex]])->render(),
+            Field::create()->radioList($formModel, 'int', ['items()' => [$this->sex]])->render(),
         );
     }
 
@@ -638,7 +638,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->id(null)->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->id(null)->render(),
         );
     }
 
@@ -658,7 +658,7 @@ final class FieldRadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->name(null)->render(),
+            Field::create()->radioList(new PropertyType(), 'int', ['items()' => [$this->sex]])->name(null)->render(),
         );
     }
 }

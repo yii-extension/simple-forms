@@ -37,7 +37,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->autofocus()->for(new PropertyType(), 'string')->items($this->cities)->render(),
+            RadioList::create()->autofocus()->for(new PropertyType(), 'string')->items($this->cities)->render(),
         );
     }
 
@@ -56,7 +56,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()
+            RadioList::create()
                 ->for(new PropertyType(), 'int')
                 ->containerAttributes(['class' => 'test-class'])
                 ->items($this->cities)
@@ -79,7 +79,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->containerTag('tag-test')->items($this->cities)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->containerTag('tag-test')->items($this->cities)->render(),
         );
     }
 
@@ -96,7 +96,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->containerTag()->items($this->cities)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->containerTag()->items($this->cities)->render(),
         );
     }
 
@@ -115,7 +115,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->disabled()->for(new PropertyType(), 'string')->items($this->cities)->render(),
+            RadioList::create()->disabled()->for(new PropertyType(), 'string')->items($this->cities)->render(),
         );
     }
 
@@ -134,7 +134,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->id('id-test')->items($this->cities)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->id('id-test')->items($this->cities)->render(),
         );
     }
 
@@ -154,7 +154,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()
+            RadioList::create()
                 ->for(new PropertyType(), 'int')
                 ->individualItemsAttributes([1 => ['disabled' => true], 2 => ['class' => 'test-class']])
                 ->items($this->cities)
@@ -167,7 +167,7 @@ final class RadioListTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $radioList = RadioList::widget();
+        $radioList = RadioList::create();
         $this->assertNotSame($radioList, $radioList->autofocus());
         $this->assertNotSame($radioList, $radioList->containerAttributes([]));
         $this->assertNotSame($radioList, $radioList->containerTag());
@@ -197,7 +197,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()
+            RadioList::create()
                 ->for(new PropertyType(), 'int')
                 ->items($this->cities)
                 ->itemsFormatter(static function (RadioItem $item) {
@@ -217,7 +217,7 @@ final class RadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `Novosibirsk`.
-        $formModel->set('string', 'Novosibirsk');
+        $formModel->setValue('string', 'Novosibirsk');
 
         $expected = <<<HTML
         <div id="propertytype-string">
@@ -229,7 +229,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'string')->itemsFromValues($this->cities)->render(),
+            RadioList::create()->for($formModel, 'string')->itemsFromValues($this->cities)->render(),
         );
     }
 
@@ -248,7 +248,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'string')->items($this->cities)->name('name-test')->render(),
+            RadioList::create()->for(new PropertyType(), 'string')->items($this->cities)->name('name-test')->render(),
         );
     }
 
@@ -267,7 +267,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->render(),
         );
     }
 
@@ -286,7 +286,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->separator(PHP_EOL)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->separator(PHP_EOL)->render(),
         );
     }
 
@@ -305,7 +305,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->tabindex(1)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->tabindex(1)->render(),
         );
     }
 
@@ -325,7 +325,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->uncheckValue(0)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->uncheckValue(0)->render(),
         );
     }
 
@@ -343,7 +343,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()
+            RadioList::create()
                 ->for(new PropertyType(), 'bool')
                 ->items([0 => 'Female', 1 => 'Male'])
                 ->value(false)
@@ -359,7 +359,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()
+            RadioList::create()
                 ->for(new PropertyType(), 'bool')
                 ->items([0 => 'Female', 1 => 'Male'])
                 ->value(true)
@@ -377,7 +377,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->value(0)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->value(0)->render(),
         );
 
         // Value int `1`.
@@ -391,7 +391,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->value(1)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->value(1)->render(),
         );
 
         // Value string '0'.
@@ -405,7 +405,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'string')->items($this->cities)->value('0')->render(),
+            RadioList::create()->for(new PropertyType(), 'string')->items($this->cities)->value('0')->render(),
         );
 
         // Value string '1'.
@@ -419,7 +419,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'string')->items($this->cities)->value('1')->render(),
+            RadioList::create()->for(new PropertyType(), 'string')->items($this->cities)->value('1')->render(),
         );
 
         // Value `null`.
@@ -433,7 +433,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->value(null)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->value(null)->render(),
         );
     }
 
@@ -444,7 +444,7 @@ final class RadioListTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('RadioList widget value can not be an iterable or an object.');
-        RadioList::widget()->for(new PropertyType(), 'array')->render();
+        RadioList::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -455,7 +455,7 @@ final class RadioListTest extends TestCase
         $formModel = new PropertyType();
 
         // Value bool `false`.
-        $formModel->set('int', false);
+        $formModel->setValue('int', false);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -465,11 +465,11 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'int')->items([0 => 'Female', 1 => 'Male'])->render(),
+            RadioList::create()->for($formModel, 'int')->items([0 => 'Female', 1 => 'Male'])->render(),
         );
 
         // Value bool `true`.
-        $formModel->set('int', true);
+        $formModel->setValue('int', true);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -479,11 +479,11 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'int')->items([0 => 'Female', 1 => 'Male'])->render(),
+            RadioList::create()->for($formModel, 'int')->items([0 => 'Female', 1 => 'Male'])->render(),
         );
 
         // Value int `0`.
-        $formModel->set('int', 0);
+        $formModel->setValue('int', 0);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -495,11 +495,11 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'int')->items($this->cities)->render(),
+            RadioList::create()->for($formModel, 'int')->items($this->cities)->render(),
         );
 
         // Value int `1`.
-        $formModel->set('int', 1);
+        $formModel->setValue('int', 1);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -511,11 +511,11 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'int')->items($this->cities)->render(),
+            RadioList::create()->for($formModel, 'int')->items($this->cities)->render(),
         );
 
         // Value string '0'.
-        $formModel->set('string', '0');
+        $formModel->setValue('string', '0');
 
         $expected = <<<HTML
         <div id="propertytype-string">
@@ -527,11 +527,11 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'string')->items($this->cities)->render(),
+            RadioList::create()->for($formModel, 'string')->items($this->cities)->render(),
         );
 
         // Value string '1'.
-        $formModel->set('string', '1');
+        $formModel->setValue('string', '1');
 
         $expected = <<<HTML
         <div id="propertytype-string">
@@ -543,11 +543,11 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'string')->items($this->cities)->render(),
+            RadioList::create()->for($formModel, 'string')->items($this->cities)->render(),
         );
 
         // Value `null`.
-        $formModel->set('int', null);
+        $formModel->setValue('int', null);
 
         $expected = <<<HTML
         <div id="propertytype-int">
@@ -559,7 +559,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for($formModel, 'int')->items($this->cities)->render(),
+            RadioList::create()->for($formModel, 'int')->items($this->cities)->render(),
         );
     }
 
@@ -578,7 +578,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->id(null)->items($this->cities)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->id(null)->items($this->cities)->render(),
         );
     }
 
@@ -597,7 +597,7 @@ final class RadioListTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            RadioList::widget()->for(new PropertyType(), 'int')->items($this->cities)->name(null)->render(),
+            RadioList::create()->for(new PropertyType(), 'int')->items($this->cities)->name(null)->render(),
         );
     }
 }

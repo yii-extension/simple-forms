@@ -35,7 +35,7 @@ final class Checkbox extends InputAttributes
      *
      * @return self
      */
-    public function checked(bool $value = true): self
+    public function checked(bool $value): self
     {
         $new = clone $this;
         $new->checked = $value;

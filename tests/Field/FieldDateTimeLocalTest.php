@@ -32,7 +32,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->dateTimeLocal(new PropertyType(), 'string')->render(),
+            Field::create()->autofocus()->dateTimeLocal(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->disabled()->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->disabled()->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new ValidatorRules(), 'required')->render(),
+            Field::create()->dateTimeLocal(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -83,7 +83,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->id('id-test')->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -100,7 +100,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->dateTimeLocal(new PropertyType(), 'string', ['max()' => ['1985-04-12T23:20:50.52']])
                 ->render(),
         );
@@ -119,7 +119,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->dateTimeLocal(new PropertyType(), 'string', ['min()' => ['1985-04-12T23:20:50.52']])
                 ->render(),
         );
@@ -138,7 +138,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->name('name=test')->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->name('name=test')->render(),
         );
     }
 
@@ -155,7 +155,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->readonly()->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -172,7 +172,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->required()->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -189,7 +189,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -206,7 +206,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->tabindex(1)->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->tabindex(1)->render(),
         );
     }
 
@@ -224,7 +224,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->value('2021-09-18T23:59:00')->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->value('2021-09-18T23:59:00')->render(),
         );
 
         // Value `null`.
@@ -236,7 +236,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -247,7 +247,7 @@ final class FieldDateTimeLocalTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('DateTimeLocal widget requires a string or null value.');
-        Field::widget()->dateTimeLocal(new PropertyType(), 'array')->render();
+        Field::create()->dateTimeLocal(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -258,17 +258,17 @@ final class FieldDateTimeLocalTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `2021-09-18`.
-        $formModel->set('string', '2021-09-18T23:59:00');
+        $formModel->setValue('string', '2021-09-18T23:59:00');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
         <input type="datetime-local" id="propertytype-string" name="PropertyType[string]" value="2021-09-18T23:59:00">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->dateTimeLocal($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->dateTimeLocal($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -277,7 +277,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -294,7 +294,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->id(null)->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -311,7 +311,7 @@ final class FieldDateTimeLocalTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->dateTimeLocal(new PropertyType(), 'string')->name(null)->render(),
+            Field::create()->dateTimeLocal(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

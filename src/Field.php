@@ -15,9 +15,6 @@ use Yii\Extension\Form\Part\Hint;
 use Yii\Extension\Form\Part\Label;
 use Yii\Extension\Model\Contract\FormModelContract;
 use Yiisoft\Arrays\ArrayHelper;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
 use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
@@ -50,8 +47,6 @@ final class Field extends FieldAttributes
      * @param array $config the configuration array for widget factory.
      * @param array $attributes the HTML attributes for the widget.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      *
      * @psalm-param array<string, array|string> $buttons
@@ -61,7 +56,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('buttonGroup');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->button = ButtonGroup::widget($config)->attributes($attributes)->buttons($buttons);
+        $new->button = ButtonGroup::create($config)->attributes($attributes)->buttons($buttons);
         return $new;
     }
 
@@ -81,8 +76,6 @@ final class Field extends FieldAttributes
      *     'uncheckValue()' => ['0'],
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function checkbox(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -98,7 +91,7 @@ final class Field extends FieldAttributes
             $new->parts['{label}'] = '';
         }
 
-        $new->inputWidget = Checkbox::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Checkbox::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -130,8 +123,6 @@ final class Field extends FieldAttributes
      *     'separator()' => ['&#9866;'],
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function checkboxList(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -139,7 +130,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('checkboxList');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = CheckboxList::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = CheckboxList::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -150,8 +141,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function date(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -159,7 +148,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('date');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Date::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Date::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -170,8 +159,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function dateTime(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -179,7 +166,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('dateTime');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = DateTime::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = DateTime::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -190,8 +177,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function dateTimeLocal(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -199,7 +184,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('dateTimeLocal');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = DateTimeLocal::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = DateTimeLocal::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -210,8 +195,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function email(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -219,7 +202,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('email');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Email::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Email::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -236,8 +219,6 @@ final class Field extends FieldAttributes
      *
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function file(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -245,7 +226,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('file');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = File::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = File::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -255,8 +236,6 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
-     *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      *
      * @return self the field widget instance.
      */
@@ -268,7 +247,7 @@ final class Field extends FieldAttributes
         $new->parts['{hint}'] = '';
         $new->parts['{error}'] = '';
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Hidden::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Hidden::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -285,8 +264,6 @@ final class Field extends FieldAttributes
      *     'width' => '100%',
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function image(array $config = [], array $attributes = []): self
@@ -297,7 +274,7 @@ final class Field extends FieldAttributes
         $new->parts['{hint}'] = '';
         $new->parts['{error}'] = '';
         $config = array_merge($new->getDefinitions(), $config);
-        $new->widget = Image::widget($config)->attributes($attributes);
+        $new->widget = Image::create($config)->attributes($attributes);
         return $new;
     }
 
@@ -308,8 +285,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function number(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -317,7 +292,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('number');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Number::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Number::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -328,8 +303,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function password(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -337,7 +310,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('password');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Password::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Password::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -355,8 +328,6 @@ final class Field extends FieldAttributes
      *     'uncheckValue()' => ['0'],
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function radio(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -372,7 +343,7 @@ final class Field extends FieldAttributes
             $new->parts['{label}'] = '';
         }
 
-        $new->inputWidget = Radio::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Radio::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -401,8 +372,6 @@ final class Field extends FieldAttributes
      *     'uncheckValue()' => ['0'],
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function radioList(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -410,7 +379,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('radioList');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = RadioList::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = RadioList::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -426,8 +395,6 @@ final class Field extends FieldAttributes
      *     'outputAttributes()' => [['class' => 'test-class']],
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function range(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -435,7 +402,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('range');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Range::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Range::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -445,8 +412,6 @@ final class Field extends FieldAttributes
      * @param array $config the configuration array for widget factory.
      * @param array $attributes the HTML attributes for the widget.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function resetButton(array $config = [], array $attributes = []): self
@@ -454,7 +419,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('reset');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->button = ResetButton::widget($config)->attributes($attributes);
+        $new->button = ResetButton::create($config)->attributes($attributes);
         return $new;
     }
 
@@ -475,8 +440,6 @@ final class Field extends FieldAttributes
      *     'unselectValue()' => ['0'],
      * ]
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function select(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -484,7 +447,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('select');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Select::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Select::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -494,8 +457,6 @@ final class Field extends FieldAttributes
      * @param array $config the configuration array for widget factory.
      * @param array $attributes the HTML attributes for the widget.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field object itself.
      */
     public function submitButton(array $config = [], array $attributes = []): self
@@ -503,7 +464,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('submit');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->button = SubmitButton::widget($config)->attributes($attributes);
+        $new->button = SubmitButton::create($config)->attributes($attributes);
         return $new;
     }
 
@@ -513,8 +474,6 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
-     *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      *
      * @return self the field widget instance.
      */
@@ -523,7 +482,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('telephone');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Telephone::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Telephone::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -534,8 +493,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function text(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -543,7 +500,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('text');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Text::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Text::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -554,8 +511,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function textArea(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -563,7 +518,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('textArea');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = TextArea::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = TextArea::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -574,8 +529,6 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     *
      * @return self the field widget instance.
      */
     public function url(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -583,7 +536,7 @@ final class Field extends FieldAttributes
         $new = clone $this;
         $new = $new->type('url');
         $config = array_merge($new->getDefinitions(), $config);
-        $new->inputWidget = Url::widget($config)->for($formModel, $attribute);
+        $new->inputWidget = Url::create($config)->for($formModel, $attribute);
         return $new;
     }
 
@@ -595,8 +548,6 @@ final class Field extends FieldAttributes
      *
      * If (not set), the default methods will be called to generate the label and input tag, and use them as the
      * content.
-     *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
      *
      * @return string the rendering result.
      */
@@ -671,9 +622,6 @@ final class Field extends FieldAttributes
         return $new;
     }
 
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
     private function renderError(): string
     {
         $errorAttributes = $this->getErrorAttributes();
@@ -683,7 +631,7 @@ final class Field extends FieldAttributes
             Html::addCssClass($errorAttributes, $errorClass);
         }
 
-        return Error::widget()
+        return Error::create()
             ->attributes($errorAttributes)
             ->encode($this->getEncode())
             ->for($this->inputWidget->getFormModel(), $this->inputWidget->getAttribute())
@@ -693,9 +641,6 @@ final class Field extends FieldAttributes
             ->render();
     }
 
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
     private function renderInputWidget(): string
     {
         $new = clone $this;
@@ -725,9 +670,6 @@ final class Field extends FieldAttributes
         return preg_replace('/^\h*\v+/m', '', trim(strtr($new->getTemplate(), $new->parts)));
     }
 
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
     private function renderHint(): string
     {
         $hintAttributes = $this->getHintAttributes();
@@ -741,7 +683,7 @@ final class Field extends FieldAttributes
             $hintAttributes['id'] = $this->inputWidget->getInputId() . '-help';
         }
 
-        return Hint::widget()
+        return Hint::create()
             ->attributes($hintAttributes)
             ->encode($this->getEncode())
             ->for($this->inputWidget->getFormModel(), $this->inputWidget->getAttribute())
@@ -750,9 +692,6 @@ final class Field extends FieldAttributes
             ->render();
     }
 
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
     private function renderLabel(): string
     {
         $labelAttributes = $this->getLabelAttributes();
@@ -771,7 +710,7 @@ final class Field extends FieldAttributes
             Html::addCssClass($labelAttributes, $labelClass);
         }
 
-        return Label::widget()
+        return Label::create()
             ->attributes($labelAttributes)
             ->encode($this->getEncode())
             ->for($this->inputWidget->getFormModel(), $this->inputWidget->getAttribute())

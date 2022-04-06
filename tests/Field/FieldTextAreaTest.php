@@ -32,7 +32,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->autofocus()->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['cols()' => [20]])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['cols()' => [20]])->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['dirname()' => ['test.dir']])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['dirname()' => ['test.dir']])->render(),
         );
     }
 
@@ -77,7 +77,7 @@ final class FieldTextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
-        Field::widget()->textArea(new PropertyType(), 'string', ['dirname()' => ['']])->render();
+        Field::create()->textArea(new PropertyType(), 'string', ['dirname()' => ['']])->render();
     }
 
     /**
@@ -93,7 +93,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->disabled()->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -108,7 +108,7 @@ final class FieldTextAreaTest extends TestCase
         <textarea id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorRules(), 'maxlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->textArea(new ValidatorRules(), 'maxlength')->render());
     }
 
     /**
@@ -122,7 +122,7 @@ final class FieldTextAreaTest extends TestCase
         <textarea id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new ValidatorRules(), 'minlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->textArea(new ValidatorRules(), 'minlength')->render());
     }
 
     /**
@@ -138,7 +138,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->id('id-test')->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -155,7 +155,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['maxLength()' => [100]])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['maxLength()' => [100]])->render(),
         );
     }
 
@@ -172,7 +172,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['minLength()' => [20]])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['minLength()' => [20]])->render(),
         );
     }
 
@@ -189,7 +189,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->name('name-test')->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -206,7 +206,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeholder('PlaceHolder Text')->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->placeholder('PlaceHolder Text')->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -223,7 +223,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string')->readonly()->render(),
+            Field::create()->textArea(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -240,7 +240,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->required()->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->required()->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -255,7 +255,7 @@ final class FieldTextAreaTest extends TestCase
         <textarea id="propertytype-string" name="PropertyType[string]"></textarea>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->textArea(new PropertyType(), 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->textArea(new PropertyType(), 'string')->render());
     }
 
     /**
@@ -271,7 +271,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['rows()' => [4]])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['rows()' => [4]])->render(),
         );
     }
 
@@ -288,7 +288,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->tabIndex(1)->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->tabIndex(1)->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -306,7 +306,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string')->value('hello')->render(),
+            Field::create()->textArea(new PropertyType(), 'string')->value('hello')->render(),
         );
 
         // Value `null`.
@@ -318,7 +318,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->textArea(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -329,7 +329,7 @@ final class FieldTextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('TextArea widget must be a string or null value.');
-        Field::widget()->textArea(new PropertyType(), 'array')->render();
+        Field::create()->textArea(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -340,7 +340,7 @@ final class FieldTextAreaTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `hello`.
-        $formModel->set('string', 'hello');
+        $formModel->setValue('string', 'hello');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -349,11 +349,11 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea($formModel, 'string')->render(),
+            Field::create()->textArea($formModel, 'string')->render(),
         );
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
@@ -362,7 +362,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea($formModel, 'string')->render(),
+            Field::create()->textArea($formModel, 'string')->render(),
         );
     }
 
@@ -380,7 +380,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['wrap()' => ['hard']])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['wrap()' => ['hard']])->render(),
         );
 
         /** soft value */
@@ -392,7 +392,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->textArea(new PropertyType(), 'string', ['wrap()' => ['soft']])->render(),
+            Field::create()->textArea(new PropertyType(), 'string', ['wrap()' => ['soft']])->render(),
         );
     }
 
@@ -403,7 +403,7 @@ final class FieldTextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
-        Field::widget()->textArea(new PropertyType(), 'string', ['wrap()' => ['exception']]);
+        Field::create()->textArea(new PropertyType(), 'string', ['wrap()' => ['exception']]);
     }
 
     /**
@@ -419,7 +419,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->id(null)->textArea(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -436,7 +436,7 @@ final class FieldTextAreaTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->textArea(new PropertyType(), 'string')->render(),
+            Field::create()->name(null)->textArea(new PropertyType(), 'string')->render(),
         );
     }
 }

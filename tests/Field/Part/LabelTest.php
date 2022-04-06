@@ -26,7 +26,7 @@ final class LabelTest extends TestCase
     {
         $this->assertSame(
             '<label class="test-class" for="id-test">String</label>',
-            Label::widget()
+            Label::create()
                 ->for(new PropertyType(), 'string')
                 ->forId('id-test')
                 ->attributes(['class' => 'test-class'])
@@ -41,7 +41,7 @@ final class LabelTest extends TestCase
     {
         $this->expectException(AttributeNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because "attribute" is not set.');
-        Label::widget()->for(new PropertyType(), 'attribute')->render();
+        Label::create()->for(new PropertyType(), 'attribute')->render();
     }
 
     /**
@@ -51,7 +51,7 @@ final class LabelTest extends TestCase
     {
         $this->expectException(FormModelNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because form model is not set.');
-        $this->invokeMethod(Label::widget(), 'getFormModel');
+        $this->invokeMethod(Label::create(), 'getFormModel');
     }
 
     /**
@@ -59,8 +59,7 @@ final class LabelTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $label = Label::widget();
-        $this->assertNotSame($label, $label->attributes([]));
+        $label = Label::create();
         $this->assertNotSame($label, $label->encode(false));
         $this->assertNotSame($label, $label->for(new PropertyType(), 'string'));
         $this->assertNotSame($label, $label->forId(''));
@@ -74,7 +73,7 @@ final class LabelTest extends TestCase
     {
         $this->assertSame(
             '<label for="propertytype-string">Label:</label>',
-            Label::widget()->for(new PropertyType(), 'string')->label('Label:')->render(),
+            Label::create()->for(new PropertyType(), 'string')->label('Label:')->render(),
         );
     }
 
@@ -85,7 +84,7 @@ final class LabelTest extends TestCase
     {
         $this->assertSame(
             '<label for="propertytype-string">String</label>',
-            Label::widget()->for(new PropertyType(), 'string')->render(),
+            Label::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -98,7 +97,7 @@ final class LabelTest extends TestCase
     {
         $this->assertSame(
             '<label for="propertytype-string">My&nbsp;Field</label>',
-            Label::widget()->for(new PropertyType(), 'string')->encode(false)->label('My&nbsp;Field')->render(),
+            Label::create()->for(new PropertyType(), 'string')->encode(false)->label('My&nbsp;Field')->render(),
         );
     }
 }

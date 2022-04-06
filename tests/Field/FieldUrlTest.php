@@ -32,7 +32,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->url(new PropertyType(), 'string')->render(),
+            Field::create()->autofocus()->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->url(new PropertyType(), 'string')->render(),
+            Field::create()->disabled()->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->url(new PropertyType(), 'string')->render()
+            Field::create()->id('id-test')->url(new PropertyType(), 'string')->render()
         );
     }
 
@@ -81,7 +81,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'regex')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new ValidatorRules(), 'regex')->render());
     }
 
     /**
@@ -95,7 +95,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'maxlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new ValidatorRules(), 'maxlength')->render());
     }
 
     /**
@@ -109,7 +109,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'minlength')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new ValidatorRules(), 'minlength')->render());
     }
 
     /**
@@ -123,7 +123,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorrules-required" name="ValidatorRules[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'required')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new ValidatorRules(), 'required')->render());
     }
 
     /**
@@ -137,7 +137,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="validatorrules-url" name="ValidatorRules[url]" pattern="^([hH][tT][tT][pP]|[hH][tT][tT][pP][sS]):\/\/(([a-zA-Z0-9][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9][a-zA-Z0-9_-]*)+)(?::\d{1,5})?([?\/#].*$|$)">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new ValidatorRules(), 'url')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new ValidatorRules(), 'url')->render());
     }
 
     /**
@@ -153,7 +153,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
+            Field::create()->url(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
         );
     }
 
@@ -170,7 +170,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
+            Field::create()->url(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
         );
     }
 
@@ -187,7 +187,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->url(new PropertyType(), 'string')->render(),
+            Field::create()->name('name-test')->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -202,7 +202,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="propertytype-string" name="PropertyType[string]" pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!$&amp;&apos;\(\)\*\+,;=.]+$">
         </div>
         HTML;
-        $html = Field::widget()
+        $html = Field::create()
             ->url(new PropertyType(), 'string', ['pattern()' => ["^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"]])
             ->render();
         $this->assertEqualsWithoutLE($expected, $html);
@@ -221,7 +221,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeholder('PlaceHolder Text')->url(new PropertyType(), 'string')->render(),
+            Field::create()->placeholder('PlaceHolder Text')->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -238,7 +238,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->readonly()->url(new PropertyType(), 'string')->render(),
+            Field::create()->readonly()->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -255,7 +255,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->required()->url(new PropertyType(), 'string')->render(),
+            Field::create()->required()->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -270,7 +270,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new PropertyType(), 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new PropertyType(), 'string')->render());
     }
 
     /**
@@ -286,7 +286,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string', ['size()' => [20]])->render(),
+            Field::create()->url(new PropertyType(), 'string', ['size()' => [20]])->render(),
         );
     }
 
@@ -301,7 +301,7 @@ final class FieldUrlTest extends TestCase
         <input type="url" id="propertytype-string" name="PropertyType[string]" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url(new PropertyType(), 'string')->tabIndex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url(new PropertyType(), 'string')->tabIndex(1)->render());
     }
 
     /**
@@ -318,7 +318,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string')->value('https://yiiframework.com')->render(),
+            Field::create()->url(new PropertyType(), 'string')->value('https://yiiframework.com')->render(),
         );
 
         // Value `null`.
@@ -330,7 +330,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->url(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->url(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -341,7 +341,7 @@ final class FieldUrlTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Url widget must be a string or null value.');
-        Field::widget()->url(new PropertyType(), 'int')->render();
+        Field::create()->url(new PropertyType(), 'int')->render();
     }
 
     /**
@@ -352,24 +352,24 @@ final class FieldUrlTest extends TestCase
         $formModel = new PropertyType();
 
         // Value string `'https://yiiframework.com'`.
-        $formModel->set('string', 'https://yiiframework.com');
+        $formModel->setValue('string', 'https://yiiframework.com');
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
         <input type="url" id="propertytype-string" name="PropertyType[string]" value="https://yiiframework.com">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url($formModel, 'string')->render());
 
         // Value `null`.
-        $formModel->set('string', null);
+        $formModel->setValue('string', null);
         $expected = <<<HTML
         <div>
         <label for="propertytype-string">String</label>
         <input type="url" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->url($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->url($formModel, 'string')->render());
     }
 
     /**
@@ -385,7 +385,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->url(new PropertyType(), 'string')->render(),
+            Field::create()->id(null)->url(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -402,7 +402,7 @@ final class FieldUrlTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->url(new PropertyType(), 'string')->render(),
+            Field::create()->name(null)->url(new PropertyType(), 'string')->render(),
         );
     }
 }

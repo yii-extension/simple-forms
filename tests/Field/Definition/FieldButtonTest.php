@@ -30,7 +30,7 @@ final class FieldButtonTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['attributes()' => [['value' => 'Submit']]])->submitButton()->render(),
+            Field::create(['attributes()' => [['value' => 'Submit']]])->submitButton()->render(),
         );
     }
 
@@ -47,7 +47,7 @@ final class FieldButtonTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerAttributes()' => [['class' => 'container-class-definitions']]])
+            Field::create(['containerAttributes()' => [['class' => 'container-class-definitions']]])
                 ->submitButton()
                 ->render(),
         );
@@ -66,7 +66,7 @@ final class FieldButtonTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerClass()' => ['container-class-definitions']])
+            Field::create(['containerClass()' => ['container-class-definitions']])
                 ->submitButton()
                 ->render(),
         );
@@ -80,7 +80,7 @@ final class FieldButtonTest extends TestCase
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
         $this->assertSame(
             '<input type="submit" id="w1-submit" name="w1-submit">',
-            Field::widget(['container()' => [false]])->submitButton()->render(),
+            Field::create(['container()' => [false]])->submitButton()->render(),
         );
     }
 }
