@@ -31,8 +31,8 @@ Widget view:
 declare(strict_types=1);
 
 use Yii\Extension\Form\Checkbox;
-use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Form;
+use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Model\Contract\FormModelContract;
 
 /**
@@ -44,7 +44,7 @@ use Yii\Extension\Model\Contract\FormModelContract;
 <?= Form::widget()->action('widgets')->csrf($csrf)->begin() ?>
     <?= Checkbox::widget()->for($data, 'active') ?>
     <hr class="mt-3">
-    <?= Field::widget()->class('button is-block is-info is-fullwidth')->submitButton()->value('Save') ?>
+    <?= SubmitButton::widget()->class('button is-block is-info is-fullwidth')->value('Save') ?>
 <?= Form::end() ?>
 ```
 
@@ -89,8 +89,8 @@ Widget view:
 declare(strict_types=1);
 
 use Yii\Extension\Form\Checkbox;
-use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Form;
+use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Model\Contract\FormModelContract;
 
 /**
@@ -102,7 +102,7 @@ use Yii\Extension\Model\Contract\FormModelContract;
 <?= Form::widget()->action('widgets')->csrf($csrf)->begin() ?>
     <?= Checkbox::widget()->for($data, 'active')->uncheckValue(null) ?>
     <hr class="mt-3">
-    <?= Field::widget()->class('button is-block is-info is-fullwidth')->submitButton()->value('Save') ?>
+    <?= SubmitButton::widget()->class('button is-block is-info is-fullwidth')->value('Save') ?>
 <?= Form::end() ?>
 ```
 
@@ -146,8 +146,8 @@ Widget view:
 declare(strict_types=1);
 
 use Yii\Extension\Form\Checkbox;
-use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Form;
+use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Model\Contract\FormModelContract;
 
 /**
@@ -159,7 +159,7 @@ use Yii\Extension\Model\Contract\FormModelContract;
 <?= Form::widget()->action('widgets')->csrf($csrf)->begin() ?>
     <?= Checkbox::widget()->for($data, 'active')->uncheckValue('inactive')->value('active') ?>
     <hr class="mt-3">
-    <?= Field::widget()->class('button is-block is-info is-fullwidth')->submitButton()->value('Save') ?>
+    <?= SubmitButton::widget()->class('button is-block is-info is-fullwidth')->value('Save') ?>
 <?= Form::end() ?>
 ```
 

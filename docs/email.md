@@ -27,8 +27,8 @@ Widget view:
 declare(strict_types=1);
 
 use Yii\Extension\Form\Email;
-use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Form;
+use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Model\Contract\FormModelContract;
 
 /**

@@ -89,8 +89,8 @@ Widgets view:
 declare(strict_types=1);
 
 use Yii\Extension\Form\CheckboxList;
-use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Form;
+use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Model\Contract\FormModelContract;
 
 /**
@@ -102,7 +102,7 @@ use Yii\Extension\Model\Contract\FormModelContract;
 <?= Form::widget()->action('widgets')->csrf($csrf)->begin() ?>
     <?= CheckboxList::widget()->for($data, 'fruits')->itemsFromValues(['0' => 'Apple', '1' => 'Banana']) ?>
     <hr class="mt-3">
-    <?= Field::widget()->class('button is-block is-info is-fullwidth')->submitButton()->value('Save') ?>
+    <?= SubmitButton::widget()->class('button is-block is-info is-fullwidth')->value('Save') ?>
 <?= Form::end() ?>
 ```
 
