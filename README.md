@@ -19,11 +19,38 @@
 composer require yii-extension/simple-forms
 ```
 
-# Support css framework
+## Support css framework
 
 - [Bootstrap](https://getbootstrap.com/docs/5.0/forms/overview/)
 - [Bulma](https://bulma.io/documentation/form/)
 - [Tailwind](https://v1.tailwindcss.com/components/forms)
+
+## Widgets usage
+
+The following documentation describes how to use widgets with PHP:
+
+- [Checkbox](docs/checkbox.md)
+- [CheckboxList](docs/checkboxlist.md)
+- [Date](docs/date.md)
+- [DateTime](docs/datetime.md)
+- [DateTimeLocal](docs/datetimelocal.md)
+- [Email](docs/email.md)
+- [Error](docs/error.md)
+- [ErrorSummary](docs/error-summary.md)
+- [File](docs/file.md)
+- [Hint](docs/hint.md)
+- [Label](docs/label.md)
+- [Number](docs/number.md)
+- [Password](docs/password.md)
+- [Radio](docs/radio.md)
+- [RadioList](docs/radiolist.md)
+- [Range](docs/range.md)
+- [ResetButton](docs/resetbutton.md)
+- [Select](docs/select.md)
+- [SubmitButton](docs/submitbutton.md)
+- [Telephone](docs/telephone.md)
+- [Text](docs/text.md)  
+- [Url](docs/url.md)
 
 ### Unit testing
 
