@@ -75,7 +75,7 @@ That would generate the following code:
 | `charset(string $value)`                                | Set the charset attribute              | `UTF-8` |
 | `disabled(bool $value = true)`                          | Set the disabled attribute             | `false` |
 | `encode(bool $value)`                                   | Whether content should be HTML-encoded | `true`  |
-| `for(FormModelInterface $formModel, string $attribute)` | Configure the widget                   |         |
+| `for(FormModelContract $formModel, string $attribute)` | Configure the widget                   |         |
 | `id(string $value)`                                     | Set the id attribute                   | `''`    |
 | `name(string $value)`                                   | Set the name attribute.                | `''`    |
 | `tabIndex(int $value)`                                  | Set the tabindex attribute             | `''`    |

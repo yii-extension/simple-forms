@@ -226,7 +226,7 @@ That would generate the following code after validation:
 | `encode(bool $value)`                  | Whether to encode the error summary.                 | `true`  |
 | `footer(string $value)`                | Set the footer text for the error summary.           | `''`    |
 | `header(string $value)`                | Set the header text for the error summary.           | `''`    |
-| `model(FormModelInterface $formModel)` | Set the model for the error summary.                 | `null`  |
+| `model(FormModelContract $formModel)` | Set the model for the error summary.                 | `null`  |
 | `showAllErrors(bool $value)`           | Whether to show all errors.                          | `false` |
 | `onlyAttributes(array $value)`         | Specific attributes to be included in error summary. | `''`    |
 | `tag(string $value)`                   | Set the container tag name for the error summary.    | `'div'` |

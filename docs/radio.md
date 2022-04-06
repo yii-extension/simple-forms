@@ -98,7 +98,7 @@ use Yii\Extension\Form\SubmitButton;
 use Yii\Extension\Model\Contract\FormModelContract;
 
 /**
- *  @var $data FormModelInterface
+ *  @var $data FormModelContract
  *  @var $csrf string
  */
 ?>
@@ -204,7 +204,7 @@ use Yii\Extension\Model\Contract\FormModelContract;
 | `class(string $value)`                                  | The widget CSS class                                             | ``      |
 | `disabled()`                                            | Set whether the element is disabled or not                       | `false` |
 | `encode(bool $value)`                                   | Whether content should be HTML-encoded                           | `true`  |
-| `for(FormModelInterface $formModel, string $attribute)` | Configure the widget                                             |         |
+| `for(FormModelContract $formModel, string $attribute)` | Configure the widget                                             |         |
 | `id(string $value)`                                     | Set the id attribute                                             | `''`    |
 | `name(string $value)`                                   | Set the name attribute                                           | `''`    |
 | `readonly()`                                            | Set the readonly attribute                                       | `false` |

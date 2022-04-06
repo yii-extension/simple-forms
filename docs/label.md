@@ -116,6 +116,6 @@ That would generate the following code:
 |---------------------------------------------------------|--------------------------------------------------|---------|
 | `attributes(array $attributes = [])`                    | The HTML attributes for the widget               | `[]`    |
 | `encode(bool $value)`                                   | Whether to encode the error message              | `true`  |
-| `for(FormModelInterface $formModel, string $attribute)` | Configure the widget                             |         |
+| `for(FormModelContract $formModel, string $attribute)` | Configure the widget                             |         |
 | `forId(?string $value)`                                 | The ID of a form element to associate label with | `''`    |
 | `label(?string $value)`                                 | The text of the label                            | `''`    |

@@ -148,6 +148,6 @@ That would generate the following code:
 | `charset(string $value)`                                | Sets the charset attribute                                       | `UTF-8` |
 | `disabled()`                                            | Set whether the element is disabled or not                       | `false` |
 | `encode(bool $value)`                                   | Whether content should be HTML-encoded                           | `true`  |
-| `for(FormModelInterface $formModel, string $attribute)` | Configure the widget                                             |         |
+| `for(FormModelContract $formModel, string $attribute)` | Configure the widget                                             |         |
 | `name(string $value)`                                   | Set the name attribute                                           | `''`    |
 | `value($value)`                                         | The value content attribute gives the default value of the field | `''`    |
