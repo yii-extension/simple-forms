@@ -37,13 +37,6 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
-        },
-        "config-plugin-options": {
-            "source-directory": "config"
-        },
-        "config-plugin": {
-            "params": "params.php",
-            "web": "web/*.php"
         }
     },
     "config": {
