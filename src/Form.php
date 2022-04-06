@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Yii\Extension\Form;
 
 use Stringable;
+use Yii\Extension\Widget\SimpleWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Http\Method;
-use Yiisoft\Widget\Widget;
 
 use function explode;
 use function implode;
@@ -21,10 +21,9 @@ use function urldecode;
  *
  *  @link https://www.w3.org/TR/html52/sec-forms.html
  */
-final class Form extends Widget
+final class Form extends SimpleWidget
 {
     private string $action = '';
-    private array $attributes = [];
     private string $csrfName = '';
     private string $csrfToken = '';
     private string $method = Method::POST;
@@ -116,22 +115,6 @@ final class Form extends Widget
     {
         $new = clone $this;
         $new->action = $value;
-        return $new;
-    }
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $value
-     *
-     * @return self
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $value): self
-    {
-        $new = clone $this;
-        $new->attributes = $value;
         return $new;
     }
 

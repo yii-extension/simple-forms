@@ -7,11 +7,11 @@ namespace Yii\Extension\Form;
 use InvalidArgumentException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\Model\Contract\FormModelContract;
+use Yii\Extension\Widget\SimpleWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\P;
 use Yiisoft\Html\Tag\Ul;
-use Yiisoft\Widget\Widget;
 
 use function array_flip;
 use function array_intersect_key;
@@ -21,9 +21,8 @@ use function array_values;
 /**
  * The error summary widget displays a summary of the errors in a form.
  */
-final class ErrorSummary extends Widget
+final class ErrorSummary extends SimpleWidget
 {
-    private array $attributes = [];
     private bool $encode = true;
     private array $onlyAttributes = [];
     private ?FormModelContract $formModel = null;
@@ -34,22 +33,6 @@ final class ErrorSummary extends Widget
     private bool $showAllErrors = false;
     /** @psalm-param non-empty-string */
     private string $tag = 'div';
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $value
-     *
-     * @return self
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $value): self
-    {
-        $new = clone $this;
-        $new->attributes = $value;
-        return $new;
-    }
 
     /**
      * Whether content should be HTML-encoded.

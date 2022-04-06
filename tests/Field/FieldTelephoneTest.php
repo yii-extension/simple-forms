@@ -32,7 +32,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->autofocus()->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -49,7 +49,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->disabled()->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -66,7 +66,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new ValidatorRules(), 'regex')->render(),
+            Field::create()->telephone(new ValidatorRules(), 'regex')->render(),
         );
     }
 
@@ -83,7 +83,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new ValidatorRules(), 'maxlength')->render()
+            Field::create()->telephone(new ValidatorRules(), 'maxlength')->render()
         );
     }
 
@@ -100,7 +100,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new ValidatorRules(), 'minlength')->render()
+            Field::create()->telephone(new ValidatorRules(), 'minlength')->render()
         );
     }
 
@@ -115,7 +115,7 @@ final class FieldTelephoneTest extends TestCase
         <input type="tel" id="validatorrules-required" name="ValidatorRules[required]" required>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone(new ValidatorRules(), 'required')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->telephone(new ValidatorRules(), 'required')->render());
     }
 
     /**
@@ -131,7 +131,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->id('id-test')->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -148,7 +148,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
+            Field::create()->telephone(new PropertyType(), 'string', ['maxlength()' => [10]])->render(),
         );
     }
 
@@ -165,7 +165,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
+            Field::create()->telephone(new PropertyType(), 'string', ['minlength()' => [4]])->render(),
         );
     }
 
@@ -182,7 +182,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->name('name-test')->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -199,7 +199,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string', ['pattern()' => ['[789][0-9]{9}']])->render(),
+            Field::create()->telephone(new PropertyType(), 'string', ['pattern()' => ['[789][0-9]{9}']])->render(),
         );
     }
 
@@ -216,7 +216,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->placeholder('PlaceHolder Text')->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->placeholder('PlaceHolder Text')->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -233,7 +233,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string')->readonly()->render(),
+            Field::create()->telephone(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -250,7 +250,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->required()->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->required()->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -265,7 +265,7 @@ final class FieldTelephoneTest extends TestCase
         <input type="tel" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone(new PropertyType(), 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->telephone(new PropertyType(), 'string')->render());
     }
 
     /**
@@ -281,7 +281,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->tabIndex(1)->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->tabIndex(1)->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -299,7 +299,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string')->value('+71234567890')->render(),
+            Field::create()->telephone(new PropertyType(), 'string')->value('+71234567890')->render(),
         );
 
         // Value numeric string `71234567890`.
@@ -311,7 +311,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string')->value('71234567890')->render(),
+            Field::create()->telephone(new PropertyType(), 'string')->value('71234567890')->render(),
         );
 
         // Value integer `71234567890`.
@@ -323,7 +323,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'int')->value(71234567890)->render(),
+            Field::create()->telephone(new PropertyType(), 'int')->value(71234567890)->render(),
         );
 
         // Value `null`.
@@ -335,7 +335,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->telephone(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->telephone(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -346,7 +346,7 @@ final class FieldTelephoneTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Telephone widget must be a string, numeric or null.');
-        Field::widget()->telephone(new PropertyType(), 'array')->render();
+        Field::create()->telephone(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -364,7 +364,7 @@ final class FieldTelephoneTest extends TestCase
         <input type="tel" id="propertytype-string" name="PropertyType[string]" value="+71234567890">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->telephone($formModel, 'string')->render());
 
         // Value numeric string `71234567890`.
         $formModel->setValue('string', '71234567890');
@@ -374,7 +374,7 @@ final class FieldTelephoneTest extends TestCase
         <input type="tel" id="propertytype-string" name="PropertyType[string]" value="71234567890">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->telephone($formModel, 'string')->render());
 
         // Value integer `71234567890`.
         $formModel->setValue('int', 71234567890);
@@ -384,7 +384,7 @@ final class FieldTelephoneTest extends TestCase
         <input type="tel" id="propertytype-int" name="PropertyType[int]" value="71234567890">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->telephone($formModel, 'int')->render());
 
         // Value `null`.
         $formModel->setValue('string', null);
@@ -394,7 +394,7 @@ final class FieldTelephoneTest extends TestCase
         <input type="tel" id="propertytype-string" name="PropertyType[string]">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->telephone($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->telephone($formModel, 'string')->render());
     }
 
     /**
@@ -410,7 +410,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->id(null)->telephone(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -427,7 +427,7 @@ final class FieldTelephoneTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->telephone(new PropertyType(), 'string')->render(),
+            Field::create()->name(null)->telephone(new PropertyType(), 'string')->render(),
         );
     }
 }

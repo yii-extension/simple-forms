@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form;
 
+use Yii\Extension\Widget\SimpleWidget;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
-use Yiisoft\Widget\Widget;
 
 /**
  * The <fieldset> HTML element is used to group several controls as well as labels (<label>) within a web form.
  *
  * @link https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element
  */
-final class Fieldset extends Widget
+final class Fieldset extends SimpleWidget
 {
-    private array $attributes = [];
     private ?string $legend = null;
     private array $legendAttributes = [];
 
@@ -39,22 +38,6 @@ final class Fieldset extends Widget
         }
 
         return $html;
-    }
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $value
-     *
-     * @return self
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $value): self
-    {
-        $new = clone $this;
-        $new->attributes = $value;
-        return $new;
     }
 
     /**

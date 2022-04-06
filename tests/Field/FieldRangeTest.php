@@ -36,7 +36,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->range(new PropertyType(), 'int')->render(),
+            Field::create()->autofocus()->range(new PropertyType(), 'int')->render(),
         );
     }
 
@@ -56,7 +56,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->range(new PropertyType(), 'int')->render(),
+            Field::create()->disabled()->range(new PropertyType(), 'int')->render(),
         );
     }
 
@@ -74,7 +74,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="ValidatorRules[number]">0</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->range(new ValidatorRules(), 'number')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->range(new ValidatorRules(), 'number')->render());
     }
 
     /**
@@ -93,7 +93,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new ValidatorRules(), 'numberRequired')->render(),
+            Field::create()->range(new ValidatorRules(), 'numberRequired')->render(),
         );
     }
 
@@ -113,7 +113,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id('id-test')->range(new PropertyType(), 'int')->render(),
+            Field::create()->id('id-test')->range(new PropertyType(), 'int')->render(),
         );
     }
 
@@ -133,7 +133,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'int', ['max()' => [8]])->render(),
+            Field::create()->range(new PropertyType(), 'int', ['max()' => [8]])->render(),
         );
     }
 
@@ -153,7 +153,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'int', ['min()' => [4]])->render(),
+            Field::create()->range(new PropertyType(), 'int', ['min()' => [4]])->render(),
         );
     }
 
@@ -173,7 +173,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('name-test')->range(new PropertyType(), 'int')->render(),
+            Field::create()->name('name-test')->range(new PropertyType(), 'int')->render(),
         );
     }
 
@@ -193,7 +193,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->range(new PropertyType(), 'int', ['outputAttributes()' => [['class' => 'test-class']]])
                 ->render(),
         );
@@ -215,7 +215,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'int', ['outputTag()' => ['p']])->render(),
+            Field::create()->range(new PropertyType(), 'int', ['outputTag()' => ['p']])->render(),
         );
     }
 
@@ -226,7 +226,7 @@ final class FieldRangeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The output tag name it cannot be empty value.');
-        Field::widget()->range(new PropertyType(), 'int', ['outputTag()' => ['']])->render();
+        Field::create()->range(new PropertyType(), 'int', ['outputTag()' => ['']])->render();
     }
 
     /**
@@ -245,7 +245,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'int')->required()->render()
+            Field::create()->range(new PropertyType(), 'int')->required()->render()
         );
     }
 
@@ -263,7 +263,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->range(new PropertyType(), 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->range(new PropertyType(), 'int')->render());
     }
 
     /**
@@ -282,7 +282,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'int')->tabindex(1)->render()
+            Field::create()->range(new PropertyType(), 'int')->tabindex(1)->render()
         );
     }
 
@@ -301,7 +301,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="PropertyType[int]">1</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->range(new PropertyType(), 'int')->value(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->range(new PropertyType(), 'int')->value(1)->render());
 
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
@@ -315,7 +315,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'string')->value('1')->render()
+            Field::create()->range(new PropertyType(), 'string')->value('1')->render()
         );
 
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
@@ -330,7 +330,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->range(new PropertyType(), 'int')->value(null)->render()
+            Field::create()->range(new PropertyType(), 'int')->value(null)->render()
         );
     }
 
@@ -341,7 +341,7 @@ final class FieldRangeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Range widget must be a numeric or null value.');
-        Field::widget()->range(new PropertyType(), 'array')->render();
+        Field::create()->range(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -362,7 +362,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="PropertyType[int]">1</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->range($formModel, 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->range($formModel, 'int')->render());
 
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
@@ -375,7 +375,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="PropertyType[string]">1</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->range($formModel, 'string')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->range($formModel, 'string')->render());
 
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
 
@@ -388,7 +388,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->range($formModel, 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->range($formModel, 'int')->render());
     }
 
     /**
@@ -405,7 +405,7 @@ final class FieldRangeTest extends TestCase
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->range(new PropertyType(), 'int')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id(null)->range(new PropertyType(), 'int')->render());
     }
 
     /**
@@ -424,7 +424,7 @@ final class FieldRangeTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->range(new PropertyType(), 'int')->render()
+            Field::create()->name(null)->range(new PropertyType(), 'int')->render()
         );
     }
 }

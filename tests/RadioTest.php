@@ -26,7 +26,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" autofocus> Int</label>',
-            Radio::widget()->autofocus()->for(new PropertyType(), 'int')->value(1)->render(),
+            Radio::create()->autofocus()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>',
-            Radio::widget()->checked()->for(new PropertyType(), 'int')->value(1)->render(),
+            Radio::create()->checked()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" disabled> Int</label>',
-            Radio::widget()->disabled()->for(new PropertyType(), 'int')->value(1)->render(),
+            Radio::create()->disabled()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -56,7 +56,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<input type="radio" id="propertytype-int" name="PropertyType[int]" value="1">',
-            Radio::widget()->for(new PropertyType(), 'int')->enclosedByLabel(false)->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->enclosedByLabel(false)->value(1)->render(),
         );
     }
 
@@ -70,7 +70,7 @@ final class RadioTest extends TestCase
         HTML;
         $this->assertSame(
             $expected,
-            Radio::widget()->for(new ValidatorRules(), 'required')->render(),
+            Radio::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -81,13 +81,13 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="id-test" name="PropertyType[int]" value="1"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->id('id-test')->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->id('id-test')->value(1)->render(),
         );
     }
 
     public function testImmutability(): void
     {
-        $radio = Radio::widget();
+        $radio = Radio::create();
         $this->assertNotSame($radio, $radio->checked(false));
         $this->assertNotSame($radio, $radio->enclosedByLabel(false));
         $this->assertNotSame($radio, $radio->label(''));
@@ -105,7 +105,7 @@ final class RadioTest extends TestCase
         HTML;
         $this->assertSame(
             $expected,
-            Radio::widget()
+            Radio::create()
                 ->for(new PropertyType(), 'int')
                 ->label('Label:')
                 ->labelAttributes(['class' => 'test-class'])
@@ -121,7 +121,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="name-test" value="1"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->name('name-test')->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->name('name-test')->value(1)->render(),
         );
     }
 
@@ -132,7 +132,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" required> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->required()->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->required()->value(1)->render(),
         );
     }
 
@@ -143,7 +143,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -154,7 +154,7 @@ final class RadioTest extends TestCase
     {
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" tabindex="1"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->tabindex(1)->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->tabindex(1)->value(1)->render(),
         );
     }
 
@@ -168,7 +168,7 @@ final class RadioTest extends TestCase
         HTML;
         $this->assertSame(
             $expected,
-            Radio::widget()->for(new PropertyType(), 'int')->uncheckValue(0)->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->uncheckValue(0)->value(1)->render(),
         );
     }
 
@@ -180,31 +180,31 @@ final class RadioTest extends TestCase
         // Value bool `false`.
         $this->assertSame(
             '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>',
-            Radio::widget()->for(new PropertyType(), 'bool')->value(false)->render(),
+            Radio::create()->for(new PropertyType(), 'bool')->value(false)->render(),
         );
 
         // Value bool `true`.
         $this->assertSame(
             '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>',
-            Radio::widget()->checked()->for(new PropertyType(), 'bool')->value(true)->render(),
+            Radio::create()->checked()->for(new PropertyType(), 'bool')->value(true)->render(),
         );
 
         // Value int `0`.
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->value(0)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->value(0)->render(),
         );
 
         // Value int `1`.
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>',
-            Radio::widget()->checked()->for(new PropertyType(), 'int')->value(1)->render(),
+            Radio::create()->checked()->for(new PropertyType(), 'int')->value(1)->render(),
         );
 
         // Value string `inactive`.
         $this->assertSame(
             '<label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>',
-            Radio::widget()->for(new PropertyType(), 'string')->value('inactive')->render(),
+            Radio::create()->for(new PropertyType(), 'string')->value('inactive')->render(),
         );
 
         // Value string `active`.
@@ -213,13 +213,13 @@ final class RadioTest extends TestCase
         HTML;
         $this->assertSame(
             $expected,
-            Radio::widget()->checked()->for(new PropertyType(), 'string')->value('active')->render(),
+            Radio::create()->checked()->for(new PropertyType(), 'string')->value('active')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->value(null)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->value(null)->render(),
         );
     }
 
@@ -230,7 +230,7 @@ final class RadioTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Radio widget value can not be an iterable or an object.');
-        Radio::widget()->for(new PropertyType(), 'array')->render();
+        Radio::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -245,11 +245,11 @@ final class RadioTest extends TestCase
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>',
-            Radio::widget()->for($formModel, 'bool')->value(false)->render(),
+            Radio::create()->for($formModel, 'bool')->value(false)->render(),
         );
         $this->assertSame(
             '<label><input type="radio" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>',
-            Radio::widget()->for($formModel, 'bool')->value(true)->render(),
+            Radio::create()->for($formModel, 'bool')->value(true)->render(),
         );
 
         // Value int `1`.
@@ -257,11 +257,11 @@ final class RadioTest extends TestCase
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>',
-            Radio::widget()->for($formModel, 'int')->value(0)->render(),
+            Radio::create()->for($formModel, 'int')->value(0)->render(),
         );
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>',
-            Radio::widget()->for($formModel, 'int')->value(1)->render(),
+            Radio::create()->for($formModel, 'int')->value(1)->render(),
         );
 
         // Value string `active`.
@@ -269,20 +269,20 @@ final class RadioTest extends TestCase
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="inactive"> String</label>',
-            Radio::widget()->for($formModel, 'string')->value('inactive')->render()
+            Radio::create()->for($formModel, 'string')->value('inactive')->render()
         );
 
         $expected = <<<HTML
         <label><input type="radio" id="propertytype-string" name="PropertyType[string]" value="active" checked> String</label>
         HTML;
-        $this->assertSame($expected, Radio::widget()->for($formModel, 'string')->value('active')->render());
+        $this->assertSame($expected, Radio::create()->for($formModel, 'string')->value('active')->render());
 
         // Value `null`.
         $formModel->setValue('int', 'null');
 
         $this->assertSame(
             '<label><input type="radio" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>',
-            Radio::widget()->for($formModel, 'int')->value(1)->render(),
+            Radio::create()->for($formModel, 'int')->value(1)->render(),
         );
     }
 
@@ -293,7 +293,7 @@ final class RadioTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<label><input type="radio" name="PropertyType[int]" value="1"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->id(null)->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->id(null)->value(1)->render(),
         );
     }
 
@@ -304,7 +304,7 @@ final class RadioTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<label><input type="radio" id="propertytype-int" value="1"> Int</label>',
-            Radio::widget()->for(new PropertyType(), 'int')->name(null)->value(1)->render(),
+            Radio::create()->for(new PropertyType(), 'int')->name(null)->value(1)->render(),
         );
     }
 }

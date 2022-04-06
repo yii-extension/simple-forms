@@ -31,7 +31,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['ariaDescribedBy()' => [false]])->text(new PropertyType(), 'string')->render(),
+            Field::create(['ariaDescribedBy()' => [false]])->text(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['attributes()' => [['class' => 'class-definitions']]])
+            Field::create(['attributes()' => [['class' => 'class-definitions']]])
                 ->text(new PropertyType(), 'string')
                 ->render(),
         );
@@ -67,7 +67,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerAttributes()' => [['class' => 'text-left', 'style' => 'color: red']]])
+            Field::create(['containerAttributes()' => [['class' => 'text-left', 'style' => 'color: red']]])
                 ->text(new PropertyType(), 'string')
                 ->render(),
         );
@@ -86,7 +86,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['containerClass()' => ['container-class-definition']])
+            Field::create(['containerClass()' => ['container-class-definition']])
                 ->text(new PropertyType(), 'string')
                 ->render(),
         );
@@ -109,7 +109,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(
+            Field::create(
                 [
                     'error()' => ['error-text'],
                     'errorAttributes()' => [['class' => 'text-danger']],
@@ -139,7 +139,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(
+            Field::create(
                 [
                     'errorMessageCallback()' => [[$formModel, 'customError']],
                     'errorAttributes()' => [['class' => 'text-danger']],
@@ -166,7 +166,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(
+            Field::create(
                 [
                     'hint()' => ['hint-text'],
                     'hintAttributes()' => [['class' => 'text-primary']],
@@ -192,7 +192,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['inputClass()' => ['form-control']])->text(new PropertyType(), 'string')->render(),
+            Field::create(['inputClass()' => ['form-control']])->text(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -213,7 +213,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['invalidClass()' => ['is-invalid']])->text($formModel, 'login')->render(),
+            Field::create(['invalidClass()' => ['is-invalid']])->text($formModel, 'login')->render(),
         );
     }
 
@@ -230,7 +230,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(
+            Field::create(
                 [
                     'label()' => ['label-text'],
                     'labelAttributes()' => [['class' => 'text-primary']],
@@ -255,7 +255,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['placeholder()' => ['placeholder-text']])->text(new PropertyType(), 'string')->render(),
+            Field::create(['placeholder()' => ['placeholder-text']])->text(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -272,7 +272,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['template()' => ["{input}\n{label}\n{hint}\n{error}"]])
+            Field::create(['template()' => ["{input}\n{label}\n{hint}\n{error}"]])
                 ->text(new PropertyType(), 'string')
                 ->render(),
         );
@@ -294,7 +294,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['validClass()' => ['is-valid']])->text($formModel, 'login')->render(),
+            Field::create(['validClass()' => ['is-valid']])->text($formModel, 'login')->render(),
         );
     }
 
@@ -309,7 +309,7 @@ final class FieldInputTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget(['container()' => [false]])->text(new PropertyType(), 'string')->render(),
+            Field::create(['container()' => [false]])->text(new PropertyType(), 'string')->render(),
         );
     }
 }

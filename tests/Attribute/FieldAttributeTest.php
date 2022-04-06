@@ -21,7 +21,7 @@ final class FieldAttributeTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $field = Field::widget();
+        $field = Field::create();
         $this->assertNotSame($field, $field->ariaDescribedBy(true));
         $this->assertNotSame($field, $field->ariaLabel(''));
         $this->assertNotSame($field, $field->container(true));

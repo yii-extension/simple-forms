@@ -26,7 +26,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" autofocus>',
-            Email::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
+            Email::create()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" disabled>',
-            Email::widget()->disabled()->for(new PropertyType(), 'string')->render(),
+            Email::create()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">',
-            Email::widget()->for(new ValidatorRules(), 'regex')->render(),
+            Email::create()->for(new ValidatorRules(), 'regex')->render(),
         );
     }
 
@@ -59,7 +59,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">',
-            Email::widget()->for(new ValidatorRules(), 'maxlength')->render(),
+            Email::create()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
@@ -70,7 +70,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">',
-            Email::widget()->for(new ValidatorRules(), 'minlength')->render(),
+            Email::create()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
@@ -81,7 +81,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="validatorrules-required" name="ValidatorRules[required]" required>',
-            Email::widget()->for(new ValidatorRules(), 'required')->render(),
+            Email::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -92,7 +92,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="id-test" name="PropertyType[string]">',
-            Email::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
+            Email::create()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -101,7 +101,7 @@ final class EmailTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $email = Email::widget();
+        $email = Email::create();
         $this->assertNotSame($email, $email->maxlength(0));
         $this->assertNotSame($email, $email->minlength(0));
         $this->assertNotSame($email, $email->multiple(true));
@@ -117,7 +117,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" maxlength="10">',
-            Email::widget()->for(new PropertyType(), 'string')->maxlength(10)->render(),
+            Email::create()->for(new PropertyType(), 'string')->maxlength(10)->render(),
         );
     }
 
@@ -128,7 +128,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" minlength="4">',
-            Email::widget()->for(new PropertyType(), 'string')->minlength(4)->render(),
+            Email::create()->for(new PropertyType(), 'string')->minlength(4)->render(),
         );
     }
 
@@ -139,7 +139,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" value="email1@example.com">',
-            Email::widget()
+            Email::create()
                 ->for(new PropertyType(), 'string')
                 ->multiple(false)
                 ->value('email1@example.com')
@@ -148,7 +148,7 @@ final class EmailTest extends TestCase
 
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" value="email1@example.com;email2@example.com;" multiple>',
-            Email::widget()
+            Email::create()
                 ->for(new PropertyType(), 'string')
                 ->multiple()
                 ->value('email1@example.com;email2@example.com;')
@@ -163,7 +163,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="name-test">',
-            Email::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
+            Email::create()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -175,7 +175,7 @@ final class EmailTest extends TestCase
         $expected = <<<'HTML'
         <input type="email" id="propertytype-string" name="PropertyType[string]" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-zA-Z]{2,4}">
         HTML;
-        $html = Email::widget()
+        $html = Email::create()
             ->for(new PropertyType(), 'string')
             ->pattern('[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-zA-Z]{2,4}')
             ->render();
@@ -189,7 +189,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">',
-            Email::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
+            Email::create()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
@@ -200,7 +200,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" readonly>',
-            Email::widget()->for(new PropertyType(), 'string')->readonly()->render(),
+            Email::create()->for(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -211,7 +211,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" required>',
-            Email::widget()->for(new PropertyType(), 'string')->required()->render(),
+            Email::create()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -222,7 +222,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]">',
-            Email::widget()->for(new PropertyType(), 'string')->render(),
+            Email::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -233,7 +233,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" size="20">',
-            Email::widget()->for(new PropertyType(), 'string')->size(20)->render(),
+            Email::create()->for(new PropertyType(), 'string')->size(20)->render(),
         );
     }
 
@@ -244,7 +244,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
-            Email::widget()->for(new PropertyType(), 'string')->tabindex(1)->render(),
+            Email::create()->for(new PropertyType(), 'string')->tabindex(1)->render(),
         );
     }
 
@@ -256,13 +256,13 @@ final class EmailTest extends TestCase
         // Value string `email1@example.com;`.
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" value="email1@example.com;">',
-            Email::widget()->for(new PropertyType(), 'string')->value('email1@example.com;')->render(),
+            Email::create()->for(new PropertyType(), 'string')->value('email1@example.com;')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]">',
-            Email::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            Email::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -273,7 +273,7 @@ final class EmailTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Email widget must be a string or null value.');
-        Email::widget()->for(new PropertyType(), 'int')->render();
+        Email::create()->for(new PropertyType(), 'int')->render();
     }
 
     /**
@@ -287,14 +287,14 @@ final class EmailTest extends TestCase
         $formModel->setValue('string', 'email1@example.com;');
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]" value="email1@example.com;">',
-            Email::widget()->for($formModel, 'string')->render(),
+            Email::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
         $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="email" id="propertytype-string" name="PropertyType[string]">',
-            Email::widget()->for($formModel, 'string')->render(),
+            Email::create()->for($formModel, 'string')->render(),
         );
     }
 
@@ -305,7 +305,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" name="PropertyType[string]">',
-            Email::widget()->for(new PropertyType(), 'string')->id(null)->render(),
+            Email::create()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -316,7 +316,7 @@ final class EmailTest extends TestCase
     {
         $this->assertSame(
             '<input type="email" id="propertytype-string">',
-            Email::widget()->for(new PropertyType(), 'string')->name(null)->render(),
+            Email::create()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

@@ -7,37 +7,20 @@ namespace Yii\Extension\Form\Part;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\Model\Contract\FormModelContract;
+use Yii\Extension\Widget\SimpleWidget;
 use Yiisoft\Html\Tag\CustomTag;
-use Yiisoft\Widget\Widget;
 
 /**
  * The Error widget displays an error message.
  */
-final class Error extends Widget
+final class Error extends SimpleWidget
 {
     private string $attribute = '';
-    private array $attributes = [];
     private bool $encode = false;
     private string $message = '';
     private array $messageCallback = [];
     private string $tag = 'div';
     private ?FormModelContract $formModel = null;
-
-    /**
-     * The HTML attributes. The following special options are recognized.
-     *
-     * @param array $values Attribute values indexed by attribute names.
-     *
-     * @return static
-     *
-     * See {@see \Yiisoft\Html\Html::renderTagAttributes()} for details on how attributes are being rendered.
-     */
-    public function attributes(array $values): self
-    {
-        $new = clone $this;
-        $new->attributes = $values;
-        return $new;
-    }
 
     /**
      * Whether content should be HTML-encoded.

@@ -25,7 +25,7 @@ final class HiddenTest extends TestCase
     {
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]">',
-            Hidden::widget()->for(new PropertyType(), 'string')->render(),
+            Hidden::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -37,19 +37,19 @@ final class HiddenTest extends TestCase
         // Value string `1`.
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]" value="1">',
-            Hidden::widget()->for(new PropertyType(), 'string')->value('1')->render(),
+            Hidden::create()->for(new PropertyType(), 'string')->value('1')->render(),
         );
 
         // Value integer 1.
         $this->assertSame(
             '<input type="hidden" name="PropertyType[int]" value="1">',
-            Hidden::widget()->for(new PropertyType(), 'int')->value(1)->render(),
+            Hidden::create()->for(new PropertyType(), 'int')->value(1)->render(),
         );
 
         // Value null.
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]">',
-            Hidden::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            Hidden::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -60,7 +60,7 @@ final class HiddenTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Hidden widget requires a string, numeric or null value.');
-        Hidden::widget()->for(new PropertyType(), 'array')->render();
+        Hidden::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -74,21 +74,21 @@ final class HiddenTest extends TestCase
         $formModel->setValue('string', '1');
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]" value="1">',
-            Hidden::widget()->for($formModel, 'string')->render(),
+            Hidden::create()->for($formModel, 'string')->render(),
         );
 
         // Value integer 1.
         $formModel->setValue('int', 1);
         $this->assertSame(
             '<input type="hidden" name="PropertyType[int]" value="1">',
-            Hidden::widget()->for($formModel, 'int')->render(),
+            Hidden::create()->for($formModel, 'int')->render(),
         );
 
         // Value `null`.
         $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="hidden" name="PropertyType[string]">',
-            Hidden::widget()->for($formModel, 'string')->render(),
+            Hidden::create()->for($formModel, 'string')->render(),
         );
     }
 }

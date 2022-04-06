@@ -32,7 +32,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->containerId('id-test')
                 ->containerAttributes(['class' => 'test-class'])
                 ->text(new PropertyType(), 'string')
@@ -53,7 +53,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->containerId('id-test')->text(new PropertyType(), 'string')->render(),
+            Field::create()->containerId('id-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -70,7 +70,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->containerName('name-test')->text(new PropertyType(), 'string')->render(),
+            Field::create()->containerName('name-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -90,7 +90,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->ariaDescribedBy(true)
                 ->ariaLabel('Amount (to the nearest dollar)')
                 ->containerClass('input-group mb-3')
@@ -120,7 +120,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->defaultTokens(
                     [
                         '{input}' => Input::tag()->id('propertytype-string')->name('PropertyType[string]')->type('color'),
@@ -159,7 +159,7 @@ final class FieldTest extends TestCase
             ],
         ];
 
-        $field = Field::widget($factoryConfig);
+        $field = Field::create($factoryConfig);
 
         $expected = <<<HTML
         <div class="input-group mb-3">
@@ -201,7 +201,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->labelFor('id-test')->text(new PropertyType(), 'string')->render(),
+            Field::create()->labelFor('id-test')->text(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -228,7 +228,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($factoryConfig)
+            Field::create($factoryConfig)
                 ->ariaDescribedBy(true)
                 ->ariaLabel('Amount (to the nearest dollar)')
                 ->containerClass('input-group mb-3')
@@ -248,7 +248,7 @@ final class FieldTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget($factoryConfig)
+            Field::create($factoryConfig)
                 ->ariaDescribedBy(true)
                 ->ariaLabel('Amount (to the nearest dollar)')
                 ->containerClass('input-group mb-3')

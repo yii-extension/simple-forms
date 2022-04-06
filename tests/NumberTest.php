@@ -26,7 +26,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" autofocus>',
-            Number::widget()->autofocus()->for(new PropertyType(), 'number')->render(),
+            Number::create()->autofocus()->for(new PropertyType(), 'number')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class NumberTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" disabled>',
-            Number::widget()->disabled()->for(new PropertyType(), 'number')->render(),
+            Number::create()->disabled()->for(new PropertyType(), 'number')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class NumberTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="number" id="validatorrules-number" name="ValidatorRules[number]" value="0" max="5" min="3">',
-            Number::widget()->for(new ValidatorRules(), 'number')->render(),
+            Number::create()->for(new ValidatorRules(), 'number')->render(),
         );
     }
 
@@ -62,7 +62,7 @@ final class NumberTest extends TestCase
         HTML;
         $this->assertSame(
             $expected,
-            Number::widget()->for(new ValidatorRules(), 'numberRequired')->render(),
+            Number::create()->for(new ValidatorRules(), 'numberRequired')->render(),
         );
     }
 
@@ -73,7 +73,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="id-test" name="PropertyType[number]">',
-            Number::widget()->for(new PropertyType(), 'number')->id('id-test')->render(),
+            Number::create()->for(new PropertyType(), 'number')->id('id-test')->render(),
         );
     }
 
@@ -82,7 +82,7 @@ final class NumberTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $number = Number::widget();
+        $number = Number::create();
         $this->assertNotSame($number, $number->max(0));
         $this->assertNotSame($number, $number->min(0));
         $this->assertNotSame($number, $number->placeholder(''));
@@ -96,7 +96,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" max="8">',
-            Number::widget()->for(new PropertyType(), 'number')->max(8)->render(),
+            Number::create()->for(new PropertyType(), 'number')->max(8)->render(),
         );
     }
 
@@ -107,7 +107,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" min="4">',
-            Number::widget()->for(new PropertyType(), 'number')->min(4)->render(),
+            Number::create()->for(new PropertyType(), 'number')->min(4)->render(),
         );
     }
 
@@ -118,7 +118,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="name-test">',
-            Number::widget()->for(new PropertyType(), 'number')->name('name-test')->render(),
+            Number::create()->for(new PropertyType(), 'number')->name('name-test')->render(),
         );
     }
 
@@ -129,7 +129,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" placeholder="PlaceHolder Text">',
-            Number::widget()->for(new PropertyType(), 'number')->placeholder('PlaceHolder Text')->render(),
+            Number::create()->for(new PropertyType(), 'number')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
@@ -140,7 +140,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" readonly>',
-            Number::widget()->for(new PropertyType(), 'number')->readonly()->render(),
+            Number::create()->for(new PropertyType(), 'number')->readonly()->render(),
         );
     }
 
@@ -151,7 +151,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" required>',
-            Number::widget()->for(new PropertyType(), 'number')->required()->render(),
+            Number::create()->for(new PropertyType(), 'number')->required()->render(),
         );
     }
 
@@ -162,7 +162,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number" name="PropertyType[number]">',
-            Number::widget()->for(new PropertyType(), 'number')->render(),
+            Number::create()->for(new PropertyType(), 'number')->render(),
         );
     }
 
@@ -173,7 +173,7 @@ final class NumberTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="number" id="propertytype-number" name="PropertyType[number]" tabindex="1">',
-            Number::widget()->for(new PropertyType(), 'number')->tabIndex(1)->render(),
+            Number::create()->for(new PropertyType(), 'number')->tabIndex(1)->render(),
         );
     }
 
@@ -185,19 +185,19 @@ final class NumberTest extends TestCase
         // value int `1`.
         $this->assertSame(
             '<input type="number" id="propertytype-int" name="PropertyType[int]" value="1">',
-            Number::widget()->for(new PropertyType(), 'int')->value(1)->render(),
+            Number::create()->for(new PropertyType(), 'int')->value(1)->render(),
         );
 
         // Value string numeric `1`.
         $this->assertSame(
             '<input type="number" id="propertytype-string" name="PropertyType[string]" value="1">',
-            Number::widget()->for(new PropertyType(), 'string')->value('1')->render(),
+            Number::create()->for(new PropertyType(), 'string')->value('1')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<input type="number" id="propertytype-int" name="PropertyType[int]">',
-            Number::widget()->for(new PropertyType(), 'int')->value(null)->render(),
+            Number::create()->for(new PropertyType(), 'int')->value(null)->render(),
         );
     }
 
@@ -208,7 +208,7 @@ final class NumberTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Number widget must be a numeric or null value.');
-        Number::widget()->for(new PropertyType(), 'array')->render();
+        Number::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -222,21 +222,21 @@ final class NumberTest extends TestCase
         $formModel->setValue('int', 1);
         $this->assertSame(
             '<input type="number" id="propertytype-int" name="PropertyType[int]" value="1">',
-            Number::widget()->for($formModel, 'int')->render(),
+            Number::create()->for($formModel, 'int')->render(),
         );
 
         // Value string numeric `1`.
         $formModel->setValue('string', '1');
         $this->assertSame(
             '<input type="number" id="propertytype-string" name="PropertyType[string]" value="1">',
-            Number::widget()->for($formModel, 'string')->render(),
+            Number::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
         $formModel->setValue('int', null);
         $this->assertSame(
             '<input type="number" id="propertytype-int" name="PropertyType[int]" value="0">',
-            Number::widget()->for($formModel, 'int')->render(),
+            Number::create()->for($formModel, 'int')->render(),
         );
     }
 
@@ -247,7 +247,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" name="PropertyType[number]">',
-            Number::widget()->for(new PropertyType(), 'number')->id(null)->render(),
+            Number::create()->for(new PropertyType(), 'number')->id(null)->render(),
         );
     }
 
@@ -258,7 +258,7 @@ final class NumberTest extends TestCase
     {
         $this->assertSame(
             '<input type="number" id="propertytype-number">',
-            Number::widget()->for(new PropertyType(), 'number')->name(null)->render(),
+            Number::create()->for(new PropertyType(), 'number')->name(null)->render(),
         );
     }
 }

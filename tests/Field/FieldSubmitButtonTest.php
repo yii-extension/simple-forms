@@ -28,7 +28,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="w1-submit" autofocus>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->autofocus()->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->autofocus()->submitButton()->render());
     }
 
     /**
@@ -42,7 +42,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="w1-submit" disabled>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->disabled()->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->disabled()->submitButton()->render());
     }
 
     /**
@@ -58,7 +58,7 @@ final class FieldSubmitButtonTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->submitButton(['form()' => ['form-register']])->render(),
+            Field::create()->submitButton(['form()' => ['form-register']])->render(),
         );
     }
 
@@ -73,7 +73,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="test-id" name="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id('test-id')->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id('test-id')->submitButton()->render());
     }
 
     /**
@@ -87,7 +87,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="test-name">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->name('test-name')->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->name('test-name')->submitButton()->render());
     }
 
     /**
@@ -101,7 +101,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->submitButton()->render());
     }
 
     /**
@@ -115,7 +115,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="w1-submit" tabindex="1">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->tabindex(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->submitButton()->tabindex(1)->render());
     }
 
     /**
@@ -129,7 +129,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit" name="w1-submit" value="Save">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->submitButton()->value('Save')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->submitButton()->value('Save')->render());
     }
 
     /**
@@ -143,7 +143,7 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" name="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->id(null)->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->id(null)->submitButton()->render());
     }
 
     /**
@@ -157,6 +157,6 @@ final class FieldSubmitButtonTest extends TestCase
         <input type="submit" id="w1-submit">
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->name(null)->submitButton()->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->name(null)->submitButton()->render());
     }
 }

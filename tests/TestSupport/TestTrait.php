@@ -10,7 +10,6 @@ use ReflectionObject;
 use Yiisoft\Definitions\Exception\InvalidConfigException;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Validator\ValidatorInterface;
-use Yiisoft\Widget\WidgetFactory;
 
 trait TestTrait
 {
@@ -80,15 +79,6 @@ trait TestTrait
         if ($revoke) {
             $property->setAccessible(false);
         }
-    }
-
-    /**
-     * @throws InvalidConfigException
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        WidgetFactory::initialize(new SimpleContainer(), []);
     }
 }
 

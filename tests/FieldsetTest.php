@@ -27,7 +27,7 @@ final class FieldsetTest extends TestCase
      */
     public function testAutofocus(): void
     {
-        $this->assertSame('<fieldset autofocus>', Fieldset::widget()->autofocus()->begin());
+        $this->assertSame('<fieldset autofocus>', Fieldset::create()->autofocus()->begin());
     }
 
     /**
@@ -37,7 +37,7 @@ final class FieldsetTest extends TestCase
     {
         $this->assertSame(
             '<fieldset class="test-class">',
-            Fieldset::widget()->attributes(['class' => 'test-class'])->begin(),
+            Fieldset::create()->attributes(['class' => 'test-class'])->begin(),
         );
     }
 
@@ -46,7 +46,7 @@ final class FieldsetTest extends TestCase
      */
     public function testClass(): void
     {
-        $this->assertSame('<fieldset class="test-class">', Fieldset::widget()->class('test-class')->begin());
+        $this->assertSame('<fieldset class="test-class">', Fieldset::create()->class('test-class')->begin());
     }
 
     /**
@@ -54,7 +54,7 @@ final class FieldsetTest extends TestCase
      */
     public function testDisabled(): void
     {
-        $this->assertSame('<fieldset disabled>', Fieldset::widget()->disabled()->begin());
+        $this->assertSame('<fieldset disabled>', Fieldset::create()->disabled()->begin());
     }
 
     /**
@@ -62,7 +62,7 @@ final class FieldsetTest extends TestCase
      */
     public function testId(): void
     {
-        $this->assertSame('<fieldset id="id-test">', Fieldset::widget()->id('id-test')->begin());
+        $this->assertSame('<fieldset id="id-test">', Fieldset::create()->id('id-test')->begin());
     }
 
     /**
@@ -70,8 +70,7 @@ final class FieldsetTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $fieldset = Fieldset::widget();
-        $this->assertNotSame($fieldset, $fieldset->attributes([]));
+        $fieldset = Fieldset::create();
         $this->assertNotSame($fieldset, $fieldset->autofocus());
         $this->assertNotSame($fieldset, $fieldset->class(''));
         $this->assertNotSame($fieldset, $fieldset->disabled());
@@ -87,7 +86,7 @@ final class FieldsetTest extends TestCase
      */
     public function testName(): void
     {
-        $this->assertSame('<fieldset name="name-test">', Fieldset::widget()->name('name-test')->begin());
+        $this->assertSame('<fieldset name="name-test">', Fieldset::create()->name('name-test')->begin());
     }
 
     /**
@@ -143,35 +142,35 @@ final class FieldsetTest extends TestCase
             '<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">' . PHP_EOL .
             '<div class="pure-g" style="position: absolute;top: 50%;left: 50%;transform:translate(-50%,-50%);">' . PHP_EOL .
             '<div class="pure-u-5-5">' . PHP_EOL .
-            Form::widget()->action('#')->class('pure-form')->method('get')->begin() . PHP_EOL .
-                Fieldset::widget()->legend('Create A Project')->name('field-set-main')->begin() . PHP_EOL .
-                    Field::widget()
+            Form::create()->action('#')->class('pure-form')->method('get')->begin() . PHP_EOL .
+                Fieldset::create()->legend('Create A Project')->name('field-set-main')->begin() . PHP_EOL .
+                    Field::create()
                         ->container(false)
                         ->label(null)
                         ->placeholder('name')
                         ->text(new FieldSetForm(), 'name')
                         ->render() . PHP_EOL .
                     '<div>' . PHP_EOL .
-                    Field::widget()
+                    Field::create()
                         ->container(false)
                         ->dateTimeLocal(new FieldSetForm(), 'start')
                         ->label(null)
                         ->render() . PHP_EOL .
-                    Field::widget()
+                    Field::create()
                         ->container(false)
                         ->dateTimeLocal(new FieldSetForm(), 'end')
                         ->label(null)
                         ->render() . PHP_EOL .
                     '</div>' . PHP_EOL .
                 Fieldset::end() .
-                Fieldset::widget()->legend('State')->name('field-set-state')->begin() . PHP_EOL .
-                    Field::widget()
+                Fieldset::create()->legend('State')->name('field-set-state')->begin() . PHP_EOL .
+                    Field::create()
                         ->label(null)
                         ->radioList(new FieldSetForm(), 'state', ['itemsFromValues()' => [$this->state]])
                         ->render() . PHP_EOL .
                 Fieldset::end() .
-                Fieldset::widget()->legend('Description')->name('field-set-description')->begin() . PHP_EOL .
-                    Field::widget()
+                Fieldset::create()->legend('Description')->name('field-set-description')->begin() . PHP_EOL .
+                    Field::create()
                         ->attributes(['cols' => 50, 'rows' => 5, 'style' => 'width: 100%'])
                         ->container(false)
                         ->label(null)
@@ -179,8 +178,8 @@ final class FieldsetTest extends TestCase
                         ->textArea(new FieldSetForm(), 'description')
                         ->render() . PHP_EOL .
                 Fieldset::end() .
-                Fieldset::widget()->legend('Action')->name('field-set-control')->begin() . PHP_EOL .
-                    Field::widget()
+                Fieldset::create()->legend('Action')->name('field-set-control')->begin() . PHP_EOL .
+                    Field::create()
                         ->container(false)
                         ->buttonGroup(
                             [
@@ -208,6 +207,6 @@ final class FieldsetTest extends TestCase
      */
     public function testTitle(): void
     {
-        $this->assertSame('<fieldset title="your title">', Fieldset::widget()->title('your title')->begin());
+        $this->assertSame('<fieldset title="your title">', Fieldset::create()->title('your title')->begin());
     }
 }

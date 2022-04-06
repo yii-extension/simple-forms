@@ -26,7 +26,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" autofocus>',
-            Text::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
+            Text::create()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" dirname="test.dir">',
-            Text::widget()->for(new PropertyType(), 'string')->dirname('test.dir')->render(),
+            Text::create()->for(new PropertyType(), 'string')->dirname('test.dir')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class TextTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
-        Text::widget()->for(new PropertyType(), 'string')->dirname('')->render();
+        Text::create()->for(new PropertyType(), 'string')->dirname('')->render();
     }
 
     /**
@@ -58,7 +58,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" disabled>',
-            Text::widget()->disabled()->for(new PropertyType(), 'string')->render(),
+            Text::create()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -69,7 +69,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="validatorrules-regex" name="ValidatorRules[regex]" pattern="\w+">',
-            Text::widget()->for(new ValidatorRules(), 'regex')->render(),
+            Text::create()->for(new ValidatorRules(), 'regex')->render(),
         );
     }
 
@@ -80,7 +80,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50">',
-            Text::widget()->for(new ValidatorRules(), 'maxlength')->render(),
+            Text::create()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
@@ -91,7 +91,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15">',
-            Text::widget()->for(new ValidatorRules(), 'minlength')->render(),
+            Text::create()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
@@ -102,7 +102,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="validatorrules-required" name="ValidatorRules[required]" required>',
-            Text::widget()->for(new ValidatorRules(), 'required')->render(),
+            Text::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -113,7 +113,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="id-test" name="PropertyType[string]">',
-            Text::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
+            Text::create()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -122,7 +122,7 @@ final class TextTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $text = Text::widget();
+        $text = Text::create();
         $this->assertNotSame($text, $text->dirname('test.dir'));
         $this->assertNotSame($text, $text->maxlength(0));
         $this->assertNotSame($text, $text->minlength(0));
@@ -139,7 +139,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" maxlength="10">',
-            Text::widget()->for(new PropertyType(), 'string')->maxlength(10)->render(),
+            Text::create()->for(new PropertyType(), 'string')->maxlength(10)->render(),
         );
     }
 
@@ -150,7 +150,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" minlength="4">',
-            Text::widget()->for(new PropertyType(), 'string')->minlength(4)->render(),
+            Text::create()->for(new PropertyType(), 'string')->minlength(4)->render(),
         );
     }
 
@@ -161,7 +161,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="name-test">',
-            Text::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
+            Text::create()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -173,7 +173,7 @@ final class TextTest extends TestCase
         $expected = <<<'HTML'
         <input type="text" id="propertytype-string" name="PropertyType[string]" title="Only accepts uppercase and lowercase letters." pattern="[A-Za-z]">
         HTML;
-        $html = Text::widget()
+        $html = Text::create()
             ->for(new PropertyType(), 'string')
             ->pattern('[A-Za-z]')
             ->title('Only accepts uppercase and lowercase letters.')
@@ -188,7 +188,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text">',
-            Text::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
+            Text::create()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
@@ -199,7 +199,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" readonly>',
-            Text::widget()->for(new PropertyType(), 'string')->readOnly()->render(),
+            Text::create()->for(new PropertyType(), 'string')->readOnly()->render(),
         );
     }
 
@@ -210,7 +210,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" required>',
-            Text::widget()->for(new PropertyType(), 'string')->required()->render(),
+            Text::create()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -221,7 +221,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]">',
-            Text::widget()->for(new PropertyType(), 'string')->render(),
+            Text::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -232,7 +232,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" size="10">',
-            Text::widget()->for(new PropertyType(), 'string')->size(10)->render(),
+            Text::create()->for(new PropertyType(), 'string')->size(10)->render(),
         );
     }
 
@@ -243,7 +243,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
-            Text::widget()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
+            Text::create()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
         );
     }
 
@@ -255,13 +255,13 @@ final class TextTest extends TestCase
         // Value string `hello`.
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" value="hello">',
-            Text::widget()->for(new PropertyType(), 'string')->value('hello')->render(),
+            Text::create()->for(new PropertyType(), 'string')->value('hello')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]">',
-            Text::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            Text::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -272,7 +272,7 @@ final class TextTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Text widget must be a string or null value.');
-        Text::widget()->for(new PropertyType(), 'array')->render();
+        Text::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -286,14 +286,14 @@ final class TextTest extends TestCase
         $formModel->setValue('string', 'hello');
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]" value="hello">',
-            Text::widget()->for($formModel, 'string')->render(),
+            Text::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
         $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="text" id="propertytype-string" name="PropertyType[string]">',
-            Text::widget()->for($formModel, 'string')->render(),
+            Text::create()->for($formModel, 'string')->render(),
         );
     }
 
@@ -304,7 +304,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" name="PropertyType[string]">',
-            Text::widget()->for(new PropertyType(), 'string')->id(null)->render(),
+            Text::create()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -315,7 +315,7 @@ final class TextTest extends TestCase
     {
         $this->assertSame(
             '<input type="text" id="propertytype-string">',
-            Text::widget()->for(new PropertyType(), 'string')->name(null)->render(),
+            Text::create()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

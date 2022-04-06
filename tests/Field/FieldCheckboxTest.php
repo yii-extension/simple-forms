@@ -31,7 +31,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])
                 ->label(null)
                 ->value(true)
@@ -51,7 +51,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->checkbox(new PropertyType(), 'int')->value(1)->render(),
+            Field::create()->autofocus()->checkbox(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -67,7 +67,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int', ['checked()' => []])->value(1)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int', ['checked()' => [true]])->value(1)->render(),
         );
     }
 
@@ -83,7 +83,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int')->disabled()->value(1)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int')->disabled()->value(1)->render(),
         );
     }
 
@@ -101,7 +101,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])->value(true)->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])->value(true)->render(),
         );
 
         // Enclosed by label `true`.
@@ -112,7 +112,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool')->value(true)->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool')->value(true)->render(),
         );
     }
 
@@ -130,7 +130,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])
                 ->labelClass('test-class')
                 ->value(true)
@@ -145,7 +145,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(new PropertyType(), 'bool', ['labelAttributes()' => [['class' => 'test-class']]])
                 ->value(true)
                 ->render(),
@@ -166,7 +166,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(new PropertyType(), 'bool', ['enclosedByLabel()' => [false]])
                 ->label('test-text-label')
                 ->value(true)
@@ -181,7 +181,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(new PropertyType(), 'bool', ['label()' => ['test-text-label']])
                 ->value(true)
                 ->render(),
@@ -200,7 +200,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new ValidatorRules(), 'required')->render(),
+            Field::create()->checkbox(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -216,7 +216,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(
                     new PropertyType(),
                     'int',
@@ -239,7 +239,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->checkbox(new PropertyType(), 'int', ['labelAttributes()' => [['class' => 'test-class']]])
                 ->value(1)
                 ->render(),
@@ -258,7 +258,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int')->name('name-test')->value(1)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int')->name('name-test')->value(1)->render(),
         );
     }
 
@@ -274,7 +274,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int')->required()->value(1)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int')->required()->value(1)->render(),
         );
     }
 
@@ -290,7 +290,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool')->value('1')->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool')->value('1')->render(),
         );
     }
 
@@ -306,7 +306,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool')->tabindex(1)->value('1')->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool')->tabindex(1)->value('1')->render(),
         );
     }
 
@@ -322,7 +322,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool', ['uncheckValue()' => ['0']])->value(true)->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool', ['uncheckValue()' => ['0']])->value(true)->render(),
         );
     }
 
@@ -339,7 +339,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool')->value(false)->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool')->value(false)->render(),
         );
 
         // Value bool `true`.
@@ -350,7 +350,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'bool', ['checked()' => [true]])->value('1')->render(),
+            Field::create()->checkbox(new PropertyType(), 'bool', ['checked()' => [true]])->value('1')->render(),
         );
 
         // Value int `0`.
@@ -361,7 +361,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int')->value(0)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int')->value(0)->render(),
         );
 
         // Value int `1`.
@@ -372,7 +372,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int', ['checked()' => [true]])->value(1)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int', ['checked()' => [true]])->value(1)->render(),
         );
 
         // Value string `inactive`.
@@ -383,7 +383,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'string')->value('inactive')->render(),
+            Field::create()->checkbox(new PropertyType(), 'string')->value('inactive')->render(),
         );
 
         // Value string `active`.
@@ -394,7 +394,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'string', ['checked()' => [true]])->value('active')->render(),
+            Field::create()->checkbox(new PropertyType(), 'string', ['checked()' => [true]])->value('active')->render(),
         );
 
         // Value `null`.
@@ -405,7 +405,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox(new PropertyType(), 'int')->value(1)->render(),
+            Field::create()->checkbox(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -416,7 +416,7 @@ final class FieldCheckBoxTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Checkbox widget value can not be an iterable or an object.');
-        Field::widget()->checkbox(new PropertyType(), 'array')->render();
+        Field::create()->checkbox(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -434,13 +434,13 @@ final class FieldCheckBoxTest extends TestCase
         <input type="hidden" name="PropertyType[bool]" value="0"><label><input type="checkbox" id="propertytype-bool" name="PropertyType[bool]" value="0"> Bool</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'bool')->value(false)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->checkbox($formModel, 'bool')->value(false)->render());
         $expected = <<<HTML
         <div>
         <input type="hidden" name="PropertyType[bool]" value="0"><label><input type="checkbox" id="propertytype-bool" name="PropertyType[bool]" value="1" checked> Bool</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'bool')->value('1')->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->checkbox($formModel, 'bool')->value('1')->render());
 
         // Value int `1`.
         $formModel->setValue('int', 1);
@@ -450,13 +450,13 @@ final class FieldCheckBoxTest extends TestCase
         <input type="hidden" name="PropertyType[int]" value="0"><label><input type="checkbox" id="propertytype-int" name="PropertyType[int]" value="0"> Int</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'int')->value(0)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->checkbox($formModel, 'int')->value(0)->render());
         $expected = <<<HTML
         <div>
         <input type="hidden" name="PropertyType[int]" value="0"><label><input type="checkbox" id="propertytype-int" name="PropertyType[int]" value="1" checked> Int</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'int')->value(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->checkbox($formModel, 'int')->value(1)->render());
 
         // Value string `active`.
         $formModel->setValue('string', 'active');
@@ -468,7 +468,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox($formModel, 'string')->value('inactive')->render(),
+            Field::create()->checkbox($formModel, 'string')->value('inactive')->render(),
         );
         $expected = <<<HTML
         <div>
@@ -477,7 +477,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->checkbox($formModel, 'string')->value('active')->render(),
+            Field::create()->checkbox($formModel, 'string')->value('active')->render(),
         );
 
         // Value `null`.
@@ -488,7 +488,7 @@ final class FieldCheckBoxTest extends TestCase
         <input type="hidden" name="PropertyType[int]" value="0"><label><input type="checkbox" id="propertytype-int" name="PropertyType[int]" value="1"> Int</label>
         </div>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Field::widget()->checkbox($formModel, 'int')->value(1)->render());
+        $this->assertEqualsWithoutLE($expected, Field::create()->checkbox($formModel, 'int')->value(1)->render());
     }
 
     /**
@@ -503,7 +503,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->id(null)->checkbox(new PropertyType(), 'int')->value(1)->render(),
+            Field::create()->id(null)->checkbox(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 
@@ -519,7 +519,7 @@ final class FieldCheckBoxTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name(null)->checkbox(new PropertyType(), 'int')->value(1)->render(),
+            Field::create()->name(null)->checkbox(new PropertyType(), 'int')->value(1)->render(),
         );
     }
 }

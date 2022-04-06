@@ -31,7 +31,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array', ['accept()' => ['image/*']])->render(),
+            Field::create()->file(new PropertyType(), 'array', ['accept()' => ['image/*']])->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->autofocus()->file(new PropertyType(), 'array')->render(),
+            Field::create()->autofocus()->file(new PropertyType(), 'array')->render(),
         );
     }
 
@@ -65,7 +65,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->disabled()->file(new PropertyType(), 'array')->render(),
+            Field::create()->disabled()->file(new PropertyType(), 'array')->render(),
         );
     }
 
@@ -82,7 +82,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new ValidatorRules(), 'required')->render(),
+            Field::create()->file(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -99,7 +99,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()
+            Field::create()
                 ->file(
                     new PropertyType(),
                     'array',
@@ -122,7 +122,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->id('id-test')->render(),
+            Field::create()->file(new PropertyType(), 'array')->id('id-test')->render(),
         );
     }
 
@@ -139,7 +139,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array', ['multiple()' => [true]])->render(),
+            Field::create()->file(new PropertyType(), 'array', ['multiple()' => [true]])->render(),
         );
     }
 
@@ -156,7 +156,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->name('name-test')->render(),
+            Field::create()->file(new PropertyType(), 'array')->name('name-test')->render(),
         );
     }
 
@@ -173,7 +173,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->required()->render(),
+            Field::create()->file(new PropertyType(), 'array')->required()->render(),
         );
     }
 
@@ -190,7 +190,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->render(),
+            Field::create()->file(new PropertyType(), 'array')->render(),
         );
     }
 
@@ -207,7 +207,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->tabindex(1)->render(),
+            Field::create()->file(new PropertyType(), 'array')->tabindex(1)->render(),
         );
     }
 
@@ -224,7 +224,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array', ['uncheckValue()' => ['0']])->render(),
+            Field::create()->file(new PropertyType(), 'array', ['uncheckValue()' => ['0']])->render(),
         );
     }
 
@@ -241,7 +241,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->id(null)->render(),
+            Field::create()->file(new PropertyType(), 'array')->id(null)->render(),
         );
     }
 
@@ -258,7 +258,7 @@ final class FieldFileTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->file(new PropertyType(), 'array')->name(null)->render(),
+            Field::create()->file(new PropertyType(), 'array')->name(null)->render(),
         );
     }
 }

@@ -30,7 +30,7 @@ final class FieldHiddenTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->name('ActiveField[form_action]')->hidden(new PropertyType(), 'string')->render(),
+            Field::create()->name('ActiveField[form_action]')->hidden(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -46,7 +46,7 @@ final class FieldHiddenTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden(new PropertyType(), 'string')->render(),
+            Field::create()->hidden(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -63,7 +63,7 @@ final class FieldHiddenTest extends TestCase
         // Value string `1`.
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden(new PropertyType(), 'string')->value('1')->render(),
+            Field::create()->hidden(new PropertyType(), 'string')->value('1')->render(),
         );
 
         $expected = <<<HTML
@@ -74,7 +74,7 @@ final class FieldHiddenTest extends TestCase
         // Value integer 1.
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden(new PropertyType(), 'int')->value(1)->render(),
+            Field::create()->hidden(new PropertyType(), 'int')->value(1)->render(),
         );
 
         $expected = <<<HTML
@@ -85,7 +85,7 @@ final class FieldHiddenTest extends TestCase
         // Value null.
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden(new PropertyType(), 'string')->value(null)->render(),
+            Field::create()->hidden(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -96,7 +96,7 @@ final class FieldHiddenTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Hidden widget requires a string, numeric or null value.');
-        Field::widget()->hidden(new PropertyType(), 'array')->render();
+        Field::create()->hidden(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -115,7 +115,7 @@ final class FieldHiddenTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden($formModel, 'string')->render(),
+            Field::create()->hidden($formModel, 'string')->render(),
         );
 
         // Value integer 1.
@@ -127,7 +127,7 @@ final class FieldHiddenTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden($formModel, 'int')->render(),
+            Field::create()->hidden($formModel, 'int')->render(),
         );
 
         // Value `null`.
@@ -139,7 +139,7 @@ final class FieldHiddenTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Field::widget()->hidden($formModel, 'string')->render(),
+            Field::create()->hidden($formModel, 'string')->render(),
         );
     }
 }

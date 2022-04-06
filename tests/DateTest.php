@@ -26,7 +26,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" autofocus>',
-            Date::widget()->autofocus()->for(new PropertyType(), 'string')->render(),
+            Date::create()->autofocus()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" disabled>',
-            Date::widget()->disabled()->for(new PropertyType(), 'string')->render(),
+            Date::create()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="validatorrules-required" name="ValidatorRules[required]" required>',
-            Date::widget()->for(new ValidatorRules(), 'required')->render(),
+            Date::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -59,7 +59,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="id-test" name="PropertyType[string]">',
-            Date::widget()->for(new PropertyType(), 'string')->id('id-test')->render(),
+            Date::create()->for(new PropertyType(), 'string')->id('id-test')->render(),
         );
     }
 
@@ -68,7 +68,7 @@ final class DateTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $date = Date::widget();
+        $date = Date::create();
         $this->assertNotSame($date, $date->max(''));
         $this->assertNotSame($date, $date->min(''));
         $this->assertNotSame($date, $date->readonly());
@@ -81,7 +81,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" max="1996-12-19">',
-            Date::widget()->for(new PropertyType(), 'string')->max('1996-12-19')->render(),
+            Date::create()->for(new PropertyType(), 'string')->max('1996-12-19')->render(),
         );
     }
 
@@ -92,7 +92,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" min="1996-12-19">',
-            Date::widget()->for(new PropertyType(), 'string')->min('1996-12-19')->render(),
+            Date::create()->for(new PropertyType(), 'string')->min('1996-12-19')->render(),
         );
     }
 
@@ -103,7 +103,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="name-test">',
-            Date::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
+            Date::create()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -114,7 +114,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" readonly>',
-            Date::widget()->for(new PropertyType(), 'string')->readonly()->render(),
+            Date::create()->for(new PropertyType(), 'string')->readonly()->render(),
         );
     }
 
@@ -125,7 +125,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" required>',
-            Date::widget()->for(new PropertyType(), 'string')->required()->render(),
+            Date::create()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -136,7 +136,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]">',
-            Date::widget()->for(new PropertyType(), 'string')->render(),
+            Date::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -147,7 +147,7 @@ final class DateTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" tabindex="1">',
-            Date::widget()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
+            Date::create()->for(new PropertyType(), 'string')->tabIndex(1)->render(),
         );
     }
 
@@ -159,13 +159,13 @@ final class DateTest extends TestCase
         // Value string `2021-09-18`.
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" value="2021-09-18">',
-            Date::widget()->for(new PropertyType(), 'string')->value('2021-09-18')->render(),
+            Date::create()->for(new PropertyType(), 'string')->value('2021-09-18')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]">',
-            Date::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            Date::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -176,7 +176,7 @@ final class DateTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Date widget requires a string or null value.');
-        Date::widget()->for(new PropertyType(), 'array')->render();
+        Date::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -190,14 +190,14 @@ final class DateTest extends TestCase
         $formModel->setValue('string', '2021-09-18');
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]" value="2021-09-18">',
-            Date::widget()->for($formModel, 'string')->render(),
+            Date::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
         $formModel->setValue('string', null);
         $this->assertSame(
             '<input type="date" id="propertytype-string" name="PropertyType[string]">',
-            Date::widget()->for($formModel, 'string')->render(),
+            Date::create()->for($formModel, 'string')->render(),
         );
     }
 
@@ -208,7 +208,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" name="PropertyType[string]">',
-            Date::widget()->for(new PropertyType(), 'string')->id(null)->render(),
+            Date::create()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -219,7 +219,7 @@ final class DateTest extends TestCase
     {
         $this->assertSame(
             '<input type="date" id="propertytype-string">',
-            Date::widget()->for(new PropertyType(), 'string')->name(null)->render(),
+            Date::create()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

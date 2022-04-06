@@ -25,7 +25,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]" accept="image/*">',
-            File::widget()->for(new PropertyType(), 'array')->accept('image/*')->render(),
+            File::create()->for(new PropertyType(), 'array')->accept('image/*')->render(),
         );
     }
 
@@ -36,7 +36,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]" autofocus>',
-            File::widget()->for(new PropertyType(), 'array')->autofocus()->render(),
+            File::create()->for(new PropertyType(), 'array')->autofocus()->render(),
         );
     }
 
@@ -47,7 +47,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]" disabled>',
-            File::widget()->for(new PropertyType(), 'array')->disabled()->render(),
+            File::create()->for(new PropertyType(), 'array')->disabled()->render(),
         );
     }
 
@@ -58,7 +58,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="validatorrules-required" name="ValidatorRules[required][]" required>',
-            File::widget()->for(new ValidatorRules(), 'required')->render(),
+            File::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -70,7 +70,7 @@ final class FileTest extends TestCase
         $expected = <<<'HTML'
         <input type="hidden" id="test-id" name="PropertyType[array]" value="0"><input type="file" id="propertytype-array" name="PropertyType[array][]">
         HTML;
-        $html = File::widget()
+        $html = File::create()
             ->for(new PropertyType(), 'array')
             ->hiddenAttributes(['id' => 'test-id'])
             ->uncheckValue('0')
@@ -85,7 +85,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="id-test" name="PropertyType[array][]">',
-            File::widget()->for(new PropertyType(), 'array')->id('id-test')->render(),
+            File::create()->for(new PropertyType(), 'array')->id('id-test')->render(),
         );
     }
 
@@ -94,7 +94,7 @@ final class FileTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $fileInput = File::widget();
+        $fileInput = File::create();
         $this->assertNotSame($fileInput, $fileInput->accept(''));
         $this->assertNotSame($fileInput, $fileInput->hiddenAttributes([]));
         $this->assertNotSame($fileInput, $fileInput->multiple());
@@ -108,7 +108,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]" multiple>',
-            File::widget()->for(new PropertyType(), 'array')->multiple()->render(),
+            File::create()->for(new PropertyType(), 'array')->multiple()->render(),
         );
     }
 
@@ -119,7 +119,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="name-test[]">',
-            File::widget()->for(new PropertyType(), 'array')->name('name-test')->render(),
+            File::create()->for(new PropertyType(), 'array')->name('name-test')->render(),
         );
     }
 
@@ -130,7 +130,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]" required>',
-            File::widget()->for(new PropertyType(), 'array')->required()->render(),
+            File::create()->for(new PropertyType(), 'array')->required()->render(),
         );
     }
 
@@ -141,7 +141,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]">',
-            File::widget()->for(new PropertyType(), 'array')->render(),
+            File::create()->for(new PropertyType(), 'array')->render(),
         );
     }
 
@@ -152,7 +152,7 @@ final class FileTest extends TestCase
     {
         $this->assertEqualsWithoutLE(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]" tabindex="1">',
-            File::widget()->for(new PropertyType(), 'array')->tabIndex(1)->render(),
+            File::create()->for(new PropertyType(), 'array')->tabIndex(1)->render(),
         );
     }
 
@@ -164,13 +164,13 @@ final class FileTest extends TestCase
         $expected = <<<'HTML'
         <input type="hidden" name="PropertyType[array]" value="0"><input type="file" id="propertytype-array" name="PropertyType[array][]">
         HTML;
-        $html = File::widget()->for(new PropertyType(), 'array')->uncheckValue('0')->render();
+        $html = File::create()->for(new PropertyType(), 'array')->uncheckValue('0')->render();
         $this->assertSame($expected, $html);
 
         $expected = <<<'HTML'
         <input type="hidden" name="PropertyType[array]" value="1"><input type="file" id="propertytype-array" name="PropertyType[array][]">
         HTML;
-        $html = File::widget()->for(new PropertyType(), 'array')->uncheckValue(true)->render();
+        $html = File::create()->for(new PropertyType(), 'array')->uncheckValue(true)->render();
         $this->assertSame($expected, $html);
     }
 
@@ -181,7 +181,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" name="PropertyType[array][]">',
-            File::widget()->for(new PropertyType(), 'array')->id(null)->render(),
+            File::create()->for(new PropertyType(), 'array')->id(null)->render(),
         );
     }
 
@@ -192,7 +192,7 @@ final class FileTest extends TestCase
     {
         $this->assertSame(
             '<input type="file" id="propertytype-array" name="PropertyType[array][]">',
-            File::widget()->for(new PropertyType(), 'array')->name(null)->render(),
+            File::create()->for(new PropertyType(), 'array')->name(null)->render(),
         );
     }
 }

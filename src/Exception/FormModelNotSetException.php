@@ -23,7 +23,7 @@ final class FormModelNotSetException extends InvalidArgumentException implements
     {
         return <<<SOLUTION
             You can configure the `FormModel::class` in two ways. The first way is through the widgets using the `for()`
-        method `Text::widget()->for(FormModel::class, attribute)`, where the first argument is the `FormModel::class`.
+        method `Text::create()->for(FormModel::class, attribute)`, where the first argument is the `FormModel::class`.
         The second way is through the `Field::class` where in each field type the first argument is the
         `FormModel::class`, `Field::widget->text(FormModel::class, attribute)`.
         SOLUTION;

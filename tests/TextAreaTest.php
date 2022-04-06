@@ -26,7 +26,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" autofocus></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->autofocus()->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->autofocus()->render(),
         );
     }
 
@@ -37,7 +37,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" cols="50"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->cols(50)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->cols(50)->render(),
         );
     }
 
@@ -48,7 +48,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" dirname="test.dir"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->dirname('test.dir')->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->dirname('test.dir')->render(),
         );
     }
 
@@ -59,7 +59,7 @@ final class TextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('The value cannot be empty.');
-        TextArea::widget()->for(new PropertyType(), 'string')->dirname('')->render();
+        TextArea::create()->for(new PropertyType(), 'string')->dirname('')->render();
     }
 
     /**
@@ -69,7 +69,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" disabled></textarea>',
-            TextArea::widget()->disabled()->for(new PropertyType(), 'string')->render(),
+            TextArea::create()->disabled()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -80,7 +80,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="validatorrules-maxlength" name="ValidatorRules[maxlength]" maxlength="50"></textarea>',
-            TextArea::widget()->for(new ValidatorRules(), 'maxlength')->render(),
+            TextArea::create()->for(new ValidatorRules(), 'maxlength')->render(),
         );
     }
 
@@ -91,7 +91,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="validatorrules-minlength" name="ValidatorRules[minlength]" minlength="15"></textarea>',
-            TextArea::widget()->for(new ValidatorRules(), 'minlength')->render(),
+            TextArea::create()->for(new ValidatorRules(), 'minlength')->render(),
         );
     }
 
@@ -102,7 +102,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="validatorrules-required" name="ValidatorRules[required]" required></textarea>',
-            TextArea::widget()->for(new ValidatorRules(), 'required')->render(),
+            TextArea::create()->for(new ValidatorRules(), 'required')->render(),
         );
     }
 
@@ -111,7 +111,7 @@ final class TextAreaTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $textArea = TextArea::widget();
+        $textArea = TextArea::create();
         $this->assertNotSame($textArea, $textArea->cols(0));
         $this->assertNotSame($textArea, $textArea->dirname('test.dir'));
         $this->assertNotSame($textArea, $textArea->maxlength(0));
@@ -129,7 +129,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" maxlength="100"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->maxLength(100)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->maxLength(100)->render(),
         );
     }
 
@@ -140,7 +140,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" minlength="20"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->minLength(20)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->minLength(20)->render(),
         );
     }
 
@@ -151,7 +151,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="name-test"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->name('name-test')->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->name('name-test')->render(),
         );
     }
 
@@ -162,7 +162,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" placeholder="PlaceHolder Text"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->placeholder('PlaceHolder Text')->render(),
         );
     }
 
@@ -173,7 +173,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" readonly></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->readOnly()->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->readOnly()->render(),
         );
     }
 
@@ -184,7 +184,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" required></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->required()->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->required()->render(),
         );
     }
 
@@ -195,7 +195,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->render(),
         );
     }
 
@@ -206,7 +206,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" rows="4"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->rows(4)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->rows(4)->render(),
         );
     }
 
@@ -218,13 +218,13 @@ final class TextAreaTest extends TestCase
         // Value string `hello`.
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]">hello</textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->value('hello')->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->value('hello')->render(),
         );
 
         // Value `null`.
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->value(null)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->value(null)->render(),
         );
     }
 
@@ -235,7 +235,7 @@ final class TextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('TextArea widget must be a string or null value.');
-        TextArea::widget()->for(new PropertyType(), 'array')->render();
+        TextArea::create()->for(new PropertyType(), 'array')->render();
     }
 
     /**
@@ -249,14 +249,14 @@ final class TextAreaTest extends TestCase
         $formModel->setValue('string', 'hello');
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]">hello</textarea>',
-            TextArea::widget()->for($formModel, 'string')->render(),
+            TextArea::create()->for($formModel, 'string')->render(),
         );
 
         // Value `null`.
         $formModel->setValue('string', null);
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]"></textarea>',
-            TextArea::widget()->for($formModel, 'string')->render(),
+            TextArea::create()->for($formModel, 'string')->render(),
         );
     }
 
@@ -268,13 +268,13 @@ final class TextAreaTest extends TestCase
         /** hard value */
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" wrap="hard"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->wrap()->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->wrap()->render(),
         );
 
         /** soft value */
         $this->assertSame(
             '<textarea id="propertytype-string" name="PropertyType[string]" wrap="soft"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->wrap('soft')->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->wrap('soft')->render(),
         );
     }
 
@@ -285,7 +285,7 @@ final class TextAreaTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid wrap value. Valid values are: hard, soft.');
-        TextArea::widget()->for(new PropertyType(), 'string')->wrap('exception');
+        TextArea::create()->for(new PropertyType(), 'string')->wrap('exception');
     }
 
     /**
@@ -295,7 +295,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea name="PropertyType[string]"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->id(null)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->id(null)->render(),
         );
     }
 
@@ -306,7 +306,7 @@ final class TextAreaTest extends TestCase
     {
         $this->assertSame(
             '<textarea id="propertytype-string"></textarea>',
-            TextArea::widget()->for(new PropertyType(), 'string')->name(null)->render(),
+            TextArea::create()->for(new PropertyType(), 'string')->name(null)->render(),
         );
     }
 }

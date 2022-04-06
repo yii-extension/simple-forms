@@ -60,7 +60,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->autofocus()->for(new PropertyType(), 'int')->items($this->cities)->render(),
+            Select::create()->autofocus()->for(new PropertyType(), 'int')->items($this->cities)->render(),
         );
     }
 
@@ -79,7 +79,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->disabled()->for(new PropertyType(), 'int')->items($this->cities)->render(),
+            Select::create()->disabled()->for(new PropertyType(), 'int')->items($this->cities)->render(),
         );
     }
 
@@ -98,7 +98,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new ValidatorRules(), 'required')->items($this->cities)->required()->render(),
+            Select::create()->for(new ValidatorRules(), 'required')->items($this->cities)->required()->render(),
         );
     }
 
@@ -124,7 +124,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'int')
                 ->groups($this->groups)
                 ->items($this->citiesGroups)
@@ -154,7 +154,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'int')
                 ->items($this->citiesGroups)
                 ->itemsAttributes(['2' => ['disabled' => true]])
@@ -178,7 +178,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->id('id-test')->items($this->cities)->render(),
+            Select::create()->for(new PropertyType(), 'int')->id('id-test')->items($this->cities)->render(),
         );
     }
 
@@ -194,7 +194,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'int')
                 ->items([1 => 'Moscu'])
                 ->itemsAttributes([1 => ['class' => 'test-class']])
@@ -207,7 +207,7 @@ final class SelectTest extends TestCase
      */
     public function testImmutability(): void
     {
-        $select = Select::widget();
+        $select = Select::create();
         $this->assertNotSame($select, $select->groups());
         $this->assertNotSame($select, $select->items());
         $this->assertNotSame($select, $select->itemsAttributes());
@@ -237,7 +237,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for($formModel, 'array')
                 ->multiple()
                 ->items($this->cities)
@@ -261,7 +261,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->name('name-test')->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->name('name-test')->render(),
         );
     }
 
@@ -286,7 +286,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->encode(true)->optionsData($cities)->render(),
+            Select::create()->for(new PropertyType(), 'int')->encode(true)->optionsData($cities)->render(),
         );
     }
 
@@ -306,7 +306,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'int')
                 ->items($this->cities)
                 ->prompt('Select City Birth')
@@ -330,7 +330,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'int')
                 ->items($this->cities)
                 ->promptTag(Option::tag()->content('Select City Birth')->value(0))
@@ -353,7 +353,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->required()->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->required()->render(),
         );
     }
 
@@ -372,7 +372,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->render(),
         );
     }
 
@@ -392,7 +392,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'int')
                 ->items($this->cities)
                 ->multiple()
@@ -416,7 +416,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->tabIndex(1)->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->tabIndex(1)->render(),
         );
     }
 
@@ -436,7 +436,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()
+            Select::create()
                 ->for(new PropertyType(), 'array')
                 ->items($this->cities)
                 ->multiple(true)
@@ -461,7 +461,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->value(1)->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->value(1)->render(),
         );
 
         // Value int `2`.
@@ -475,7 +475,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->value(2)->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->value(2)->render(),
         );
 
         // Value iterable `[2, 3]`.
@@ -489,7 +489,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'array')->items($this->cities)->value([2, 3])->render(),
+            Select::create()->for(new PropertyType(), 'array')->items($this->cities)->value([2, 3])->render(),
         );
 
         // Value string `1`.
@@ -503,7 +503,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'string')->items($this->cities)->value('1')->render(),
+            Select::create()->for(new PropertyType(), 'string')->items($this->cities)->value('1')->render(),
         );
 
         // Value string `2`.
@@ -517,7 +517,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'string')->items($this->cities)->value('2')->render(),
+            Select::create()->for(new PropertyType(), 'string')->items($this->cities)->value('2')->render(),
         );
 
         // Value `null`.
@@ -531,7 +531,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->value(null)->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->value(null)->render(),
         );
     }
 
@@ -547,7 +547,7 @@ final class SelectTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Select widget value can not be an object.');
-        Select::widget()->for($formModel, 'object')->render();
+        Select::create()->for($formModel, 'object')->render();
     }
 
     /**
@@ -569,7 +569,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for($formModel, 'int')->items($this->cities)->render(),
+            Select::create()->for($formModel, 'int')->items($this->cities)->render(),
         );
 
         // Value int `2`.
@@ -584,7 +584,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for($formModel, 'int')->items($this->cities)->render(),
+            Select::create()->for($formModel, 'int')->items($this->cities)->render(),
         );
 
         // Value iterable `[2, 3]`.
@@ -599,7 +599,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for($formModel, 'array')->items($this->cities)->render(),
+            Select::create()->for($formModel, 'array')->items($this->cities)->render(),
         );
 
         // Value string `1`.
@@ -614,7 +614,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for($formModel, 'string')->items($this->cities)->render(),
+            Select::create()->for($formModel, 'string')->items($this->cities)->render(),
         );
 
         // Value string `2`.
@@ -629,7 +629,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for($formModel, 'string')->items($this->cities)->render(),
+            Select::create()->for($formModel, 'string')->items($this->cities)->render(),
         );
 
         // Value `null`.
@@ -644,7 +644,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for($formModel, 'int')->items($this->cities)->render(),
+            Select::create()->for($formModel, 'int')->items($this->cities)->render(),
         );
     }
 
@@ -663,7 +663,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->id(null)->items($this->cities)->render(),
+            Select::create()->for(new PropertyType(), 'int')->id(null)->items($this->cities)->render(),
         );
     }
 
@@ -682,7 +682,7 @@ final class SelectTest extends TestCase
         HTML;
         $this->assertEqualsWithoutLE(
             $expected,
-            Select::widget()->for(new PropertyType(), 'int')->items($this->cities)->name(null)->render(),
+            Select::create()->for(new PropertyType(), 'int')->items($this->cities)->name(null)->render(),
         );
     }
 }
