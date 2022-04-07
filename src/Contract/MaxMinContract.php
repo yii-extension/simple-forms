@@ -13,7 +13,7 @@ interface MaxMinContract
      *
      * @return static
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.number.html#input.number.attrs.max
+     * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-max
      */
     public function max(string $value): static;
 
@@ -24,7 +24,7 @@ interface MaxMinContract
      *
      * @return static
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.number.html#input.number.attrs.min
+     * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-min
      */
     public function min(string $value): static;
 }

@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Form\Attribute\InputAttributes;
-use Yii\Extension\Form\Contract\HasLengthContract;
+use Yii\Extension\Form\Attribute\RulesAttributes;
 use Yii\Extension\Form\Contract\PlaceholderContract;
-use Yii\Extension\Form\Contract\RegexContract;
 use Yiisoft\Html\Tag\Input;
 
 use function is_string;
@@ -18,7 +16,7 @@ use function is_string;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text
  */
-final class Text extends InputAttributes implements HasLengthContract, PlaceholderContract, RegexContract
+final class Text extends RulesAttributes implements PlaceholderContract
 {
     /**
      * Enables submission of a value for the directionality of the element, and gives the name of the field that
@@ -41,40 +39,10 @@ final class Text extends InputAttributes implements HasLengthContract, Placehold
         return $new;
     }
 
-    public function maxlength(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['maxlength'] = $value;
-        return $new;
-    }
-
-    public function minlength(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['minlength'] = $value;
-        return $new;
-    }
-
-    /**
-     * It allows defining placeholder.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.placeholder
-     */
     public function placeholder(string $value): self
     {
         $new = clone $this;
         $new->attributes['placeholder'] = $value;
-        return $new;
-    }
-
-    public function pattern(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['pattern'] = $value;
         return $new;
     }
 

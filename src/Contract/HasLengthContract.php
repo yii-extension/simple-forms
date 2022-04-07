@@ -16,7 +16,7 @@ interface HasLengthContract
      *
      * @return self
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.maxlength
+     * @link https://html.spec.whatwg.org/multipage/input.html#attr-input-maxlength
      */
     public function maxlength(int $value): self;
 

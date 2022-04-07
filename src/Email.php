@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Form\Attribute\InputAttributes;
-use Yii\Extension\Form\Contract\HasLengthContract;
+use Yii\Extension\Form\Attribute\RulesAttributes;
 use Yii\Extension\Form\Contract\PlaceholderContract;
-use Yii\Extension\Form\Contract\RegexContract;
 use Yiisoft\Html\Tag\Input;
 
 use function is_string;
@@ -19,22 +17,8 @@ use function is_string;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html#input.email
  */
-final class Email extends InputAttributes implements HasLengthContract, RegexContract, PlaceholderContract
+final class Email extends RulesAttributes implements PlaceholderContract
 {
-    public function maxlength(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['maxlength'] = $value;
-        return $new;
-    }
-
-    public function minlength(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['minlength'] = $value;
-        return $new;
-    }
-
     /**
      * Specifies that the element allows multiple values.
      *
@@ -51,22 +35,6 @@ final class Email extends InputAttributes implements HasLengthContract, RegexCon
         return $new;
     }
 
-    public function pattern(string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['pattern'] = $value;
-        return $new;
-    }
-
-    /**
-     * It allows defining placeholder.
-     *
-     * @param string $value
-     *
-     * @return self
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.email.html#input.email.attrs.placeholder
-     */
     public function placeholder(string $value): self
     {
         $new = clone $this;
