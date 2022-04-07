@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget\Field;
+namespace Yii\Extension\Form\Tests\Field;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Tag\Input;
 use Yiisoft\Html\Tag\Span;
 
@@ -20,7 +17,7 @@ final class FieldTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerAttributes(): void
     {
@@ -41,7 +38,7 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerId(): void
     {
@@ -58,7 +55,7 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerName(): void
     {
@@ -77,7 +74,7 @@ final class FieldTest extends TestCase
     /**
      * @link https://getbootstrap.com/docs/5.0/forms/input-group/
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDefaultTokens(): void
     {
@@ -108,7 +105,7 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDefaultTokensWithOverrideToken(): void
     {
@@ -135,7 +132,7 @@ final class FieldTest extends TestCase
     /**
      * @link https://getbootstrap.com/docs/5.0/forms/input-group/
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDefaultTokensWithDefaultValues(): void
     {
@@ -189,7 +186,7 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testLabelFor(): void
     {
@@ -206,7 +203,7 @@ final class FieldTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testReplaceIndividualToken(): void
     {

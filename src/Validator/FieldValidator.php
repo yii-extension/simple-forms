@@ -6,7 +6,7 @@ namespace Yii\Extension\Form\Validator;
 
 use Yii\Extension\Form\Attribute\WidgetAttributes;
 use Yii\Extension\Form\Contract\HasLengthContract;
-use Yii\Extension\Form\Contract\NumberContract;
+use Yii\Extension\Form\Contract\MaxMinContract;
 use Yii\Extension\Form\Contract\RegexContract;
 use Yii\Extension\Form\Url;
 use Yii\Extension\Model\Contract\FormModelContract;
@@ -63,7 +63,7 @@ final class FieldValidator
                 $attributes['pattern'] = Html::normalizeRegexpPattern($pattern);
             }
 
-            if ($rule instanceof Number && $widget instanceof NumberContract) {
+            if ($rule instanceof Number && $widget instanceof MaxMinContract) {
                 /** @var int|null */
                 $attributes['max'] = $rule->getOptions()['max'] !== null ? $rule->getOptions()['max'] : null;
                 /** @var int|null */

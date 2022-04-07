@@ -2,18 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Validator;
+namespace Yii\Extension\Form\Tests\Validator;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\ErrorSummary;
 use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Tests\TestSupport\Form\LoginValidator;
 use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 
 final class ValidatorTest extends TestCase
 {
@@ -27,7 +24,7 @@ final class ValidatorTest extends TestCase
     ];
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testLoginAndPasswordValidatorInvalid(): void
     {
@@ -60,7 +57,7 @@ final class ValidatorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testLoginAndPasswordValidatorValid(): void
     {
@@ -87,7 +84,7 @@ final class ValidatorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testLoginAndPasswordValidatorInvalidWithErrorSummary(): void
     {
@@ -127,7 +124,7 @@ final class ValidatorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testLoginAndPasswordValidatorValidWithErrorSummary(): void
     {
@@ -154,6 +151,9 @@ final class ValidatorTest extends TestCase
         );
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testUrlValidatorPatternSchemeCaseInsensitive(): void
     {
         $validatorRules = new ValidatorRules();

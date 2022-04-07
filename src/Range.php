@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Form\Attribute\InputAttributes;
-use Yii\Extension\Form\Contract\NumberContract;
+use Yii\Extension\Form\Attribute\MaxMinAttributes;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\CustomTag;
 use Yiisoft\Html\Tag\Input;
@@ -19,24 +18,10 @@ use function is_numeric;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.range.html
  */
-final class Range extends InputAttributes implements NumberContract
+final class Range extends MaxMinAttributes
 {
     private array $outputAttributes = [];
     private string $outputTag = 'output';
-
-    public function max(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['max'] = $value;
-        return $new;
-    }
-
-    public function min(int $value): self
-    {
-        $new = clone $this;
-        $new->attributes['min'] = $value;
-        return $new;
-    }
 
     /**
      * The HTML attributes for output tag. The following special options are recognized.

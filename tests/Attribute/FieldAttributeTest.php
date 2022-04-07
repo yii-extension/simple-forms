@@ -2,22 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Attribute;
+namespace Yii\Extension\Form\Tests\Attribute;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 
 final class FieldAttributeTest extends TestCase
 {
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -49,7 +46,7 @@ final class FieldAttributeTest extends TestCase
         $this->assertNotSame($field, $field->placeholder(''));
         $this->assertNotSame($field, $field->readonly(true));
         $this->assertNotSame($field, $field->replaceIndividualToken('', ''));
-        $this->assertNotSame($field, $field->required(true));
+        $this->assertNotSame($field, $field->required());
         $this->assertNotSame($field, $field->template(''));
         $this->assertNotSame($field, $field->validClass(''));
         $this->assertNotSame($field, $this->invokeMethod($field, 'type', ['']));

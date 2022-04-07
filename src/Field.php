@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form;
 
+use ReflectionException;
 use Yii\Extension\Form\Attribute\ButtonAttributes;
 use Yii\Extension\Form\Attribute\FieldAttributes;
 use Yii\Extension\Form\Attribute\GlobalAttributes;
 use Yii\Extension\Form\Attribute\InputAttributes;
 use Yii\Extension\Form\Attribute\WidgetAttributes;
 use Yii\Extension\Form\Contract\PlaceholderContract;
-use Yii\Extension\Form\Part\Error;
-use Yii\Extension\Form\Part\Hint;
-use Yii\Extension\Form\Part\Label;
+use Yii\Extension\Form\Component\Error;
+use Yii\Extension\Form\Component\Hint;
+use Yii\Extension\Form\Component\Label;
 use Yii\Extension\Model\Contract\FormModelContract;
 use Yiisoft\Arrays\ArrayHelper;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Div;
 
@@ -49,6 +49,8 @@ final class Field extends FieldAttributes
      *
      * @return self the field object itself.
      *
+     * @throws ReflectionException
+     *
      * @psalm-param array<string, array|string> $buttons
      */
     public function buttonGroup(array $buttons, array $config = [], array $attributes = []): self
@@ -75,6 +77,8 @@ final class Field extends FieldAttributes
      *     'labelAttributes()' => [['class' => 'test-class']],
      *     'uncheckValue()' => ['0'],
      * ]
+     *
+     * @throws ReflectionException
      *
      * @return self the field widget instance.
      */
@@ -123,6 +127,8 @@ final class Field extends FieldAttributes
      *     'separator()' => ['&#9866;'],
      * ]
      *
+     * @throws ReflectionException
+     *
      * @return self the field widget instance.
      */
     public function checkboxList(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -140,6 +146,8 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
+     *
+     * @throws ReflectionException
      *
      * @return self the field widget instance.
      */
@@ -159,6 +167,8 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
+     * @throws ReflectionException
+     *
      * @return self the field widget instance.
      */
     public function dateTime(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -177,6 +187,8 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
+     * @throws ReflectionException
+     *
      * @return self the field widget instance.
      */
     public function dateTimeLocal(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -194,6 +206,8 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
+     *
+     * @throws ReflectionException
      *
      * @return self the field widget instance.
      */
@@ -219,6 +233,8 @@ final class Field extends FieldAttributes
      *
      * ]
      *
+     * @throws ReflectionException
+     *
      * @return self the field widget instance.
      */
     public function file(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -236,6 +252,8 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
+     *
+     * @throws ReflectionException
      *
      * @return self the field widget instance.
      */
@@ -264,6 +282,8 @@ final class Field extends FieldAttributes
      *     'width' => '100%',
      * ]
      *
+     * @throws ReflectionException
+     *
      * @return self the field object itself.
      */
     public function image(array $config = [], array $attributes = []): self
@@ -285,6 +305,8 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
+     * @throws ReflectionException
+     *
      * @return self the field object itself.
      */
     public function number(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -302,6 +324,8 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
+     *
+     * @throws ReflectionException
      *
      * @return self the field object itself.
      */
@@ -327,6 +351,8 @@ final class Field extends FieldAttributes
      *     'labelAttributes()' => [['class' => 'test-class']]
      *     'uncheckValue()' => ['0'],
      * ]
+     *
+     * @throws ReflectionException
      *
      * @return self the field object itself.
      */
@@ -372,6 +398,8 @@ final class Field extends FieldAttributes
      *     'uncheckValue()' => ['0'],
      * ]
      *
+     * @throws ReflectionException
+     *
      * @return self the field object itself.
      */
     public function radioList(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -395,6 +423,8 @@ final class Field extends FieldAttributes
      *     'outputAttributes()' => [['class' => 'test-class']],
      * ]
      *
+     * @throws ReflectionException
+     *
      * @return self the field object itself.
      */
     public function range(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -411,6 +441,8 @@ final class Field extends FieldAttributes
      *
      * @param array $config the configuration array for widget factory.
      * @param array $attributes the HTML attributes for the widget.
+     *
+     * @throws ReflectionException
      *
      * @return self the field object itself.
      */
@@ -440,6 +472,8 @@ final class Field extends FieldAttributes
      *     'unselectValue()' => ['0'],
      * ]
      *
+     * @throws ReflectionException
+     *
      * @return self the field object itself.
      */
     public function select(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -456,6 +490,8 @@ final class Field extends FieldAttributes
      *
      * @param array $config the configuration array for widget factory.
      * @param array $attributes the HTML attributes for the widget.
+     *
+     * @throws ReflectionException
      *
      * @return self the field object itself.
      */
@@ -475,6 +511,8 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
+     * @throws ReflectionException
+     *
      * @return self the field widget instance.
      */
     public function telephone(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -492,6 +530,8 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
+     *
+     * @throws ReflectionException
      *
      * @return self the field widget instance.
      */
@@ -511,6 +551,8 @@ final class Field extends FieldAttributes
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
      *
+     * @throws ReflectionException
+     *
      * @return self the field widget instance.
      */
     public function textArea(FormModelContract $formModel, string $attribute, array $config = []): self
@@ -528,6 +570,8 @@ final class Field extends FieldAttributes
      * @param FormModelContract $formModel The model object.
      * @param string $attribute The attribute name or expression.
      * @param array $config the configuration array for widget factory.
+     *
+     * @throws ReflectionException
      *
      * @return self the field widget instance.
      */
@@ -548,6 +592,8 @@ final class Field extends FieldAttributes
      *
      * If (not set), the default methods will be called to generate the label and input tag, and use them as the
      * content.
+     *
+     * @throws ReflectionException
      *
      * @return string the rendering result.
      */
@@ -622,6 +668,9 @@ final class Field extends FieldAttributes
         return $new;
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function renderError(): string
     {
         $errorAttributes = $this->getErrorAttributes();
@@ -641,6 +690,9 @@ final class Field extends FieldAttributes
             ->render();
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function renderInputWidget(): string
     {
         $new = clone $this;
@@ -670,6 +722,9 @@ final class Field extends FieldAttributes
         return preg_replace('/^\h*\v+/m', '', trim(strtr($new->getTemplate(), $new->parts)));
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function renderHint(): string
     {
         $hintAttributes = $this->getHintAttributes();
@@ -692,6 +747,9 @@ final class Field extends FieldAttributes
             ->render();
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function renderLabel(): string
     {
         $labelAttributes = $this->getLabelAttributes();

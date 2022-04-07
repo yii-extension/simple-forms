@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\Tests\Field\Part;
+namespace Yii\Extension\Form\Tests\Component;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
-use Yii\Extension\Form\Part\Error;
+use Yii\Extension\Form\Component\Error;
 use Yii\Extension\Form\Tests\TestSupport\Form\CustomError;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 
 final class ErrorTest extends TestCase
 {
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testGetAttributeException(): void
     {
@@ -31,18 +28,17 @@ final class ErrorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testGetFormModelException(): void
     {
-        $formModel = new CustomError();
         $this->expectException(FormModelNotSetException::class);
         $this->expectExceptionMessage('Failed to create widget because form model is not set.');
         $this->invokeMethod(Error::create(), 'getFormModel');
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -55,7 +51,7 @@ final class ErrorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testMessage(): void
     {
@@ -68,7 +64,7 @@ final class ErrorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testMessageCallback(): void
     {
@@ -84,7 +80,7 @@ final class ErrorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testMessageCallbackWithNoEncode(): void
     {
@@ -101,7 +97,7 @@ final class ErrorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -111,7 +107,7 @@ final class ErrorTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTag(): void
     {
