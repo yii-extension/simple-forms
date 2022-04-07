@@ -15,7 +15,7 @@ interface RegexContract
      *
      * @return self
      *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.text.html#input.text.attrs.pattern
+     * @link https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute
      */
     public function pattern(string $value): self;
 }
