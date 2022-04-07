@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\form\Tests\TestSupport\Form;
+namespace Yii\Extension\Form\Tests\TestSupport\Form;
 
 use Yii\Extension\Model\FormModel;
 use Yiisoft\Validator\Result;

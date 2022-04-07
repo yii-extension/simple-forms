@@ -2,24 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Hidden;
 use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 
 final class HiddenTest extends TestCase
 {
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -30,7 +27,7 @@ final class HiddenTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValue(): void
     {
@@ -54,7 +51,7 @@ final class HiddenTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueException(): void
     {
@@ -64,7 +61,7 @@ final class HiddenTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueWithForm(): void
     {

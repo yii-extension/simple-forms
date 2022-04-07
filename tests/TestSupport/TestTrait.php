@@ -7,9 +7,6 @@ namespace Yii\Extension\Form\Tests\TestSupport;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionObject;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Test\Support\Container\SimpleContainer;
-use Yiisoft\Validator\ValidatorInterface;
 
 trait TestTrait
 {

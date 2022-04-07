@@ -115,7 +115,7 @@ final class Checkbox extends InputAttributes
         $attributes = $this->build($this->attributes);
 
         /**
-         * @var mixed $value
+         * @var mixed
          *
          * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.checkbox.html#input.checkbox.attrs.value\
          */

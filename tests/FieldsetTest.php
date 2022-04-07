@@ -2,18 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Fieldset;
 use Yii\Extension\Form\Form;
 use Yii\Extension\Form\Tests\TestSupport\Form\FieldSetForm;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 
 final class FieldsetTest extends TestCase
@@ -23,7 +20,7 @@ final class FieldsetTest extends TestCase
     private array $state = [1 => 'Draft', 2 => 'In Progress', 3 => 'Done', 4 => 'Discarded'];
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAutofocus(): void
     {
@@ -31,7 +28,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAttributes(): void
     {
@@ -42,7 +39,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testClass(): void
     {
@@ -50,7 +47,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDisabled(): void
     {
@@ -58,7 +55,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testId(): void
     {
@@ -66,7 +63,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -82,7 +79,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testName(): void
     {
@@ -90,7 +87,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      *
      * @link https://jsfiddle.net/6fz3nvLr/
      */
@@ -203,7 +200,7 @@ final class FieldsetTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTitle(): void
     {

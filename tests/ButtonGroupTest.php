@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\ButtonGroup;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\Tag\Button;
 
@@ -19,7 +16,7 @@ final class ButtonGroupTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAttributes(): void
     {
@@ -40,7 +37,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAutofocus(): void
     {
@@ -60,6 +57,9 @@ final class ButtonGroupTest extends TestCase
         );
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testContainerAttributes(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
@@ -78,6 +78,9 @@ final class ButtonGroupTest extends TestCase
         );
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testContainerClass(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
@@ -96,6 +99,9 @@ final class ButtonGroupTest extends TestCase
         );
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testContainerId(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
@@ -114,6 +120,9 @@ final class ButtonGroupTest extends TestCase
         );
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function testContainerName(): void
     {
         $this->setInaccessibleProperty(new Html(), 'generateIdCounter', []);
@@ -133,7 +142,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDisabled(): void
     {
@@ -154,7 +163,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testForm(): void
     {
@@ -175,7 +184,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testId(): void
     {
@@ -196,7 +205,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -211,7 +220,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testIndividualButtonAttributes(): void
     {
@@ -232,7 +241,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testName(): void
     {
@@ -253,7 +262,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -273,7 +282,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRenderWithTag(): void
     {
@@ -293,7 +302,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTabindex(): void
     {
@@ -314,7 +323,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValue(): void
     {
@@ -335,7 +344,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testVisible(): void
     {
@@ -359,7 +368,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutContainer(): void
     {
@@ -378,7 +387,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutId(): void
     {
@@ -399,7 +408,7 @@ final class ButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutName(): void
     {

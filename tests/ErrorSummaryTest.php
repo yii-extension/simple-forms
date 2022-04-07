@@ -2,25 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\Form\ErrorSummary;
 use Yii\Extension\Form\Tests\TestSupport\Form\CustomError;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 
 final class ErrorSummaryTest extends TestCase
 {
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testGetFormModelException(): void
     {
@@ -125,7 +122,7 @@ final class ErrorSummaryTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -154,7 +151,7 @@ final class ErrorSummaryTest extends TestCase
      * @param array $onlyAttributes
      * @param string $expected
      *
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testErrorSummary(
         string $email,
@@ -196,7 +193,7 @@ final class ErrorSummaryTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTagException(): void
     {

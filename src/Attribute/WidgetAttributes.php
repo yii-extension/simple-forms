@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace Yii\Extension\Form\Attribute;
 
-use InvalidArgumentException;
-use UnexpectedValueException;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\Model\Attribute\FormModelAttributes;
 use Yii\Extension\Model\Contract\FormModelContract;
-
-use function mb_strtolower;
-use function str_replace;
 
 abstract class WidgetAttributes extends GlobalAttributes
 {

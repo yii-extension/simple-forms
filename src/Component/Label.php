@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Form\Part;
+namespace Yii\Extension\Form\Component;
 
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;

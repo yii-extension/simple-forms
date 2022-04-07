@@ -2,18 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Range;
 use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
 use Yii\Extension\Form\Tests\TestSupport\Form\ValidatorRules;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 
 final class RangeTest extends TestCase
@@ -21,7 +18,7 @@ final class RangeTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAutofocus(): void
     {
@@ -34,7 +31,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDisabled(): void
     {
@@ -47,7 +44,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testGetValidatorAttributeNumber(): void
     {
@@ -60,7 +57,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testGetValidatorAttributeRequired(): void
     {
@@ -76,7 +73,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testId(): void
     {
@@ -92,19 +89,19 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
         $range = Range::create();
-        $this->assertNotSame($range, $range->max(0));
-        $this->assertNotSame($range, $range->min(0));
+        $this->assertNotSame($range, $range->max('0'));
+        $this->assertNotSame($range, $range->min('0'));
         $this->assertNotSame($range, $range->outputAttributes([]));
         $this->assertNotSame($range, $range->outputTag(''));
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testMax(): void
     {
@@ -113,11 +110,11 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" max="8" oninput="i1.value=this.value">
         <output id="i1" name="i1" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->max(8)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->max('8')->render());
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testMin(): void
     {
@@ -126,11 +123,11 @@ final class RangeTest extends TestCase
         <input type="range" id="propertytype-int" name="PropertyType[int]" value="0" min="4" oninput="i2.value=this.value">
         <output id="i2" name="i2" for="PropertyType[int]">0</output>
         HTML;
-        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->min(4)->render());
+        $this->assertEqualsWithoutLE($expected, Range::create()->for(new PropertyType(), 'int')->min('4')->render());
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testName(): void
     {
@@ -147,7 +144,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testOutputAttributes(): void
     {
@@ -163,7 +160,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testOutputTag(): void
     {
@@ -179,7 +176,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testOutputTagException(): void
     {
@@ -189,7 +186,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRequired(): void
     {
@@ -202,7 +199,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -215,7 +212,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTabindex(): void
     {
@@ -228,7 +225,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValue(): void
     {
@@ -261,7 +258,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueException(): void
     {
@@ -271,7 +268,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueWithForm(): void
     {
@@ -306,7 +303,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutId(): void
     {
@@ -319,7 +316,7 @@ final class RangeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutName(): void
     {

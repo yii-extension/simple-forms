@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace Yii\Extension\Form\Tests\Field\DefaultValue;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Field;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Html;
 
 final class FieldButtonGroupTest extends TestCase
@@ -18,7 +15,7 @@ final class FieldButtonGroupTest extends TestCase
     use TestTrait;
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAttributes(): void
     {
@@ -41,7 +38,7 @@ final class FieldButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testFieldContainerAttributes(): void
     {
@@ -70,7 +67,7 @@ final class FieldButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testFieldContainerClass(): void
     {
@@ -99,7 +96,7 @@ final class FieldButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutContainer(): void
     {
@@ -119,7 +116,7 @@ final class FieldButtonGroupTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testFieldAndButtonContainerAttributes(): void
     {

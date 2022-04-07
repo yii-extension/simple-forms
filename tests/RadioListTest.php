@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\RadioList;
 use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Widget\RadioList\RadioItem;
 
 final class RadioListTest extends TestCase
@@ -23,7 +20,7 @@ final class RadioListTest extends TestCase
     private array $cities = ['1' => 'Moscu', '2' => 'San Petersburgo', '3' => 'Novosibirsk', '4' => 'Ekaterinburgo'];
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAutofocus(): void
     {
@@ -42,7 +39,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerAttributes(): void
     {
@@ -65,7 +62,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerTag(): void
     {
@@ -84,7 +81,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerTagWithNull(): void
     {
@@ -101,7 +98,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDisabled(): void
     {
@@ -120,7 +117,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testId(): void
     {
@@ -139,7 +136,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testIndividualItemsAttributes(): void
     {
@@ -163,7 +160,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -183,7 +180,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testItemsFormater(): void
     {
@@ -210,7 +207,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testItemsFromValues(): void
     {
@@ -234,7 +231,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testName(): void
     {
@@ -253,7 +250,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -272,7 +269,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testSeparator(): void
     {
@@ -291,7 +288,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTabIndex(): void
     {
@@ -310,7 +307,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testUncheckValue(): void
     {
@@ -330,7 +327,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValue(): void
     {
@@ -438,7 +435,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueException(): void
     {
@@ -448,7 +445,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueWithForm(): void
     {
@@ -564,7 +561,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutId(): void
     {
@@ -583,7 +580,7 @@ final class RadioListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutName(): void
     {

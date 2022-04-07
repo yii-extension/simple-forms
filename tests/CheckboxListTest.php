@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Widget;
+namespace Yii\Extension\Form\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\CheckboxList;
 use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 use Yiisoft\Html\Widget\CheckboxList\CheckboxItem;
 
 final class CheckboxListTest extends TestCase
@@ -23,7 +20,7 @@ final class CheckboxListTest extends TestCase
     private array $sex = [1 => 'Female', 2 => 'Male'];
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testAutofocus(): void
     {
@@ -40,7 +37,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testDisabled(): void
     {
@@ -57,7 +54,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerAttributes(): void
     {
@@ -78,7 +75,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerTag(): void
     {
@@ -99,7 +96,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testContainerTagWithNull(): void
     {
@@ -111,14 +108,14 @@ final class CheckboxListTest extends TestCase
             $expected,
             CheckboxList::create()
                 ->for(new PropertyType(), 'array')
-                ->containerTag(null)
+                ->containerTag()
                 ->items($this->sex)
                 ->render()
         );
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testId(): void
     {
@@ -135,7 +132,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testIndividualItemsAttributes(): void
     {
@@ -173,7 +170,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testItemsAttributes(): void
     {
@@ -192,7 +189,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testItemFormater(): void
     {
@@ -217,7 +214,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testImmutability(): void
     {
@@ -236,7 +233,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testItemsFromValues(): void
     {
@@ -259,7 +256,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testName(): void
     {
@@ -276,7 +273,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testRender(): void
     {
@@ -293,7 +290,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testSeparator(): void
     {
@@ -310,7 +307,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testTabindex(): void
     {
@@ -327,7 +324,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValue(): void
     {
@@ -357,7 +354,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueException(): void
     {
@@ -372,7 +369,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testValueWithForm(): void
     {
@@ -406,7 +403,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutId(): void
     {
@@ -423,7 +420,7 @@ final class CheckboxListTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testWithoutName(): void
     {

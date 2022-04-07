@@ -2,26 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Yii\Extension\Tests\Attribute;
+namespace Yii\Extension\Form\Tests\Attribute;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Yii\Extension\Form\Attribute\WidgetAttributes;
 use Yii\Extension\Form\Exception\AttributeNotSetException;
 use Yii\Extension\Form\Exception\FormModelNotSetException;
 use Yii\Extension\Form\Tests\TestSupport\Form\PropertyType;
 use Yii\Extension\Form\Tests\TestSupport\TestTrait;
-use Yiisoft\Definitions\Exception\CircularReferenceException;
-use Yiisoft\Definitions\Exception\InvalidConfigException;
-use Yiisoft\Definitions\Exception\NotInstantiableException;
-use Yiisoft\Factory\NotFoundException;
 
 final class WidgetAttributeTest extends TestCase
 {
     use TestTrait;
 
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
     public function testGetAttributeNotSetException(): void
     {
         $widgetAttributes = $this->createWidget();
@@ -31,7 +25,7 @@ final class WidgetAttributeTest extends TestCase
     }
 
     /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
+     * @throws ReflectionException
      */
     public function testGetFormModelException(): void
     {
@@ -41,9 +35,6 @@ final class WidgetAttributeTest extends TestCase
         $this->invokeMethod($widgetAttributes, 'getFormModel');
     }
 
-    /**
-     * @throws CircularReferenceException|InvalidConfigException|NotFoundException|NotInstantiableException
-     */
     public function testImmutability(): void
     {
         $widgetAttributes = $this->createWidget();

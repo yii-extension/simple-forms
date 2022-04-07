@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Yii\Extension\Form;
 
 use InvalidArgumentException;
-use Yii\Extension\Form\Attribute\InputAttributes;
+use Yii\Extension\Form\Attribute\MaxMinAttributes;
 use Yiisoft\Html\Tag\Input;
 
 use function is_string;
@@ -16,40 +16,8 @@ use function is_string;
  *
  * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.date.html#input.date
  */
-final class Date extends InputAttributes
+final class Date extends MaxMinAttributes
 {
-    /**
-     * The latest acceptable date.
-     *
-     * @param string|null $value
-     *
-     * @return self
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.date.html#input.date.attrs.max
-     */
-    public function max(?string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['max'] = $value;
-        return $new;
-    }
-
-    /**
-     * The earliest acceptable date.
-     *
-     * @param string|null $value
-     *
-     * @return self
-     *
-     * @link https://www.w3.org/TR/2012/WD-html-markup-20120329/input.date.html#input.date.attrs.min
-     */
-    public function min(?string $value): self
-    {
-        $new = clone $this;
-        $new->attributes['min'] = $value;
-        return $new;
-    }
-
     /**
      * Generates a datepicker tag together with a label for the given form attribute.
      *
