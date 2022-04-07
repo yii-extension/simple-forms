@@ -47,9 +47,9 @@ final class Field extends FieldAttributes
      * @param array $config the configuration array for widget factory.
      * @param array $attributes the HTML attributes for the widget.
      *
-     * @return self the field object itself.
-     *
      * @throws ReflectionException
+     *
+     * @return self The field object itself.
      *
      * @psalm-param array<string, array|string> $buttons
      */
@@ -80,7 +80,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function checkbox(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -129,7 +129,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function checkboxList(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -149,7 +149,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function date(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -169,7 +169,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function dateTime(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -189,7 +189,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function dateTimeLocal(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -209,7 +209,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function email(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -235,7 +235,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function file(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -255,7 +255,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function hidden(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -284,7 +284,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function image(array $config = [], array $attributes = []): self
     {
@@ -307,7 +307,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function number(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -327,7 +327,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function password(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -354,7 +354,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function radio(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -400,7 +400,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function radioList(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -425,7 +425,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function range(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -444,7 +444,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function resetButton(array $config = [], array $attributes = []): self
     {
@@ -474,7 +474,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function select(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -493,7 +493,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field object itself.
+     * @return self The field object itself.
      */
     public function submitButton(array $config = [], array $attributes = []): self
     {
@@ -513,7 +513,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function telephone(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -533,7 +533,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function text(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -553,7 +553,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function textArea(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -573,7 +573,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return self the field widget instance.
+     * @return self The field widget instance.
      */
     public function url(FormModelContract $formModel, string $attribute, array $config = []): self
     {
@@ -595,7 +595,7 @@ final class Field extends FieldAttributes
      *
      * @throws ReflectionException
      *
-     * @return string the rendering result.
+     * @return string The rendering result.
      */
     protected function run(): string
     {
