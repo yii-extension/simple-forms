@@ -33,7 +33,7 @@ final class CheckboxList extends ChoiceAttributes
     private ?Closure $itemsFormatter = null;
     /** @var bool[]|float[]|int[]|string[]|Stringable[] */
     private array $itemsFromValues = [];
-    private string $separator = "\n";
+    private string $separator = PHP_EOL;
 
     /**
      * Focus on the control (put cursor into it) when the page loads.

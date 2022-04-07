@@ -214,6 +214,6 @@ final class ButtonGroup extends ButtonAttributes
             }
         }
 
-        return implode("\n", $htmlButtons);
+        return implode(PHP_EOL, $htmlButtons);
     }
 }
