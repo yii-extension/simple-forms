@@ -16,7 +16,7 @@
         "yii-extension/simple-model": "^1.0",
         "yii-extension/simple-widget": "^1.0",
         "yiisoft/http": "^1.0",
-        "yiisoft/html": "^2.0",
+        "yiisoft/html": "^3.1",
         "yiisoft/validator": "^3.0@dev"
     },
     "require-dev": {
